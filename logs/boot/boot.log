@@ -1,0 +1,2 @@
+15 Jun 2022 13:23:48,465 WARN  [main] bootLogger     - Was not able to bind socket: { 127.0.0.1:1101, TCP }
+15 Jun 2022 13:23:48,467 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!

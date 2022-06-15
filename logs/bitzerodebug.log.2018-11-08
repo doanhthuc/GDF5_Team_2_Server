@@ -1,0 +1,15 @@
+08 Nov 2018 17:45:57,060 INFO  [pool-1-thread-3] DemoHandler     - processEventPrivateMsg, userId = 0
+08 Nov 2018 17:52:09,077 INFO  [pool-1-thread-3] DemoHandler     - processEventPrivateMsg, userId = 0
+08 Nov 2018 17:52:09,082 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - name = name
+08 Nov 2018 17:59:34,883 INFO  [pool-1-thread-3] DemoHandler     - processEventPrivateMsg, userId = 0
+08 Nov 2018 17:59:34,897 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - name = name
+08 Nov 2018 18:05:12,327 INFO  [pool-1-thread-3] DemoHandler     - processEventPrivateMsg, userId = 2
+08 Nov 2018 18:05:12,329 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - name = username_2
+08 Nov 2018 18:06:56,278 INFO  [pool-1-thread-3] DemoHandler     - processEventPrivateMsg, userId = 2
+08 Nov 2018 18:06:56,287 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - name = username_2
+08 Nov 2018 18:15:16,396 INFO  [pool-1-thread-3] DemoHandler     - processEventPrivateMsg, userId = 2
+08 Nov 2018 18:15:16,405 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - name = username_2
+08 Nov 2018 18:17:53,967 INFO  [pool-1-thread-3] DemoHandler     - processEventPrivateMsg, userId = 2
+08 Nov 2018 18:17:53,975 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - get name = username_2
+08 Nov 2018 18:17:55,980 INFO  [bitzero.server.controllers.ExtensionController-3] DemoHandler     - set new name = new-name
+08 Nov 2018 18:17:57,984 INFO  [bitzero.server.controllers.ExtensionController-4] DemoHandler     - get name = new-name

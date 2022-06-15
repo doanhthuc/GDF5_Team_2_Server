@@ -1,0 +1,52 @@
+04 Apr 2019 13:38:00,100 INFO  [main] bitzero.server.BitZeroServer     - Boot sequence starts...
+04 Apr 2019 13:38:00,111 INFO  [main] bitzero.server.BitZeroServer     - 
+ _____ _____ _____    ___ __ __    _____ _____ _____ _____ 
+|     |     |     |  |   |  |  |  | __  |     |     |_   _|
+| Bit  Zero | @   |  |  gsn |  |  | __ -|  |  |    | |  
+|_____|_____|_____|  |___|__|__|  |_____|_____|_____| |_|
+
+04 Apr 2019 13:38:00,259 INFO  [main] entities.managers.BZBannedUserStorage     - BanUserStorage initialized
+04 Apr 2019 13:38:00,279 INFO  [main] entities.managers.BZBannedUserManager     - BanUser data loaded: 0 records.
+04 Apr 2019 13:38:00,407 INFO  [main] bitzero.server.BitZeroServer     - Listening Sockets: { 0.0.0.0:1101, TCP } 
+04 Apr 2019 13:38:00,409 INFO  [main] bitzero.server.BitZeroServer     -  
+ _____ _____ _____    ___ __ __    
+|     |     |     |  |   |  |  | 
+| Bit  Zero | @   |  |   gsn   |   
+|_____|_____|_____|  |___|__|__|                                       
+ _____ _____ _____ ____  __ __ 
+| __  |   __|  _  |    \|  |  |
+|    -|   __|     |  |  |_   _|
+|__|__|_____|__|__|____/  |_|  
+[ alpha RC ] 
+
+04 Apr 2019 13:38:00,413 INFO  [main] bitzero.server.BitZeroServer     - BitZeroServer Max (alpha RC-READY!
+04 Apr 2019 13:38:25,571 INFO  [EngineReader-0] engine.core.EngineAcceptor     - Session created: { Id: 1, Type: DEFAULT, Logged: No, IP: 10.198.48.46:54343 } on Server port: 1101 <---> 54343
+04 Apr 2019 13:38:25,601 INFO  [bitzero.server.controllers.SystemController-1] server.controllers.SystemController     - {IN}: Handshake
+04 Apr 2019 13:38:25,624 INFO  [bitzero.server.controllers.ExtensionController-1] server.api.BZApi     - Login in, Fresher2, ( User Name: Fresher2, Id: 2, Priv: 0, Sess: 10.198.48.46:54343 ) 
+04 Apr 2019 13:38:25,666 ERROR [bitzero.server.controllers.ExtensionController-3] server.controllers.ExtensionController     - bitzero.server.exceptions.BZRuntimeException Request handler not found: '4103'. Make sure the handler is registered in your extension using addRequestHandler()
+04 Apr 2019 13:38:35,571 INFO  [EngineReader-0] engine.core.EngineReader     - Socket closed: java.nio.channels.SocketChannel[closed]
+04 Apr 2019 13:39:16,879 INFO  [main] bitzero.server.BitZeroServer     - Boot sequence starts...
+04 Apr 2019 13:39:16,887 INFO  [main] bitzero.server.BitZeroServer     - 
+ _____ _____ _____    ___ __ __    _____ _____ _____ _____ 
+|     |     |     |  |   |  |  |  | __  |     |     |_   _|
+| Bit  Zero | @   |  |  gsn |  |  | __ -|  |  |    | |  
+|_____|_____|_____|  |___|__|__|  |_____|_____|_____| |_|
+
+04 Apr 2019 13:39:17,041 INFO  [main] entities.managers.BZBannedUserStorage     - BanUserStorage initialized
+04 Apr 2019 13:39:17,046 WARN  [main] entities.managers.BZBannedUserManager     - Failure loading the BannedUser DB: java.io.InvalidClassException: bitzero.server.entities.managers.BanUserData; local class incompatible: stream classdesc serialVersionUID = -5615498807880409532, local class serialVersionUID = -5727904595766376640
+04 Apr 2019 13:39:17,236 INFO  [main] bitzero.server.BitZeroServer     - Listening Sockets: { 0.0.0.0:1101, TCP, 1024 } 
+04 Apr 2019 13:39:17,237 INFO  [main] bitzero.server.BitZeroServer     -  
+ _____ _____ _____    ___ __ __    
+|     |     |     |  |   |  |  | 
+| Bit  Zero | @   |  |   gsn   |   
+|_____|_____|_____|  |___|__|__|                                       
+ _____ _____ _____ ____  __ __ 
+| __  |   __|  _  |    \|  |  |
+|    -|   __|     |  |  |_   _|
+|__|__|_____|__|__|____/  |_|  
+[ alpha RC ] 
+
+04 Apr 2019 13:39:17,238 INFO  [main] bitzero.server.BitZeroServer     - BitZeroServer Max (alpha RC-READY!
+04 Apr 2019 13:39:46,172 WARN  [bitzero.server.controllers.ExtensionController-3] Extensions     - {Fresher}: Cannot instantiate handler class: bitzero.server.exceptions.BZRuntimeException: Request handler not found: '4103'. Make sure the handler is registered in your extension using addRequestHandler() 
+04 Apr 2019 13:49:50,412 WARN  [bitzero.server.controllers.ExtensionController-6] Extensions     - {Fresher}: Cannot instantiate handler class: bitzero.server.exceptions.BZRuntimeException: Request handler not found: '4103'. Make sure the handler is registered in your extension using addRequestHandler() 
+04 Apr 2019 14:00:00,327 WARN  [bitzero.server.controllers.ExtensionController-9] Extensions     - {Fresher}: Cannot instantiate handler class: bitzero.server.exceptions.BZRuntimeException: Request handler not found: '4103'. Make sure the handler is registered in your extension using addRequestHandler() 

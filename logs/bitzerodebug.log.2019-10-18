@@ -1,0 +1,1136 @@
+18 Oct 2019 00:02:19,635 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 00:02:19,635 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 00:02:19,854 WARN  [pool-1-thread-16] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 00:02:19,854 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 00:02:19,854 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 00:02:19,854 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 00:02:19,854 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 00:02:19,854 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 00:12:29,696 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 00:12:29,696 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 00:12:29,915 WARN  [pool-1-thread-7] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 00:12:29,915 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 00:12:29,915 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 00:12:29,915 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 00:12:29,915 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 00:12:29,915 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 00:22:39,647 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 00:22:39,647 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 00:22:39,866 WARN  [pool-1-thread-19] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 00:22:39,866 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 00:22:39,866 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 00:22:39,866 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 00:22:39,866 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 00:22:39,866 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 00:32:49,708 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 00:32:49,708 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 00:32:49,927 WARN  [pool-1-thread-8] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 00:32:49,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 00:32:49,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 00:32:49,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 00:32:49,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 00:32:49,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 00:42:59,769 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 00:42:59,769 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 00:42:59,987 WARN  [pool-1-thread-1] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 00:42:59,987 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 00:42:59,987 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 00:42:59,987 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 00:42:59,987 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 00:42:59,987 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 00:53:09,829 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 00:53:09,829 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 00:53:10,048 WARN  [pool-1-thread-10] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 00:53:10,048 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 00:53:10,048 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 00:53:10,048 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 00:53:10,048 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 00:53:10,048 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 01:03:19,562 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 01:03:19,562 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 01:03:19,781 WARN  [pool-1-thread-15] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 01:03:19,781 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 01:03:19,781 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 01:03:19,781 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 01:03:19,781 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 01:03:19,781 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 01:13:29,842 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 01:13:29,842 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 01:13:30,060 WARN  [pool-1-thread-5] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 01:13:30,060 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 01:13:30,060 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 01:13:30,060 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 01:13:30,060 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 01:13:30,060 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 01:23:39,683 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 01:23:39,683 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 01:23:39,902 WARN  [pool-1-thread-6] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 01:23:39,902 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 01:23:39,902 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 01:23:39,902 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 01:23:39,902 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 01:23:39,902 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 01:33:49,635 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 01:33:49,635 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 01:33:49,853 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 01:33:49,853 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 01:33:49,853 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 01:33:49,853 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 01:33:49,853 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 01:33:49,853 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 01:43:59,805 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 01:43:59,805 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 01:44:00,023 WARN  [pool-1-thread-17] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 01:44:00,023 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 01:44:00,023 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 01:44:00,023 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 01:44:00,023 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 01:44:00,023 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 01:54:09,647 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 01:54:09,647 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 01:54:09,865 WARN  [pool-1-thread-1] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 01:54:09,865 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 01:54:09,865 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 01:54:09,865 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 01:54:09,865 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 01:54:09,865 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 02:04:19,707 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 02:04:19,707 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 02:04:19,926 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 02:04:19,926 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 02:04:19,926 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 02:04:19,926 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 02:04:19,926 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 02:04:19,926 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 02:14:29,768 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 02:14:29,768 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 02:14:29,987 WARN  [pool-1-thread-11] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 02:14:29,987 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 02:14:29,987 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 02:14:29,987 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 02:14:29,987 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 02:14:29,987 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 02:24:39,829 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 02:24:39,829 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 02:24:40,047 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 02:24:40,047 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 02:24:40,047 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 02:24:40,047 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 02:24:40,047 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 02:24:40,047 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 02:34:49,667 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 02:34:49,667 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 02:34:49,886 WARN  [pool-1-thread-6] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 02:34:49,886 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 02:34:49,886 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 02:34:49,886 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 02:34:49,886 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 02:34:49,886 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 02:44:59,587 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 02:44:59,587 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 02:44:59,806 WARN  [pool-1-thread-15] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 02:44:59,806 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 02:44:59,806 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 02:44:59,806 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 02:44:59,806 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 02:44:59,806 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 02:55:09,807 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 02:55:09,807 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 02:55:10,026 WARN  [pool-1-thread-17] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 02:55:10,026 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 02:55:10,026 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 02:55:10,026 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 02:55:10,026 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 02:55:10,026 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 03:05:19,701 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 03:05:19,701 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 03:05:19,920 WARN  [pool-1-thread-12] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 03:05:19,920 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 03:05:19,920 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 03:05:19,920 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 03:05:19,920 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 03:05:19,920 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 03:15:29,800 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 03:15:29,800 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 03:15:30,019 WARN  [pool-1-thread-19] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 03:15:30,019 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 03:15:30,019 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 03:15:30,019 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 03:15:30,019 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 03:15:30,019 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 03:25:39,664 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 03:25:39,664 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 03:25:39,882 WARN  [pool-1-thread-8] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 03:25:39,882 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 03:25:39,882 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 03:25:39,882 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 03:25:39,882 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 03:25:39,882 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 03:35:49,742 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 03:35:49,742 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 03:35:49,961 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 03:35:49,961 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 03:35:49,961 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 03:35:49,961 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 03:35:49,961 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 03:35:49,961 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 03:45:59,717 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 03:45:59,717 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 03:45:59,935 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 03:45:59,935 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 03:45:59,935 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 03:45:59,935 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 03:45:59,935 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 03:45:59,935 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 03:56:09,643 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 03:56:09,643 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 03:56:09,862 WARN  [pool-1-thread-16] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 03:56:09,862 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 03:56:09,862 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 03:56:09,862 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 03:56:09,862 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 03:56:09,862 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 04:06:19,675 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 04:06:19,675 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 04:06:19,894 WARN  [pool-1-thread-17] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 04:06:19,894 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 04:06:19,894 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 04:06:19,894 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 04:06:19,894 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 04:06:19,894 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 04:16:29,593 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 04:16:29,593 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 04:16:29,811 WARN  [pool-1-thread-10] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 04:16:29,811 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 04:16:29,811 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 04:16:29,811 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 04:16:29,811 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 04:16:29,811 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 04:26:39,851 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 04:26:39,851 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 04:26:40,070 WARN  [pool-1-thread-20] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 04:26:40,070 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 04:26:40,070 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 04:26:40,070 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 04:26:40,070 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 04:26:40,070 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 04:36:49,727 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 04:36:49,727 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 04:36:49,946 WARN  [pool-1-thread-2] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 04:36:49,946 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 04:36:49,946 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 04:36:49,946 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 04:36:49,946 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 04:36:49,946 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 04:46:59,808 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 04:46:59,808 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 04:47:00,027 WARN  [pool-1-thread-6] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 04:47:00,027 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 04:47:00,027 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 04:47:00,027 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 04:47:00,027 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 04:47:00,027 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 04:57:09,627 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 04:57:09,627 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 04:57:09,845 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 04:57:09,845 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 04:57:09,845 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 04:57:09,845 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 04:57:09,845 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 04:57:09,845 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 05:07:19,758 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 05:07:19,758 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 05:07:19,977 WARN  [pool-1-thread-16] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 05:07:19,977 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 05:07:19,977 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 05:07:19,977 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 05:07:19,977 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 05:07:19,977 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 05:17:29,758 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 05:17:29,758 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 05:17:29,977 WARN  [pool-1-thread-9] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 05:17:29,977 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 05:17:29,977 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 05:17:29,977 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 05:17:29,977 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 05:17:29,977 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 05:27:39,754 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 05:27:39,754 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 05:27:39,972 WARN  [pool-1-thread-12] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 05:27:39,972 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 05:27:39,972 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 05:27:39,972 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 05:27:39,972 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 05:27:39,972 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 05:37:49,670 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 05:37:49,670 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 05:37:49,889 WARN  [pool-1-thread-20] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 05:37:49,889 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 05:37:49,889 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 05:37:49,889 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 05:37:49,889 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 05:37:49,889 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 05:47:59,778 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 05:47:59,778 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 05:47:59,997 WARN  [pool-1-thread-2] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 05:47:59,997 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 05:47:59,997 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 05:47:59,997 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 05:47:59,997 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 05:47:59,997 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 05:58:09,780 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 05:58:09,780 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 05:58:09,999 WARN  [pool-1-thread-6] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 05:58:09,999 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 05:58:09,999 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 05:58:09,999 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 05:58:09,999 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 05:58:09,999 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 06:08:19,804 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 06:08:19,804 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 06:08:20,023 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 06:08:20,023 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 06:08:20,023 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 06:08:20,023 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 06:08:20,023 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 06:08:20,023 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 06:18:29,817 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 06:18:29,817 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 06:18:30,036 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 06:18:30,036 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 06:18:30,036 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 06:18:30,036 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 06:18:30,036 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 06:18:30,036 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 06:28:39,600 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 06:28:39,600 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 06:28:39,818 WARN  [pool-1-thread-7] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 06:28:39,818 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 06:28:39,818 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 06:28:39,818 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 06:28:39,818 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 06:28:39,818 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 06:38:49,839 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 06:38:49,839 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 06:38:50,058 WARN  [pool-1-thread-19] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 06:38:50,058 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 06:38:50,058 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 06:38:50,058 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 06:38:50,058 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 06:38:50,058 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 06:48:59,619 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 06:48:59,619 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 06:48:59,837 WARN  [pool-1-thread-16] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 06:48:59,837 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 06:48:59,837 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 06:48:59,837 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 06:48:59,837 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 06:48:59,837 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 06:59:09,751 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 06:59:09,751 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 06:59:09,970 WARN  [pool-1-thread-2] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 06:59:09,970 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 06:59:09,970 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 06:59:09,970 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 06:59:09,970 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 06:59:09,970 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 07:09:19,651 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 07:09:19,651 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 07:09:19,870 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 07:09:19,870 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 07:09:19,870 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 07:09:19,870 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 07:09:19,870 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 07:09:19,870 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 07:19:29,661 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 07:19:29,661 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 07:19:29,879 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 07:19:29,879 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 07:19:29,879 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 07:19:29,879 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 07:19:29,879 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 07:19:29,879 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 07:29:39,721 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 07:29:39,721 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 07:29:39,940 WARN  [pool-1-thread-11] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 07:29:39,940 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 07:29:39,940 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 07:29:39,940 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 07:29:39,940 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 07:29:39,940 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 07:39:49,563 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 07:39:49,563 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 07:39:49,782 WARN  [pool-1-thread-10] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 07:39:49,782 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 07:39:49,782 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 07:39:49,782 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 07:39:49,782 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 07:39:49,782 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 07:49:59,684 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 07:49:59,684 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 07:49:59,903 WARN  [pool-1-thread-19] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 07:49:59,903 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 07:49:59,903 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 07:49:59,903 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 07:49:59,903 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 07:49:59,903 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 08:00:09,806 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 08:00:09,806 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 08:00:10,024 WARN  [pool-1-thread-16] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 08:00:10,024 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 08:00:10,024 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 08:00:10,024 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 08:00:10,024 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 08:00:10,024 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 08:10:19,757 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 08:10:19,757 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 08:10:19,976 WARN  [pool-1-thread-4] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 08:10:19,976 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 08:10:19,976 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 08:10:19,976 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 08:10:19,976 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 08:10:19,976 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 08:20:29,864 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 08:20:29,864 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 08:20:30,083 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 08:20:30,083 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 08:20:30,083 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 08:20:30,083 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 08:20:30,083 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 08:20:30,083 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 08:30:39,828 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 08:30:39,828 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 08:30:40,047 WARN  [pool-1-thread-5] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 08:30:40,047 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 08:30:40,047 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 08:30:40,047 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 08:30:40,047 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 08:30:40,047 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 08:40:49,738 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 08:40:49,738 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 08:40:49,957 WARN  [pool-1-thread-9] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 08:40:49,957 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 08:40:49,957 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 08:40:49,957 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 08:40:49,957 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 08:40:49,957 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 08:50:59,739 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 08:50:59,739 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 08:50:59,958 WARN  [pool-1-thread-10] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 08:50:59,958 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 08:50:59,958 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 08:50:59,958 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 08:50:59,958 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 08:50:59,958 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 09:01:09,783 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 09:01:09,783 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 09:01:10,001 WARN  [pool-1-thread-19] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 09:01:10,001 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 09:01:10,001 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 09:01:10,001 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 09:01:10,001 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 09:01:10,001 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 09:11:19,798 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 09:11:19,798 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 09:11:20,016 WARN  [pool-1-thread-1] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 09:11:20,016 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 09:11:20,016 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 09:11:20,016 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 09:11:20,016 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 09:11:20,016 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 09:21:29,669 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 09:21:29,669 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 09:21:29,888 WARN  [pool-1-thread-7] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 09:21:29,888 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 09:21:29,888 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 09:21:29,888 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 09:21:29,888 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 09:21:29,888 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 09:31:39,786 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 09:31:39,786 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 09:31:40,005 WARN  [pool-1-thread-15] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 09:31:40,005 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 09:31:40,005 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 09:31:40,005 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 09:31:40,005 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 09:31:40,005 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 09:41:49,819 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 09:41:49,819 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 09:41:50,042 WARN  [pool-1-thread-17] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 09:41:50,042 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 09:41:50,042 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 09:41:50,042 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 09:41:50,042 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 09:41:50,042 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 09:52:00,544 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 09:52:00,544 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 09:52:00,762 WARN  [pool-1-thread-2] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 09:52:00,762 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 09:52:00,762 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 09:52:00,762 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 09:52:00,762 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 09:52:00,762 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 10:02:09,736 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 10:02:09,736 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 10:02:09,955 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 10:02:09,955 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 10:02:09,955 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 10:02:09,955 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 10:02:09,955 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 10:02:09,955 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 10:12:19,701 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 10:12:19,701 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 10:12:19,920 WARN  [pool-1-thread-18] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 10:12:19,920 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 10:12:19,920 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 10:12:19,920 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 10:12:19,920 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 10:12:19,920 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 10:22:29,807 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 10:22:29,807 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 10:22:30,026 WARN  [pool-1-thread-1] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 10:22:30,026 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 10:22:30,026 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 10:22:30,026 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 10:22:30,026 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 10:22:30,026 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 10:32:39,757 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 10:32:39,757 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 10:32:39,976 WARN  [pool-1-thread-10] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 10:32:39,976 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 10:32:39,976 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 10:32:39,976 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 10:32:39,976 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 10:32:39,976 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 10:42:49,729 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 10:42:49,729 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 10:42:49,948 WARN  [pool-1-thread-19] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 10:42:49,948 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 10:42:49,948 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 10:42:49,948 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 10:42:49,948 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 10:42:49,948 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 10:52:59,635 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 10:52:59,635 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 10:52:59,854 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 10:52:59,854 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 10:52:59,854 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 10:52:59,854 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 10:52:59,854 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 10:52:59,854 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 11:03:09,853 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 11:03:09,853 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 11:03:10,071 WARN  [pool-1-thread-2] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 11:03:10,071 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 11:03:10,071 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 11:03:10,071 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 11:03:10,071 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 11:03:10,071 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 11:13:19,731 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 11:13:19,731 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 11:13:19,949 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 11:13:19,949 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 11:13:19,949 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 11:13:19,949 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 11:13:19,949 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 11:13:19,949 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 11:23:29,748 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 11:23:29,748 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 11:23:29,966 WARN  [pool-1-thread-17] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 11:23:29,966 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 11:23:29,966 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 11:23:29,966 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 11:23:29,966 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 11:23:29,966 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 11:33:39,602 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 11:33:39,602 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 11:33:39,821 WARN  [pool-1-thread-9] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 11:33:39,821 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 11:33:39,821 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 11:33:39,821 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 11:33:39,821 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 11:33:39,821 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 11:43:49,648 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 11:43:49,648 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 11:43:49,867 WARN  [pool-1-thread-6] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 11:43:49,867 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 11:43:49,867 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 11:43:49,867 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 11:43:49,867 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 11:43:49,867 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 11:53:59,819 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 11:53:59,819 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 11:54:00,038 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 11:54:00,038 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 11:54:00,038 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 11:54:00,038 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 11:54:00,038 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 11:54:00,038 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 12:04:09,776 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 12:04:09,776 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 12:04:09,995 WARN  [pool-1-thread-1] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 12:04:09,995 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 12:04:09,995 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 12:04:09,995 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 12:04:09,995 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 12:04:09,995 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 12:14:19,763 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 12:14:19,763 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 12:14:19,982 WARN  [pool-1-thread-2] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 12:14:19,982 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 12:14:19,982 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 12:14:19,982 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 12:14:19,982 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 12:14:19,982 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 12:24:29,642 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 12:24:29,642 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 12:24:29,860 WARN  [pool-1-thread-15] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 12:24:29,860 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 12:24:29,860 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 12:24:29,860 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 12:24:29,860 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 12:24:29,860 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 12:34:39,769 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 12:34:39,769 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 12:34:39,988 WARN  [pool-1-thread-11] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 12:34:39,988 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 12:34:39,988 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 12:34:39,988 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 12:34:39,988 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 12:34:39,988 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 12:44:49,605 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 12:44:49,605 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 12:44:49,824 WARN  [pool-1-thread-7] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 12:44:49,824 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 12:44:49,824 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 12:44:49,824 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 12:44:49,824 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 12:44:49,824 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 12:54:59,630 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 12:54:59,630 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 12:54:59,848 WARN  [pool-1-thread-6] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 12:54:59,848 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 12:54:59,848 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 12:54:59,848 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 12:54:59,848 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 12:54:59,848 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 13:05:09,671 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 13:05:09,671 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 13:05:09,890 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 13:05:09,890 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 13:05:09,890 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 13:05:09,890 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 13:05:09,890 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 13:05:09,890 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 13:15:19,709 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 13:15:19,709 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 13:15:19,927 WARN  [pool-1-thread-12] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 13:15:19,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 13:15:19,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 13:15:19,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 13:15:19,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 13:15:19,927 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 13:25:29,618 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 13:25:29,618 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 13:25:29,836 WARN  [pool-1-thread-16] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 13:25:29,836 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 13:25:29,836 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 13:25:29,836 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 13:25:29,836 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 13:25:29,836 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 13:35:39,821 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 13:35:39,821 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 13:35:40,040 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 13:35:40,040 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 13:35:40,040 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 13:35:40,040 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 13:35:40,040 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 13:35:40,040 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 13:45:49,791 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 13:45:49,791 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 13:45:50,010 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 13:45:50,010 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 13:45:50,010 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 13:45:50,010 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 13:45:50,010 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 13:45:50,010 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 13:55:59,802 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 13:55:59,802 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 13:56:00,021 WARN  [pool-1-thread-8] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 13:56:00,021 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 13:56:00,021 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 13:56:00,021 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 13:56:00,021 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 13:56:00,021 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 14:06:09,675 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 14:06:09,675 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 14:06:09,894 WARN  [pool-1-thread-20] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 14:06:09,894 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 14:06:09,894 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 14:06:09,894 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 14:06:09,894 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 14:06:09,894 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 14:16:19,797 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 14:16:19,797 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 14:16:20,016 WARN  [pool-1-thread-17] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 14:16:20,016 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 14:16:20,016 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 14:16:20,016 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 14:16:20,016 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 14:16:20,016 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 14:26:29,671 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 14:26:29,671 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 14:26:29,890 WARN  [pool-1-thread-9] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 14:26:29,890 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 14:26:29,890 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 14:26:29,890 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 14:26:29,890 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 14:26:29,890 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 14:36:39,670 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 14:36:39,670 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 14:36:39,889 WARN  [pool-1-thread-16] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 14:36:39,889 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 14:36:39,889 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 14:36:39,889 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 14:36:39,889 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 14:36:39,889 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 14:46:49,699 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 14:46:49,699 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 14:46:49,918 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 14:46:49,918 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 14:46:49,918 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 14:46:49,918 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 14:46:49,918 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 14:46:49,918 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 14:56:59,716 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 14:56:59,716 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 14:56:59,935 WARN  [pool-1-thread-1] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 14:56:59,935 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 14:56:59,935 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 14:56:59,935 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 14:56:59,935 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 14:56:59,935 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 15:07:09,719 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 15:07:09,719 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 15:07:09,938 WARN  [pool-1-thread-18] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 15:07:09,938 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 15:07:09,938 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 15:07:09,938 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 15:07:09,938 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 15:07:09,938 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 15:17:19,806 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 15:17:19,806 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 15:17:20,025 WARN  [pool-1-thread-19] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 15:17:20,025 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 15:17:20,025 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 15:17:20,025 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 15:17:20,025 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 15:17:20,025 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 15:27:29,739 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 15:27:29,739 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 15:27:29,957 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 15:27:29,957 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 15:27:29,957 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 15:27:29,957 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 15:27:29,957 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 15:27:29,957 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 15:37:39,824 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 15:37:39,824 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 15:37:40,043 WARN  [pool-1-thread-9] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 15:37:40,043 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 15:37:40,043 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 15:37:40,043 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 15:37:40,043 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 15:37:40,043 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 15:47:49,708 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 15:47:49,708 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 15:47:49,926 WARN  [pool-1-thread-20] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 15:47:49,926 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 15:47:49,926 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 15:47:49,926 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 15:47:49,926 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 15:47:49,926 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 15:57:59,784 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 15:57:59,784 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 15:58:00,003 WARN  [pool-1-thread-5] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 15:58:00,003 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 15:58:00,003 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 15:58:00,003 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 15:58:00,003 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 15:58:00,003 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 16:08:09,557 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 16:08:09,557 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 16:08:09,776 WARN  [pool-1-thread-12] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 16:08:09,776 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 16:08:09,776 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 16:08:09,776 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 16:08:09,776 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 16:08:09,776 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 16:18:19,640 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 16:18:19,640 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 16:18:19,858 WARN  [pool-1-thread-6] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 16:18:19,858 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 16:18:19,858 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 16:18:19,858 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 16:18:19,858 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 16:18:19,858 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 16:28:29,829 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 16:28:29,829 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 16:28:30,048 WARN  [pool-1-thread-19] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 16:28:30,048 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 16:28:30,048 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 16:28:30,048 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 16:28:30,048 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 16:28:30,048 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 16:38:39,631 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 16:38:39,631 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 16:38:39,850 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 16:38:39,850 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 16:38:39,850 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 16:38:39,850 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 16:38:39,850 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 16:38:39,850 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 16:48:49,607 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 16:48:49,607 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 16:48:49,825 WARN  [pool-1-thread-7] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 16:48:49,825 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 16:48:49,825 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 16:48:49,825 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 16:48:49,825 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 16:48:49,825 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 16:58:59,627 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 16:58:59,627 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 16:58:59,845 WARN  [pool-1-thread-20] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 16:58:59,845 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 16:58:59,845 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 16:58:59,845 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 16:58:59,845 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 16:58:59,845 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 17:09:09,734 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 17:09:09,734 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 17:09:09,952 WARN  [pool-1-thread-5] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 17:09:09,952 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 17:09:09,952 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 17:09:09,952 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 17:09:09,952 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 17:09:09,952 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 17:19:19,591 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 17:19:19,591 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 17:19:19,810 WARN  [pool-1-thread-4] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 17:19:19,810 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 17:19:19,810 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 17:19:19,810 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 17:19:19,810 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 17:19:19,810 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 17:29:29,698 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 17:29:29,698 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 17:29:29,917 WARN  [pool-1-thread-15] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 17:29:29,917 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 17:29:29,917 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 17:29:29,917 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 17:29:29,917 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 17:29:29,917 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 17:39:39,613 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 17:39:39,613 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 17:39:39,832 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 17:39:39,832 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 17:39:39,832 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 17:39:39,832 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 17:39:39,832 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 17:39:39,832 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 17:49:49,629 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 17:49:49,629 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 17:49:49,848 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 17:49:49,848 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 17:49:49,848 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 17:49:49,848 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 17:49:49,848 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 17:49:49,848 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 17:59:59,859 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 17:59:59,859 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 18:00:00,078 WARN  [pool-1-thread-8] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 18:00:00,078 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 18:00:00,078 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 18:00:00,078 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 18:00:00,078 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 18:00:00,078 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 18:10:09,845 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 18:10:09,845 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 18:10:10,064 WARN  [pool-1-thread-20] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 18:10:10,064 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 18:10:10,064 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 18:10:10,064 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 18:10:10,064 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 18:10:10,064 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 18:20:19,683 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 18:20:19,683 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 18:20:19,902 WARN  [pool-1-thread-5] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 18:20:19,902 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 18:20:19,902 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 18:20:19,902 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 18:20:19,902 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 18:20:19,902 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 18:30:29,677 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 18:30:29,677 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 18:30:29,896 WARN  [pool-1-thread-18] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 18:30:29,896 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 18:30:29,896 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 18:30:29,896 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 18:30:29,896 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 18:30:29,896 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 18:40:39,631 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 18:40:39,631 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 18:40:39,849 WARN  [pool-1-thread-15] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 18:40:39,849 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 18:40:39,849 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 18:40:39,849 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 18:40:39,849 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 18:40:39,849 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 18:50:49,622 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 18:50:49,622 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 18:50:49,841 WARN  [pool-1-thread-12] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 18:50:49,841 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 18:50:49,841 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 18:50:49,841 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 18:50:49,841 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 18:50:49,841 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 19:00:59,713 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 19:00:59,713 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 19:00:59,932 WARN  [pool-1-thread-7] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 19:00:59,932 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 19:00:59,932 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 19:00:59,932 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 19:00:59,932 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 19:00:59,932 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 19:11:09,656 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 19:11:09,656 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 19:11:09,875 WARN  [pool-1-thread-6] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 19:11:09,875 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 19:11:09,875 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 19:11:09,875 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 19:11:09,875 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 19:11:09,875 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 19:21:19,735 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 19:21:19,735 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 19:21:19,954 WARN  [pool-1-thread-1] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 19:21:19,954 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 19:21:19,954 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 19:21:19,954 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 19:21:19,954 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 19:21:19,954 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 19:31:29,825 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 19:31:29,825 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 19:31:30,044 WARN  [pool-1-thread-2] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 19:31:30,044 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 19:31:30,044 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 19:31:30,044 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 19:31:30,044 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 19:31:30,044 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 19:41:39,764 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 19:41:39,764 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 19:41:39,983 WARN  [pool-1-thread-18] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 19:41:39,983 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 19:41:39,983 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 19:41:39,983 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 19:41:39,983 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 19:41:39,983 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 19:51:49,749 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 19:51:49,749 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 19:51:49,967 WARN  [pool-1-thread-11] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 19:51:49,967 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 19:51:49,967 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 19:51:49,967 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 19:51:49,967 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 19:51:49,967 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 20:01:59,717 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 20:01:59,717 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 20:01:59,936 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 20:01:59,936 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 20:01:59,936 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 20:01:59,936 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 20:01:59,936 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 20:01:59,936 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 20:12:09,785 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 20:12:09,785 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 20:12:10,004 WARN  [pool-1-thread-4] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 20:12:10,004 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 20:12:10,004 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 20:12:10,004 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 20:12:10,004 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 20:12:10,004 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 20:22:19,567 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 20:22:19,567 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 20:22:19,785 WARN  [pool-1-thread-15] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 20:22:19,785 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 20:22:19,785 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 20:22:19,785 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 20:22:19,785 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 20:22:19,785 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 20:32:29,599 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 20:32:29,599 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 20:32:29,817 WARN  [pool-1-thread-17] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 20:32:29,817 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 20:32:29,817 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 20:32:29,817 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 20:32:29,817 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 20:32:29,817 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 20:42:39,630 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 20:42:39,630 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 20:42:39,849 WARN  [pool-1-thread-7] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 20:42:39,849 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 20:42:39,849 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 20:42:39,849 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 20:42:39,849 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 20:42:39,849 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 20:52:49,756 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 20:52:49,756 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 20:52:49,975 WARN  [pool-1-thread-8] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 20:52:49,975 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 20:52:49,975 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 20:52:49,975 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 20:52:49,975 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 20:52:49,975 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 21:02:59,667 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 21:02:59,667 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 21:02:59,886 WARN  [pool-1-thread-20] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 21:02:59,886 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 21:02:59,886 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 21:02:59,886 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 21:02:59,886 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 21:02:59,886 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 21:13:09,687 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 21:13:09,687 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 21:13:09,905 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 21:13:09,905 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 21:13:09,905 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 21:13:09,905 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 21:13:09,905 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 21:13:09,905 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 21:23:19,597 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 21:23:19,597 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 21:23:19,815 WARN  [pool-1-thread-4] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 21:23:19,815 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 21:23:19,815 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 21:23:19,815 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 21:23:19,815 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 21:23:19,815 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 21:33:29,723 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 21:33:29,723 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 21:33:29,941 WARN  [pool-1-thread-11] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 21:33:29,941 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 21:33:29,941 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 21:33:29,941 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 21:33:29,941 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 21:33:29,941 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 21:43:39,743 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 21:43:39,743 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 21:43:39,961 WARN  [pool-1-thread-17] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 21:43:39,961 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 21:43:39,961 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 21:43:39,961 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 21:43:39,961 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 21:43:39,961 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 21:53:49,767 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 21:53:49,767 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 21:53:49,985 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 21:53:49,985 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 21:53:49,985 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 21:53:49,985 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 21:53:49,985 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 21:53:49,985 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 22:03:59,766 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 22:03:59,766 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 22:03:59,985 WARN  [pool-1-thread-8] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 22:03:59,985 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 22:03:59,985 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 22:03:59,985 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 22:03:59,985 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 22:03:59,985 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 22:14:09,574 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 22:14:09,574 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 22:14:09,792 WARN  [pool-1-thread-20] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 22:14:09,792 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 22:14:09,792 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 22:14:09,792 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 22:14:09,792 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 22:14:09,792 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 22:24:19,813 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 22:24:19,813 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 22:24:20,033 WARN  [pool-1-thread-13] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 22:24:20,033 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 22:24:20,033 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 22:24:20,033 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 22:24:20,033 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 22:24:20,033 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 22:34:29,619 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 22:34:29,619 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 22:34:29,837 WARN  [pool-1-thread-6] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 22:34:29,837 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 22:34:29,837 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 22:34:29,837 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 22:34:29,837 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 22:34:29,837 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 22:44:39,633 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 22:44:39,633 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 22:44:39,852 WARN  [pool-1-thread-1] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 22:44:39,852 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 22:44:39,852 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 22:44:39,852 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 22:44:39,852 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 22:44:39,852 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 22:54:49,767 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 22:54:49,767 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 22:54:49,986 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 22:54:49,986 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 22:54:49,986 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 22:54:49,986 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 22:54:49,986 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 22:54:49,986 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 23:04:59,690 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 23:04:59,690 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 23:04:59,909 WARN  [pool-1-thread-14] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 23:04:59,909 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 23:04:59,909 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 23:04:59,909 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 23:04:59,909 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 23:04:59,909 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 23:15:09,602 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 23:15:09,602 WARN  [bitzero.server.controllers.ExtensionController-3] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 23:15:09,821 WARN  [pool-1-thread-15] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 23:15:09,821 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 23:15:09,821 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 23:15:09,821 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 23:15:09,821 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 23:15:09,821 WARN  [bitzero.server.controllers.ExtensionController-4] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 23:25:19,728 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 23:25:19,728 WARN  [bitzero.server.controllers.ExtensionController-6] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 23:25:19,947 WARN  [pool-1-thread-5] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 23:25:19,947 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 23:25:19,947 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 23:25:19,947 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 23:25:19,947 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 23:25:19,947 WARN  [bitzero.server.controllers.ExtensionController-5] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 23:35:29,858 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 23:35:29,858 WARN  [bitzero.server.controllers.ExtensionController-8] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 23:35:30,077 WARN  [pool-1-thread-4] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 23:35:30,077 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 23:35:30,077 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 23:35:30,077 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 23:35:30,077 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 23:35:30,077 WARN  [bitzero.server.controllers.ExtensionController-7] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 23:45:39,680 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 23:45:39,680 WARN  [bitzero.server.controllers.ExtensionController-9] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 23:45:39,898 WARN  [pool-1-thread-19] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 23:45:39,898 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 23:45:39,898 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 23:45:39,898 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 23:45:39,898 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 23:45:39,898 WARN  [bitzero.server.controllers.ExtensionController-10] debug     -  | unit_test | #8 | passed | check put value to client
+18 Oct 2019 23:55:49,716 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #1 | passed | user # null
+18 Oct 2019 23:55:49,716 WARN  [bitzero.server.controllers.ExtensionController-1] debug     -  | unit_test | #2 | passed | check userId
+18 Oct 2019 23:55:49,935 WARN  [pool-1-thread-10] DemoHandler     - processUserLoginSuccess, name = Fresher_1
+18 Oct 2019 23:55:49,935 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #3 | passed | cmdId = 2005
+18 Oct 2019 23:55:49,935 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #4 | passed | check params value 2005
+18 Oct 2019 23:55:49,935 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #6 | failed | check return error = 5
+18 Oct 2019 23:55:49,935 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #7 | passed | check value in range ok
+18 Oct 2019 23:55:49,935 WARN  [bitzero.server.controllers.ExtensionController-2] debug     -  | unit_test | #8 | passed | check put value to client
