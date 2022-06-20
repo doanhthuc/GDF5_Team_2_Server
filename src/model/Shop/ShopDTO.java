@@ -1,4 +1,4 @@
-package model;
+package model.Shop;
 
 import model.Item.Item;
 
@@ -12,6 +12,10 @@ public class ShopDTO {
     {
         this.goldChange=goldChange;
         this.gemchange=gemchange;
+    }
+    public ShopDTO(int goldChange,int gemchange, ArrayList<Item> itemList)
+    {
+
     }
     public int getGoldChange(){
         return this.goldChange;

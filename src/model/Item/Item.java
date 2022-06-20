@@ -1,4 +1,4 @@
-package model;
+package model.Item;
 
 import cmd.obj.demo.DemoDirection;
 import cmd.obj.demo.MaxPosition;
@@ -11,16 +11,19 @@ public class Item {
     // Zing me
     protected int itemType;
     protected int quantity;
-    public  Item()
-    {
-
-    }
+    public  Item() {}
     public Item(int itemType,int quantity) {
-        super();
+
        this.itemType=itemType;
        this.quantity=quantity;
     }
+    public int getQuantity(){
+        return this.quantity;
+    }
 
+    public int getItemType(){
+        return this.itemType;
+    }
     public void show()
     {
        System.out.println(this.itemType+" "+this.quantity);

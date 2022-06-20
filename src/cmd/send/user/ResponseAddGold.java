@@ -1,7 +1,8 @@
-package cmd.send.demo;
+package cmd.send.user;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
+import model.PlayerInfo;
 
 import java.nio.ByteBuffer;
 
@@ -10,10 +11,12 @@ import java.nio.ByteBuffer;
  */
 public class ResponseAddGold extends BaseMsg {
     private int userGold;
+
     public ResponseAddGold(short error, int userGold) {
         super(CmdDefine.ADD_USER_GOLD, error);
-        this.userGold=userGold;
+        this.userGold = userGold;
     }
+
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
@@ -21,8 +24,8 @@ public class ResponseAddGold extends BaseMsg {
         return packBuffer(bf);
     }
 
-    public int getUserGold()
-    {
+    public int getUserGold() {
         return this.userGold;
     }
 }
+

@@ -1,2 +1,9 @@
-package model.Inventory;public class CardDefine {
+package model.Inventory;
+
+import java.util.ArrayList;
+
+public class CardDefine {
+    public ArrayList<Card> towerCard= new ArrayList<Card>(){{
+
+    }};
 }

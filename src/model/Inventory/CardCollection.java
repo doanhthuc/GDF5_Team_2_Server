@@ -1,2 +1,39 @@
-package model.Inventory;public class CardCollection {
+package model.Inventory;
+
+import model.Item.ItemDefine;
+import util.database.DataModel;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class CardCollection extends DataModel {
+    private int id;
+    private ArrayList<Card> cardcollection;
+    public CardCollection(){
+        this.cardcollection.add(new Card(ItemDefine.OWL,"",6,0,0));
+        this.cardcollection.add(new Card(ItemDefine.CROW,"",9,0,0));
+        this.cardcollection.add(new Card(ItemDefine.FROG,"",10,0,0));
+        this.cardcollection.add(new Card(ItemDefine.BUNNY,"",6,0,0));
+        this.cardcollection.add(new Card(ItemDefine.POLAR,"",9,0,0));
+        this.cardcollection.add(new Card(ItemDefine.GOAT,"",10,0,0));
+        this.cardcollection.add(new Card(ItemDefine.SNAKE,"",6,0,0));
+        this.cardcollection.add(new Card(ItemDefine.FIRE,"",9,0,0));
+        this.cardcollection.add(new Card(ItemDefine.SNOW,"",10,0,0));
+        this.cardcollection.add(new Card(ItemDefine.TRAP,"",6,0,0));
+    }
+    public void upgradeCard(int cardType)
+    {
+        for(int i=0;i<=cardcollection.size();i++)
+        {
+            if (cardcollection.get(i).getCardType()==cardType) cardcollection.get(i).increaseLevel();
+        }
+    }
+    public void updateCard(int cardType, int quantity)
+    {
+        for(int i=0;i<=this.cardcollection.size();i++)
+        {
+            if (this.cardcollection.get(i).cardType== cardType) this.cardcollection.get(i).increaseAccumulateCard(quantity);
+            if (this.cardcollection.get(i).level==0) this.cardcollection.get(i).increaseLevel();
+        }
+
+    }
 }

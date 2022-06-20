@@ -40,6 +40,8 @@ public class PlayerInfo extends DataModel {
     public int getGem(){ return this.gem; }
     public int getTrophy(){ return this.trophy; }
     public int getId(){ return this.id; }
+    public void addGold(int gold) { this.gold+=gold; }
+    public void addGem(int gem) { this.gem+=gem;}
     public void show()
     {
         System.out.print("id="+this.id);

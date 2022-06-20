@@ -19,9 +19,14 @@ import event.handler.LoginSuccessHandler;
 import event.handler.LogoutHandler;
 import event.handler.NotifyController;
 import model.PlayerInfo;
+import model.Shop.ItemList.DailyItemList;
+import model.Shop.ItemList.ShopItemDefine;
+import model.Shop.ItemList.ShopItemList;
+import model.Shop.ShopItem;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.DemoHandler;
+import service.ShopHandler;
 import service.UserHandler;
 import util.GuestLogin;
 import util.metric.LogObject;
@@ -54,16 +59,30 @@ public class FresherExtension extends BZExtension {
          */
 
 
-        //System.out.println("123");
-        PlayerInfo pInfo= null;
+        PlayerInfo pInfo=null;
+       ;
         for (int i = 1; i < 13; i++) {
-            pInfo = new PlayerInfo(i, "username" + i,i,i,i);
+            pInfo = new PlayerInfo(i, "username" + i,i,1000,i);
             try {
                 pInfo.saveModel(i);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            ShopItemList SIL= new ShopItemList(i, ShopItemDefine.GoldBanner);
+            //SIL.show();
+            try {
+                SIL.saveModel(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            DailyItemList DIL= new DailyItemList();
+            try {
+                DIL.saveModel(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         //List<User> allUser = ExtensionUtility.globalUserManager.getAllUsers();
         //List<User> allUser = BitZeroServer.getInstance().getUserManager().getAllUsers();
         //System.out.println(allUser.size());
@@ -74,10 +93,19 @@ public class FresherExtension extends BZExtension {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            try {
+                DailyItemList DIL= (DailyItemList) DailyItemList.getModel(i, DailyItemList.class);
+                DIL.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
         }
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(DemoHandler.DEMO_MULTI_IDS, DemoHandler.class);
+        addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
         registerHandler();
     }
 

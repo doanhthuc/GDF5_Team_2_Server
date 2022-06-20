@@ -1,4 +1,4 @@
-package cmd.receive.demo;
+package cmd.receive.user;
 
 import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;
