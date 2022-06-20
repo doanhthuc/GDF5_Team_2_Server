@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CardCollection extends DataModel {
-    private int id;
-    private ArrayList<Card> cardcollection;
-    public CardCollection(){
-        this.cardcollection.add(new Card(ItemDefine.OWL,"",6,0,0));
-        this.cardcollection.add(new Card(ItemDefine.CROW,"",9,0,0));
-        this.cardcollection.add(new Card(ItemDefine.FROG,"",10,0,0));
+    public int id;
+    public ArrayList<Card> cardcollection = new ArrayList<Card>();
+    public CardCollection(int id){
+        this.id=id;
+        this.cardcollection.add(new Card(ItemDefine.OWL,"",6,1,0));
+        this.cardcollection.add(new Card(ItemDefine.CROW,"",9,1,0));
+        this.cardcollection.add(new Card(ItemDefine.FROG,"",10,1,0));
         this.cardcollection.add(new Card(ItemDefine.BUNNY,"",6,0,0));
         this.cardcollection.add(new Card(ItemDefine.POLAR,"",9,0,0));
         this.cardcollection.add(new Card(ItemDefine.GOAT,"",10,0,0));
@@ -36,4 +37,15 @@ public class CardCollection extends DataModel {
         }
 
     }
+    public void show(){
+        for(int i=0;i<this.cardcollection.size();i++)
+        {
+            if (this.cardcollection.get(i).getLevel()!=0)
+                this.cardcollection.get(i).show();
+        }
+    }
+    public int getSize(){
+        return this.cardcollection.size();
+    }
+
 }

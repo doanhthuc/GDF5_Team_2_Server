@@ -37,12 +37,20 @@ public class Chest {
         int goldquantity= random.nextInt(10)+10;
         Item GoldItem= new Item(ItemDefine.GOLDTYPE,goldquantity);
         this.addReward(GoldItem);
-//
-//        for(int i=1;i<=cardSlot;i++)
-//        {
-//            int cardtype = random.nextInt(ItemDefine.CARDAMOUNT)+1;
-//            int quantity = random.nextInt(ChestDefine.MAXCARD-ChestDefine.MINCARD)+ChestDefine.MINCARD;
-//            this.reward.add(new Item(cardtype,quantity));
-//        }
+
+        for(int i=1;i<=cardSlot;i++)
+        {
+            int cardtype = random.nextInt(ItemDefine.CARDAMOUNT)+1;
+            int quantity = random.nextInt(ChestDefine.MAXCARD-ChestDefine.MINCARD)+ChestDefine.MINCARD;
+            this.reward.add(new Item(cardtype,quantity));
+        }
+    }
+    public void showReward()
+    {
+        for(int i=0;i<this.reward.size();i++)
+            this.reward.get(i).show();
+    }
+    public ArrayList<Item> getChestReward(){
+        return this.reward;
     }
 }

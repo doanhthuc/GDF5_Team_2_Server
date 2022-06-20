@@ -5,10 +5,10 @@ import model.Shop.ShopDTO;
 
 import java.nio.ByteBuffer;
 
-public class ResponseRequestBuyShopGold extends BaseMsg {
+public class ResponseRequestBuyGoldShop extends BaseMsg {
     public ShopDTO shopDTO;
     public short error;
-    public ResponseRequestBuyShopGold(short _error, ShopDTO shopDTO) {
+    public ResponseRequestBuyGoldShop(short _error, ShopDTO shopDTO) {
         super(CmdDefine.BUY_GOLD_SHOP);
         this.shopDTO=shopDTO;
         error= _error;

@@ -24,4 +24,13 @@ public class Card {
     {
         this.accumulate+=amount;
     }
+    public void show(){
+        System.out.println("Card"+this.cardType+" energy= "+ this.energy+ " level=" +this.level + " accumulate= "+this.accumulate);
+    }
+    public int getLevel(){
+        return this.level;
+    }
+    public int getAmount(){
+        return this.accumulate;
+    }
 }

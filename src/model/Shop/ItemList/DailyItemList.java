@@ -6,9 +6,10 @@ import model.Shop.ShopItem;
 
 public class DailyItemList extends ShopItemList {
     public int remainingTime;
-    public DailyItemList()
+    public DailyItemList(int id)
     {
-        System.out.println(("DailyItemList"));
+        this.id=id;
+        //System.out.println(("DailyItemList"));
         this.itemList.add(new ShopItem(ItemDefine.CHESTYPE,1, ShopItemDefine.CAN_BUY, ShopItemDefine.DAILY_CHEST_PRICE));
         for(int i=1;i<=2;i++)
         {

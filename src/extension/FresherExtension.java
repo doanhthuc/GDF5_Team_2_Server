@@ -18,6 +18,9 @@ import event.eventType.DemoEventType;
 import event.handler.LoginSuccessHandler;
 import event.handler.LogoutHandler;
 import event.handler.NotifyController;
+import model.Chest.Chest;
+import model.Inventory.Card;
+import model.Inventory.CardCollection;
 import model.PlayerInfo;
 import model.Shop.ItemList.DailyItemList;
 import model.Shop.ItemList.ShopItemDefine;
@@ -26,6 +29,7 @@ import model.Shop.ShopItem;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.DemoHandler;
+import service.InventoryHandler;
 import service.ShopHandler;
 import service.UserHandler;
 import util.GuestLogin;
@@ -58,9 +62,10 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
 
-
+        Chest ch= new Chest();
+        ch.showReward();
         PlayerInfo pInfo=null;
-       ;
+
         for (int i = 1; i < 13; i++) {
             pInfo = new PlayerInfo(i, "username" + i,i,1000,i);
             try {
@@ -75,9 +80,16 @@ public class FresherExtension extends BZExtension {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            DailyItemList DIL= new DailyItemList();
+            DailyItemList DIL= new DailyItemList(i);
+            //DIL.show();
             try {
                 DIL.saveModel(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            CardCollection CC = new CardCollection(i);
+            try {
+                CC.saveModel(i);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -99,13 +111,18 @@ public class FresherExtension extends BZExtension {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
+            try {
+                CardCollection CC= (CardCollection) CardCollection.getModel(i,CardCollection.class);
+                CC.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(DemoHandler.DEMO_MULTI_IDS, DemoHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
+        addRequestHandler(InventoryHandler.INVENTORY_MULTI_IDS, InventoryHandler.class);
         registerHandler();
     }
 

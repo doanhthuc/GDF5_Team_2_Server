@@ -11,7 +11,7 @@ import cmd.CmdDefine;
 import cmd.receive.shop.RequestBuyDailyShop;
 import cmd.receive.shop.RequestBuyGoldShop;
 import cmd.send.shop.ResponseRequestBuyDailyShop;
-import cmd.send.shop.ResponseRequestBuyShopGold;
+import cmd.send.shop.ResponseRequestBuyGoldShop;
 import event.eventType.DemoEventParam;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
@@ -86,7 +86,7 @@ public class ShopHandler extends BaseClientRequestHandler {
             if (userInfo==null){
                 logger.info("PlayerInfo null");
             }
-            System.out.println("Shophandle ProcessBuyDailyShop");
+            System.out.println("ShopHandle ProcessBuyDailyShop");
             DailyItemList DIL= (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
             ShopItem item_to_buy = DIL.itemList.get(rqBuyGold.getId());
             int goldchange= -item_to_buy.getPrice();
@@ -97,7 +97,8 @@ public class ShopHandler extends BaseClientRequestHandler {
                 CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(),CardCollection.class);
                 if (item_to_buy.getItemType()==ItemDefine.CHESTYPE)
                 {
-                    Chest Ch= new Chest();
+                    Chest ch= new Chest();
+                    send (new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange,0,ch.getChestReward() )),user);
                 } else {
                     userCardCollection.updateCard(item_to_buy.getItemType(),item_to_buy.getQuantity());
                     userCardCollection.saveModel(userInfo.getId());
@@ -106,7 +107,7 @@ public class ShopHandler extends BaseClientRequestHandler {
                     send (new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(),new ShopDTO(goldchange,0, itemList)),user);
                 }
             } else {
-                send(new ResponseRequestBuyShopGold(ShopError.ERROR.getValue(),new ShopDTO(0,0)), user);
+                send(new ResponseRequestBuyDailyShop(ShopError.ERROR.getValue(),new ShopDTO(0,0)), user);
             }
             } catch(Exception e){
                 logger.info("processGetName exception");
@@ -129,9 +130,9 @@ public class ShopHandler extends BaseClientRequestHandler {
                 userInfo.addGem(gemchange);
                 userInfo.addGold(goldchange);
                 userInfo.saveModel(userInfo.getId());
-                send(new ResponseRequestBuyShopGold(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange,gemchange)), user);
+                send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange,gemchange)), user);
             } else {
-                send(new ResponseRequestBuyShopGold(ShopError.ERROR.getValue(),new ShopDTO(0,0)), user);
+                send(new ResponseRequestBuyGoldShop(ShopError.ERROR.getValue(),new ShopDTO(0,0)), user);
             }
         } catch(Exception e){
             logger.info("processGetName exception");
