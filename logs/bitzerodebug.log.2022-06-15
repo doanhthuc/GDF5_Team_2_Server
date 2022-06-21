@@ -1,0 +1,14 @@
+15 Jun 2022 16:30:30,403 INFO  [bitzero.server.controllers.ExtensionController-4] DemoHandler     - get name = 12|username12|12|12|12
+15 Jun 2022 16:38:37,654 INFO  [bitzero.server.controllers.ExtensionController-6] DemoHandler     - get name = 10|username10|10|10|10
+15 Jun 2022 16:39:02,576 INFO  [bitzero.server.controllers.ExtensionController-8] DemoHandler     - get name = 10|username10|10|10|10
+15 Jun 2022 16:39:29,987 INFO  [bitzero.server.controllers.ExtensionController-10] DemoHandler     - get name = 12|username12|12|12|12
+15 Jun 2022 16:40:05,385 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - get name = 10|username10|10|10|10
+15 Jun 2022 16:43:48,401 INFO  [bitzero.server.controllers.ExtensionController-4] DemoHandler     - get name = 12|username12|12|12|12
+15 Jun 2022 16:44:19,789 INFO  [bitzero.server.controllers.ExtensionController-6] DemoHandler     - get name = 12|username12|12|12|12
+15 Jun 2022 16:47:18,919 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - get name = 12|username12|12|12|12
+15 Jun 2022 16:47:44,719 INFO  [bitzero.server.controllers.ExtensionController-4] DemoHandler     - get name = 12|username12|12|12|12
+15 Jun 2022 17:00:54,331 INFO  [bitzero.server.controllers.ExtensionController-6] DemoHandler     - get name = 10|username10|10|10|10
+15 Jun 2022 17:01:28,277 INFO  [bitzero.server.controllers.ExtensionController-8] DemoHandler     - get name = 10|username10|10|10|10
+15 Jun 2022 17:01:39,844 INFO  [bitzero.server.controllers.ExtensionController-10] DemoHandler     - get name = 10|username10|10|10|10
+15 Jun 2022 17:06:46,383 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - get name = 10|username10|10|10|10
+15 Jun 2022 17:07:11,903 INFO  [bitzero.server.controllers.ExtensionController-4] DemoHandler     - get name = 10|username10|10|10|10

@@ -1,0 +1,65 @@
+22 Nov 2017 09:45:08,811 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511316987
+22 Nov 2017 09:45:08,814 ERROR [main] debug     - java.lang.NullPointerException *** Null ***
+22 Nov 2017 09:59:05,811 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511316987
+22 Nov 2017 09:59:05,811 DEBUG [main] debug     -  gameKEy:  100zppgsn
+22 Nov 2017 09:59:05,812 DEBUG [main] debug     -  game Key encrty: 21f610a9118955a66af63a3b9172831b
+22 Nov 2017 09:59:05,813 DEBUG [main] debug     -  tooken:  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 09:59:05,813 DEBUG [main] debug     -  arrg[6] :  default%3A%3A%3A%3A483698726%3A%3A100
+22 Nov 2017 09:59:05,813 DEBUG [main] debug     -  arrg[7] :  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 09:59:05,814 DEBUG [main] debug     -  Session key : arrInfo[6] : other: default::::483698726::100
+22 Nov 2017 10:01:54,848 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511316987
+22 Nov 2017 10:01:54,848 DEBUG [main] debug     -  gameKEy:  100zppgsn
+22 Nov 2017 10:01:54,849 DEBUG [main] debug     -  game Key encrty: 21f610a9118955a66af63a3b9172831b
+22 Nov 2017 10:01:54,849 DEBUG [main] debug     -  tooken:  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 10:01:54,850 DEBUG [main] debug     -  arrg[6] :  default%3A%3A%3A%3A483698726%3A%3A100
+22 Nov 2017 10:01:54,850 DEBUG [main] debug     -  arrg[7] :  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 10:01:54,851 DEBUG [main] debug     -  Session key : arrInfo[6] : other: default::::483698726::100
+22 Nov 2017 10:02:24,114 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511316987
+22 Nov 2017 10:02:24,114 DEBUG [main] debug     -  gameKEy:  100zppgsn
+22 Nov 2017 10:02:24,115 DEBUG [main] debug     -  game Key encrty: 21f610a9118955a66af63a3b9172831b
+22 Nov 2017 10:02:24,115 DEBUG [main] debug     -  tooken:  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 10:02:24,115 DEBUG [main] debug     -  arrg[6] :  default%3A%3A%3A%3A483698726%3A%3A100
+22 Nov 2017 10:02:24,115 DEBUG [main] debug     -  arrg[7] :  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 10:02:24,116 DEBUG [main] debug     -  Session key : arrInfo[6] : other: default::::483698726::100
+22 Nov 2017 15:03:41,472 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511316987
+22 Nov 2017 15:03:41,488 DEBUG [main] debug     -  gameKEy:  100zppgsn
+22 Nov 2017 15:03:41,488 DEBUG [main] debug     -  game Key encrty: 21f610a9118955a66af63a3b9172831b
+22 Nov 2017 15:03:41,488 DEBUG [main] debug     -  tooken:  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 15:03:41,488 DEBUG [main] debug     -  arrg[6] :  default%3A%3A%3A%3A483698726%3A%3A100
+22 Nov 2017 15:03:41,488 DEBUG [main] debug     -  arrg[7] :  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 15:03:41,488 DEBUG [main] debug     -  Session key : arrInfo[6] : other: default::::483698726::100
+22 Nov 2017 17:53:03,294 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511316987
+22 Nov 2017 17:53:03,294 DEBUG [main] debug     -  gameKEy:  100zppgsn
+22 Nov 2017 17:53:03,309 DEBUG [main] debug     -  game Key encrty: 21f610a9118955a66af63a3b9172831b
+22 Nov 2017 17:53:03,309 DEBUG [main] debug     -  tooken:  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 17:53:03,309 DEBUG [main] debug     -  arrg[6] :  default%3A%3A%3A%3A483698726%3A%3A100
+22 Nov 2017 17:53:03,309 DEBUG [main] debug     -  arrg[7] :  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 17:53:03,309 DEBUG [main] debug     -  Session key : arrInfo[6] : other: default::::483698726::100
+22 Nov 2017 17:53:45,950 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511316987
+22 Nov 2017 17:53:45,950 DEBUG [main] debug     -  gameKEy:  100zppgsn
+22 Nov 2017 17:53:45,950 DEBUG [main] debug     -  game Key encrty: 21f610a9118955a66af63a3b9172831b
+22 Nov 2017 17:53:45,950 DEBUG [main] debug     -  tooken:  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 17:53:45,950 DEBUG [main] debug     -  arrg[6] :  default%3A%3A%3A%3A483698726%3A%3A100
+22 Nov 2017 17:53:45,950 DEBUG [main] debug     -  arrg[7] :  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 17:53:45,950 DEBUG [main] debug     -  Session key : arrInfo[6] : other: default::::483698726::100
+22 Nov 2017 18:02:02,608 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511316987
+22 Nov 2017 18:02:02,608 DEBUG [main] debug     -  gameKEy:  100zppgsn
+22 Nov 2017 18:02:02,608 DEBUG [main] debug     -  game Key encrty: 21f610a9118955a66af63a3b9172831b
+22 Nov 2017 18:02:02,608 DEBUG [main] debug     -  tooken:  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 18:02:02,608 DEBUG [main] debug     -  arrg[6] :  default%3A%3A%3A%3A483698726%3A%3A100
+22 Nov 2017 18:02:02,608 DEBUG [main] debug     -  arrg[7] :  d7b3e5d0cb8c58a22b74c57ea9ab3b6a
+22 Nov 2017 18:02:02,608 DEBUG [main] debug     -  Session key : arrInfo[6] : other: default::::483698726::100
+22 Nov 2017 18:48:28,731 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511350617
+22 Nov 2017 18:48:28,731 DEBUG [main] debug     -  gameKEy:  100zppgsn
+22 Nov 2017 18:48:28,731 DEBUG [main] debug     -  game Key encrty: 21f610a9118955a66af63a3b9172831b
+22 Nov 2017 18:48:28,731 DEBUG [main] debug     -  tooken:  7338b7badf813b75d5fd1aed8f06184b
+22 Nov 2017 18:48:28,731 DEBUG [main] debug     -  arrg[6] :  default%3A%3A%3A%3A483698726%3A%3A100
+22 Nov 2017 18:48:28,731 DEBUG [main] debug     -  arrg[7] :  7338b7badf813b75d5fd1aed8f06184b
+22 Nov 2017 18:48:28,731 DEBUG [main] debug     -  Session key : arrInfo[6] : other: default::::483698726::100
+22 Nov 2017 18:48:46,429 DEBUG [main] debug     -  info id=483698726&username=fresher001&social=zingme&socialname=fresher001&avatar=http%3A%2F%2Fzingplay.static.g6.zing.vn%2Fimages%2Fzpp%2Fzpdefault.png&time=1511350617
+22 Nov 2017 18:48:46,429 DEBUG [main] debug     -  gameKEy:  100zppgsn
+22 Nov 2017 18:48:46,429 DEBUG [main] debug     -  game Key encrty: 21f610a9118955a66af63a3b9172831b
+22 Nov 2017 18:48:46,429 DEBUG [main] debug     -  tooken:  7338b7badf813b75d5fd1aed8f06184b
+22 Nov 2017 18:48:46,429 DEBUG [main] debug     -  arrg[6] :  default%3A%3A%3A%3A483698726%3A%3A100
+22 Nov 2017 18:48:46,429 DEBUG [main] debug     -  arrg[7] :  7338b7badf813b75d5fd1aed8f06184b
+22 Nov 2017 18:48:46,429 DEBUG [main] debug     -  Session key : arrInfo[6] : other: default::::483698726::100

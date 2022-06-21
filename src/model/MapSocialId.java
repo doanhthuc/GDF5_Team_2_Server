@@ -1,9 +1,7 @@
 package model;
 
 import bitzero.util.common.business.Debug;
-
 import org.apache.commons.lang.exception.ExceptionUtils;
-
 import util.database.DataHandler;
 
 public class MapSocialId {

@@ -7,27 +7,19 @@ import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
-
 import cmd.CmdDefine;
-
-import cmd.receive.user.RequestUserInfo;
-
-import cmd.send.demo.ResponseRequestUserInfo;
+import cmd.receive.user.RequestAddGold;
+import cmd.send.user.*;
 
 import event.eventType.DemoEventParam;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
-
 import model.PlayerInfo;
-
 import org.apache.commons.lang.exception.ExceptionUtils;
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.server.ServerConstant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserHandler extends BaseClientRequestHandler {
@@ -63,10 +55,12 @@ public class UserHandler extends BaseClientRequestHandler {
     public void handleClientRequest(User user, DataCmd dataCmd) {
         try {
             switch (dataCmd.getId()) {
-            case CmdDefine.GET_USER_INFO:
-                RequestUserInfo reqInfo = new RequestUserInfo(dataCmd);                
-                getUserInfo(user);
-                break;
+                case CmdDefine.GET_USER_INFO:
+                    processGetUserInfo(user);
+                    break;
+                case CmdDefine.ADD_USER_GOLD:
+                    RequestAddGold addGold= new RequestAddGold(dataCmd);
+                    processAddUserGold(addGold,user);
             }
         } catch (Exception e) {
             logger.warn("USERHANDLER EXCEPTION " + e.getMessage());
@@ -79,25 +73,67 @@ public class UserHandler extends BaseClientRequestHandler {
         try {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
-                userInfo = new PlayerInfo(user.getId(), "username_" + user.getId());
+                userInfo = new PlayerInfo(user.getId(), "username_" + user.getId(), 0,0,0);
                 userInfo.saveModel(user.getId());
             }
-            send(new ResponseRequestUserInfo(userInfo), user);
+            //send(new ResponseRequestUserInfo(userInfo), user);
         } catch (Exception e) {
 
         }
 
     }
-
-    private void userDisconnect(User user) {
-        // log user disconnect
+    private void processGetUserInfo(User user){
+        System.out.println("UserHandler "+" processGetUserInfo");
+        try{
+            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
+            if (userInfo==null){
+                logger.info("PlayerInfo null");
+                //send(new ResponseGetName(DemoHandler.DemoError.PLAYERINFO_NULL.getValue(), ""), user);
+            }
+            logger.info("get name = " + userInfo.toString());
+            send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+        }catch(Exception e){
+            logger.info("processGetName exception");
+            //send(new ResponseGetName(DemoHandler.DemoError.EXCEPTION.getValue(), ""), user);
+        }
     }
-
+    private void processAddUserGold(RequestAddGold requestaddGold, User user){
+        try {
+            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
+            if (userInfo==null){
+                logger.info("PlayerInfo null");
+              //  send(new ResponseGetName(UserHandler.UserError.PLAYERINFO_NULL.getValue(), ""), user);
+            }
+            userInfo.addGold(requestaddGold.getGold());
+            userInfo.saveModel(userInfo.getId());
+            send(new ResponseAddGold(UserHandler.UserError.SUCCESS.getValue(), userInfo.getGold()), user);
+        } catch(Exception e){
+            logger.info("processGetName exception");
+            //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);
+        }
+    }
+    private void userDisconnect(User user) { }
     private void userChangeName(User user, String name){
         List<User> allUser = BitZeroServer.getInstance().getUserManager().getAllUsers();
         for(User aUser : allUser){
-            // notify user's change
         }
     }
+    public enum UserError{
+        SUCCESS((short)0),
+        ERROR((short)1),
+        PLAYERINFO_NULL((short)2),
+        EXCEPTION((short)3),
+        INVALID_PARAM((short)4),
+        VISITED((short)5),;
 
+
+        private final short value;
+        private UserError(short value){
+            this.value = value;
+        }
+
+        public short getValue(){
+            return this.value;
+        }
+    }
 }

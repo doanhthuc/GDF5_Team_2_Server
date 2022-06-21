@@ -6,9 +6,7 @@ import bitzero.util.datacontroller.business.DataController;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.text.SimpleDateFormat;
-
 import java.util.Calendar;
 
 public class Common {

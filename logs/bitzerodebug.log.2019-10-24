@@ -1,0 +1,6 @@
+24 Oct 2019 14:03:53,516 ERROR [main] debug     - java.lang.NumberFormatException null
+24 Oct 2019 14:03:53,520 ERROR [main] debug     - java.lang.NumberFormatException null
+24 Oct 2019 14:03:53,553 ERROR [main] debug     - java.lang.NumberFormatException null
+24 Oct 2019 14:03:53,553 ERROR [main] debug     - java.lang.IllegalArgumentException Operation timeout must be positive.
+24 Oct 2019 14:03:53,632 ERROR [pool-2-thread-1] debug     - java.lang.IllegalArgumentException Operation timeout must be positive.
+24 Oct 2019 14:03:58,179 ERROR [Thread-2] debug     - java.lang.IllegalArgumentException Operation timeout must be positive.

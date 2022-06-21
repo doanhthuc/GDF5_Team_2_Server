@@ -1,20 +1,17 @@
 package util.database;
 
 import bitzero.server.config.ConfigHandle;
-
 import bitzero.util.common.business.Debug;
-
-import java.net.InetSocketAddress;
-
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import net.spy.memcached.CASResponse;
 import net.spy.memcached.CASValue;
 import net.spy.memcached.CachedData;
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.transcoders.SerializingTranscoder;
+
+import java.net.InetSocketAddress;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class SecondhandMembase {
     public static final int COMPRESSION_THRESHOLD = 50;

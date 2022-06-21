@@ -4,7 +4,6 @@ import bitzero.server.core.BZEventParam;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseServerEventHandler;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

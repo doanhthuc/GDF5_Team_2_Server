@@ -3,6 +3,9 @@ package util.database;
 import bitzero.util.common.business.Debug;
 
 import com.google.gson.Gson;
+import net.spy.memcached.CASResponse;
+import net.spy.memcached.CASValue;
+import util.server.ServerUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

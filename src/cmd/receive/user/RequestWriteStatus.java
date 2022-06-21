@@ -1,9 +1,9 @@
 package cmd.receive.user;
 
-import java.nio.ByteBuffer;
-
 import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;
+
+import java.nio.ByteBuffer;
 
 public class RequestWriteStatus extends BaseCmd {
     public String status;

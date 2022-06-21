@@ -11,7 +11,7 @@ public class RequestLogin extends BaseCmd {
     public RequestLogin(DataCmd dataCmd) {
         super(dataCmd);
     }
-    
+
     @Override
     public void unpackData() {
         ByteBuffer bf = makeBuffer();
@@ -19,8 +19,8 @@ public class RequestLogin extends BaseCmd {
             sessionKey = readString(bf);
             userId = readInt(bf);
         } catch (Exception e) {
-            
+
         }
     }
-    
+
 }
