@@ -1,4 +1,8 @@
-06 Nov 2018 15:52:16,382 WARN  [main] bootLogger     - Was not able to bind socket: { 10.198.48.46:1101, TCP }
-06 Nov 2018 15:52:16,402 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!
-06 Nov 2018 16:33:32,731 WARN  [main] bootLogger     - Was not able to bind socket: { 10.198.48.46:1101, TCP }
-06 Nov 2018 16:33:32,742 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!
+20 Jun 2022 16:40:56,113 WARN  [main] bootLogger     - Was not able to bind socket: { 127.0.0.1:1101, TCP }
+20 Jun 2022 16:40:56,116 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!
+20 Jun 2022 16:59:28,688 WARN  [main] bootLogger     - Was not able to bind socket: { 127.0.0.1:1101, TCP }
+20 Jun 2022 16:59:28,691 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!
+20 Jun 2022 16:59:38,233 WARN  [main] bootLogger     - Was not able to bind socket: { 127.0.0.1:1101, TCP }
+20 Jun 2022 16:59:38,235 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!
+20 Jun 2022 17:01:55,038 WARN  [main] bootLogger     - Was not able to bind socket: { 127.0.0.1:1101, TCP }
+20 Jun 2022 17:01:55,046 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!
