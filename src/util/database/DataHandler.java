@@ -1,5 +1,4 @@
 package util.database;
-
 import bitzero.server.config.ConfigHandle;
 import bitzero.util.datacontroller.business.DataController;
 import net.spy.memcached.CASResponse;
