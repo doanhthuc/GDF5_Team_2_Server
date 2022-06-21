@@ -28,6 +28,25 @@ public class ServerUtil {
         super();
     }
 
+    public static String getUserInfoKeyName(String userId) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ServerConstant.USER_INFO_KEY);
+        sb.append(ServerConstant.SEPERATOR);
+        sb.append(userId);
+
+        return sb.toString();
+    }
+
+    public static String getLastSnapshotKeyName(int userId) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ServerConstant.LAST_SNAPSHOT_KEY);
+        sb.append(ServerConstant.SEPERATOR);
+        sb.append(userId);
+
+        return sb.toString();
+    }
+
+
     public static String getModelKeyName(String model, String key) {
         StringBuilder sb = new StringBuilder();
         sb.append(ServerConstant.GAME_DATA_KEY_PREFIX);
