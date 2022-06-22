@@ -8,8 +8,7 @@ import bitzero.server.core.IBZEventParam;
 public enum DemoEventParam implements IBZEventParam {
     NAME,
     USER,
-    LOGIN_SUCCESS,
-    POSITION;
+    LOGIN_SUCCESS;
 
     private DemoEventParam(){}
 
