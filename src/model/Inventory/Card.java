@@ -33,4 +33,5 @@ public class Card {
     public int getAmount(){
         return this.accumulate;
     }
+
 }

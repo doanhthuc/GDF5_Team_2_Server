@@ -8,6 +8,7 @@ import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import cmd.receive.user.RequestAddGem;
 import cmd.receive.user.RequestAddGold;
 import cmd.send.user.*;
 
@@ -61,6 +62,9 @@ public class UserHandler extends BaseClientRequestHandler {
                 case CmdDefine.ADD_USER_GOLD:
                     RequestAddGold addGold= new RequestAddGold(dataCmd);
                     processAddUserGold(addGold,user);
+                case CmdDefine.ADD_USER_GEM:
+                    RequestAddGem addGem= new RequestAddGem(dataCmd);
+                    processAddUserGem(addGem,user);
             }
         } catch (Exception e) {
             logger.warn("USERHANDLER EXCEPTION " + e.getMessage());
@@ -107,6 +111,21 @@ public class UserHandler extends BaseClientRequestHandler {
             userInfo.addGold(requestaddGold.getGold());
             userInfo.saveModel(userInfo.getId());
             send(new ResponseAddGold(UserHandler.UserError.SUCCESS.getValue(), userInfo.getGold()), user);
+        } catch(Exception e){
+            logger.info("processGetName exception");
+            //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);
+        }
+    }
+    private void processAddUserGem(RequestAddGem requestaddGem, User user){
+        try {
+            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
+            if (userInfo==null){
+                logger.info("PlayerInfo null");
+                //  send(new ResponseGetName(UserHandler.UserError.PLAYERINFO_NULL.getValue(), ""), user);
+            }
+            userInfo.addGem(requestaddGem.getGem());
+            userInfo.saveModel(userInfo.getId());
+            send(new ResponseAddGem(UserHandler.UserError.SUCCESS.getValue(), userInfo.getGem()), user);
         } catch(Exception e){
             logger.info("processGetName exception");
             //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);

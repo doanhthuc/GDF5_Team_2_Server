@@ -14,9 +14,4 @@ public class ServerConstant {
     public static final int CUSTOM_LOGIN = ConfigHandle.instance().getLong("custom_login").intValue();
 
     public static final int CACHE_EXP_TIME = 259200;
-    public static final int MAP_X = 8;
-    public static final int MAP_Y = 8;
-
-    public static final int DEFAULT_X = 0;
-    public static final int DEFAULT_Y = 0;
 }

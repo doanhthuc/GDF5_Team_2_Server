@@ -18,4 +18,7 @@ public class DailyItemList extends ShopItemList {
             this.itemList.add(shopCarditem);
         }
     }
+    public int getSize(){
+        return this.itemList.size();
+    }
 }

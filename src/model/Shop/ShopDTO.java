@@ -15,6 +15,7 @@ public class ShopDTO {
     }
     public ShopDTO(int goldChange,int gemchange, ArrayList<Item> itemList)
     {
+        System.out.println("ShopDTO");
         this.gemchange=gemchange;
         this.goldChange=goldChange;
         for(int i=0;i<itemList.size();i++)
