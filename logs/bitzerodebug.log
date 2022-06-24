@@ -1,4 +1,9 @@
-16 Jun 2022 13:14:32,860 INFO  [bitzero.server.controllers.ExtensionController-2] DemoHandler     - get name = 12|username12|12|12|12
-16 Jun 2022 13:14:38,356 INFO  [bitzero.server.controllers.ExtensionController-4] DemoHandler     - get name = 1|username1|1|1|1
-16 Jun 2022 13:14:42,970 INFO  [bitzero.server.controllers.ExtensionController-7] DemoHandler     - get name = 12|username12|12|12|12
-16 Jun 2022 13:20:09,825 INFO  [bitzero.server.controllers.ExtensionController-10] DemoHandler     - get name = 10|username10|10|10|10
+21 Jun 2022 14:03:20,793 ERROR [main] debug     - java.lang.NumberFormatException null
+21 Jun 2022 14:03:20,793 ERROR [main] debug     - java.lang.NumberFormatException null
+21 Jun 2022 14:03:20,793 ERROR [main] debug     - java.lang.NumberFormatException null
+21 Jun 2022 14:03:20,793 ERROR [main] debug     - java.lang.NumberFormatException null
+22 Jun 2022 12:31:24,631 ERROR [main] debug     - java.lang.NumberFormatException null
+22 Jun 2022 12:31:24,632 ERROR [main] debug     - java.lang.NumberFormatException null
+22 Jun 2022 12:31:24,632 ERROR [main] debug     - java.lang.NumberFormatException null
+22 Jun 2022 12:31:24,632 ERROR [main] debug     - java.lang.NumberFormatException null
+22 Jun 2022 12:32:41,903 ERROR [main] debug     - java.lang.NumberFormatException null

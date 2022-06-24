@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85811b85-a0b5-4fb5-8073-3d5214c906f2" name="Default Changelist" comment="" />
+    <list default="true" id="85811b85-a0b5-4fb5-8073-3d5214c906f2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/bitzerodebug.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/bitzerodebug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Fresher_demo_workshop/util/server/ServerConstant.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fresher_demo_workshop/util/server/ServerConstant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Fresher_demo_workshop/util/server/ServerUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fresher_demo_workshop/util/server/ServerUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/server/ServerConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/server/ServerConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/server/ServerUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/server/ServerUtil.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +45,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../team_2_server" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -96,7 +103,7 @@
       <workItem from="1655717980128" duration="320000" />
       <workItem from="1655718310696" duration="969000" />
       <workItem from="1655719301237" duration="1956000" />
-      <workItem from="1655792133609" duration="523000" />
+      <workItem from="1655792133609" duration="2328000" />
     </task>
     <servers />
   </component>
@@ -114,6 +121,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NumberFormatException" package="java.lang" />
+          <option name="timeStamp" value="4" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Fresher_demo_workshop$Server.ic" NAME="Server Coverage Results" MODIFIED="1654843509828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

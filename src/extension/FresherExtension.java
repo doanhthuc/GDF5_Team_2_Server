@@ -21,6 +21,8 @@ import event.handler.NotifyController;
 import model.Chest.Chest;
 import model.Inventory.Card;
 import model.Inventory.CardCollection;
+import model.Lobby.LobbyChestContainer;
+import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
 import model.Shop.ItemList.DailyItemList;
 import model.Shop.ItemList.ShopItemDefine;
@@ -28,10 +30,7 @@ import model.Shop.ItemList.ShopItemList;
 import model.Shop.ShopItem;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
-import service.DemoHandler;
-import service.InventoryHandler;
-import service.ShopHandler;
-import service.UserHandler;
+import service.*;
 import util.GuestLogin;
 import util.metric.LogObject;
 import util.metric.MetricLog;
@@ -62,67 +61,16 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
 
-        Chest ch= new Chest();
-        ch.showReward();
-        PlayerInfo pInfo=null;
-
-        for (int i = 1; i < 13; i++) {
-            pInfo = new PlayerInfo(i, "username" + i,i,1000,i);
-            try {
-                pInfo.saveModel(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            ShopItemList SIL= new ShopItemList(i, ShopItemDefine.GoldBanner);
-            //SIL.show();
-            try {
-                SIL.saveModel(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            DailyItemList DIL= new DailyItemList(i);
-            //DIL.show();
-            try {
-                DIL.saveModel(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            CardCollection CC = new CardCollection(i);
-            try {
-                CC.saveModel(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        //List<User> allUser = ExtensionUtility.globalUserManager.getAllUsers();
-        //List<User> allUser = BitZeroServer.getInstance().getUserManager().getAllUsers();
-        //System.out.println(allUser.size());
-        for (int i = 1; i < 13; i++) {
-            try {
-                pInfo = (PlayerInfo) PlayerInfo.getModel(i, PlayerInfo.class);
-                pInfo.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                DailyItemList DIL= (DailyItemList) DailyItemList.getModel(i, DailyItemList.class);
-                DIL.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                CardCollection CC= (CardCollection) CardCollection.getModel(i,CardCollection.class);
-                CC.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        Chest ch= new Chest();
+//        ch.showReward();
+        initUserData();
+        showUserData();
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(DemoHandler.DEMO_MULTI_IDS, DemoHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
         addRequestHandler(InventoryHandler.INVENTORY_MULTI_IDS, InventoryHandler.class);
+        addRequestHandler(LobbyHandler.LOBBY_MULTI_IDS, LobbyHandler.class);
         registerHandler();
     }
 
@@ -149,7 +97,78 @@ public class FresherExtension extends BZExtension {
             trace("Ex monitor");
         }
     }
+    public void initUserData()
+    {
+        PlayerInfo pInfo=null;
 
+        for (int i = 1; i < 13; i++) {
+            pInfo = new PlayerInfo(i, "username" + i,2000,2000,i);
+            try {
+                pInfo.saveModel(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ShopItemList SIL= new ShopItemList(i, ShopItemDefine.GoldBanner);
+            //SIL.show();
+            try {
+                SIL.saveModel(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            DailyItemList DIL= new DailyItemList(i);
+            //DIL.show();
+            try {
+                DIL.saveModel(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            CardCollection CC = new CardCollection(i);
+            try {
+                CC.saveModel(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            LobbyChestContainer userLobbyChest = new LobbyChestContainer();
+            try {
+                userLobbyChest.saveModel(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void showUserData()
+    {
+        //List<User> allUser = ExtensionUtility.globalUserManager.getAllUsers();
+        //List<User> allUser = BitZeroServer.getInstance().getUserManager().getAllUsers();
+        //System.out.println(allUser.size());
+        PlayerInfo pInfo=null;
+        for (int i = 1; i < 13; i++) {
+            try {
+                pInfo = (PlayerInfo) PlayerInfo.getModel(i, PlayerInfo.class);
+                pInfo.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                DailyItemList DIL= (DailyItemList) DailyItemList.getModel(i, DailyItemList.class);
+                //DIL.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                CardCollection CC= (CardCollection) CardCollection.getModel(i,CardCollection.class);
+                //CC.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                LobbyChestContainer userLobbyChest= (LobbyChestContainer) LobbyChestContainer.getModel(i, LobbyChestContainer.class);
+                userLobbyChest.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public void destroy() {
         List<User> allUser = ExtensionUtility.globalUserManager.getAllUsers();

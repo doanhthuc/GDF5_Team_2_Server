@@ -13,4 +13,8 @@ public class ShopItemDefine {
     public static int CAN_BUY=1;
     public static int CAN_NOT_BUY=0;
     public static int DAILY_CHEST_PRICE=600;
+    public static int PRICE_PER_CARD=10;
+    public static int MIN_CARD=5;
+    public static int MAX_CARD=10;
+    public static int MULTI=10;
 }

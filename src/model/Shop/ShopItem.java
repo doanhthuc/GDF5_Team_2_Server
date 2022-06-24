@@ -46,12 +46,14 @@ public class ShopItem extends Item implements purchaseType{
     }
     public void randomCardItem(){
         Random random= new Random();
-        this.itemType= random.nextInt(ItemDefine.CARDAMOUNT)+1;
-        this.quantity= (random.nextInt(6)+5)*10;
-        this.price=this.quantity*10;
+        this.itemType= random.nextInt(ItemDefine.CARDAMOUNT);
+        this.quantity= (random.nextInt(ShopItemDefine.MAX_CARD+1)+ShopItemDefine.MAX_CARD-ShopItemDefine.MIN_CARD)*10;
+        this.price=this.quantity*ShopItemDefine.PRICE_PER_CARD;
         this.state= ShopItemDefine.CAN_BUY;
     }
     public int getPrice(){ return this.price; }
+    public int getState(){ return this.state; }
+    public void setState(int state) { this.state=state;}
     public void purchase(){
     }
 }

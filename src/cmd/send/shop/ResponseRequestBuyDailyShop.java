@@ -9,7 +9,7 @@ public class ResponseRequestBuyDailyShop extends BaseMsg {
     public ShopDTO shopDTO;
     public short error;
     public ResponseRequestBuyDailyShop(short _error, ShopDTO shopDTO) {
-        super(CmdDefine.BUY_GOLD_SHOP);
+        super(CmdDefine.BUY_DAILY_SHOP);
         this.shopDTO=shopDTO;
         error= _error;
     }
@@ -17,6 +17,7 @@ public class ResponseRequestBuyDailyShop extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
+        System.out.println("ResponseRequestBuyDailyShop");
         bf.putInt(shopDTO.getGoldChange());
         bf.putInt(shopDTO.getGemChange());
         bf.putInt(shopDTO.itemList.size());

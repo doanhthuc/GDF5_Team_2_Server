@@ -10,8 +10,8 @@ public class Chest {
     public ArrayList<Item> reward= new ArrayList<Item>();
     public int cardSlot;
     public Chest(){
-        this.chesttype=1;
-        this.cardSlot=2;
+        this.chesttype=ChestDefine.BRONZE_CHEST;
+        this.cardSlot=ChestDefine.CARD_SLOT;
         this.randomRewardItem(chesttype,cardSlot);
     }
     public Chest(int chesttype, int cardSlot)
@@ -32,15 +32,13 @@ public class Chest {
 
     public void randomRewardItem(int type, int cardSlot)
     {
-
         Random random = new Random();
-        int goldquantity= random.nextInt(10)+10;
+        int goldquantity= random.nextInt(ChestDefine.MAXGOLD-ChestDefine.MINGOLD)+ChestDefine.MINGOLD;
         Item GoldItem= new Item(ItemDefine.GOLDTYPE,goldquantity);
         this.addReward(GoldItem);
-
         for(int i=1;i<=cardSlot;i++)
         {
-            int cardtype = random.nextInt(ItemDefine.CARDAMOUNT)+1;
+            int cardtype = random.nextInt(ItemDefine.CARDAMOUNT);
             int quantity = random.nextInt(ChestDefine.MAXCARD-ChestDefine.MINCARD)+ChestDefine.MINCARD;
             this.reward.add(new Item(cardtype,quantity));
         }

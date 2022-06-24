@@ -19,9 +19,9 @@ public class NotifyController extends BaseServerEventHandler {
     @Override
     public void handleServerEvent(IBZEvent ibzEvent) throws BZException {
 
-        if (ibzEvent.getType() == DemoEventType.CHANGE_POSITION)
-            processChangePosition((User) ibzEvent.getParameter(DemoEventParam.USER),
-                    (Point) ibzEvent.getParameter(DemoEventParam.POSITION));
+//        if (ibzEvent.getType() == DemoEventType.CHANGE_POSITION)
+//            processChangePosition((User) ibzEvent.getParameter(DemoEventParam.USER),
+//                    (Point) ibzEvent.getParameter(DemoEventParam.POSITION));
     }
 
     private void processChangePosition(User user, Point pos){
