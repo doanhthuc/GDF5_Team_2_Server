@@ -1,4 +1,0 @@
-04 Apr 2019 13:38:25,662 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher2
-04 Apr 2019 13:39:46,217 WARN  [pool-1-thread-3] DemoHandler     - processUserLoginSuccess, name = Fresher2
-04 Apr 2019 13:49:50,417 WARN  [pool-1-thread-9] DemoHandler     - processUserLoginSuccess, name = Fresher3
-04 Apr 2019 14:00:00,328 WARN  [pool-1-thread-15] DemoHandler     - processUserLoginSuccess, name = Fresher4

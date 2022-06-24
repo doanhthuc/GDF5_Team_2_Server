@@ -1,1 +1,0 @@
-21 Oct 2019 14:38:53,492 ERROR [main] bitzero.server.BitZeroServer     - bitzero.server.exceptions.BZRuntimeException Provided Event Handler does not implement IServerEventHandler: class service.DemoHandler, Cmd: LOGIN_SUCCESS

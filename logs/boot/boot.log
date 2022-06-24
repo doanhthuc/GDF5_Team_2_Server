@@ -1,6 +1,0 @@
-24 Jun 2022 13:45:34,287 WARN  [main] bootLogger     - Was not able to bind socket: { 0.0.0.0:10072, TCP }
-24 Jun 2022 13:45:34,292 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!
-24 Jun 2022 13:45:43,944 WARN  [main] bootLogger     - Was not able to bind socket: { 0.0.0.0:10072, TCP }
-24 Jun 2022 13:45:43,946 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!
-24 Jun 2022 13:46:03,796 WARN  [main] bootLogger     - Was not able to bind socket: { 0.0.0.0:10072, TCP }
-24 Jun 2022 13:46:03,798 ERROR [main] bootLogger     - No bound sockets! Check the boot logs for possible problems!

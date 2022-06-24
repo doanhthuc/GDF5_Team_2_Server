@@ -1,2 +1,0 @@
-15 Jun 2022 15:12:34,043 ERROR [main] bitzero.server.BitZeroServer     - java.lang.NullPointerException *** Null ***
-15 Jun 2022 16:26:56,909 ERROR [bitzero.server.controllers.ExtensionController-2] server.controllers.ExtensionController     - bitzero.server.exceptions.BZRuntimeException Request handler not found: '1001'. Make sure the handler is registered in your extension using addRequestHandler()
