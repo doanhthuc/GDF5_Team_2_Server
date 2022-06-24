@@ -24,7 +24,7 @@ public class RequestBuyDailyShop extends BaseCmd {
         try {
             itemId = readInt(bf);
         } catch (Exception e) {
-            itemId = readInt(bf);
+            itemId = SHOPDAILY_ID_DEFAULT;
             CommonHandle.writeErrLog(e);
         }
     }

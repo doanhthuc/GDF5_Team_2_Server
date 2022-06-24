@@ -1,4 +1,4 @@
-package cmd.receive.demo;
+package cmd.receive.lobby;
 
 import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;
@@ -10,10 +10,9 @@ import java.nio.ByteBuffer;
  * Created by hieupt on 11/8/18.
  * all packet receive from client will extends BaseCmd and override unpackData() function
  */
-public class RequestSetName extends BaseCmd {
-    public static final String NAME_DEFAULT = "default";
-    private String name;
-    public RequestSetName(DataCmd dataCmd) {
+public class RequestLobbyChest extends BaseCmd {
+    private int lobbyChestId;
+    public RequestLobbyChest(DataCmd dataCmd) {
         super(dataCmd);
         unpackData();
     }
@@ -22,14 +21,14 @@ public class RequestSetName extends BaseCmd {
     public void unpackData() {
         ByteBuffer bf = makeBuffer();
         try {
-            name = readString(bf);
+            lobbyChestId = readInt(bf);
         } catch (Exception e) {
-            name = NAME_DEFAULT;
+            lobbyChestId = -1;
             CommonHandle.writeErrLog(e);
         }
     }
 
-    public String getName(){
-        return name;
+    public int getLobbyChestId(){
+        return this.lobbyChestId;
     }
 }

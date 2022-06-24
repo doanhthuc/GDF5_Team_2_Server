@@ -8,7 +8,6 @@ import bitzero.server.extensions.IServerEventHandler;
 import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
-import cmd.receive.demo.RequestSetName;
 import cmd.send.user.ResponseRequestUserInfo;
 import event.eventType.DemoEventParam;
 import event.eventType.DemoEventType;

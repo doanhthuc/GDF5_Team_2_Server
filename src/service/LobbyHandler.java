@@ -125,7 +125,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
             }
             System.out.println("Inventory Handle ProcessUpgradeCard");
             LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
-            int lobbychestId = rq.getLobbychestId();
+            int lobbychestId = rq.getLobbyChestId();
             if (userLobbyChest.lobbyChestContainer.get(lobbychestId).getState() == LobbyChestDefine.NOT_OPENING_STATE) {
                 userLobbyChest.lobbyChestContainer.get(lobbychestId).unlock();
                 userLobbyChest.saveModel(userInfo.getId());
@@ -150,7 +150,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
             System.out.println("Lobby Handle ProcessSpeedUpLobbyChest");
             LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
             userLobbyChest.update();
-            int lobbychestId = rq.getLobbychestId();
+            int lobbychestId = rq.getLobbyChestId();
             LobbyChest lobbyChest_to_speedup = userLobbyChest.lobbyChestContainer.get(lobbychestId);
             if (lobbyChest_to_speedup.getState() == LobbyChestDefine.OPENING_STATE) {
                long remainingTime = lobbyChest_to_speedup.getRemainingTime();
@@ -185,7 +185,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
             System.out.println("Lobby Handle ProcessClaimLobbyChest");
             LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
             userLobbyChest.update();
-            int lobbychestId = rq.getLobbychestId();
+            int lobbychestId = rq.getLobbyChestId();
             LobbyChest lobbyChest_to_claim=userLobbyChest.lobbyChestContainer.get(lobbychestId);
             if (lobbyChest_to_claim.getState() == LobbyChestDefine.CLAIMABLE_STATE) {
                 int gemRequire = 0;

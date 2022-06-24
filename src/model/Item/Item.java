@@ -1,7 +1,4 @@
 package model.Item;
-
-import cmd.obj.demo.DemoDirection;
-import cmd.obj.demo.MaxPosition;
 import util.database.DataModel;
 import util.server.ServerConstant;
 
