@@ -15,6 +15,10 @@ public class CmdDefine {
     public static final short UPGRADE_CARD = 3002;
 
     public static final short GET_USER_LOBBY_CHEST =4001;
+    public static final short UNLOCK_LOBBY_CHEST =4002;
+    public static final short SPEEDUP_LOBBY_CHEST =4003;
+    public static final short CLAIM_LOBBY_CHEST =4004;
+
     //Log cmd
     //public static final short MOVE_OLD = 2001;
 

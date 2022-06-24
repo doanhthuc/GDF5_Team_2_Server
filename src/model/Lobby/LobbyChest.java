@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class LobbyChest extends Chest {
     private int state;
-    private long claimTime=0;
+    private long claimTime = 0;
 
     public LobbyChest(int state) {
         this.state = state;
@@ -31,18 +31,24 @@ public class LobbyChest extends Chest {
         }
     }
 
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public void updateChest() {
         if ((this.state == LobbyChestDefine.OPENING_STATE)
                 && (this.claimTime <= System.currentTimeMillis())) this.state = LobbyChestDefine.CLAIMABLE_STATE;
     }
-    public long getRemainingTime()
-    {
-        return (this.claimTime- System.currentTimeMillis());
+
+    public long getRemainingTime() {
+        return (this.claimTime - System.currentTimeMillis());
     }
-    public long getClaimTime(){
+
+    public long getClaimTime() {
         return this.claimTime;
     }
-    public int getState(){
+
+    public int getState() {
         return this.state;
     }
 }

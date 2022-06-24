@@ -23,7 +23,7 @@ public class ResponseRequestGetUserLobbyChest extends BaseMsg {
         for(int i=0;i<this.lcc.lobbyChestContainer.size();i++)
         {
             int state=this.lcc.lobbyChestContainer.get(i).getState();
-            long claimTime= (long)this.lcc.lobbyChestContainer.get(i).getClaimTime();
+            long claimTime= this.lcc.lobbyChestContainer.get(i).getClaimTime();
             System.out.println(state+" "+claimTime);
             bf.putInt(state);
             bf.putLong(claimTime);

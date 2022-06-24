@@ -55,10 +55,7 @@ public class InventoryHandler extends BaseClientRequestHandler {
     }
 
     public void handleServerEvent(IBZEvent ibzevent) {
-        if (ibzevent.getType() == BZEventType.USER_DISCONNECT)
-            this.userDisconnect((User) ibzevent.getParameter(BZEventParam.USER));
-        else if (ibzevent.getType() == DemoEventType.CHANGE_NAME)
-            this.userChangeName((User) ibzevent.getParameter(DemoEventParam.USER), (String)ibzevent.getParameter(DemoEventParam.NAME));
+
     }
 
     public void handleClientRequest(User user, DataCmd dataCmd) {
@@ -80,7 +77,7 @@ public class InventoryHandler extends BaseClientRequestHandler {
     }
 
     private void processGetUserInventory(User user){
-        System.out.println("InventoryHandler "+" processGetUserInventory");
+        System.out.println("InventoryHandler processGetUserInventory");
         try{
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo==null){

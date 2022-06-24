@@ -13,11 +13,13 @@ public class LobbyChestContainer extends DataModel {
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.NOT_OPENING_STATE));
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.OPENING_STATE,10800*1000));
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.CLAIMABLE_STATE));
+        this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.EMPTY_STATE));
     }
-    public void addLobbyChest(LobbyChest lc)
+    public void addLobbyChest()
     {
-        if (this.lobbyChestContainer.size()>=4) return;
-        this.lobbyChestContainer.add(lc);
+        for(int i=0;i<this.lobbyChestContainer.size();i++)
+            if (this.lobbyChestContainer.get(i).getState()==LobbyChestDefine.EMPTY_STATE)
+                this.lobbyChestContainer.get(i).setState(LobbyChestDefine.OPENING_STATE);
     }
     public void show()
     {
@@ -35,5 +37,8 @@ public class LobbyChestContainer extends DataModel {
                     break;
             }
         }
+    }
+    public void update(){
+        for(int i=0;i<this.lobbyChestContainer.size();i++) this.lobbyChestContainer.get(i).updateChest();
     }
 }
