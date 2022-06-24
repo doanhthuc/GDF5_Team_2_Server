@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 public class RequestAddGem extends BaseCmd {
     public static final int GEM_DEFAULT = 0;
     private int gem;
+
     public RequestAddGem(DataCmd dataCmd) {
         super(dataCmd);
         unpackData();
@@ -29,7 +30,7 @@ public class RequestAddGem extends BaseCmd {
         }
     }
 
-    public int getGem(){
+    public int getGem() {
         return this.gem;
     }
 }

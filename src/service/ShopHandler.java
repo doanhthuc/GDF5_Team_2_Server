@@ -1,7 +1,6 @@
 package service;
 
 import bitzero.server.BitZeroServer;
-import bitzero.server.core.BZEventParam;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
@@ -10,24 +9,21 @@ import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.receive.shop.RequestBuyDailyShop;
 import cmd.receive.shop.RequestBuyGoldShop;
-import cmd.send.inventory.ResponseRequestGetUserInventory;
 import cmd.send.shop.ResponseRequestBuyDailyShop;
 import cmd.send.shop.ResponseRequestBuyGoldShop;
 import cmd.send.shop.ResponseRequestGetUserDailyShop;
-import event.eventType.DemoEventParam;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
 import model.Chest.Chest;
-import model.Inventory.Card;
 import model.Inventory.CardCollection;
 import model.Item.Item;
 import model.Item.ItemDefine;
 import model.PlayerInfo;
-import model.Shop.*;
 import model.Shop.ItemList.DailyItemList;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.Shop.ShopDTO;
+import model.Shop.ShopItem;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +56,10 @@ public class ShopHandler extends BaseClientRequestHandler {
 
     public void handleServerEvent(IBZEvent ibzevent) {
 
-        if (ibzevent.getType() == BZEventType.USER_DISCONNECT)
-            this.userDisconnect((User) ibzevent.getParameter(BZEventParam.USER));
-        else if (ibzevent.getType() == DemoEventType.CHANGE_NAME)
-            this.userChangeName((User) ibzevent.getParameter(DemoEventParam.USER), (String) ibzevent.getParameter(DemoEventParam.NAME));
+//        if (ibzevent.getType() == BZEventType.USER_DISCONNECT)
+//            this.userDisconnect((User) ibzevent.getParameter(BZEventParam.USER));
+//        else if (ibzevent.getType() == DemoEventType.CHANGE_NAME)
+//            this.userChangeName((User) ibzevent.getParameter(DemoEventParam.USER), (String) ibzevent.getParameter(DemoEventParam.NAME));
     }
 
     public void handleClientRequest(User user, DataCmd dataCmd) {
@@ -95,16 +91,15 @@ public class ShopHandler extends BaseClientRequestHandler {
                 logger.info("PlayerInfo null");
             }
             System.out.println("ShopHandle ProcessBuyDailyShop");
-            DailyItemList DIL = (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
-            ShopItem item_to_buy = DIL.itemList.get(rq.getId());
-            int goldchange = -item_to_buy.getPrice();
-            if ((verifyPurchase(userInfo.getGold(), item_to_buy.getPrice()) == true)
-                    && (item_to_buy.getState()== ShopItemDefine.CAN_BUY))
-            {
+            DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
+            ShopItem itemToBuy = dailyShop.itemList.get(rq.getId());
+            int goldchange = -itemToBuy.getPrice();
+            if ((verifyPurchase(userInfo.getGold(), itemToBuy.getPrice()) == true)
+                    && (itemToBuy.getState() == ShopItemDefine.CAN_BUY)) {
                 userInfo.addGold(goldchange);
                 CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(), CardCollection.class);
 
-                if (item_to_buy.getItemType() == ItemDefine.CHESTYPE) {
+                if (itemToBuy.getItemType() == ItemDefine.CHESTYPE) {
                     Chest ch = new Chest();
                     ArrayList<Item> reward = ch.getChestReward();
                     for (int i = 0; i < reward.size(); i++) {
@@ -114,18 +109,16 @@ public class ShopHandler extends BaseClientRequestHandler {
                         else userCardCollection.updateCard(item.getItemType(), item.getQuantity());
                     }
                     send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, reward)), user);
-                    }
-                else {
-                    userCardCollection.updateCard(item_to_buy.getItemType(), item_to_buy.getQuantity());
+                } else {
+                    userCardCollection.updateCard(itemToBuy.getItemType(), itemToBuy.getQuantity());
                     ArrayList<Item> itemList = new ArrayList<Item>();
-                    itemList.add(item_to_buy);
+                    itemList.add(itemToBuy);
                     send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, itemList)), user);
-                    }
-                DIL.itemList.get(rq.getId()).setState(ShopItemDefine.CAN_NOT_BUY);
+                }
+                dailyShop.itemList.get(rq.getId()).setState(ShopItemDefine.CAN_NOT_BUY);
                 userInfo.saveModel(userInfo.getId());
                 userCardCollection.saveModel(userInfo.getId());
-//                userInfo.show();
-//                userCardCollection.show();
+                dailyShop.saveModel(userInfo.getId());
             } else {
                 send(new ResponseRequestBuyDailyShop(ShopError.ERROR.getValue(), new ShopDTO(0, 0)), user);
             }
@@ -139,18 +132,18 @@ public class ShopHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
-                //send(new ResponseGetName(UserHandler.UserError.PLAYERINFO_NULL.getValue(), ""), user);
             }
             System.out.println("Shophandler ProcessBuyShopGold");
-            ShopItemList SIL = (ShopItemList) ShopItemList.getModel(userInfo.getId(), ShopItemList.class);
-            ShopItem item_to_buy = SIL.itemList.get(rqBuyGold.getId());
-            int gemchange = -item_to_buy.getPrice();
-            int goldchange = item_to_buy.getQuantity();
+            ShopItemList goldShop = (ShopItemList) ShopItemList.getModel(userInfo.getId(), ShopItemList.class);
+            ShopItem item_to_buy = goldShop.itemList.get(rqBuyGold.getId());
+            int gemChange = -item_to_buy.getPrice();
+            int goldChange = item_to_buy.getQuantity();
+            System.out.println(gemChange+" "+goldChange);
             if (verifyPurchase(userInfo.getGem(), item_to_buy.getPrice()) == true) {
-                userInfo.addGem(gemchange);
-                userInfo.addGold(goldchange);
+                userInfo.addGem(gemChange);
+                userInfo.addGold(goldChange);
                 userInfo.saveModel(userInfo.getId());
-                send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, gemchange)), user);
+                send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldChange, gemChange)), user);
             } else {
                 send(new ResponseRequestBuyGoldShop(ShopError.ERROR.getValue(), new ShopDTO(0, 0)), user);
             }
@@ -168,17 +161,17 @@ public class ShopHandler extends BaseClientRequestHandler {
                 //send(new ResponseGetName(DemoHandler.DemoError.PLAYERINFO_NULL.getValue(), ""), user);
             }
             logger.info("get inventoryID " + userInfo.getId());
-            DailyItemList DIL = (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
+            DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
             //usercardCollection.show();
-            send(new ResponseRequestGetUserDailyShop(ShopHandler.ShopError.SUCCESS.getValue(), DIL), user);
+            send(new ResponseRequestGetUserDailyShop(ShopHandler.ShopError.SUCCESS.getValue(), dailyShop), user);
         } catch (Exception e) {
             logger.info("processGetName exception");
             //send(new ResponseGetName(DemoHandler.DemoError.EXCEPTION.getValue(), ""), user);
         }
     }
 
-    private boolean verifyPurchase(int userResource, int itemprice) {
-        return (userResource >= itemprice);
+    private boolean verifyPurchase(int userResource, int itemPrice) {
+        return (userResource >= itemPrice);
     }
 
     private void userDisconnect(User user) {
@@ -193,10 +186,6 @@ public class ShopHandler extends BaseClientRequestHandler {
     public enum ShopError {
         SUCCESS((short) 0),
         ERROR((short) 1),
-        PLAYERINFO_NULL((short) 2),
-        EXCEPTION((short) 3),
-        INVALID_PARAM((short) 4),
-        VISITED((short) 5),
         ;
 
 

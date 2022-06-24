@@ -3,23 +3,20 @@ package model.Lobby;
 import model.Chest.Chest;
 import model.Chest.ChestDefine;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 public class LobbyChest extends Chest {
     private int state;
-    private long claimTime=0;
+    private long claimTime = 0;
 
     public LobbyChest(int state) {
         this.state = state;
-        this.chesttype = ChestDefine.BRONZE_CHEST;
+        this.chestType = ChestDefine.BRONZE_CHEST;
         this.cardSlot = ChestDefine.CARD_SLOT;
         if (this.state == LobbyChestDefine.CLAIMABLE_STATE) this.claimTime = System.currentTimeMillis();
     }
 
     public LobbyChest(int state, long remainingTime) {
         this.state = LobbyChestDefine.OPENING_STATE;
-        this.chesttype = ChestDefine.BRONZE_CHEST;
+        this.chestType = ChestDefine.BRONZE_CHEST;
         this.cardSlot = ChestDefine.CARD_SLOT;
         this.claimTime = System.currentTimeMillis() + remainingTime;
     }
@@ -31,18 +28,24 @@ public class LobbyChest extends Chest {
         }
     }
 
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public void updateChest() {
         if ((this.state == LobbyChestDefine.OPENING_STATE)
                 && (this.claimTime <= System.currentTimeMillis())) this.state = LobbyChestDefine.CLAIMABLE_STATE;
     }
-    public long getRemainingTime()
-    {
-        return (this.claimTime- System.currentTimeMillis());
+
+    public long getRemainingTime() {
+        return (this.claimTime - System.currentTimeMillis());
     }
-    public long getClaimTime(){
+
+    public long getClaimTime() {
         return this.claimTime;
     }
-    public int getState(){
+
+    public int getState() {
         return this.state;
     }
 }

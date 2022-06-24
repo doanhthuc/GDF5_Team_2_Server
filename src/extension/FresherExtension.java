@@ -2,7 +2,6 @@ package extension;
 
 
 import bitzero.engine.sessions.ISession;
-import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
 import bitzero.server.core.BZEventType;
 import bitzero.server.entities.User;
@@ -16,18 +15,12 @@ import bitzero.util.socialcontroller.bean.UserInfo;
 import cmd.receive.authen.RequestLogin;
 import event.eventType.DemoEventType;
 import event.handler.LoginSuccessHandler;
-import event.handler.LogoutHandler;
-import event.handler.NotifyController;
-import model.Chest.Chest;
-import model.Inventory.Card;
 import model.Inventory.CardCollection;
 import model.Lobby.LobbyChestContainer;
-import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
 import model.Shop.ItemList.DailyItemList;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
-import model.Shop.ShopItem;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.*;
@@ -39,13 +32,10 @@ import util.server.ServerLoop;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 
 public class FresherExtension extends BZExtension {
     private static String SERVERS_INFO =
-        ConfigHandle.instance().get("servers_key") == null ? "servers" : ConfigHandle.instance().get("servers_key");
+            ConfigHandle.instance().get("servers_key") == null ? "servers" : ConfigHandle.instance().get("servers_key");
 
     private ServerLoop svrLoop;
 
@@ -60,9 +50,6 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
-
-//        Chest ch= new Chest();
-//        ch.showReward();
         initUserData();
         showUserData();
         trace("  Register Handler ");
@@ -97,78 +84,49 @@ public class FresherExtension extends BZExtension {
             trace("Ex monitor");
         }
     }
-    public void initUserData()
-    {
-        PlayerInfo pInfo=null;
+
+    public void initUserData() {
+        PlayerInfo pInfo = null;
 
         for (int i = 1; i < 13; i++) {
-            pInfo = new PlayerInfo(i, "username" + i,2000,2000,i);
-            try {
-                pInfo.saveModel(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            ShopItemList SIL= new ShopItemList(i, ShopItemDefine.GoldBanner);
-            //SIL.show();
-            try {
-                SIL.saveModel(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            DailyItemList DIL= new DailyItemList(i);
-            //DIL.show();
-            try {
-                DIL.saveModel(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            CardCollection CC = new CardCollection(i);
-            try {
-                CC.saveModel(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            pInfo = new PlayerInfo(i, "username" + i, 2000, 2000, i);
+            ShopItemList goldShop = new ShopItemList(i, ShopItemDefine.GoldBanner);
+            DailyItemList dailyShop = new DailyItemList(i);
+            CardCollection userCardCollection = new CardCollection(i);
             LobbyChestContainer userLobbyChest = new LobbyChestContainer();
             try {
+                pInfo.saveModel(i);
+                goldShop.saveModel(i);
+                dailyShop.saveModel(i);
+                userCardCollection.saveModel(i);
                 userLobbyChest.saveModel(i);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-    public void showUserData()
-    {
+
+    public void showUserData() {
         //List<User> allUser = ExtensionUtility.globalUserManager.getAllUsers();
         //List<User> allUser = BitZeroServer.getInstance().getUserManager().getAllUsers();
         //System.out.println(allUser.size());
-        PlayerInfo pInfo=null;
+        PlayerInfo pInfo = null;
         for (int i = 1; i < 13; i++) {
             try {
                 pInfo = (PlayerInfo) PlayerInfo.getModel(i, PlayerInfo.class);
                 pInfo.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                DailyItemList DIL= (DailyItemList) DailyItemList.getModel(i, DailyItemList.class);
-                //DIL.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                CardCollection CC= (CardCollection) CardCollection.getModel(i,CardCollection.class);
-                //CC.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                LobbyChestContainer userLobbyChest= (LobbyChestContainer) LobbyChestContainer.getModel(i, LobbyChestContainer.class);
+                DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(i, DailyItemList.class);
+                dailyShop.show();
+                CardCollection userCardCollection = (CardCollection) CardCollection.getModel(i, CardCollection.class);
+                userCardCollection.show();
+                LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(i, LobbyChestContainer.class);
                 userLobbyChest.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
     @Override
     public void destroy() {
         List<User> allUser = ExtensionUtility.globalUserManager.getAllUsers();
@@ -190,19 +148,15 @@ public class FresherExtension extends BZExtension {
     }
 
     /**
-     *
      * @param cmdId
      * @param session
-     * @param objData
-     *
-     * the first packet send from client after handshake success will dispatch to doLogin() function
+     * @param objData the first packet send from client after handshake success will dispatch to doLogin() function
      */
     public void doLogin(short cmdId, ISession session, DataCmd objData) {
         RequestLogin reqGet = new RequestLogin(objData);
         reqGet.unpackData();
-        System.out.println("FresherExtension " + reqGet.userId+ " "+ reqGet.sessionKey);
         try {
-            if (PlayerInfo.getModel(reqGet.userId, PlayerInfo.class)==null) return;
+            if (PlayerInfo.getModel(reqGet.userId, PlayerInfo.class) == null) return;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -210,7 +164,7 @@ public class FresherExtension extends BZExtension {
         try {
             UserInfo uInfo = getUserInfo(reqGet.sessionKey, reqGet.userId, session.getAddress());
             User u = ExtensionUtility.instance().canLogin(uInfo, "", session);
-            if (u!=null)
+            if (u != null)
                 u.setProperty("userId", uInfo.getUserId());
         } catch (Exception e) {
             Debug.warn("DO LOGIN EXCEPTION " + e.getMessage());
@@ -221,7 +175,7 @@ public class FresherExtension extends BZExtension {
 
     public UserInfo getUserInfo(String username, int userId, String ipAddress) throws Exception {
         int customLogin = ServerConstant.CUSTOM_LOGIN;
-        switch(customLogin){
+        switch (customLogin) {
             case 1: // login zingme
                 return ExtensionUtility.getUserInfoFormPortal(username);
             case 2: // set direct userid
@@ -229,10 +183,10 @@ public class FresherExtension extends BZExtension {
             default: // auto increment
                 System.out.println("auto increment id");
                 return GuestLogin.newGuest();
-        }        
+        }
     }
 
-    private void registerHandler(){
+    private void registerHandler() {
         /**
          * register new event
          */

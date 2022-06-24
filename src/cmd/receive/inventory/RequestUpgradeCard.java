@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
  */
 public class RequestUpgradeCard extends BaseCmd {
     private int cardType;
+
     public RequestUpgradeCard(DataCmd dataCmd) {
         super(dataCmd);
         unpackData();
@@ -28,7 +29,7 @@ public class RequestUpgradeCard extends BaseCmd {
         }
     }
 
-    public int getcardType(){
+    public int getcardType() {
         return this.cardType;
     }
 }

@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 public class RequestAddGold extends BaseCmd {
     public static final int GOLD_DEFAULT = 0;
     private int gold;
+
     public RequestAddGold(DataCmd dataCmd) {
         super(dataCmd);
         unpackData();
@@ -29,7 +30,7 @@ public class RequestAddGold extends BaseCmd {
         }
     }
 
-    public int getGold(){
+    public int getGold() {
         return this.gold;
     }
 }

@@ -1,36 +1,34 @@
 package cmd.send.shop;
+
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
-import model.Inventory.CardCollection;
-import model.Item.Item;
-import model.PlayerInfo;
 import model.Shop.ItemList.DailyItemList;
 import model.Shop.ShopItem;
 
 import java.nio.ByteBuffer;
 
 public class ResponseRequestGetUserDailyShop extends BaseMsg {
-    public DailyItemList DIL;
+    public DailyItemList dailyShop;
     public short error;
-    public ResponseRequestGetUserDailyShop(short _error, DailyItemList DIL) {
+
+    public ResponseRequestGetUserDailyShop(short _error, DailyItemList dailyShop) {
         super(CmdDefine.GET_DAILY_SHOP);
-        this.DIL = DIL;
-        error= _error;
+        this.dailyShop = dailyShop;
+        error = _error;
     }
 
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putInt(this.DIL.getSize());
-        for(int i=0;i<this.DIL.getSize();i++)
-        {
-            ShopItem shopItem=this.DIL.itemList.get(i);
+        bf.putShort(error);
+        bf.putInt(this.dailyShop.getSize());
+        for (int i = 0; i < this.dailyShop.getSize(); i++) {
+            ShopItem shopItem = this.dailyShop.itemList.get(i);
             bf.putInt(shopItem.getItemType());
             bf.putInt(shopItem.getQuantity());
             bf.putInt(shopItem.getPrice());
             bf.putInt(shopItem.getState());
         }
-        System.out.println("ResponseRequestGetUserDailyShop");
         return packBuffer(bf);
     }
 }

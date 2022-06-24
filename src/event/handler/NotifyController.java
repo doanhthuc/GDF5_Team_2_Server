@@ -5,15 +5,9 @@ import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.exceptions.BZException;
 import bitzero.server.extensions.BaseServerEventHandler;
-import bitzero.util.common.business.Debug;
-import event.eventType.DemoEventParam;
-import event.eventType.DemoEventType;
-
 
 import java.awt.*;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NotifyController extends BaseServerEventHandler {
     @Override
