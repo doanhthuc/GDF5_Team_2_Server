@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 public class RequestBuyDailyShop extends BaseCmd {
     public static final int SHOPDAILY_ID_DEFAULT = 0;
     private int itemId;
+
     public RequestBuyDailyShop(DataCmd dataCmd) {
         super(dataCmd);
         unpackData();
@@ -29,7 +30,7 @@ public class RequestBuyDailyShop extends BaseCmd {
         }
     }
 
-    public int getId(){
+    public int getId() {
         return this.itemId;
     }
 }

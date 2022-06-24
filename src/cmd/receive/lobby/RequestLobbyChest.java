@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
  */
 public class RequestLobbyChest extends BaseCmd {
     private int lobbyChestId;
+
     public RequestLobbyChest(DataCmd dataCmd) {
         super(dataCmd);
         unpackData();
@@ -28,7 +29,7 @@ public class RequestLobbyChest extends BaseCmd {
         }
     }
 
-    public int getLobbyChestId(){
+    public int getLobbyChestId() {
         return this.lobbyChestId;
     }
 }

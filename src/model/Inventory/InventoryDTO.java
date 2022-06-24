@@ -1,9 +1,5 @@
 package model.Inventory;
 
-import model.Item.Item;
-
-import java.util.ArrayList;
-
 public class InventoryDTO {
     public int goldChange;
     public int cardType;

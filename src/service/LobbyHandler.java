@@ -1,7 +1,6 @@
 package service;
 
 import bitzero.server.BitZeroServer;
-import bitzero.server.core.BZEventParam;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
@@ -9,25 +8,13 @@ import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.receive.lobby.RequestLobbyChest;
-import cmd.receive.shop.RequestBuyDailyShop;
-import cmd.receive.shop.RequestBuyGoldShop;
-import cmd.send.inventory.ResponseRequestGetUserInventory;
-import cmd.send.inventory.ResponseRequestUpgradeCard;
 import cmd.send.lobby.ResponseRequestClaimLobbyChest;
 import cmd.send.lobby.ResponseRequestGetUserLobbyChest;
 import cmd.send.lobby.ResponseRequestSpeedUpLobbyChest;
 import cmd.send.lobby.ResponseRequestUnlockLobbyChest;
-import cmd.send.shop.ResponseRequestBuyDailyShop;
-import cmd.send.shop.ResponseRequestBuyGoldShop;
-import cmd.send.user.*;
-
-import event.eventType.DemoEventParam;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
-import model.Chest.ChestDefine;
-import model.Inventory.Card;
 import model.Inventory.CardCollection;
-import model.Inventory.InventoryDTO;
 import model.Item.Item;
 import model.Item.ItemDefine;
 import model.Lobby.LobbyChest;
@@ -35,10 +22,6 @@ import model.Lobby.LobbyChestContainer;
 import model.Lobby.LobbyChestDefine;
 import model.Lobby.LobbyDTO;
 import model.PlayerInfo;
-import model.Shop.ItemList.DailyItemList;
-import model.Shop.ItemList.ShopItemList;
-import model.Shop.ShopDTO;
-import model.Shop.ShopItem;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,12 +66,12 @@ public class LobbyHandler extends BaseClientRequestHandler {
                     processUnlockLobbyChest(rq, user);
                     break;
                 case CmdDefine.SPEEDUP_LOBBY_CHEST:
-                    RequestLobbyChest rqspeedup = new RequestLobbyChest(dataCmd);
-                    processSpeedUpLobbyChest(rqspeedup, user);
+                    RequestLobbyChest rqSpeedUp = new RequestLobbyChest(dataCmd);
+                    processSpeedUpLobbyChest(rqSpeedUp, user);
                     break;
                 case CmdDefine.CLAIM_LOBBY_CHEST:
-                    RequestLobbyChest rqclaim = new RequestLobbyChest(dataCmd);
-                    processClaimLobbyChest(rqclaim, user);
+                    RequestLobbyChest rqClaim = new RequestLobbyChest(dataCmd);
+                    processClaimLobbyChest(rqClaim, user);
                     break;
             }
         } catch (Exception e) {
@@ -150,22 +133,21 @@ public class LobbyHandler extends BaseClientRequestHandler {
             System.out.println("Lobby Handle ProcessSpeedUpLobbyChest");
             LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
             userLobbyChest.update();
-            int lobbychestId = rq.getLobbyChestId();
-            LobbyChest lobbyChest_to_speedup = userLobbyChest.lobbyChestContainer.get(lobbychestId);
+            int lobbyChestId = rq.getLobbyChestId();
+            LobbyChest lobbyChest_to_speedup = userLobbyChest.lobbyChestContainer.get(lobbyChestId);
             if (lobbyChest_to_speedup.getState() == LobbyChestDefine.OPENING_STATE) {
-               long remainingTime = lobbyChest_to_speedup.getRemainingTime();
+                long remainingTime = lobbyChest_to_speedup.getRemainingTime();
                 int gemRequire = (int) remainingTime / LobbyChestDefine.MILLISECOND_PER_GEM;
                 if ((verifyPurchase(userInfo.getGem(), gemRequire)) == true) {
                     userInfo.addGem(-gemRequire);
-                    userLobbyChest.lobbyChestContainer.get(lobbychestId).setState(LobbyChestDefine.EMPTY_STATE);
+                    userLobbyChest.lobbyChestContainer.get(lobbyChestId).setState(LobbyChestDefine.EMPTY_STATE);
                     userLobbyChest.saveModel(userInfo.getId());
-                    updateInventory(lobbyChest_to_speedup.getChestReward(),userInfo);
+                    updateInventory(lobbyChest_to_speedup.getChestReward(), userInfo);
                     send(new ResponseRequestSpeedUpLobbyChest(LobbyError.SUCCESS.getValue(),
-                            new LobbyDTO(lobbychestId, LobbyChestDefine.EMPTY_STATE, lobbyChest_to_speedup.getChestReward(), -gemRequire)), user);
-                }
-                else {
+                            new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChest_to_speedup.getChestReward(), -gemRequire)), user);
+                } else {
                     send(new ResponseRequestSpeedUpLobbyChest(LobbyError.ERROR.getValue(),
-                            new LobbyDTO(-1,-1,-1)), user);
+                            new LobbyDTO(-1, -1, -1)), user);
                 }
             } else {
                 send(new ResponseRequestUnlockLobbyChest(LobbyError.ERROR.getValue(),
@@ -175,6 +157,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
             logger.info("processGetName exception");
         }
     }
+
     private void processClaimLobbyChest(RequestLobbyChest rq, User user) {
         try {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
@@ -185,20 +168,19 @@ public class LobbyHandler extends BaseClientRequestHandler {
             System.out.println("Lobby Handle ProcessClaimLobbyChest");
             LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
             userLobbyChest.update();
-            int lobbychestId = rq.getLobbyChestId();
-            LobbyChest lobbyChest_to_claim=userLobbyChest.lobbyChestContainer.get(lobbychestId);
+            int lobbyChestId = rq.getLobbyChestId();
+            LobbyChest lobbyChest_to_claim = userLobbyChest.lobbyChestContainer.get(lobbyChestId);
             if (lobbyChest_to_claim.getState() == LobbyChestDefine.CLAIMABLE_STATE) {
                 int gemRequire = 0;
-                userLobbyChest.lobbyChestContainer.get(lobbychestId).setState(LobbyChestDefine.EMPTY_STATE);
-                updateInventory(lobbyChest_to_claim.getChestReward(),userInfo);
+                userLobbyChest.lobbyChestContainer.get(lobbyChestId).setState(LobbyChestDefine.EMPTY_STATE);
+                updateInventory(lobbyChest_to_claim.getChestReward(), userInfo);
                 send(new ResponseRequestClaimLobbyChest(LobbyError.SUCCESS.getValue(),
-                        new LobbyDTO(lobbychestId, LobbyChestDefine.EMPTY_STATE, lobbyChest_to_claim.getChestReward(), gemRequire)), user);
-                }
-                else {
-                    send(new ResponseRequestClaimLobbyChest(LobbyError.ERROR.getValue(),
-                            new LobbyDTO(-1,-1,-1)), user);
-                }
-            } catch (Exception exception) {
+                        new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChest_to_claim.getChestReward(), gemRequire)), user);
+            } else {
+                send(new ResponseRequestClaimLobbyChest(LobbyError.ERROR.getValue(),
+                        new LobbyDTO(-1, -1, -1)), user);
+            }
+        } catch (Exception exception) {
 
         }
     }
@@ -207,15 +189,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
         return userGold >= requireGold;
     }
 
-    private void userDisconnect(User user) {
-    }
-
-    private void userChangeName(User user, String name) {
-        List<User> allUser = BitZeroServer.getInstance().getUserManager().getAllUsers();
-        for (User aUser : allUser) {
-        }
-    }
-    private void updateInventory(ArrayList<Item> reward,PlayerInfo userInfo) throws Exception {
+    private void updateInventory(ArrayList<Item> reward, PlayerInfo userInfo) throws Exception {
         CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(), CardCollection.class);
         for (int i = 0; i < reward.size(); i++) {
             Item item = reward.get(i);
@@ -225,13 +199,10 @@ public class LobbyHandler extends BaseClientRequestHandler {
         userInfo.saveModel(userInfo.getId());
         userCardCollection.saveModel(userInfo.getId());
     }
+
     public enum LobbyError {
         SUCCESS((short) 0),
         ERROR((short) 1),
-        PLAYERINFO_NULL((short) 2),
-        EXCEPTION((short) 3),
-        INVALID_PARAM((short) 4),
-        VISITED((short) 5),
         ;
         private final short value;
 

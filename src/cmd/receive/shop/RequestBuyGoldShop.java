@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 public class RequestBuyGoldShop extends BaseCmd {
     public static final int GOLDSHOP_ID_DEFAULT = 0;
     private int itemId;
+
     public RequestBuyGoldShop(DataCmd dataCmd) {
         super(dataCmd);
         unpackData();
@@ -29,7 +30,7 @@ public class RequestBuyGoldShop extends BaseCmd {
         }
     }
 
-    public int getId(){
+    public int getId() {
         return this.itemId;
     }
 }

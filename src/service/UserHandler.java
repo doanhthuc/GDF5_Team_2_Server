@@ -10,8 +10,9 @@ import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.receive.user.RequestAddGem;
 import cmd.receive.user.RequestAddGold;
-import cmd.send.user.*;
-
+import cmd.send.user.ResponseAddGem;
+import cmd.send.user.ResponseAddGold;
+import cmd.send.user.ResponseRequestUserInfo;
 import event.eventType.DemoEventParam;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
@@ -98,7 +99,7 @@ public class UserHandler extends BaseClientRequestHandler {
             }
             userInfo.addGold(requestaddGold.getGold());
             userInfo.saveModel(userInfo.getId());
-            send(new ResponseAddGold(UserHandler.UserError.SUCCESS.getValue(), userInfo.getGold()), user);
+            send(new ResponseAddGold(UserHandler.UserError.SUCCESS.getValue(), requestaddGold.getGold()), user);
         } catch (Exception e) {
             logger.info("processGetName exception");
             //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);
@@ -114,7 +115,7 @@ public class UserHandler extends BaseClientRequestHandler {
             }
             userInfo.addGem(requestaddGem.getGem());
             userInfo.saveModel(userInfo.getId());
-            send(new ResponseAddGem(UserHandler.UserError.SUCCESS.getValue(), userInfo.getGem()), user);
+            send(new ResponseAddGem(UserHandler.UserError.SUCCESS.getValue(), requestaddGem.getGem()), user);
         } catch (Exception e) {
             logger.info("processGetName exception");
             //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);
@@ -133,10 +134,6 @@ public class UserHandler extends BaseClientRequestHandler {
     public enum UserError {
         SUCCESS((short) 0),
         ERROR((short) 1),
-        PLAYERINFO_NULL((short) 2),
-        EXCEPTION((short) 3),
-        INVALID_PARAM((short) 4),
-        VISITED((short) 5),
         ;
 
 
