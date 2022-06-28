@@ -99,7 +99,7 @@ public class ShopHandler extends BaseClientRequestHandler {
                 userInfo.addGold(goldchange);
                 CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(), CardCollection.class);
 
-                if (itemToBuy.getItemType() == ItemDefine.CHESTYPE) {
+                if (itemToBuy.getItemType() == ItemDefine.CHESTTYPE) {
                     Chest ch = new Chest();
                     ArrayList<Item> reward = ch.getChestReward();
                     for (int i = 0; i < reward.size(); i++) {

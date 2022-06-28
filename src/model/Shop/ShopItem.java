@@ -34,7 +34,7 @@ public class ShopItem extends Item {
 
     public void show() {
         if (this.itemType == ItemDefine.GOLDTYPE) System.out.print("GOLD");
-        else if (this.itemType == ItemDefine.CHESTYPE) System.out.print("CHEST");
+        else if (this.itemType == ItemDefine.CHESTTYPE) System.out.print("CHEST");
         else System.out.print("CARD" + this.itemType);
         System.out.print(" price=" + this.price);
         System.out.print(" quantity=" + this.quantity);

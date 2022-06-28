@@ -17,7 +17,7 @@ public class LobbyDTO {
         this.claimTime = claimTime;
     }
 
-    public LobbyDTO(int chestId, int state, ArrayList<Item> reward, int gemcChange) {
+    public LobbyDTO(int chestId, int state, ArrayList<Item> reward, int gemChange) {
         this.chestId = chestId;
         this.state = state;
         this.reward = reward;

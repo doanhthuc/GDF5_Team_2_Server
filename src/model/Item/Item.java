@@ -23,7 +23,7 @@ public class Item {
 
     public void show() {
         if (this.itemType == ItemDefine.GOLDTYPE) System.out.print("GOLD");
-        else if (this.itemType == ItemDefine.CHESTYPE) System.out.print("CHEST");
+        else if (this.itemType == ItemDefine.CHESTTYPE) System.out.print("CHEST");
         else System.out.print("CARD" + this.itemType);
         System.out.println(" quantity=" + this.quantity);
     }

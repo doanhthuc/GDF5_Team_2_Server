@@ -11,7 +11,7 @@ public class ItemDefine {
     public static int FIRE = 7;
     public static int SNOW = 8;
     public static int TRAP = 9;
-    public static int CHESTYPE = 10;
+    public static int CHESTTYPE = 10;
     public static int GOLDTYPE = 11;
     public static int CARDAMOUNT = 10;
 }

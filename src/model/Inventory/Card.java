@@ -17,6 +17,13 @@ public class Card {
         this.level = level;
         this.accumulate = accumulate;
     }
+    public Card(int Type, int level, int accumulate) {
+        this.cardType = Type;
+        this.decryption = "";
+        this.energy = 0;
+        this.level = level;
+        this.accumulate = accumulate;
+    }
 
     public int getCardType() {
         return this.cardType;
@@ -42,4 +49,11 @@ public class Card {
         return this.accumulate;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setAmount(int amount) {
+        this.accumulate = amount;
+    }
 }

@@ -35,7 +35,11 @@ public class LobbyChestContainer extends DataModel {
             }
         }
     }
-
+    public void setLobbyChest(int id,LobbyChest lc)
+    {
+        this.lobbyChestContainer.get(id).setState(lc.getState());
+        this.lobbyChestContainer.get(id).setClaimTime(lc.getClaimTime());
+    }
     public void update() {
         for (int i = 0; i < this.lobbyChestContainer.size(); i++) this.lobbyChestContainer.get(i).updateChest();
     }

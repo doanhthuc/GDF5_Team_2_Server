@@ -31,7 +31,9 @@ public class LobbyChest extends Chest {
     public void setState(int state) {
         this.state = state;
     }
-
+    public void setClaimTime(long claimTime) {
+        this.claimTime = claimTime;
+    }
     public void updateChest() {
         if ((this.state == LobbyChestDefine.OPENING_STATE)
                 && (this.claimTime <= System.currentTimeMillis())) this.state = LobbyChestDefine.CLAIMABLE_STATE;

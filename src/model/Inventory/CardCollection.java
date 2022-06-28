@@ -57,6 +57,11 @@ public class CardCollection extends DataModel {
         return CardDefine.fragmentToUpgrade.get(currentLevel);
     }
 
+    public void setCard(int cardType, int cardLevel, int cardAmount)
+    {
+        this.cardCollection.get(cardType).setLevel(cardLevel);
+        this.cardCollection.get(cardType).setAmount(cardAmount);
+    }
     public int getSize() {
         return this.cardCollection.size();
     }

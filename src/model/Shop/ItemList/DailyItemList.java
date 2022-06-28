@@ -9,7 +9,7 @@ public class DailyItemList extends ShopItemList {
     public DailyItemList(int id) {
         this.id = id;
         //System.out.println(("DailyItemList"));
-        this.itemList.add(new ShopItem(ItemDefine.CHESTYPE, 1, ShopItemDefine.CAN_BUY, ShopItemDefine.DAILY_CHEST_PRICE));
+        this.itemList.add(new ShopItem(ItemDefine.CHESTTYPE, 1, ShopItemDefine.CAN_BUY, ShopItemDefine.DAILY_CHEST_PRICE));
         for (int i = 1; i <= 2; i++) {
             ShopItem shopCardItem = new ShopItem();
             shopCardItem.randomCardItem();

@@ -52,6 +52,18 @@ public class PlayerInfo extends DataModel {
         this.gem += gem;
     }
 
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public void setGem(int gem) {
+        this.gem = gem;
+    }
+
+    public void setTrophy(int trophy) {
+        this.trophy = trophy;
+    }
+
     public void show() {
         System.out.print("id=" + this.id);
         System.out.print(" username=" + this.username);

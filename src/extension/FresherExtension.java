@@ -54,10 +54,10 @@ public class FresherExtension extends BZExtension {
         showUserData();
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
-        addRequestHandler(DemoHandler.DEMO_MULTI_IDS, DemoHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
         addRequestHandler(InventoryHandler.INVENTORY_MULTI_IDS, InventoryHandler.class);
         addRequestHandler(LobbyHandler.LOBBY_MULTI_IDS, LobbyHandler.class);
+        addRequestHandler(CheatHandler.CHEAT_MULTI_IDS, CheatHandler.class);
         registerHandler();
     }
 
@@ -114,13 +114,13 @@ public class FresherExtension extends BZExtension {
         for (int i = 1; i < 13; i++) {
             try {
                 pInfo = (PlayerInfo) PlayerInfo.getModel(i, PlayerInfo.class);
-                pInfo.show();
+                //pInfo.show();
                 DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(i, DailyItemList.class);
-                dailyShop.show();
+                //dailyShop.show();
                 CardCollection userCardCollection = (CardCollection) CardCollection.getModel(i, CardCollection.class);
-                userCardCollection.show();
+                //userCardCollection.show();
                 LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(i, LobbyChestContainer.class);
-                userLobbyChest.show();
+                ///userLobbyChest.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
