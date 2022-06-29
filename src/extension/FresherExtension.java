@@ -1,6 +1,7 @@
 package extension;
 
 
+import battle.BattleMap;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.config.ConfigHandle;
 import bitzero.server.core.BZEventType;
@@ -52,6 +53,12 @@ public class FresherExtension extends BZExtension {
          */
         initUserData();
         showUserData();
+        BattleMap btm= new BattleMap();
+        btm.genBuffTile();
+//        btm.show();
+//
+        btm.genPath();
+        btm.show();
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
