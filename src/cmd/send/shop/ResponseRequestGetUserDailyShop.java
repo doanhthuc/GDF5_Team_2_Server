@@ -16,6 +16,11 @@ public class ResponseRequestGetUserDailyShop extends BaseMsg {
         this.dailyShop = dailyShop;
         error = _error;
     }
+    public ResponseRequestGetUserDailyShop(short _error) {
+        super(CmdDefine.GET_DAILY_SHOP);
+        error = _error;
+    }
+
 
     @Override
     public byte[] createData() {

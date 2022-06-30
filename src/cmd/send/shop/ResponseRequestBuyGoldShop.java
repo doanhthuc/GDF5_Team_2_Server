@@ -15,6 +15,10 @@ public class ResponseRequestBuyGoldShop extends BaseMsg {
         this.shopDTO = shopDTO;
         error = _error;
     }
+    public ResponseRequestBuyGoldShop(short _error) {
+        super(CmdDefine.BUY_GOLD_SHOP);
+        error = _error;
+    }
 
     @Override
     public byte[] createData() {

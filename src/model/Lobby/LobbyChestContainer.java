@@ -5,9 +5,11 @@ import util.database.DataModel;
 import java.util.ArrayList;
 
 public class LobbyChestContainer extends DataModel {
+    long id;
     public ArrayList<LobbyChest> lobbyChestContainer = new ArrayList<LobbyChest>();
 
-    public LobbyChestContainer() {
+    public LobbyChestContainer(long id) {
+        this.id=id;
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.NOT_OPENING_STATE));
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.OPENING_STATE, 10800 * 1000));
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.CLAIMABLE_STATE));

@@ -15,6 +15,10 @@ public class ResponseRequestBuyDailyShop extends BaseMsg {
         this.shopDTO = shopDTO;
         error = _error;
     }
+    public ResponseRequestBuyDailyShop(short _error) {
+        super(CmdDefine.BUY_DAILY_SHOP);
+        error = _error;
+    }
 
     @Override
     public byte[] createData() {

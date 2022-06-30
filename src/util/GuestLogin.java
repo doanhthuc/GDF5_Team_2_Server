@@ -25,9 +25,9 @@ public class GuestLogin {
         return userInfo;
     }
     
-    public static UserInfo setInfo(int userId, String username) {
+    public static UserInfo setInfo(long userId, String username) {
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserId(Integer.toString(userId));
+        userInfo.setUserId(Long.toString(userId));
         userInfo.setUsername(username);
         userInfo.setHeadurl("");
 

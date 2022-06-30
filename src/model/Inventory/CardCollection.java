@@ -6,11 +6,11 @@ import util.database.DataModel;
 import java.util.ArrayList;
 
 public class CardCollection extends DataModel {
-    public int id;
+    public long id;
     public ArrayList<Card> cardCollection = new ArrayList<Card>();
     public ArrayList<Integer> battleDeck = new ArrayList<Integer>();
 
-    public CardCollection(int id) {
+    public CardCollection(long id) {
         this.id = id;
         this.cardCollection.add(new Card(ItemDefine.OWL, "", 6, 1, 50));
         this.cardCollection.add(new Card(ItemDefine.CROW, "", 9, 1, 50));

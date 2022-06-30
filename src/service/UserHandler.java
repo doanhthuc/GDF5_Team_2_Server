@@ -80,13 +80,12 @@ public class UserHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
-                //send(new ResponseGetName(DemoHandler.DemoError.PLAYERINFO_NULL.getValue(), ""), user);
+                send(new ResponseRequestUserInfo(UserError.USERINFO_NULL.getValue()), user);
             }
             logger.info("get name = " + userInfo.toString());
             send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
         } catch (Exception e) {
-            logger.info("processGetName exception");
-            //send(new ResponseGetName(DemoHandler.DemoError.EXCEPTION.getValue(), ""), user);
+            logger.info("processGetUserInfo exception");
         }
     }
 
@@ -95,14 +94,13 @@ public class UserHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
-                //  send(new ResponseGetName(UserHandler.UserError.PLAYERINFO_NULL.getValue(), ""), user);
+                send(new ResponseRequestUserInfo(UserError.USERINFO_NULL.getValue()), user);
             }
             userInfo.addGold(requestaddGold.getGold());
             userInfo.saveModel(userInfo.getId());
             send(new ResponseAddGold(UserHandler.UserError.SUCCESS.getValue(), requestaddGold.getGold()), user);
         } catch (Exception e) {
-            logger.info("processGetName exception");
-            //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);
+            logger.info("processAddUserGold exception");
         }
     }
 
@@ -111,14 +109,13 @@ public class UserHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
-                //  send(new ResponseGetName(UserHandler.UserError.PLAYERINFO_NULL.getValue(), ""), user);
+                send(new ResponseRequestUserInfo(UserError.USERINFO_NULL.getValue()), user);
             }
             userInfo.addGem(requestaddGem.getGem());
             userInfo.saveModel(userInfo.getId());
             send(new ResponseAddGem(UserHandler.UserError.SUCCESS.getValue(), requestaddGem.getGem()), user);
         } catch (Exception e) {
-            logger.info("processGetName exception");
-            //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);
+            logger.info("processAddUserGem exception");
         }
     }
 
@@ -134,6 +131,7 @@ public class UserHandler extends BaseClientRequestHandler {
     public enum UserError {
         SUCCESS((short) 0),
         ERROR((short) 1),
+        USERINFO_NULL((short)1),
         ;
 
 

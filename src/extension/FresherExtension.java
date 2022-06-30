@@ -51,14 +51,11 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
-        initUserData();
-        showUserData();
-        BattleMap btm= new BattleMap();
-        btm.genBuffTile();
-//        btm.show();
-//
-        btm.genPath();
-        btm.show();
+//      BattleMap btm= new BattleMap();
+//      btm.genBuffTile();
+//      btm.show();
+//      btm.genPath();
+//      btm.show();
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
@@ -92,47 +89,34 @@ public class FresherExtension extends BZExtension {
         }
     }
 
-    public void initUserData() {
-        PlayerInfo pInfo = null;
+    public void initUserData(long userID) {
+        ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
+        DailyItemList dailyShop = new DailyItemList(userID);
+        CardCollection userCardCollection = new CardCollection(userID);
+        LobbyChestContainer userLobbyChest = new LobbyChestContainer(userID);
+        try {
+            goldShop.saveModel(userID);
+            dailyShop.saveModel(userID);
+            userCardCollection.saveModel(userID);
+            userLobbyChest.saveModel(userID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        for (int i = 1; i < 13; i++) {
-            pInfo = new PlayerInfo(i, "username" + i, 2000, 2000, i);
-            ShopItemList goldShop = new ShopItemList(i, ShopItemDefine.GoldBanner);
-            DailyItemList dailyShop = new DailyItemList(i);
-            CardCollection userCardCollection = new CardCollection(i);
-            LobbyChestContainer userLobbyChest = new LobbyChestContainer();
+
+    public void showUserData(int userId) {
             try {
-                pInfo.saveModel(i);
-                goldShop.saveModel(i);
-                dailyShop.saveModel(i);
-                userCardCollection.saveModel(i);
-                userLobbyChest.saveModel(i);
+                DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userId, DailyItemList.class);
+                dailyShop.show();
+                CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userId, CardCollection.class);
+                userCardCollection.show();
+                LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userId, LobbyChestContainer.class);
+                userLobbyChest.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void showUserData() {
-        //List<User> allUser = ExtensionUtility.globalUserManager.getAllUsers();
-        //List<User> allUser = BitZeroServer.getInstance().getUserManager().getAllUsers();
-        //System.out.println(allUser.size());
-        PlayerInfo pInfo = null;
-        for (int i = 1; i < 13; i++) {
-            try {
-                pInfo = (PlayerInfo) PlayerInfo.getModel(i, PlayerInfo.class);
-                //pInfo.show();
-                DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(i, DailyItemList.class);
-                //dailyShop.show();
-                CardCollection userCardCollection = (CardCollection) CardCollection.getModel(i, CardCollection.class);
-                //userCardCollection.show();
-                LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(i, LobbyChestContainer.class);
-                ///userLobbyChest.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public void destroy() {
@@ -162,25 +146,29 @@ public class FresherExtension extends BZExtension {
     public void doLogin(short cmdId, ISession session, DataCmd objData) {
         RequestLogin reqGet = new RequestLogin(objData);
         reqGet.unpackData();
+        System.out.println(reqGet.userId);
         try {
-            if (PlayerInfo.getModel(reqGet.userId, PlayerInfo.class) == null) return;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            UserInfo uInfo = getUserInfo(reqGet.sessionKey, reqGet.userId, session.getAddress());
+            PlayerInfo userInfo;
+            if (PlayerInfo.getModel(reqGet.userId, PlayerInfo.class) == null) {
+                userInfo = new PlayerInfo(reqGet.userId, "username" + reqGet.userId, 2000, 2000, 0);
+                userInfo.show();
+                userInfo.saveModel(userInfo.getId());
+                initUserData(userInfo.getId());
+            } else {
+                userInfo = (PlayerInfo) PlayerInfo.getModel(reqGet.userId, PlayerInfo.class);
+            }
+            UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
             User u = ExtensionUtility.instance().canLogin(uInfo, "", session);
             if (u != null)
                 u.setProperty("userId", uInfo.getUserId());
         } catch (Exception e) {
+            e.printStackTrace();
             Debug.warn("DO LOGIN EXCEPTION " + e.getMessage());
             Debug.warn(ExceptionUtils.getStackTrace(e));
         }
-
     }
 
-    public UserInfo getUserInfo(String username, int userId, String ipAddress) throws Exception {
+    public UserInfo getUserInfo(String username, long userId, String ipAddress) throws Exception {
         int customLogin = ServerConstant.CUSTOM_LOGIN;
         switch (customLogin) {
             case 1: // login zingme
@@ -199,10 +187,9 @@ public class FresherExtension extends BZExtension {
          */
         trace(" Event Handler ");
         addEventHandler(BZEventType.USER_LOGIN, LoginSuccessHandler.class);
-        // addEventHandler(BZEventType.USER_LOGOUT, LogoutHandler.class);
-        //addEventHandler(BZEventType.USER_DISCONNECT, LogoutHandler.class);
         addEventHandler(DemoEventType.LOGIN_SUCCESS, DemoHandler.class);
-
     }
 
 }
+// addEventHandler(BZEventType.USER_LOGOUT, LogoutHandler.class);
+//addEventHandler(BZEventType.USER_DISCONNECT, LogoutHandler.class);

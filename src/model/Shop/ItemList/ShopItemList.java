@@ -6,13 +6,13 @@ import util.database.DataModel;
 import java.util.ArrayList;
 
 public class ShopItemList extends DataModel {
-    public int id;
+    public long id;
     public ArrayList<ShopItem> itemList = new ArrayList<ShopItem>();
 
     public ShopItemList() {
     }
 
-    public ShopItemList(int id, ArrayList<ShopItem> Goldbanner) {
+    public ShopItemList(long id, ArrayList<ShopItem> Goldbanner) {
         this.id = id;
         for (int i = 0; i < Goldbanner.size(); i++) {
             ShopItem SI = new ShopItem(Goldbanner.get(i));

@@ -12,6 +12,7 @@ import cmd.receive.shop.RequestBuyGoldShop;
 import cmd.send.shop.ResponseRequestBuyDailyShop;
 import cmd.send.shop.ResponseRequestBuyGoldShop;
 import cmd.send.shop.ResponseRequestGetUserDailyShop;
+import cmd.send.user.ResponseRequestUserInfo;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
 import model.Chest.Chest;
@@ -89,39 +90,52 @@ public class ShopHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
+                send(new ResponseRequestUserInfo(UserHandler.UserError.USERINFO_NULL.getValue()), user);
             }
             System.out.println("ShopHandle ProcessBuyDailyShop");
+            //getDailyShop and the Item To Buy
             DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
-            ShopItem itemToBuy = dailyShop.itemList.get(rq.getId());
-            int goldchange = -itemToBuy.getPrice();
-            if ((verifyPurchase(userInfo.getGold(), itemToBuy.getPrice()) == true)
-                    && (itemToBuy.getState() == ShopItemDefine.CAN_BUY)) {
-                userInfo.addGold(goldchange);
-                CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(), CardCollection.class);
-
-                if (itemToBuy.getItemType() == ItemDefine.CHESTTYPE) {
-                    Chest ch = new Chest();
-                    ArrayList<Item> reward = ch.getChestReward();
-                    for (int i = 0; i < reward.size(); i++) {
-                        Item item = reward.get(i);
-                        item.show();
-                        if (item.getItemType() == ItemDefine.GOLDTYPE) userInfo.addGold(item.getQuantity());
-                        else userCardCollection.updateCard(item.getItemType(), item.getQuantity());
-                    }
-                    send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, reward)), user);
-                } else {
-                    userCardCollection.updateCard(itemToBuy.getItemType(), itemToBuy.getQuantity());
-                    ArrayList<Item> itemList = new ArrayList<Item>();
-                    itemList.add(itemToBuy);
-                    send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, itemList)), user);
-                }
-                dailyShop.itemList.get(rq.getId()).setState(ShopItemDefine.CAN_NOT_BUY);
-                userInfo.saveModel(userInfo.getId());
-                userCardCollection.saveModel(userInfo.getId());
-                dailyShop.saveModel(userInfo.getId());
-            } else {
-                send(new ResponseRequestBuyDailyShop(ShopError.ERROR.getValue(), new ShopDTO(0, 0)), user);
+            ShopItem itemToBuy = null;
+            itemToBuy = dailyShop.itemList.get(rq.getId());
+            //Verify Item
+            if (itemToBuy == null) {
+                send(new ResponseRequestBuyDailyShop(ShopError.ITEM_TO_BUY_NULL.getValue()), user);
+                return;
             }
+            //Verify Gold
+            int goldchange = -itemToBuy.getPrice();
+            if ((verifyPurchase(userInfo.getGold(), itemToBuy.getPrice()) == false)) {
+                send(new ResponseRequestBuyDailyShop(ShopError.NOT_ENOUGH_GOLD.getValue()), user);
+            }
+            //Verify State Can Buy
+            if ((itemToBuy.getState() == ShopItemDefine.CAN_BUY)) {
+                send(new ResponseRequestBuyDailyShop(ShopError.ITEM_ALREADY_BUY.getValue()), user);
+            }
+
+            userInfo.addGold(goldchange);
+            CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(), CardCollection.class);
+
+            if (itemToBuy.getItemType() == ItemDefine.CHESTTYPE) {
+                Chest ch = new Chest();
+                ArrayList<Item> reward = ch.getChestReward();
+                for (int i = 0; i < reward.size(); i++) {
+                    Item item = reward.get(i);
+                    item.show();
+                    if (item.getItemType() == ItemDefine.GOLDTYPE) userInfo.addGold(item.getQuantity());
+                    else userCardCollection.updateCard(item.getItemType(), item.getQuantity());
+                }
+                send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, reward)), user);
+            } else {
+                userCardCollection.updateCard(itemToBuy.getItemType(), itemToBuy.getQuantity());
+                ArrayList<Item> itemList = new ArrayList<Item>();
+                itemList.add(itemToBuy);
+                send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, itemList)), user);
+            }
+            //Set Shop Item State and save model
+            dailyShop.itemList.get(rq.getId()).setState(ShopItemDefine.CAN_NOT_BUY);
+            userInfo.saveModel(userInfo.getId());
+            userCardCollection.saveModel(userInfo.getId());
+            dailyShop.saveModel(userInfo.getId());
         } catch (Exception e) {
             logger.info("processBuyDailyShop exception");
         }
@@ -132,41 +146,52 @@ public class ShopHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
+                send(new ResponseRequestUserInfo(UserHandler.UserError.USERINFO_NULL.getValue()), user);
             }
-            System.out.println("Shophandler ProcessBuyShopGold");
+
+            System.out.println("Shophandler ProcessBuyGoldShop");
             ShopItemList goldShop = (ShopItemList) ShopItemList.getModel(userInfo.getId(), ShopItemList.class);
-            ShopItem item_to_buy = goldShop.itemList.get(rqBuyGold.getId());
-            int gemChange = -item_to_buy.getPrice();
-            int goldChange = item_to_buy.getQuantity();
-            System.out.println(gemChange+" "+goldChange);
-            if (verifyPurchase(userInfo.getGem(), item_to_buy.getPrice()) == true) {
+            ShopItem itemToBuy = goldShop.itemList.get(rqBuyGold.getId());
+
+            //Verify Item To Buy
+            if (itemToBuy == null) {
+                send(new ResponseRequestBuyGoldShop(ShopError.ITEM_TO_BUY_NULL.getValue()), user);
+                return;
+            }
+
+            //Verify Gold
+            int gemChange = -itemToBuy.getPrice();
+            int goldChange = itemToBuy.getQuantity();
+            System.out.println(gemChange + " " + goldChange);
+            if (verifyPurchase(userInfo.getGem(), gemChange) == true) {
                 userInfo.addGem(gemChange);
                 userInfo.addGold(goldChange);
                 userInfo.saveModel(userInfo.getId());
                 send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldChange, gemChange)), user);
             } else {
-                send(new ResponseRequestBuyGoldShop(ShopError.ERROR.getValue(), new ShopDTO(0, 0)), user);
+                send(new ResponseRequestBuyGoldShop(ShopError.NOT_ENOUGH_GEM.getValue()), user);
             }
         } catch (Exception e) {
-            logger.info("processGetName exception");
+            logger.info("processBuyGoldShop exception");
         }
     }
 
     private void processGetUserDailyShop(User user) {
-        System.out.println("InventoryHandler " + " processGetUserInventory");
+        System.out.println("ShopHandler " + " processGetUserDailyShop");
         try {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
-                //send(new ResponseGetName(DemoHandler.DemoError.PLAYERINFO_NULL.getValue(), ""), user);
+                send(new ResponseRequestUserInfo(UserHandler.UserError.USERINFO_NULL.getValue()), user);
             }
             logger.info("get inventoryID " + userInfo.getId());
+            //CheckDailyShop
             DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
-            //usercardCollection.show();
+            if (dailyShop==null)  {send(new ResponseRequestGetUserDailyShop(ShopHandler.ShopError.ERROR.getValue()), user); return;}
+
             send(new ResponseRequestGetUserDailyShop(ShopHandler.ShopError.SUCCESS.getValue(), dailyShop), user);
         } catch (Exception e) {
             logger.info("processGetName exception");
-            //send(new ResponseGetName(DemoHandler.DemoError.EXCEPTION.getValue(), ""), user);
         }
     }
 
@@ -186,6 +211,10 @@ public class ShopHandler extends BaseClientRequestHandler {
     public enum ShopError {
         SUCCESS((short) 0),
         ERROR((short) 1),
+        ITEM_TO_BUY_NULL((short) 2),
+        NOT_ENOUGH_GEM((short) 3),
+        NOT_ENOUGH_GOLD((short) 4),
+        ITEM_ALREADY_BUY((short) 5),
         ;
 
 

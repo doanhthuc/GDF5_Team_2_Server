@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 
 public class RequestLogin extends BaseCmd {
     public String sessionKey = "";
-    public int userId = 0;
+    public long userId = 0;
     public RequestLogin(DataCmd dataCmd) {
         super(dataCmd);
     }

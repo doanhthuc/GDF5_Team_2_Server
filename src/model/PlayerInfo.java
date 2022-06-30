@@ -4,13 +4,13 @@ import util.database.DataModel;
 
 public class PlayerInfo extends DataModel {
     // Zing me
-    private int id;
+    private long id;
     private String username;
     private int trophy;
     private int gold;
     private int gem;
 
-    public PlayerInfo(int _id, String username, int gold, int gem, int trophy) {
+    public PlayerInfo(long _id, String username, int gold, int gem, int trophy) {
         super();
         this.id = _id;
         this.username = username;
@@ -40,7 +40,7 @@ public class PlayerInfo extends DataModel {
         return this.trophy;
     }
 
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 

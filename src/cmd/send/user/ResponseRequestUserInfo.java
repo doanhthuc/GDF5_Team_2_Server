@@ -15,12 +15,16 @@ public class ResponseRequestUserInfo extends BaseMsg {
         info = _info;
         error = _error;
     }
+    public ResponseRequestUserInfo(short _error) {
+        super(CmdDefine.GET_USER_INFO);
+        error = _error;
+    }
 
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
         bf.putShort(error);
-        bf.putInt(info.getId());
+        bf.putLong(info.getId());
         putStr(bf, info.getUserName());
         bf.putInt(info.getGold());
         bf.putInt(info.getGem());
