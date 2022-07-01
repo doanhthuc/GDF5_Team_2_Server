@@ -96,10 +96,10 @@ public class ShopHandler extends BaseClientRequestHandler {
                 send(new ResponseRequestBuyDailyShop(ShopError.USER_INFO_NULL.getValue()), user);
             }
             System.out.println("ShopHandle ProcessBuyDailyShop");
-            //getDailyShop and the Item To Buy
+            //getDailyShop and the ItemToBuy by ID
             DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
             ShopItem itemToBuy = null;
-            itemToBuy = dailyShop.itemList.get(rq.getId());
+            itemToBuy = dailyShop.getItemByID(rq.getId());
             //Verify Item
             if (itemToBuy == null) {
                 send(new ResponseRequestBuyDailyShop(ShopError.ITEM_TO_BUY_NULL.getValue()), user);
@@ -129,12 +129,12 @@ public class ShopHandler extends BaseClientRequestHandler {
                     if (item.getItemType() == ItemDefine.GOLDTYPE) userInfo.addGold(item.getQuantity());
                     else userCardCollection.updateCard(item.getItemType(), item.getQuantity());
                 }
-                send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, reward)), user);
+                send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, reward, rq.getId())), user);
             } else {
                 userCardCollection.updateCard(itemToBuy.getItemType(), itemToBuy.getQuantity());
                 ArrayList<Item> itemList = new ArrayList<Item>();
                 itemList.add(itemToBuy);
-                send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, itemList)), user);
+                send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, itemList,rq.getId())), user);
             }
             //Set Shop Item State and save model
             dailyShop.itemList.get(rq.getId()).setState(ShopItemDefine.CAN_NOT_BUY);
@@ -154,10 +154,10 @@ public class ShopHandler extends BaseClientRequestHandler {
                 send(new ResponseRequestBuyGoldShop(ShopError.USER_INFO_NULL.getValue()), user);
                 return;
             }
-
+            //getItemByID
             System.out.println("ShopHandler ProcessBuyGoldShop");
             ShopItemList goldShop = (ShopItemList) ShopItemList.getModel(userInfo.getId(), ShopItemList.class);
-            ShopItem itemToBuy = goldShop.itemList.get(rqBuyGold.getId());
+            ShopItem itemToBuy = goldShop.getItemByID(rqBuyGold.getId());
 
             //Verify Item To Buy
             if (itemToBuy == null) {
@@ -173,7 +173,7 @@ public class ShopHandler extends BaseClientRequestHandler {
                 userInfo.addGem(gemChange);
                 userInfo.addGold(goldChange);
                 userInfo.saveModel(userInfo.getId());
-                send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldChange, gemChange)), user);
+                send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldChange, gemChange, rqBuyGold.getId())), user);
             } else {
                 send(new ResponseRequestBuyGoldShop(ShopError.NOT_ENOUGH_GEM.getValue()), user);
             }

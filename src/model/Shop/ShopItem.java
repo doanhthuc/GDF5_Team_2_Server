@@ -8,6 +8,7 @@ import java.util.Random;
 
 
 public class ShopItem extends Item {
+    protected int itemId;
     protected int state;
     protected int price;
 
@@ -19,13 +20,15 @@ public class ShopItem extends Item {
     }
 
     public ShopItem(ShopItem shopItem) {
+        this.itemId=shopItem.itemId;
         this.price = shopItem.price;
         this.state = shopItem.state;
         this.itemType = shopItem.itemType;
         this.quantity = shopItem.quantity;
     }
 
-    public ShopItem(int type, int quantity, int state, int price) {
+    public ShopItem(int itemId,int type, int quantity, int state, int price) {
+        this.itemId=itemId;
         this.price = price;
         this.quantity = quantity;
         this.itemType = type;
@@ -42,8 +45,9 @@ public class ShopItem extends Item {
         else System.out.println("Cannot Buy");
     }
 
-    public void randomCardItem() {
+    public void randomCardItem(int itemId) {
         Random random = new Random();
+        this.itemId=itemId;
         this.itemType = random.nextInt(ItemDefine.CARDAMOUNT);
         this.quantity = (random.nextInt(ShopItemDefine.MAX_CARD -ShopItemDefine.MIN_CARD+ 1) + ShopItemDefine.MIN_CARD) * ShopItemDefine.MULTI;
         this.price = this.quantity * ShopItemDefine.PRICE_PER_CARD;
@@ -57,7 +61,9 @@ public class ShopItem extends Item {
     public int getState() {
         return this.state;
     }
-
+    public int getItemID(){
+        return this.itemId;
+    }
     public void setState(int state) {
         this.state = state;
     }

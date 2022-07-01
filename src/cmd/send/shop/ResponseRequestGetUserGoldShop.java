@@ -30,6 +30,7 @@ public class ResponseRequestGetUserGoldShop extends BaseMsg {
         bf.putInt(this.goldShop.getSize());
         for (int i = 0; i < this.goldShop.getSize(); i++) {
             ShopItem shopItem = this.goldShop.itemList.get(i);
+            bf.putInt(shopItem.getItemID());
             bf.putInt(shopItem.getItemType());
             bf.putInt(shopItem.getQuantity());
             bf.putInt(shopItem.getPrice());

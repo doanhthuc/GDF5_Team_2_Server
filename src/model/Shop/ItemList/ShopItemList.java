@@ -6,14 +6,14 @@ import util.database.DataModel;
 import java.util.ArrayList;
 
 public class ShopItemList extends DataModel {
-    public long id;
+    public long userId;
     public ArrayList<ShopItem> itemList = new ArrayList<ShopItem>();
 
     public ShopItemList() {
     }
 
     public ShopItemList(long id, ArrayList<ShopItem> Goldbanner) {
-        this.id = id;
+        this.userId = id;
         for (int i = 0; i < Goldbanner.size(); i++) {
             ShopItem SI = new ShopItem(Goldbanner.get(i));
             this.addItem(SI);
@@ -29,8 +29,15 @@ public class ShopItemList extends DataModel {
             this.itemList.get(i).show();
         }
     }
-    public int getSize()
-    {
+
+    public int getSize() {
         return this.itemList.size();
+    }
+
+    public ShopItem getItemByID(int itemID) {
+        for (int i = 0; i < itemList.size(); i++){
+            if (itemList.get(i).getItemID()==itemID) return itemList.get(i);
+        }
+        return null;
     }
 }

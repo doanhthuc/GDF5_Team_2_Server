@@ -29,6 +29,7 @@ public class ResponseRequestGetUserDailyShop extends BaseMsg {
         bf.putInt(this.dailyShop.getSize());
         for (int i = 0; i < this.dailyShop.getSize(); i++) {
             ShopItem shopItem = this.dailyShop.itemList.get(i);
+            bf.putInt(shopItem.getItemID());
             bf.putInt(shopItem.getItemType());
             bf.putInt(shopItem.getQuantity());
             bf.putInt(shopItem.getPrice());
