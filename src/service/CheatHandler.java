@@ -130,21 +130,27 @@ public class CheatHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
-                send(new ResponseRequestCheatUserLobbyChest(CheatError.USER_INFO_NULL.getValue()), user);
-                return;
             }
-            LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
-            LobbyChest cheatLobbyChest = new LobbyChest(LobbyChestDefine.EMPTY_STATE);
-            if (rq.getChestState() == LobbyChestDefine.OPENING_STATE) {
-                cheatLobbyChest = new LobbyChest(rq.getChestState(), rq.getChestRemainingTime());
-            } else {
-                cheatLobbyChest = new LobbyChest(rq.getChestState());
+            synchronized (userInfo) {
+                LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
+                LobbyChest cheatLobbyChest = new LobbyChest(LobbyChestDefine.EMPTY_STATE);
+                if (rq.getChestState() == LobbyChestDefine.OPENING_STATE) {
+                    cheatLobbyChest = new LobbyChest(rq.getChestState(), rq.getChestRemainingTime());
+                } else {
+                    cheatLobbyChest = new LobbyChest(rq.getChestState());
+                }
+                userLobbyChest.setLobbyChest(rq.getChestId(), cheatLobbyChest);
+
+                userLobbyChest.saveModel(userInfo.getId());
+
+                userLobbyChest.show();
+                send(new ResponseRequestCheatUserLobbyChest(CheatError.SUCCESS.getValue(), cheatLobbyChest, rq.getChestId()), user);
             }
-            userLobbyChest.setLobbyChest(rq.getChestId(), cheatLobbyChest);
-            userLobbyChest.saveModel(userInfo.getId());
-            send(new ResponseRequestCheatUserLobbyChest(CheatError.SUCCESS.getValue(), cheatLobbyChest, rq.getChestId()), user);
+
+
         } catch (Exception e) {
             logger.info("processGetName exception");
+            //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);
         }
     }
 
