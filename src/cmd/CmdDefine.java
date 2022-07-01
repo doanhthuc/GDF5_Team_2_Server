@@ -20,6 +20,8 @@ public class CmdDefine {
     public static final short SPEEDUP_LOBBY_CHEST = 4003;
     public static final short CLAIM_LOBBY_CHEST = 4004;
 
+    public static final short GET_BATTLE_MAP=5001;
+
     public static final short CHEAT_USER_INFO = 7001;
     public static final short CHEAT_USER_CARD = 7002;
     public static final short CHEAT_USER_LOBBY_CHEST = 7003;

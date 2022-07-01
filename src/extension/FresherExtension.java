@@ -51,17 +51,15 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
-        BattleMap btm = new BattleMap();
-        btm.genBuffTile();
-        btm.show();
-        btm.genPath();
-        btm.show();
+//        BattleMap btm = new BattleMap();
+//        btm.show();
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
         addRequestHandler(InventoryHandler.INVENTORY_MULTI_IDS, InventoryHandler.class);
         addRequestHandler(LobbyHandler.LOBBY_MULTI_IDS, LobbyHandler.class);
         addRequestHandler(CheatHandler.CHEAT_MULTI_IDS, CheatHandler.class);
+        addRequestHandler(BattleHandler.BATTLE_MULTI_IDS, BattleHandler.class);
         registerHandler();
     }
 

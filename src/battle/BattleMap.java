@@ -10,10 +10,15 @@ public class BattleMap {
     public int mapH = 5;
     public int buffTileAmount = 3;
     public int[][] map = new int[mapW][mapH + 1];
+    public ArrayList<Point> path = new ArrayList<>();
 
     public BattleMap() {
         this.reset();
-        this.show();
+        this.genBuffTile();
+        this.genPath();
+        this.genTree();
+        this.genPitCell();
+        //this.show();
     }
 
     public void genBuffTile() {
@@ -39,7 +44,6 @@ public class BattleMap {
                 int rdPoint = rd.nextInt(buffTileRandom.size());
                 int x = buffTileRandom.get(rdPoint).x;
                 int y = buffTileRandom.get(rdPoint).y;
-                System.out.println("Random " + x + " " + y);
                 map[x][y] = buffTileType;
                 buffTileType++;
                 int i = 0;
@@ -82,7 +86,7 @@ public class BattleMap {
         PriorityQueue<TileNode> open = new PriorityQueue(new Comparator<TileNode>() {
             @Override
             public int compare(TileNode a, TileNode b) {
-                return ((a.h - a.g*6) - (b.h - b.g*6));
+                return ((a.h - a.g * 6) - (b.h - b.g * 6));
                 //return (a.h-b.h);
                 // return (a.g-b.g);
             }
@@ -110,7 +114,6 @@ public class BattleMap {
                         if (isInBound(childPos.x, childPos.y) == false || map[childPos.x][childPos.y] != 0) continue;
                         TileNode child = new TileNode(nodeValue(childPos), top.g + 1, childPos);
                         if (closed.get(childPos) != null) continue;
-                        System.out.println(childPos.x + " " + childPos.y);
                         child.father = top;
                         open.add(child);
                         closed.put(childPos, child);
@@ -119,8 +122,9 @@ public class BattleMap {
         }
         while (top.father != null) {
             map[top.pos.x][top.pos.y] = 4;
+            path.add(new Point(top.pos));
             top = top.father;
-            // System.out.println(top.g+" "+top.h+" "+top.pos.x+" "+top.pos.y);
+
         }
     }
 
@@ -133,11 +137,86 @@ public class BattleMap {
                         value -= 200;
                     }
             }
-        return value - (6 - p.x)*7 - (p.y)*5;
+        return value - (6 - p.x) * 7 - (p.y) * 5;
+    }
+
+    public void genTree() {
+        ArrayList<Point> turnTileArray = new ArrayList<>();
+
+        for (int i = 0; i < path.size() - 2; i++) {
+            Point currentPoint = path.get(i);
+            Point diagonPoint = path.get(i + 2);
+
+            if (currentPoint.x != diagonPoint.x && currentPoint.y != diagonPoint.y)
+                turnTileArray.add(path.get(i + 1));
+        }
+        int countTree = 0;
+        while (countTree < 2) {
+            Random rd = new Random();
+            if (turnTileArray.size() == 0) break;
+            int treeindex = rd.nextInt(turnTileArray.size());
+            Point turnTile = turnTileArray.get(treeindex);
+            turnTileArray.remove(treeindex);
+            for (int h = -1; h <= 1; h++)
+                for (int k = -1; k <= 1; k++) {
+                    if ((Math.abs(h) + Math.abs(k)) == 1) {
+                        Point treeTile = new Point(turnTile.x + h, turnTile.y + k);
+                        if (isInBound(treeTile) && map[treeTile.x][treeTile.y] != 4)
+                            if (checkBuffTileAround(treeTile) == false && map[treeTile.x][treeTile.y] != 5) {
+                                map[treeTile.x][treeTile.y] = 5;
+                                countTree++;
+                                break;
+                            }
+                    }
+                }
+        }
+    }
+
+    public void genPitCell() {
+        boolean finded=false;
+        for (int i = 0; i < mapW; i++) {
+            for (int j = 0; j < mapH; j++) {
+                if ((checkBuffTileAround(new Point(i, j)) == false) && map[i][j] == 0)
+                    if (checkPathAround(new Point(i, j))) {
+                        map[i][j] = 6;
+                        finded = true;
+                        break;
+                    }
+            }
+            if (finded == true) break;
+        }
     }
 
     public boolean isInBound(int x, int y) {
         return (x >= 0 && x < mapW && y >= 0 && y < mapH);
+    }
+
+    public boolean isInBound(Point p) {
+        return (p.x >= 0 && p.x < mapW && p.y >= 0 && p.y < mapH);
+    }
+
+    public boolean checkBuffTileAround(Point p) {
+        for (int h = -1; h <= 1; h++)
+            for (int k = -1; k <= 1; k++) {
+                if (isInBound(new Point(p.x + h, p.y + k))) {
+                    if (isValuedTile(map[p.x + h][p.y + k])) return true;
+                }
+            }
+        return false;
+    }
+    public boolean checkPathAround(Point p) {
+        for (int h = -1; h <= 1; h++)
+            for (int k = -1; k <= 1; k++) {
+                if (isInBound(new Point(p.x + h, p.y + k))) {
+                    if (map[p.x+h][p.y+k]==4) return true;
+                }
+            }
+        return false;
+    }
+
+    public boolean isValuedTile(int value) {
+        if (value == 1 || value == 2 || value == 3 || value == 5) return true;
+        return false;
     }
 
     public boolean compareNode(Point a, Point b) {
