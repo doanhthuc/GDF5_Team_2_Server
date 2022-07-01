@@ -201,7 +201,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
             int gemRequire = 0;
             userLobbyChest.lobbyChestContainer.get(lobbyChestId).setEmpty();
             lobbyChestToClaim.randomRewardItem();
-
+            userLobbyChest.saveModel(userInfo.getId());
             updateInventory(lobbyChestToClaim.getChestReward(), userInfo);
             send(new ResponseRequestClaimLobbyChest(LobbyError.SUCCESS.getValue(),
                         new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToClaim.getChestReward(), gemRequire)), user);

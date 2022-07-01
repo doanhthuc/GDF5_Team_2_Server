@@ -87,6 +87,7 @@ public class BattleHandler extends BaseClientRequestHandler {
                 return;
             }
             BattleMap btm= new BattleMap();
+            btm.show();
             send(new ResponseRequestGetBattleMap(BattleHandler.BattleError.SUCCESS.getValue(), btm), user);
         } catch (Exception e) {
             logger.info("processGetName exception");

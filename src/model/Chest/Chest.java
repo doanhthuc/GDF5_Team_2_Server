@@ -14,7 +14,6 @@ public class Chest {
     public Chest() {
         this.chestType = ChestDefine.BRONZE_CHEST;
         this.cardSlot = ChestDefine.CARD_SLOT;
-        this.randomRewardItem();
     }
 
     public Chest(int chesttype, int cardSlot) {
