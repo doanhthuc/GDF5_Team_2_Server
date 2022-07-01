@@ -32,9 +32,11 @@ public class ResponseRequestGetBattleMap extends BaseMsg {
             for (int j = 0; j < battleMap.mapH; j++)
                 for (int i = 0; i < battleMap.mapW; i++)
                     bf.putInt(battleMap.map[i][j]);
-        for (int i = 0; i < battleMap.path.size(); i++) {
+        bf.putInt(battleMap.path.size());
+        for (int i = battleMap.path.size()-1;i>=0; i--) {
             bf.putInt(battleMap.path.get(i).x);
             bf.putInt(battleMap.path.get(i).y);
+
         }
         return packBuffer(bf);
     }

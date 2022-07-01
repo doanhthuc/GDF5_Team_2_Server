@@ -130,8 +130,8 @@ public class BattleMap {
             map[top.pos.x][top.pos.y] = 4;
             path.add(new Point(top.pos));
             top = top.father;
-
         }
+        path.add(new Point(0,4));
     }
 
     public int nodeValue(Point p) {
@@ -158,6 +158,8 @@ public class BattleMap {
         }
         int countTree = 0;
         while (countTree < 2) {
+            Point startPoint= new Point(0,5);
+            Point endPoint= new Point(6,0);
             Random rd = new Random();
             if (turnTileArray.size() == 0) break;
             int treeindex = rd.nextInt(turnTileArray.size());
@@ -168,7 +170,8 @@ public class BattleMap {
                     if ((Math.abs(h) + Math.abs(k)) == 1) {
                         Point treeTile = new Point(turnTile.x + h, turnTile.y + k);
                         if (isInBound(treeTile) && map[treeTile.x][treeTile.y] != 4)
-                            if (checkBuffTileAround(treeTile) == false && map[treeTile.x][treeTile.y] != 5) {
+                            if (checkBuffTileAround(treeTile) == false && map[treeTile.x][treeTile.y] != 5)
+                              {
                                 map[treeTile.x][treeTile.y] = 5;
                                 countTree++;
                                 break;
