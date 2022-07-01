@@ -15,8 +15,8 @@ public class ShopItemList extends DataModel {
     public ShopItemList(long id, ArrayList<ShopItem> Goldbanner) {
         this.userId = id;
         for (int i = 0; i < Goldbanner.size(); i++) {
-            ShopItem SI = new ShopItem(Goldbanner.get(i));
-            this.addItem(SI);
+            ShopItem shopItem = new ShopItem(Goldbanner.get(i));
+            this.addItem(shopItem);
         }
     }
 

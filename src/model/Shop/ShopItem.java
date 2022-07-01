@@ -20,15 +20,15 @@ public class ShopItem extends Item {
     }
 
     public ShopItem(ShopItem shopItem) {
-        this.itemId=shopItem.itemId;
+        this.itemId = shopItem.itemId;
         this.price = shopItem.price;
         this.state = shopItem.state;
         this.itemType = shopItem.itemType;
         this.quantity = shopItem.quantity;
     }
 
-    public ShopItem(int itemId,int type, int quantity, int state, int price) {
-        this.itemId=itemId;
+    public ShopItem(int itemID, int type, int quantity, int state, int price) {
+        this.itemId = itemID;
         this.price = price;
         this.quantity = quantity;
         this.itemType = type;
@@ -47,9 +47,9 @@ public class ShopItem extends Item {
 
     public void randomCardItem(int itemId) {
         Random random = new Random();
-        this.itemId=itemId;
+        this.itemId = itemId;
         this.itemType = random.nextInt(ItemDefine.CARDAMOUNT);
-        this.quantity = (random.nextInt(ShopItemDefine.MAX_CARD -ShopItemDefine.MIN_CARD+ 1) + ShopItemDefine.MIN_CARD) * ShopItemDefine.MULTI;
+        this.quantity = (random.nextInt(ShopItemDefine.MAX_CARD - ShopItemDefine.MIN_CARD + 1) + ShopItemDefine.MIN_CARD) * ShopItemDefine.MULTI;
         this.price = this.quantity * ShopItemDefine.PRICE_PER_CARD;
         this.state = ShopItemDefine.CAN_BUY;
     }
@@ -61,9 +61,11 @@ public class ShopItem extends Item {
     public int getState() {
         return this.state;
     }
-    public int getItemID(){
+
+    public int getItemID() {
         return this.itemId;
     }
+
     public void setState(int state) {
         this.state = state;
     }

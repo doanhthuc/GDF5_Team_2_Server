@@ -82,7 +82,7 @@ public class BattleMap {
         PriorityQueue<TileNode> open = new PriorityQueue(new Comparator<TileNode>() {
             @Override
             public int compare(TileNode a, TileNode b) {
-                return ((a.h * 3 - a.g * 30) - (b.h * 3 - b.g * 30));
+                return ((a.h - a.g*6) - (b.h - b.g*6));
                 //return (a.h-b.h);
                 // return (a.g-b.g);
             }
@@ -126,11 +126,14 @@ public class BattleMap {
 
     public int nodeValue(Point p) {
         int value = 0;
-        for (int i = 0; i < mapW; i++)
-            for (int j = 0; j < mapH; j++)
-                if (this.map[i][j] != 0)
-                    value += Math.abs(i - p.x) + Math.abs(j - p.y);
-        return value - Math.abs(p.x - mapW+1)   - Math.abs(p.y);
+        for (int i = -1; i <= 1; i++)
+            for (int j = -1; j <= 1; j++) {
+                if (isInBound(p.x + i, p.y + j))
+                    if (map[p.x + i][p.y + j] == 1) {
+                        value -= 200;
+                    }
+            }
+        return value - (6 - p.x)*7 - (p.y)*5;
     }
 
     public boolean isInBound(int x, int y) {

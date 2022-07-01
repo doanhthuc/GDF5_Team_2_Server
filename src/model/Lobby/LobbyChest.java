@@ -12,7 +12,7 @@ public class LobbyChest extends Chest {
         this.chestType = ChestDefine.BRONZE_CHEST;
         this.cardSlot = ChestDefine.CARD_SLOT;
         if (this.state == LobbyChestDefine.CLAIMABLE_STATE) this.claimTime = System.currentTimeMillis();
-        this.randomRewardItem(this.chestType,this.cardSlot);
+        this.randomRewardItem();
     }
 
     public LobbyChest(int state, long remainingTime) {
@@ -20,7 +20,7 @@ public class LobbyChest extends Chest {
         this.chestType = ChestDefine.BRONZE_CHEST;
         this.cardSlot = ChestDefine.CARD_SLOT;
         this.claimTime = System.currentTimeMillis() + remainingTime;
-        this.randomRewardItem(this.chestType,this.cardSlot);
+        this.randomRewardItem();
     }
 
     public void unlock() {
@@ -32,6 +32,10 @@ public class LobbyChest extends Chest {
 
     public void setState(int state) {
         this.state = state;
+    }
+    public void setEmpty(){
+        this.state=LobbyChestDefine.EMPTY_STATE;
+        this.claimTime=0;
     }
     public void setClaimTime(long claimTime) {
         this.claimTime = claimTime;

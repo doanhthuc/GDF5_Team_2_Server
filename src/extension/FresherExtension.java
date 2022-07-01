@@ -51,11 +51,11 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
-//      BattleMap btm= new BattleMap();
-//      btm.genBuffTile();
-//      btm.show();
-//      btm.genPath();
-//      btm.show();
+        BattleMap btm = new BattleMap();
+        btm.genBuffTile();
+        btm.show();
+        btm.genPath();
+        btm.show();
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
@@ -90,7 +90,9 @@ public class FresherExtension extends BZExtension {
     }
 
     public void initUserData(long userID) {
+        System.out.println("initUserdata");
         ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
+        System.out.println(goldShop.itemList.get(0).getItemID());
         DailyItemList dailyShop = new DailyItemList(userID);
         CardCollection userCardCollection = new CardCollection(userID);
         LobbyChestContainer userLobbyChest = new LobbyChestContainer(userID);
@@ -106,17 +108,17 @@ public class FresherExtension extends BZExtension {
 
 
     public void showUserData(int userId) {
-            try {
-                DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userId, DailyItemList.class);
-                dailyShop.show();
-                CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userId, CardCollection.class);
-                userCardCollection.show();
-                LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userId, LobbyChestContainer.class);
-                userLobbyChest.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userId, DailyItemList.class);
+            dailyShop.show();
+            CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userId, CardCollection.class);
+            userCardCollection.show();
+            LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userId, LobbyChestContainer.class);
+            userLobbyChest.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
 
     @Override
     public void destroy() {

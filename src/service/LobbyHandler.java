@@ -159,8 +159,11 @@ public class LobbyHandler extends BaseClientRequestHandler {
             //verify Gem
             if ((verifyPurchase(userInfo.getGem(), gemRequire)) == true) {
                 userInfo.addGem(-gemRequire);
-                userLobbyChest.lobbyChestContainer.get(lobbyChestId).setState(LobbyChestDefine.EMPTY_STATE);
+                userLobbyChest.lobbyChestContainer.get(lobbyChestId).setEmpty();
                 userLobbyChest.saveModel(userInfo.getId());
+
+                lobbyChestToSpeedup.randomRewardItem();
+
                 updateInventory(lobbyChestToSpeedup.getChestReward(), userInfo);
                 send(new ResponseRequestSpeedUpLobbyChest(LobbyError.SUCCESS.getValue(),
                         new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToSpeedup.getChestReward(), -gemRequire)), user);
@@ -196,7 +199,9 @@ public class LobbyHandler extends BaseClientRequestHandler {
                 return;
             }
             int gemRequire = 0;
-            userLobbyChest.lobbyChestContainer.get(lobbyChestId).setState(LobbyChestDefine.EMPTY_STATE);
+            userLobbyChest.lobbyChestContainer.get(lobbyChestId).setEmpty();
+            lobbyChestToClaim.randomRewardItem();
+
             updateInventory(lobbyChestToClaim.getChestReward(), userInfo);
             send(new ResponseRequestClaimLobbyChest(LobbyError.SUCCESS.getValue(),
                         new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToClaim.getChestReward(), gemRequire)), user);

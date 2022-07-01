@@ -14,31 +14,31 @@ public class Chest {
     public Chest() {
         this.chestType = ChestDefine.BRONZE_CHEST;
         this.cardSlot = ChestDefine.CARD_SLOT;
-        this.randomRewardItem(chestType, cardSlot);
+        this.randomRewardItem();
     }
 
     public Chest(int chesttype, int cardSlot) {
         this.chestType = chesttype;
         this.cardSlot = cardSlot;
-        this.randomRewardItem(chesttype, cardSlot);
+        this.randomRewardItem();
     }
 
     public Chest(Chest ch) {
         this.chestType = ch.chestType;
         this.cardSlot = ch.cardSlot;
-        this.randomRewardItem(this.chestType, this.cardSlot);
+        this.randomRewardItem();
     }
 
     public void addReward(Item i) {
         this.reward.add(i);
     }
 
-    public void randomRewardItem(int type, int cardSlot) {
+    public void randomRewardItem() {
         Random random = new Random();
         int goldQuantity = random.nextInt(ChestDefine.MAXGOLD - ChestDefine.MINGOLD) + ChestDefine.MINGOLD;
         Item GoldItem = new Item(ItemDefine.GOLDTYPE, goldQuantity);
         this.addReward(GoldItem);
-        for (int i = 1; i <= cardSlot; i++) {
+        for (int i = 1; i <= this.cardSlot; i++) {
             int cardType = random.nextInt(ItemDefine.CARDAMOUNT);
             int quantity = random.nextInt(ChestDefine.MAXCARD - ChestDefine.MINCARD) + ChestDefine.MINCARD;
             this.reward.add(new Item(cardType, quantity));
