@@ -78,7 +78,7 @@ public class BattleHandler extends BaseClientRequestHandler {
     }
 
     private void processGetBattleMap(User user) {
-        System.out.println("CheatHandler " + " processCheatUserInfo");
+        System.out.println("BattleMap " + " processGetBattleMap");
         try {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
