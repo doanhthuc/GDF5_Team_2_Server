@@ -27,11 +27,11 @@ public class ResponseRequestGetBattleMap extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putInt(battleMap.mapW);
         bf.putInt(battleMap.mapH);
-        for (int i = 0; i < battleMap.mapW; i++)
+        bf.putInt(battleMap.mapW);
             for (int j = 0; j < battleMap.mapH; j++)
-                bf.putInt(battleMap.map[i][j]);
+                for (int i = 0; i < battleMap.mapW; i++)
+                    bf.putInt(battleMap.map[i][j]);
         for (int i = 0; i < battleMap.path.size(); i++) {
             bf.putInt(battleMap.path.get(i).x);
             bf.putInt(battleMap.path.get(i).y);
