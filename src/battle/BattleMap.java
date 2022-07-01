@@ -18,6 +18,7 @@ public class BattleMap {
         this.genPath();
         this.genTree();
         this.genPitCell();
+        this.removePath();
         //this.show();
     }
 
@@ -79,6 +80,11 @@ public class BattleMap {
                 System.out.print(this.map[i][j] + " ");
             System.out.println();
         }
+    }
+    public void removePath(){
+        for(int i=0;i<this.mapW;i++)
+            for(int j=0;j<this.mapH;j++)
+                if (this.map[i][j]==4) this.map[i][j]=0;
     }
 
     public void genPath() {
