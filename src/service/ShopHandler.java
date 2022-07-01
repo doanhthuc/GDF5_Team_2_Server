@@ -215,7 +215,7 @@ public class ShopHandler extends BaseClientRequestHandler {
             }
             logger.info("get inventoryID " + userInfo.getId());
             //CheckGoldShop
-            ShopItemList goldShop = (ShopItemList) DailyItemList.getModel(userInfo.getId(),ShopItemList.class);
+            ShopItemList goldShop = (ShopItemList) ShopItemList.getModel(userInfo.getId(),ShopItemList.class);
             if (goldShop == null) {
                 send(new ResponseRequestGetUserDailyShop(ShopError.GOLD_SHOP_NULL.getValue()), user);
                 return;
