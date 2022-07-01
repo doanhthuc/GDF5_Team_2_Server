@@ -18,6 +18,10 @@ public class ResponseRequestCheatUserLobbyChest extends BaseMsg {
         this.chestId=id;
         error = _error;
     }
+    public ResponseRequestCheatUserLobbyChest(short _error) {
+        super(CmdDefine.CHEAT_USER_LOBBY_CHEST);
+        error = _error;
+    }
 
     @Override
     public byte[] createData() {

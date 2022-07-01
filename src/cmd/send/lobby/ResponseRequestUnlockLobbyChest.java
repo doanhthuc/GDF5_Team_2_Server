@@ -15,6 +15,10 @@ public class ResponseRequestUnlockLobbyChest extends BaseMsg {
         this.lobbyDTO = lobbyDTO;
         error = _error;
     }
+    public ResponseRequestUnlockLobbyChest(short _error) {
+        super(CmdDefine.UNLOCK_LOBBY_CHEST);
+        error = _error;
+    }
 
     @Override
     public byte[] createData() {

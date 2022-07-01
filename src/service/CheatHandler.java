@@ -89,11 +89,15 @@ public class CheatHandler extends BaseClientRequestHandler {
         try {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
+                send( new ResponseRequestCheatUserInfo(CheatError.USER_INFO_NULL.getValue()), user);
                 logger.info("PlayerInfo null");
+                return;
             }
+
             userInfo.setGold(rq.getGold());
             userInfo.setGem(rq.getGem());
             userInfo.setTrophy(rq.getTrophy());
+
             userInfo.saveModel(userInfo.getId());
             send(new ResponseRequestCheatUserInfo(CheatError.SUCCESS.getValue(), userInfo), user);
         } catch (Exception e) {
@@ -107,7 +111,8 @@ public class CheatHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
-                //  send(new ResponseGetName(UserHandler.UserError.PLAYERINFO_NULL.getValue(), ""), user);
+                send(new ResponseRequestCheatUserCard(CheatError.USER_INFO_NULL.getValue()), user);
+                return;
             }
             CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(), CardCollection.class);
             userCardCollection.setCard(rq.getCardType(), rq.getCardLevel(), rq.getCardAmount());
@@ -115,8 +120,7 @@ public class CheatHandler extends BaseClientRequestHandler {
             userCardCollection.saveModel(userInfo.getId());
             send(new ResponseRequestCheatUserCard(CheatError.SUCCESS.getValue(), new Card(rq.getCardType(), rq.getCardLevel(), rq.getCardAmount())), user);
         } catch (Exception e) {
-            logger.info("processcheatUserinfo exeption");
-            //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);
+            logger.info("processcheatUserCard exeption");
         }
     }
 
@@ -126,6 +130,8 @@ public class CheatHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
+                send(new ResponseRequestCheatUserLobbyChest(CheatError.USER_INFO_NULL.getValue()), user);
+                return;
             }
             LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
             LobbyChest cheatLobbyChest = new LobbyChest(LobbyChestDefine.EMPTY_STATE);
@@ -139,7 +145,6 @@ public class CheatHandler extends BaseClientRequestHandler {
             send(new ResponseRequestCheatUserLobbyChest(CheatError.SUCCESS.getValue(), cheatLobbyChest, rq.getChestId()), user);
         } catch (Exception e) {
             logger.info("processGetName exception");
-            //send(new ResponseGetName(UserHandler.UserError.EXCEPTION.getValue(), ""), user);
         }
     }
 
@@ -147,6 +152,7 @@ public class CheatHandler extends BaseClientRequestHandler {
     public enum CheatError {
         SUCCESS((short) 0),
         ERROR((short) 1),
+        USER_INFO_NULL((short)2),
         ;
 
 

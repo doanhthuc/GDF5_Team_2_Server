@@ -15,6 +15,11 @@ public class ResponseRequestGetUserLobbyChest extends BaseMsg {
         this.lcc = userLobbyChest;
         error = _error;
     }
+    public ResponseRequestGetUserLobbyChest(short _error) {
+        super(CmdDefine.GET_USER_LOBBY_CHEST);
+        error = _error;
+    }
+
 
     @Override
     public byte[] createData() {

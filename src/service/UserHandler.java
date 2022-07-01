@@ -130,7 +130,6 @@ public class UserHandler extends BaseClientRequestHandler {
 
     public enum UserError {
         SUCCESS((short) 0),
-        ERROR((short) 1),
         USERINFO_NULL((short)1),
         ;
 

@@ -17,6 +17,10 @@ public class ResponseRequestClaimLobbyChest extends BaseMsg {
         this.lobbyDTO = lobbyDTO;
         error = _error;
     }
+    public ResponseRequestClaimLobbyChest(short _error) {
+        super(CmdDefine.CLAIM_LOBBY_CHEST);
+        error = _error;
+    }
 
     @Override
     public byte[] createData() {

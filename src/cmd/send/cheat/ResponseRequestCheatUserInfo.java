@@ -15,7 +15,10 @@ public class ResponseRequestCheatUserInfo extends BaseMsg {
         info = _info;
         error = _error;
     }
-
+    public ResponseRequestCheatUserInfo(short _error) {
+        super(CmdDefine.CHEAT_USER_INFO);
+        error = _error;
+    }
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();

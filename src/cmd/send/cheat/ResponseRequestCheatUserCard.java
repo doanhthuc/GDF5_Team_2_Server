@@ -16,6 +16,11 @@ public class ResponseRequestCheatUserCard extends BaseMsg {
         this.cheatCard= card;
         error = _error;
     }
+    public ResponseRequestCheatUserCard(short _error) {
+        super(CmdDefine.CHEAT_USER_CARD);
+        error = _error;
+    }
+
 
     @Override
     public byte[] createData() {

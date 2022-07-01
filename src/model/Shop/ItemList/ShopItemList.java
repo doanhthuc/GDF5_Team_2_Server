@@ -29,4 +29,8 @@ public class ShopItemList extends DataModel {
             this.itemList.get(i).show();
         }
     }
+    public int getSize()
+    {
+        return this.itemList.size();
+    }
 }

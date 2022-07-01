@@ -10,6 +10,7 @@ public class CmdDefine {
     public static final short BUY_GOLD_SHOP = 2001;
     public static final short BUY_DAILY_SHOP = 2002;
     public static final short GET_DAILY_SHOP = 2003;
+    public static final short GET_GOLD_SHOP = 2004;
 
     public static final short GET_USER_INVENTORY = 3001;
     public static final short UPGRADE_CARD = 3002;

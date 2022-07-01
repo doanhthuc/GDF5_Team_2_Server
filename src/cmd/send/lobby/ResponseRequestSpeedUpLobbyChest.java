@@ -17,6 +17,11 @@ public class ResponseRequestSpeedUpLobbyChest extends BaseMsg {
         this.lobbyDTO = lobbyDTO;
         error = _error;
     }
+    public ResponseRequestSpeedUpLobbyChest(short _error) {
+        super(CmdDefine.SPEEDUP_LOBBY_CHEST);
+        error = _error;
+    }
+
 
     @Override
     public byte[] createData() {
