@@ -81,10 +81,11 @@ public class BattleMap {
             System.out.println();
         }
     }
-    public void removePath(){
-        for(int i=0;i<this.mapW;i++)
-            for(int j=0;j<this.mapH;j++)
-                if (this.map[i][j]==4) this.map[i][j]=0;
+
+    public void removePath() {
+        for (int i = 0; i < this.mapW; i++)
+            for (int j = 0; j < this.mapH; j++)
+                if (this.map[i][j] == 4) this.map[i][j] = 0;
     }
 
     public void genPath() {
@@ -131,7 +132,7 @@ public class BattleMap {
             path.add(new Point(top.pos));
             top = top.father;
         }
-        path.add(new Point(0,4));
+        path.add(new Point(0, 4));
     }
 
     public int nodeValue(Point p) {
@@ -158,8 +159,8 @@ public class BattleMap {
         }
         int countTree = 0;
         while (countTree < 2) {
-            Point startPoint= new Point(0,5);
-            Point endPoint= new Point(6,0);
+            Point startPoint = new Point(0, 5);
+            Point endPoint = new Point(6, 0);
             Random rd = new Random();
             if (turnTileArray.size() == 0) break;
             int treeindex = rd.nextInt(turnTileArray.size());
@@ -170,8 +171,7 @@ public class BattleMap {
                     if ((Math.abs(h) + Math.abs(k)) == 1) {
                         Point treeTile = new Point(turnTile.x + h, turnTile.y + k);
                         if (isInBound(treeTile) && map[treeTile.x][treeTile.y] != 4)
-                            if (checkBuffTileAround(treeTile) == false && map[treeTile.x][treeTile.y] != 5)
-                              {
+                            if (checkBuffTileAround(treeTile) == false && map[treeTile.x][treeTile.y] != 5) {
                                 map[treeTile.x][treeTile.y] = 5;
                                 countTree++;
                                 break;
@@ -182,18 +182,19 @@ public class BattleMap {
     }
 
     public void genPitCell() {
-        boolean finded=false;
-        for (int i = 0; i < mapW; i++) {
-            for (int j = 0; j < mapH; j++) {
-                if ((checkBuffTileAround(new Point(i, j)) == false) && map[i][j] == 0)
-                    if (checkPathAround(new Point(i, j))) {
-                        map[i][j] = 6;
-                        finded = true;
-                        break;
-                    }
-            }
-            if (finded == true) break;
+        boolean finded = false;
+        while (true) {
+            Random RD = new Random();
+            int i = RD.nextInt(mapW);
+            int j = RD.nextInt(mapH);
+            if ((checkBuffTileAround(new Point(i, j)) == false) && map[i][j] == 0)
+                if (checkPathAround(new Point(i, j))) {
+                    map[i][j] = 6;
+                    finded = true;
+                    break;
+                }
         }
+
     }
 
     public boolean isInBound(int x, int y) {
@@ -213,11 +214,12 @@ public class BattleMap {
             }
         return false;
     }
+
     public boolean checkPathAround(Point p) {
         for (int h = -1; h <= 1; h++)
             for (int k = -1; k <= 1; k++) {
                 if (isInBound(new Point(p.x + h, p.y + k))) {
-                    if (map[p.x+h][p.y+k]==4) return true;
+                    if (map[p.x + h][p.y + k] == 4) return true;
                 }
             }
         return false;
