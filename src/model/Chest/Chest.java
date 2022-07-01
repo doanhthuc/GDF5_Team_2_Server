@@ -19,13 +19,11 @@ public class Chest {
     public Chest(int chesttype, int cardSlot) {
         this.chestType = chesttype;
         this.cardSlot = cardSlot;
-        this.randomRewardItem();
     }
 
     public Chest(Chest ch) {
         this.chestType = ch.chestType;
         this.cardSlot = ch.cardSlot;
-        this.randomRewardItem();
     }
 
     public void addReward(Item i) {
