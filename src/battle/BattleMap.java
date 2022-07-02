@@ -9,6 +9,12 @@ public class BattleMap {
     public int mapW = 7;
     public int mapH = 5;
     public int buffTileAmount = 3;
+    public int attackSpeedTile = 1;
+    public int attackRangeTile = 2;
+    public int attackDamageTile = 3;
+    public int pathTile = 4;
+    public int treeTileNum = 5;
+    public int pitTile = 6;
     public int[][] map = new int[mapW][mapH + 1];
     public ArrayList<Point> path = new ArrayList<>();
 
@@ -32,7 +38,7 @@ public class BattleMap {
         ArrayList<Point> buffTileRandom;
         boolean finishGenBuffTle = false;
         while (finishGenBuffTle == false) {
-            int buffTileType = 1;
+            int buffTileType = attackSpeedTile;
             this.reset();
             buffTileRandom = new ArrayList<>();
             for (int i = 1; i <= mapW - 2; i++)
@@ -85,11 +91,11 @@ public class BattleMap {
     public void removePath() {
         for (int i = 0; i < this.mapW; i++)
             for (int j = 0; j < this.mapH; j++)
-                if (this.map[i][j] == 4) this.map[i][j] = 0;
+                if (this.map[i][j] == pathTile) this.map[i][j] = 0;
     }
 
     public void genPath() {
-        map[0][mapH - 1] = 4;
+        map[0][mapH - 1] = pathTile;
         PriorityQueue<TileNode> open = new PriorityQueue(new Comparator<TileNode>() {
             @Override
             public int compare(TileNode a, TileNode b) {
@@ -128,11 +134,11 @@ public class BattleMap {
                 }
         }
         while (top.father != null) {
-            map[top.pos.x][top.pos.y] = 4;
+            map[top.pos.x][top.pos.y] = pathTile;
             path.add(new Point(top.pos));
             top = top.father;
         }
-        path.add(new Point(0, 4));
+        path.add(new Point(0, mapH - 1));
     }
 
     public int nodeValue(Point p) {
@@ -144,7 +150,7 @@ public class BattleMap {
                         value -= 200;
                     }
             }
-        return value - (6 - p.x) * 7 - (p.y) * 5;
+        return value - (mapW - 1 - p.x) * 7 - (p.y) * 5;
     }
 
     public void genTree() {
@@ -159,8 +165,6 @@ public class BattleMap {
         }
         int countTree = 0;
         while (countTree < 2) {
-            Point startPoint = new Point(0, 5);
-            Point endPoint = new Point(6, 0);
             Random rd = new Random();
             if (turnTileArray.size() == 0) break;
             int treeindex = rd.nextInt(turnTileArray.size());
@@ -170,9 +174,9 @@ public class BattleMap {
                 for (int k = -1; k <= 1; k++) {
                     if ((Math.abs(h) + Math.abs(k)) == 1) {
                         Point treeTile = new Point(turnTile.x + h, turnTile.y + k);
-                        if (isInBound(treeTile) && map[treeTile.x][treeTile.y] != 4)
-                            if (checkBuffTileAround(treeTile) == false && map[treeTile.x][treeTile.y] != 5) {
-                                map[treeTile.x][treeTile.y] = 5;
+                        if (isInBound(treeTile) && map[treeTile.x][treeTile.y] != pathTile)
+                            if (checkBuffTileAround(treeTile) == false && map[treeTile.x][treeTile.y] != treeTileNum) {
+                                map[treeTile.x][treeTile.y] = treeTileNum;
                                 countTree++;
                                 break;
                             }
@@ -182,15 +186,13 @@ public class BattleMap {
     }
 
     public void genPitCell() {
-        boolean finded = false;
         while (true) {
             Random RD = new Random();
             int i = RD.nextInt(mapW);
             int j = RD.nextInt(mapH);
             if ((checkBuffTileAround(new Point(i, j)) == false) && map[i][j] == 0)
                 if (checkPathAround(new Point(i, j))) {
-                    map[i][j] = 6;
-                    finded = true;
+                    map[i][j] = pitTile;
                     break;
                 }
         }
@@ -219,14 +221,14 @@ public class BattleMap {
         for (int h = -1; h <= 1; h++)
             for (int k = -1; k <= 1; k++) {
                 if (isInBound(new Point(p.x + h, p.y + k))) {
-                    if (map[p.x + h][p.y + k] == 4) return true;
+                    if (map[p.x + h][p.y + k] == pathTile) return true;
                 }
             }
         return false;
     }
 
     public boolean isValuedTile(int value) {
-        if (value == 1 || value == 2 || value == 3 || value == 5) return true;
+        if (value == attackDamageTile || value == attackRangeTile || value == attackSpeedTile || value == treeTileNum) return true;
         return false;
     }
 

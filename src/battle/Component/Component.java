@@ -19,7 +19,7 @@ public class Component {
 
     public Component(int typeID) {
         this.typeID = typeID;
-        //this.id= currentID;
+        this.id=Utils.UUID.genIncrementID();
         this._active = true;
     }
 

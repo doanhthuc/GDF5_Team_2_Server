@@ -1,11 +1,13 @@
 package battle.Common;
 
 public class Utils {
-    int _incrementID =0;
-    public Utils(){
-        this._incrementID=0;
+    public static class UUID {
+        static int _instanceID =0;
+        static int _componentTypeID =0;
+        public static int genIncrementID(){
+            return ++_instanceID;
+        }
     }
-    public int genIncrementID(){
-        return this._incrementID++;
-    }
+
+
 }
