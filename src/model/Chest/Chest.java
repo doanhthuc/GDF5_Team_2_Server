@@ -32,7 +32,9 @@ public class Chest {
 
     public void randomRewardItem() {
         Random random = new Random();
-        while (this.reward.size()>0) {this.reward.remove(0);}
+        while (this.reward.size() > 0) {
+            this.reward.remove(0);
+        }
         int goldQuantity = random.nextInt(ChestDefine.MAXGOLD - ChestDefine.MINGOLD) + ChestDefine.MINGOLD;
         Item GoldItem = new Item(ItemDefine.GOLDTYPE, goldQuantity);
         this.reward.add(GoldItem);
