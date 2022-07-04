@@ -18,6 +18,7 @@ import event.eventType.DemoEventType;
 import event.handler.LoginSuccessHandler;
 import model.Inventory.CardCollection;
 import model.Lobby.LobbyChestContainer;
+import model.PlayerID;
 import model.PlayerInfo;
 import model.Shop.ItemList.DailyItemList;
 import model.Shop.ItemList.ShopItemDefine;
@@ -32,6 +33,7 @@ import util.server.ServerConstant;
 import util.server.ServerLoop;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class FresherExtension extends BZExtension {
@@ -53,7 +55,7 @@ public class FresherExtension extends BZExtension {
          */
         BattleMap btm = new BattleMap();
         btm.show();
-        
+
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
@@ -147,16 +149,20 @@ public class FresherExtension extends BZExtension {
     public void doLogin(short cmdId, ISession session, DataCmd objData) {
         RequestLogin reqGet = new RequestLogin(objData);
         reqGet.unpackData();
-        System.out.println(reqGet.userId);
+        System.out.println(reqGet.userIDStr);
         try {
             PlayerInfo userInfo;
-            if (PlayerInfo.getModel(reqGet.userId, PlayerInfo.class) == null) {
-                userInfo = new PlayerInfo(reqGet.userId, "username" + reqGet.userId, 2000, 2000, 0);
+            if (PlayerID.getModel(reqGet.userIDStr, PlayerID.class) == null) {
+                int newUserID= genNewID();
+                userInfo = new PlayerInfo(newUserID, "username" + reqGet.userIDStr, 2000, 2000, 0);
                 userInfo.show();
                 userInfo.saveModel(userInfo.getId());
+                PlayerID newPID=new PlayerID(newUserID,reqGet.userIDStr);
+                newPID.saveModel(reqGet.userIDStr);
                 initUserData(userInfo.getId());
             } else {
-                userInfo = (PlayerInfo) PlayerInfo.getModel(reqGet.userId, PlayerInfo.class);
+                PlayerID pID = (PlayerID) PlayerID.getModel(reqGet.userIDStr, PlayerID.class);
+                userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
             }
             UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
             User u = ExtensionUtility.instance().canLogin(uInfo, "", session);
@@ -190,7 +196,10 @@ public class FresherExtension extends BZExtension {
         addEventHandler(BZEventType.USER_LOGIN, LoginSuccessHandler.class);
         addEventHandler(DemoEventType.LOGIN_SUCCESS, DemoHandler.class);
     }
-
+    private int genNewID(){
+        final AtomicInteger guestCount = new AtomicInteger(1);
+        return guestCount.incrementAndGet();
+    };
 }
 // addEventHandler(BZEventType.USER_LOGOUT, LogoutHandler.class);
 //addEventHandler(BZEventType.USER_DISCONNECT, LogoutHandler.class);
