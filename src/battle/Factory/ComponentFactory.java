@@ -1,2 +1,4 @@
-package battle.Factory;public class ComponentFactory {
+package battle.Factory;
+
+public class ComponentFactory {
 }

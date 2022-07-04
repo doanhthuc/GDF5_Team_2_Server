@@ -154,7 +154,7 @@ public class FresherExtension extends BZExtension {
             PlayerInfo userInfo;
             if (PlayerID.getModel(reqGet.userIDStr, PlayerID.class) == null) {
                 int newUserID= genNewID();
-                userInfo = new PlayerInfo(newUserID, "username" + reqGet.userIDStr, 2000, 2000, 0);
+                userInfo = new PlayerInfo(newUserID,  reqGet.userIDStr, 2000, 2000, 0);
                 userInfo.show();
                 userInfo.saveModel(userInfo.getId());
                 PlayerID newPID=new PlayerID(newUserID,reqGet.userIDStr);
