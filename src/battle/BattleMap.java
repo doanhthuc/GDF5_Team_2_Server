@@ -28,6 +28,7 @@ public class BattleMap {
         //this.show();
     }
 
+
     public void genBuffTile() {
 
 //        for(int i=0;i<buffTileRandom.size();i++)

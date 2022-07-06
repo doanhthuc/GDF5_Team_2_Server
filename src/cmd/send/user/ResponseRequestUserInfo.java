@@ -29,6 +29,7 @@ public class ResponseRequestUserInfo extends BaseMsg {
         bf.putInt(info.getGold());
         bf.putInt(info.getGem());
         bf.putInt(info.getTrophy());
+        bf.putLong(System.currentTimeMillis());
         return packBuffer(bf);
     }
 }

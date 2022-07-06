@@ -18,4 +18,20 @@ public class GameConfig {
         public static int BUFF_ATTACK_SPEED = 14;
         public static int BUFF_ATTACK_DAMAGE = 15;
     }
+
+    public static class ENTITY_ID {
+        public static int SWORD_MAN = 1;
+        public static int CANNON_TOWER = 2;
+        public static int BULLET = 3;
+        public static int BEAR_TOWER = 4;
+        public static int FROG_TOWER = 5;
+    }
+
+    public static int TILE_WIDTH = 77;
+
+    public static int TILE_HEIGHT = 77;
+    public static int MAP_WIDTH = 7;
+    public static int MAP_HEIGHT = 5;
+    public static int RIVER_MAP_HEIGHT = 100;
 }
+

@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EntityECS {
-    int typeID;
-    Map<Integer, Component> components;
-    int id;
-    boolean _active;
+    public int typeID;
+    public Map<Integer, Component> components;
+    public int id;
+    public boolean _active;
 
     public EntityECS(int typeID) {
         this.typeID = typeID;

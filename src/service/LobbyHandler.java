@@ -155,7 +155,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
                 return;
             }
             long remainingTime = lobbyChestToSpeedup.getRemainingTime();
-            int gemRequire = (int) remainingTime / LobbyChestDefine.MILLISECOND_PER_GEM;
+            int gemRequire = (int)Math.ceil(remainingTime / LobbyChestDefine.MILLISECOND_PER_GEM);
             //verify Gem
             if ((verifyPurchase(userInfo.getGem(), gemRequire)) == true) {
                 userInfo.addGem(-gemRequire);
