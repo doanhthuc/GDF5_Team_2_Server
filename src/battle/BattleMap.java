@@ -24,10 +24,20 @@ public class BattleMap {
         this.genPath();
         this.genTree();
         this.genPitCell();
-        this.removePath();
+       // this.removePath();
         //this.show();
     }
-
+    public BattleMap(int X)
+    {
+        int arr[][] ={{0,0,0,0,0},{0,0,0,0,0},{0,0,0,3,0},{0,0,0,0,0},{0,1,0,0,0},{0,0,0,2,0},{0,0,0,0,0,0}};
+        //int arr[][] ={{0,0,0,0,0},{0,0,2,0,0},{0,0,0,0,0},{0,3,0,0,0},{0,0,0,1,0},{0,0,0,0,0},{0,0,0,0,0,0}};
+        for(int i=0;i<mapW;i++)
+            for(int j=0;j<mapH;j++)
+                this.map[i][j]=arr[i][j];
+        this.genPath();
+        this.genTree();
+        this.genPitCell();
+    }
 
     public void genBuffTile() {
 

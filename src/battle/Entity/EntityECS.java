@@ -34,18 +34,21 @@ public class EntityECS {
     public Component getComponent(int typeID) {
         return this.components.get(typeID);
     }
-    public boolean hasAllComponent(ArrayList<Integer> typeIDs){
-        int c=0;
-        for(Integer typeID: typeIDs){
-            if (this.getComponent(typeID)!=null)
+
+    public boolean hasAllComponent(ArrayList<Integer> typeIDs) {
+        int c = 0;
+        for (Integer typeID : typeIDs) {
+            if (this.getComponent(typeID) != null)
                 c++;
         }
-        return (c==typeIDs.size());
+        return (c == typeIDs.size());
     }
-    public void setActive(boolean value){
-        this._active=value;
+
+    public void setActive(boolean value) {
+        this._active = value;
     }
-    public boolean getActive(){
+
+    public boolean getActive() {
         return this._active;
     }
 }

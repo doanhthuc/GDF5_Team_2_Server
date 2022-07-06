@@ -166,14 +166,15 @@ public class ShopHandler extends BaseClientRequestHandler {
             }
 
             //Verify Gem
-            int gemChange = -itemToBuy.getPrice();
+            int gemChange = itemToBuy.getPrice();
             int goldChange = itemToBuy.getQuantity();
             System.out.println(gemChange + " " + goldChange);
             if (verifyPurchase(userInfo.getGem(), gemChange) == true) {
-                userInfo.addGem(gemChange);
+                userInfo.addGem(-gemChange);
                 userInfo.addGold(goldChange);
                 userInfo.saveModel(userInfo.getId());
-                send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldChange, gemChange, rqBuyGold.getId())), user);
+                userInfo.show();
+                send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldChange, -gemChange, rqBuyGold.getId())), user);
             } else {
                 send(new ResponseRequestBuyGoldShop(ShopError.NOT_ENOUGH_GEM.getValue()), user);
             }
