@@ -1,5 +1,6 @@
 package battle.Component.Component;
 
+import battle.Common.Point;
 import battle.Config.GameConfig;
 
 public class PositionComponent extends Component {
@@ -15,5 +16,7 @@ public class PositionComponent extends Component {
         this.x=x;
         this.y=y;
     }
-
+    public Point getPos(){
+        return new Point(x,y);
+    }
 }

@@ -24,7 +24,7 @@ public class EntityManager {
         return this.entities.get(entityID);
     }
 
-    public ArrayList<EntityECS> getEntitiesByComponents(ArrayList<Integer> componentTypeIDS) {
+    public ArrayList<EntityECS> getEntitiesHasComponents(ArrayList<Integer> componentTypeIDS) {
         ArrayList<EntityECS> entityList = new ArrayList<>();
         for (Map.Entry<Integer, EntityECS> entry : entities.entrySet()) {
             EntityECS entity = entry.getValue();

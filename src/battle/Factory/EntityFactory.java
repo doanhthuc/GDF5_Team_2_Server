@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class EntityFactory {
     public EntityPool pool = new EntityPool();
-
+    static EntityFactory _instance;
     public EntityECS _createEntity(int typeID) {
         EntityECS entity = null;
         if (entity == null) {
@@ -106,6 +106,7 @@ public class EntityFactory {
         ArrayList<Point> path = new ArrayList<Point>();
         path.add(new Point(0, 6));
         path.add(new Point(0, 5));
+        //ToDo: find shortest Path with TilePos
         PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path);
 
         entity.addComponent(monsterInfoComponent);
@@ -120,11 +121,22 @@ public class EntityFactory {
     public EntityECS createCannonOwlTower(Point pos) {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
         EntityECS entity = this._createEntity(typeID);
-        Point pixelPos = new Point(pos.x, pos.y);
+        Point pixelPos = Utils.getInstance().pixel2Tile(pos.x, pos.y, "");
         double attackRange = 1.5 * GameConfig.TILE_WIDTH;
 
-       // TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType")
-        return null;
-    };
+        TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pos.x, (int) pos.y);
+        AttackComponent attackComponent = ComponentFactory.getInstance().createAttackComponent(10, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 0.6, 0, null);
+
+        entity.addComponent(towerInfoComponent);
+        entity.addComponent(positionComponent);
+        entity.addComponent(attackComponent);
+        return entity;
+    }
+    public static EntityFactory getInstance()
+    {
+        if (_instance==null) _instance=new EntityFactory();
+        return _instance;
+    }
 }
 

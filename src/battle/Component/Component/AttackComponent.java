@@ -6,19 +6,29 @@ import battle.Config.GameConfig;
 
 import java.util.ArrayList;
 
-class AttackComponent extends Component {
+public class AttackComponent extends Component {
     public String name = " AttackComponent";
     public int originDamage;
-    public int _damage;
+    public double _damage;
     public int targetStategy;
-    public int range;
-    public int originSpeed;
-    public int speed;
-    public int countdown;
-    ArrayList<EffectComponent> effects = new ArrayList<>();
+    public double range;
+    public double originSpeed;
+    public double speed;
+    public double countdown;
+    public ArrayList<EffectComponent> effects = new ArrayList<>();
 
-    public AttackComponent(int damage, int targetStrategy, int range, int speed, int countdown, EffectComponent effects) {
+    public AttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
         super(GameConfig.COMPONENT_ID.ATTACK);
+        this.originDamage = damage;
+        this._damage = damage;
+        this.targetStategy = targetStrategy;
+        this.range = range;
+        this.speed = speed;
+        this.countdown = countdown;
+        this.effects.add(new DamageEffect(this._damage));
+    }
+
+    public void reset(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
         this.originDamage = damage;
         this._damage = damage;
         this.targetStategy = targetStrategy;
