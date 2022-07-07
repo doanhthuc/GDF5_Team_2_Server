@@ -55,16 +55,7 @@ class TowerInfoComponent extends InfoComponent{
     }
 }
 
-class BulletInfoComponent extends InfoComponent{
-    public String name= "BulletInfoComponent";
-    int effects;
-    int type;
-    public BulletInfoComponent(int effects, int type){
-        super(GameConfig.COMPONENT_ID.BULLET_INFO);
-        this.effects=effects;
-        this.type=type;
-    }
-}
+
 
 class LifeComponent extends InfoComponent{
     public String name= "LifeComponent";
