@@ -26,6 +26,8 @@ public class EntityManager {
 
     public ArrayList<EntityECS> getEntitiesHasComponents(ArrayList<Integer> componentTypeIDS) {
         ArrayList<EntityECS> entityList = new ArrayList<>();
+        //for(Integer i:componentTypeIDS) System.out.println("AllTypeIDS: "+i+" ");
+        //System.out.println();
         for (Map.Entry<Integer, EntityECS> entry : entities.entrySet()) {
             EntityECS entity = entry.getValue();
             if (entity.getActive() && entity.hasAllComponent(componentTypeIDS)) {

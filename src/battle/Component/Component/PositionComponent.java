@@ -19,4 +19,7 @@ public class PositionComponent extends Component {
     public Point getPos(){
         return new Point(x,y);
     }
+    public String toString(){
+        return (this.x+" "+this.y);
+    }
 }

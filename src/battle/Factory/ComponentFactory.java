@@ -97,6 +97,7 @@ public class ComponentFactory {
 
     public TowerInfoComponent createTowerInfoComponent(int energy, String bulletTargetType, String archType, String targetType, String bulletType) {
         TowerInfoComponent towerInfoComponent = (TowerInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.TOWER_INFO);
+
         if (towerInfoComponent != null) {
             towerInfoComponent.reset(energy, bulletTargetType, archType, targetType, bulletType);
         } else {

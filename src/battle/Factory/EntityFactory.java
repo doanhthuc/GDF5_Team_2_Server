@@ -121,8 +121,9 @@ public class EntityFactory {
     public EntityECS createCannonOwlTower(Point pos) {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
         EntityECS entity = this._createEntity(typeID);
-        Point pixelPos = Utils.getInstance().pixel2Tile(pos.x, pos.y, "");
+        //Point pixelPos = Utils.getInstance().pixel2Tile(pos.x, pos.y, "");
         double attackRange = 1.5 * GameConfig.TILE_WIDTH;
+
 
         TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pos.x, (int) pos.y);

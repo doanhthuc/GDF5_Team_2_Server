@@ -9,6 +9,9 @@ public class EffectComponent extends Component {
     public EffectComponent(int typeID) {
         this.typeID = typeID;
     }
+    public EffectComponent clone(){
+        return null;
+    }
 }
 
 

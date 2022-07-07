@@ -1,8 +1,12 @@
 package extension;
 
 
+import battle.Battle;
 import battle.BattleMap;
+import battle.Manager.EntityManager;
+import battle.System.AttackSystem;
 import bitzero.engine.sessions.ISession;
+import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
 import bitzero.server.core.BZEventType;
 import bitzero.server.entities.User;
@@ -33,6 +37,7 @@ import util.server.ServerConstant;
 import util.server.ServerLoop;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -53,9 +58,9 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
-        BattleMap btm = new BattleMap();
-        btm.show();
-
+//        BattleMap btm = new BattleMap();
+//        btm.show();
+        initBattle();
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
@@ -90,10 +95,14 @@ public class FresherExtension extends BZExtension {
         }
     }
 
+    public void initBattle()
+    {
+        Battle battle= new Battle();
+    }
+
     public void initUserData(long userID) {
         System.out.println("initUserdata");
         ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
-        System.out.println(goldShop.itemList.get(0).getItemID());
         DailyItemList dailyShop = new DailyItemList(userID);
         CardCollection userCardCollection = new CardCollection(userID);
         LobbyChestContainer userLobbyChest = new LobbyChestContainer(userID);

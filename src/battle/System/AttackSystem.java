@@ -13,28 +13,38 @@ import bitzero.core.P;
 
 import java.util.ArrayList;
 
-public class AttackSystem extends System {
+public class AttackSystem extends System implements Runnable {
     public int id = GameConfig.SYSTEM_ID.ATTACK;
     public String name = "AttackSystem";
 
     public AttackSystem() {
-        java.lang.System.out.println("NOT OPENING");
+//        java.lang.System.out.println("AttackSystem");
     }
+
     @Override
     public void run() {
         this.currentMillis = java.lang.System.currentTimeMillis();
         this.tick = currentMillis - pastMillis;
         this.pastMillis = currentMillis;
+        java.lang.System.out.println(this.tick);
         ArrayList<Integer> typeIDs = new ArrayList<>();
         typeIDs.add(GameConfig.COMPONENT_ID.ATTACK);
         ArrayList<EntityECS> towerList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);
-
-        while (typeIDs.size() > 0) {
+        //Debug
+//        for(EntityECS i:towerList) {
+//            java.lang.System.out.println(i.id);
+//            java.lang.System.out.println(i.getComponent(GameConfig.COMPONENT_ID.POSITION).toString());
+//        }
+        while (typeIDs.size() != 0) {
             typeIDs.remove(0);
         }
-        typeIDs.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
-        ArrayList<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);
-
+        ArrayList<Integer> typeID2s = new ArrayList<>();
+        typeID2s.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
+        ArrayList<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(typeID2s);
+//        for(EntityECS i:monsterList) {
+//            java.lang.System.out.println(i.id);
+//            java.lang.System.out.println(i.getComponent(GameConfig.COMPONENT_ID.POSITION).toString());
+//        }
         for (EntityECS tower : towerList) {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             if (attackComponent.countdown > 0) {
@@ -46,16 +56,17 @@ public class AttackSystem extends System {
                     double distance = this._distanceFrom(tower, monster);
                     if (distance <= attackComponent.range) monsterInRange.add(monster);
                 }
-                if (monsterInRange.size()>0){
-                    EntityECS targetMonster= this._findtargetMonsterByStratgy(attackComponent.targetStategy,monsterInRange);
+                if (monsterInRange.size() > 0) {
+                    EntityECS targetMonster = this._findtargetMonsterByStratgy(attackComponent.targetStategy, monsterInRange);
                     PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                     PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
-                    EntityFactory.getInstance().createBullet(tower.typeID,towerPos.getPos(),monsterPos.getPos(),attackComponent.effects);
+                    EntityFactory.getInstance().createBullet(tower.typeID, towerPos.getPos(), monsterPos.getPos(), attackComponent.effects);
                     attackComponent.countdown = attackComponent.speed;
                 }
             }
 
         }
+
     }
 
     public double _distanceFrom(EntityECS tower, EntityECS monster) {
@@ -63,8 +74,8 @@ public class AttackSystem extends System {
         PositionComponent monsterPos = (PositionComponent) monster.getComponent(GameConfig.COMPONENT_ID.POSITION);
         return Utils.euclidDistance(new Point(towerPos.x, towerPos.y), new Point(monsterPos.x, monsterPos.y));
     }
-    public EntityECS _findtargetMonsterByStratgy(int stategy,ArrayList<EntityECS> monsterInRange)
-    {
+
+    public EntityECS _findtargetMonsterByStratgy(int stategy, ArrayList<EntityECS> monsterInRange) {
         return monsterInRange.get(0);
     }
 }
