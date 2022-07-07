@@ -1,7 +1,8 @@
 package battle.Entity;
 
 import battle.Common.Utils;
-import battle.Component.Component;
+import battle.Component.Component.Component;
+import battle.Config.GameConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,12 +13,20 @@ public class EntityECS {
     public Map<Integer, Component> components;
     public int id;
     public boolean _active;
-
+    public String mode;
     public EntityECS(int typeID) {
         this.typeID = typeID;
         this.components = new HashMap<>();
         this.id = Utils.UUID.genIncrementID();
         this._active = true;
+    }
+    public EntityECS(int typeID,String mode) {
+        this.typeID = typeID;
+        this.components = new HashMap<>();
+        this.id = Utils.UUID.genIncrementID();
+        this._active = true;
+        if (mode=="") mode= GameConfig.PLAYER;
+        this.mode=mode;
     }
 
     public void addComponent(Component component) {

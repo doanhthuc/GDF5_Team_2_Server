@@ -1,6 +1,8 @@
 package battle.Config;
 
 public class GameConfig {
+    public static String PLAYER="player";
+    public static String OPPONENT="opponent";
     public static class COMPONENT_ID {
         public static int MONSTER_INFO = 1;
         public static int TOWER_INFO = 2;
@@ -20,11 +22,11 @@ public class GameConfig {
     }
 
     public static class ENTITY_ID {
-        public static int SWORD_MAN = 1;
-        public static int CANNON_TOWER = 2;
-        public static int BULLET = 3;
-        public static int BEAR_TOWER = 4;
-        public static int FROG_TOWER = 5;
+        public static final int SWORD_MAN = 1;
+        public static final int CANNON_TOWER = 2;
+        public static final int BULLET = 3;
+        public static final int BEAR_TOWER = 4;
+        public static final int FROG_TOWER = 5;
     }
 
     public static int TILE_WIDTH = 77;

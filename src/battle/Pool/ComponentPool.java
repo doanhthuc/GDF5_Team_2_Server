@@ -1,6 +1,6 @@
 package battle.Pool;
 
-import battle.Component.Component;
+import battle.Component.Component.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class ComponentPool {
         return component.getActive() == false;
     }
 
-    Component checkOut(int typeID) {
+    public Component checkOut(int typeID) {
         Map<Integer, Component> unlockedMap = this.unlocked.get(typeID);
         if (unlockedMap.size() > 0) {
             Component component = unlockedMap.values().iterator().next();
@@ -35,7 +35,7 @@ public class ComponentPool {
         return null;
     }
 
-    void checkIn(Component component) {
+    public void checkIn(Component component) {
         if ((this.locked.get(component.typeID) != null)
                 && (this.locked.get(component.typeID).get(component.id) != null)){
             this.locked.get(component.typeID).remove(component.id);

@@ -1,14 +1,20 @@
-package battle.Component;
+package battle.Component.InfoComponent;
 
-import battle.Component.InfoComponent;
+import battle.Component.EffectComponent.EffectComponent;
 import battle.Config.GameConfig;
+
+import java.util.ArrayList;
 
 public class BulletInfoComponent extends InfoComponent {
     public String name= "BulletInfoComponent";
-    int effects;
+    ArrayList<EffectComponent> effects;
     int type;
-    public BulletInfoComponent(int effects, int type){
+    public BulletInfoComponent(ArrayList<EffectComponent> effects, int type){
         super(GameConfig.COMPONENT_ID.BULLET_INFO);
+        this.effects=effects;
+        this.type=type;
+    }
+    public void reset(ArrayList<EffectComponent> effects, int type){
         this.effects=effects;
         this.type=type;
     }

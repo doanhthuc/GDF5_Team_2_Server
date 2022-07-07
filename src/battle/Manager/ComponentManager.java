@@ -1,17 +1,16 @@
 package battle.Manager;
 
 
-import battle.Component.Component;
+import battle.Component.Component.Component;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class ComponentManager {
     public Map<Integer, Component> _storeInstance;
     public Map<Integer, Component> _storeCls;
     String name = "ComponentManager";
+    private static ComponentManager _instance = null;
 
     public ComponentManager() {
         this._storeCls = new HashMap();
@@ -44,8 +43,7 @@ public class ComponentManager {
         this._storeInstance.remove(component.id);
     }
 
-    public ComponentManager getInstance() {
-        ComponentManager _instance = null;
+    public static ComponentManager getInstance() {
         if (_instance == null) _instance = new ComponentManager();
         return _instance;
     }
