@@ -63,6 +63,7 @@ public class FresherExtension extends BZExtension {
         addRequestHandler(LobbyHandler.LOBBY_MULTI_IDS, LobbyHandler.class);
         addRequestHandler(CheatHandler.CHEAT_MULTI_IDS, CheatHandler.class);
         addRequestHandler(BattleHandler.BATTLE_MULTI_IDS, BattleHandler.class);
+        addRequestHandler(MatchingHandler.MATCH_MULTI_IDS, MatchingHandler.class);
         registerHandler();
     }
 
