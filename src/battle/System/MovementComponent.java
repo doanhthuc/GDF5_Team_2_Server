@@ -1,2 +1,4 @@
-package battle.System;public class MovementComponent {
+package battle.System;
+
+public class MovementComponent {
 }

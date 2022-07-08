@@ -58,9 +58,8 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
-//        BattleMap btm = new BattleMap();
-//        btm.show();
-        initBattle();
+
+        //initBattle();
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
@@ -97,6 +96,8 @@ public class FresherExtension extends BZExtension {
 
     public void initBattle()
     {
+        //        BattleMap btm = new BattleMap();
+//        btm.show();
         Battle battle= new Battle();
     }
 

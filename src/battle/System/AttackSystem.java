@@ -23,25 +23,28 @@ public class AttackSystem extends System implements Runnable {
 
     @Override
     public void run() {
-        this.currentMillis = java.lang.System.currentTimeMillis();
-        this.tick = currentMillis - pastMillis;
-        this.pastMillis = currentMillis;
+        this.tick=this.getEclapseTime();
         java.lang.System.out.println(this.tick);
-        ArrayList<Integer> typeIDs = new ArrayList<>();
-        typeIDs.add(GameConfig.COMPONENT_ID.ATTACK);
-        ArrayList<EntityECS> towerList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);
+        //Create List of Component TypeIDs
+        ArrayList<Integer> typeIDTower = new ArrayList<>();
+        typeIDTower.add(GameConfig.COMPONENT_ID.ATTACK);
+        ArrayList<EntityECS> towerList = EntityManager.getInstance().getEntitiesHasComponents(typeIDTower);
 //        for(EntityECS i:towerList) {
 //            i.showComponent();
 //        }
-        while (typeIDs.size() != 0) {
-            typeIDs.remove(0);
-        }
-        ArrayList<Integer> typeID2s = new ArrayList<>();
-        typeID2s.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
-        ArrayList<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(typeID2s);
+
+        ArrayList<Integer> typeIDMonster= new ArrayList<>();
+        typeIDMonster.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
+        ArrayList<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(typeIDMonster);
 //        for(EntityECS i:monsterList) {
 //            i.showComponent();
 //        }
+        ArrayList<Integer> typeIDBullet = new ArrayList<>();
+        typeIDBullet.add(GameConfig.COMPONENT_ID.BULLET_INFO);
+        ArrayList<EntityECS> bulletList = EntityManager.getInstance().getEntitiesHasComponents(typeIDBullet);
+        for (EntityECS bullet: bulletList) {
+            bullet.showComponent();
+        }
         for (EntityECS tower : towerList) {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             if (attackComponent.countdown > 0) {
@@ -56,11 +59,11 @@ public class AttackSystem extends System implements Runnable {
                 }
                 if (monsterInRange.size() > 0) {
                     EntityECS targetMonster = this._findtargetMonsterByStratgy(attackComponent.targetStategy, monsterInRange);
-                    targetMonster.showComponent();
+                    //targetMonster.showComponent();
                     PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                     PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
                     EntityFactory.getInstance().createBullet(tower.typeID, towerPos.getPos(), monsterPos.getPos(), attackComponent.effects);
-                    attackComponent.countdown = attackComponent.speed;
+                    attackComponent.countdown = attackComponent.speed*1000;
                 }
             }
 

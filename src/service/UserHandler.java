@@ -120,6 +120,7 @@ public class UserHandler extends BaseClientRequestHandler {
     }
 
     private void userDisconnect(User user) {
+        System.out.println("UserDisconnect");
     }
 
     private void userChangeName(User user, String name) {

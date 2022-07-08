@@ -24,10 +24,7 @@ public class CollisionSystem extends System {
 
     @Override
     public void run() {
-        this.currentMillis = java.lang.System.currentTimeMillis();
-        this.tick = currentMillis - pastMillis;
-        this.pastMillis = currentMillis;
-
+        this.tick=this.getEclapseTime();
         ArrayList<Integer> typeIDs = new ArrayList<>();
         typeIDs.add(GameConfig.COMPONENT_ID.COLLISION);
         ArrayList<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);
