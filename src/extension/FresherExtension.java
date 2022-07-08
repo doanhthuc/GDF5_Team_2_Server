@@ -18,6 +18,7 @@ import bitzero.util.common.business.Debug;
 import bitzero.util.datacontroller.business.DataController;
 import bitzero.util.socialcontroller.bean.UserInfo;
 import cmd.receive.authen.RequestLogin;
+import cmd.send.user.ResponseLogout;
 import event.eventType.DemoEventType;
 import event.handler.LoginSuccessHandler;
 import model.Inventory.CardCollection;
@@ -164,19 +165,13 @@ public class FresherExtension extends BZExtension {
         try {
             PlayerInfo userInfo;
             if (PlayerID.getModel(reqGet.userIDStr, PlayerID.class) == null) {
-                UserIncrementID newID= (UserIncrementID) UserIncrementID.getModel(0,UserIncrementID.class);
-                if (newID==null) {
-                    newID= new UserIncrementID();
-                    try {
-                        newID.saveModel(0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                UserIncrementID newID = (UserIncrementID) UserIncrementID.getModel(0, UserIncrementID.class);
+                if (newID == null) {
+                    newID = new UserIncrementID();
+                    newID.saveModel(0);
                 }
                 int newUserID = newID.genIncrementID();
                 newID.saveModel(0);
-                System.out.println("new USer UserId="+ newUserID +" UserIDStr="+reqGet.userIDStr);
-
                 userInfo = new PlayerInfo(newUserID, reqGet.userIDStr, 0, 0, 0);
                 userInfo.show();
                 userInfo.saveModel(userInfo.getId());
@@ -185,7 +180,10 @@ public class FresherExtension extends BZExtension {
                 initUserData(userInfo.getId());
             } else {
                 PlayerID pID = (PlayerID) PlayerID.getModel(reqGet.userIDStr, PlayerID.class);
-                System.out.println("Old User UserId=" + pID.userID+ " " + "UserIdStr="+pID.userIDStr);
+                User user = BitZeroServer.getInstance().getUserManager().getUserById(pID.userID);
+                if (user!=null) {
+                    send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()),user);
+                }
                 userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
             }
             UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
