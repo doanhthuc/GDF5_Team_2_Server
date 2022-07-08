@@ -122,6 +122,7 @@ public class ShopHandler extends BaseClientRequestHandler {
 
             if (itemToBuy.getItemType() == ItemDefine.CHESTTYPE) {
                 Chest ch = new Chest();
+                ch.randomRewardItem();
                 ArrayList<Item> reward = ch.getChestReward();
                 for (int i = 0; i < reward.size(); i++) {
                     Item item = reward.get(i);
