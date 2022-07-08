@@ -12,10 +12,10 @@ public class CardCollection extends DataModel {
 
     public CardCollection(long id) {
         this.id = id;
-        this.cardCollection.add(new Card(ItemDefine.OWL, "", 6, 1, 50));
-        this.cardCollection.add(new Card(ItemDefine.CROW, "", 9, 1, 50));
-        this.cardCollection.add(new Card(ItemDefine.FROG, "", 10, 1, 50));
-        this.cardCollection.add(new Card(ItemDefine.BUNNY, "", 6, 1, 50));
+        this.cardCollection.add(new Card(ItemDefine.OWL, "", 6, 1, 0));
+        this.cardCollection.add(new Card(ItemDefine.CROW, "", 9, 1, 0));
+        this.cardCollection.add(new Card(ItemDefine.FROG, "", 10, 1, 0));
+        this.cardCollection.add(new Card(ItemDefine.BUNNY, "", 6, 1, 0));
         this.cardCollection.add(new Card(ItemDefine.POLAR, "", 9, 1, 0));
         this.cardCollection.add(new Card(ItemDefine.GOAT, "", 10, 1, 0));
         this.cardCollection.add(new Card(ItemDefine.SNAKE, "", 6, 1, 0));

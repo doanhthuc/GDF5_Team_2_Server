@@ -25,6 +25,6 @@ public class Battle {
 
     public void _initTower() {
         EntityFactory.getInstance().createCannonOwlTower(new Point(1, 3));
-        EntityFactory.getInstance().createSwordManMonster(new Point(0, 4), "");
+        EntityFactory.getInstance().createSwordManMonster(new Point(0, 77*3), "");
     }
 }

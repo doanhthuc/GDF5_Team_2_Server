@@ -9,7 +9,7 @@ public class TowerInfoComponent extends InfoComponent {
     String targetType;
     String bulletType;
     public TowerInfoComponent(int energy, String bulletTargetType,String archType, String targetType,  String bulletType){
-        super(GameConfig.COMPONENT_ID.MONSTER_INFO);
+        super(GameConfig.COMPONENT_ID.TOWER_INFO);
         this.energy=energy;
         this.bulletTargetType=bulletTargetType;
         this.archType=archType;

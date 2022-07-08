@@ -7,7 +7,7 @@ import battle.Config.GameConfig;
 import java.util.ArrayList;
 
 public class AttackComponent extends Component {
-    public String name = " AttackComponent";
+    public String name="AttackComponent";
     public int originDamage;
     public double _damage;
     public int targetStategy;

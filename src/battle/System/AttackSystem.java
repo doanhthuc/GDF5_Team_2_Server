@@ -30,10 +30,8 @@ public class AttackSystem extends System implements Runnable {
         ArrayList<Integer> typeIDs = new ArrayList<>();
         typeIDs.add(GameConfig.COMPONENT_ID.ATTACK);
         ArrayList<EntityECS> towerList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);
-        //Debug
 //        for(EntityECS i:towerList) {
-//            java.lang.System.out.println(i.id);
-//            java.lang.System.out.println(i.getComponent(GameConfig.COMPONENT_ID.POSITION).toString());
+//            i.showComponent();
 //        }
         while (typeIDs.size() != 0) {
             typeIDs.remove(0);
@@ -42,8 +40,7 @@ public class AttackSystem extends System implements Runnable {
         typeID2s.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
         ArrayList<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(typeID2s);
 //        for(EntityECS i:monsterList) {
-//            java.lang.System.out.println(i.id);
-//            java.lang.System.out.println(i.getComponent(GameConfig.COMPONENT_ID.POSITION).toString());
+//            i.showComponent();
 //        }
         for (EntityECS tower : towerList) {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
@@ -54,10 +51,12 @@ public class AttackSystem extends System implements Runnable {
                 ArrayList<EntityECS> monsterInRange = new ArrayList<>();
                 for (EntityECS monster : monsterList) {
                     double distance = this._distanceFrom(tower, monster);
+                    //java.lang.System.out.println(distance+" "+attackComponent.range);
                     if (distance <= attackComponent.range) monsterInRange.add(monster);
                 }
                 if (monsterInRange.size() > 0) {
                     EntityECS targetMonster = this._findtargetMonsterByStratgy(attackComponent.targetStategy, monsterInRange);
+                    targetMonster.showComponent();
                     PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                     PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
                     EntityFactory.getInstance().createBullet(tower.typeID, towerPos.getPos(), monsterPos.getPos(), attackComponent.effects);

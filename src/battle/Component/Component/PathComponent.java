@@ -1,4 +1,5 @@
 package battle.Component.Component;
+
 import battle.Common.Point;
 import battle.Config.GameConfig;
 import bitzero.core.P;

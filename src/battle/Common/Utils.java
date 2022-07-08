@@ -41,6 +41,12 @@ public class Utils {
         return null;
     }
 
+    public static Point tile2Pixel(double xx, double yy) {
+        double x = GameConfig.TILE_WIDTH * xx + GameConfig.TILE_WIDTH / 2;
+        double y = GameConfig.TILE_HEIGHT * yy + GameConfig.TILE_HEIGHT / 2;
+        return new Point(x, y);
+    }
+
     public static Point Tile2Pixel() {
         return null;
     }

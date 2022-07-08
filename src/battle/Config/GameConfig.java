@@ -60,9 +60,10 @@ public class GameConfig {
         public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET);
         public static List<Integer> EFFECT_COMPONENT = Arrays.asList(COMPONENT_ID.DAMAGE_EFFECT, COMPONENT_ID.FROZEN_EFFECT,COMPONENT_ID.SLOW_EFFECT);
         public static List<Integer> INFO_COMPONENT = Arrays.asList(COMPONENT_ID.BULLET_INFO,COMPONENT_ID.TOWER_INFO,COMPONENT_ID.MONSTER_INFO);
-
-
-
+    }
+    public static class COMPONENT_NAME{
+        public static List<String> NAME= Arrays.asList("","MONSTER_INFO","TOWER_INFO","BULLET_INFO","LIFE","POSITION","VELOCITY","APPEARANCE","PATH","COLLISION","DAMAGE_EFFECT","SLOW_EFFECT",
+        "FROZEN_EFFECT","ATTACK","BUFF_ATTACK_SPEED","BUFF_ATTACK_DAMAGE");
     }
     public static int TILE_WIDTH = 77;
 

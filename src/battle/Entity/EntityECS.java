@@ -49,7 +49,7 @@ public class EntityECS {
     public boolean hasAllComponent(ArrayList<Integer> typeIDs) {
         int c = 0;
         for (Integer typeID : typeIDs) {
-           // System.out.println("AllTypeIDS"+ typeID);
+            // System.out.println("AllTypeIDS"+ typeID);
             if (this.getComponent(typeID) != null) {
                 c++;
             }
@@ -65,5 +65,17 @@ public class EntityECS {
 
     public boolean getActive() {
         return this._active;
+    }
+
+    public void showComponent() {
+        Component component = null;
+        for (int i = 1; i <= 15; i++) {
+            component = this.getComponent(i);
+            if (component != null) {
+                System.out.println(component.name);
+            }
+        }
+        System.out.println("entityecs--------------");
+        System.out.println();
     }
 }
