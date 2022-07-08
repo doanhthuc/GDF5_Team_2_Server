@@ -180,8 +180,9 @@ public class FresherExtension extends BZExtension {
                 initUserData(userInfo.getId());
             } else {
                 PlayerID pID = (PlayerID) PlayerID.getModel(reqGet.userIDStr, PlayerID.class);
+                //check If there is UserOnline
                 User user = BitZeroServer.getInstance().getUserManager().getUserById(pID.userID);
-                if (user!=null) {
+                if (user!=null) { //Send Logout to Old user
                     send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()),user);
                 }
                 userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
