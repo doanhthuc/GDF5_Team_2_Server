@@ -27,6 +27,7 @@ import model.PlayerInfo;
 import model.Shop.ItemList.DailyItemList;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
+import model.UserIncrementID;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.*;
@@ -60,6 +61,7 @@ public class FresherExtension extends BZExtension {
          */
 
         //initBattle();
+
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
         addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
@@ -94,11 +96,10 @@ public class FresherExtension extends BZExtension {
         }
     }
 
-    public void initBattle()
-    {
+    public void initBattle() {
         //        BattleMap btm = new BattleMap();
 //        btm.show();
-        Battle battle= new Battle();
+        Battle battle = new Battle();
     }
 
     public void initUserData(long userID) {
@@ -163,15 +164,28 @@ public class FresherExtension extends BZExtension {
         try {
             PlayerInfo userInfo;
             if (PlayerID.getModel(reqGet.userIDStr, PlayerID.class) == null) {
-                int newUserID= genNewID();
-                userInfo = new PlayerInfo(newUserID,  reqGet.userIDStr, 0, 0, 0);
+                UserIncrementID newID= (UserIncrementID) UserIncrementID.getModel(0,UserIncrementID.class);
+                if (newID==null) {
+                    newID= new UserIncrementID();
+                    try {
+                        newID.saveModel(0);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                int newUserID = newID.genIncrementID();
+                newID.saveModel(0);
+                System.out.println("new USer UserId="+ newUserID +" UserIDStr="+reqGet.userIDStr);
+
+                userInfo = new PlayerInfo(newUserID, reqGet.userIDStr, 0, 0, 0);
                 userInfo.show();
                 userInfo.saveModel(userInfo.getId());
-                PlayerID newPID=new PlayerID(newUserID,reqGet.userIDStr);
+                PlayerID newPID = new PlayerID(newUserID, reqGet.userIDStr);
                 newPID.saveModel(reqGet.userIDStr);
                 initUserData(userInfo.getId());
             } else {
                 PlayerID pID = (PlayerID) PlayerID.getModel(reqGet.userIDStr, PlayerID.class);
+                System.out.println("Old User UserId=" + pID.userID+ " " + "UserIdStr="+pID.userIDStr);
                 userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
             }
             UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
@@ -206,10 +220,12 @@ public class FresherExtension extends BZExtension {
         addEventHandler(BZEventType.USER_LOGIN, LoginSuccessHandler.class);
         addEventHandler(DemoEventType.LOGIN_SUCCESS, DemoHandler.class);
     }
-    private int genNewID(){
-        final AtomicInteger guestCount = new AtomicInteger(1);
-        return guestCount.incrementAndGet();
-    };
+
+    private int genNewID() {
+        return GuestLogin.guestCount.incrementAndGet();
+    }
+
+    ;
 }
 // addEventHandler(BZEventType.USER_LOGOUT, LogoutHandler.class);
 //addEventHandler(BZEventType.USER_DISCONNECT, LogoutHandler.class);

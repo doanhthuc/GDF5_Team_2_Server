@@ -17,6 +17,7 @@ public class ResponseRequestSpeedUpLobbyChest extends BaseMsg {
         this.lobbyDTO = lobbyDTO;
         error = _error;
     }
+
     public ResponseRequestSpeedUpLobbyChest(short _error) {
         super(CmdDefine.SPEEDUP_LOBBY_CHEST);
         error = _error;
@@ -27,14 +28,16 @@ public class ResponseRequestSpeedUpLobbyChest extends BaseMsg {
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
         bf.putShort(error);
-        bf.putInt(this.lobbyDTO.getChestId());
-        bf.putInt(this.lobbyDTO.getState());
-        bf.putInt(this.lobbyDTO.getGemchange());
-        ArrayList<Item> reward = this.lobbyDTO.getReward();
-        bf.putInt(reward.size());
-        for (int i = 0; i < reward.size(); i++) {
-            bf.putInt(reward.get(i).getItemType());
-            bf.putInt(reward.get(i).getQuantity());
+        if (this.lobbyDTO != null) {
+            bf.putInt(this.lobbyDTO.getChestId());
+            bf.putInt(this.lobbyDTO.getState());
+            bf.putInt(this.lobbyDTO.getGemchange());
+            ArrayList<Item> reward = this.lobbyDTO.getReward();
+            bf.putInt(reward.size());
+            for (int i = 0; i < reward.size(); i++) {
+                bf.putInt(reward.get(i).getItemType());
+                bf.putInt(reward.get(i).getQuantity());
+            }
         }
         return packBuffer(bf);
     }
