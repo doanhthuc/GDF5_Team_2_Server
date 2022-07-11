@@ -23,6 +23,8 @@ public class CmdDefine {
 
     public static final short GET_BATTLE_MAP = 5001;
 
+    public static final short ENTER_ROOM = 6001;
+
     public static final short CHEAT_USER_INFO = 7001;
     public static final short CHEAT_USER_CARD = 7002;
     public static final short CHEAT_USER_LOBBY_CHEST = 7003;
