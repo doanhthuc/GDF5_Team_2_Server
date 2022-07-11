@@ -22,6 +22,13 @@ public class Battle {
         this.attackSystem = new AttackSystem();
     }
 
+    public Battle(BattleMap battleMap) {
+        this.entityManager = EntityManager.getInstance();
+        this._initTower();
+        this.attackSystem = new AttackSystem();
+        this.battleMap = battleMap;
+    }
+
     public void _initTower() {
         EntityFactory.getInstance().createCannonOwlTower(new Point(1, 3));
         EntityFactory.getInstance().createSwordManMonster(new Point(35, 77*3), "");

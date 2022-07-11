@@ -1,5 +1,6 @@
 package model.battle;
 
+import battle.Battle;
 import model.Inventory.Card;
 import model.Inventory.Inventory;
 import model.PlayerInfo;
@@ -9,10 +10,17 @@ import java.util.List;
 public class PlayerInBattle extends PlayerInfo {
 
     private List<Card> battleDeck;
+    private Battle battle;
 
     public PlayerInBattle(PlayerInfo player) {
         super(player.getId(), player.getUserName(), player.getGold(), player.getGem(), player.getTrophy());
         setBattleDeck();
+    }
+
+    public PlayerInBattle(PlayerInfo player, Battle battle) {
+        super(player.getId(), player.getUserName(), player.getGold(), player.getGem(), player.getTrophy());
+        setBattleDeck();
+        this.battle = battle;
     }
 
     public void setBattleDeck() {
@@ -28,4 +36,11 @@ public class PlayerInBattle extends PlayerInfo {
         return battleDeck;
     }
 
+    public Battle getBattle() {
+        return battle;
+    }
+
+    public void setBattle(Battle battle) {
+        this.battle = battle;
+    }
 }

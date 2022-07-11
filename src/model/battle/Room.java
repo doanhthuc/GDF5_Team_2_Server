@@ -15,7 +15,18 @@ public class Room implements Runnable{
         this.roomId = RoomManager.getInstance().getRoomCount();
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
-        this.battle = new Battle();
+    }
+
+    public Room(PlayerInfo player1, PlayerInfo player2, Battle battle1, Battle battle2) {
+        this.roomId = RoomManager.getInstance().getRoomCount();
+        this.player1 = new PlayerInBattle(player1, battle1);
+        this.player2 = new PlayerInBattle(player2, battle2);
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Hello AAAA");
+        this.battle.attackSystem.run();
     }
 
     public PlayerInfo getOpponentPlayer(int playerId) {
@@ -52,11 +63,5 @@ public class Room implements Runnable{
 
     public void setPlayer2(PlayerInBattle player2) {
         this.player2 = player2;
-    }
-
-    @Override
-    public void run() {
-        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(this.battle.attackSystem,0,100, TimeUnit.MILLISECONDS);
-
     }
 }

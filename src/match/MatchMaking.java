@@ -1,5 +1,6 @@
 package match;
 
+import battle.Battle;
 import battle.BattleMap;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
@@ -9,6 +10,8 @@ import cmd.obj.matching.OpponentInfo;
 import cmd.send.matching.ResponseCancelMatching;
 import cmd.send.matching.ResponseMatching;
 import model.PlayerInfo;
+import model.battle.Room;
+import model.battle.RoomManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.MatchingHandler;
@@ -18,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class MatchMaking implements Runnable {
     private static final BlockingQueue<MatchingInfo> waitingQueue = new LinkedBlockingQueue<>();
@@ -27,7 +31,6 @@ public class MatchMaking implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Queue size = " + waitingQueue.size());
         while (waitingQueue.size() >= 2) {
             MatchingInfo matchingInfo1 = waitingQueue.peek();
             MatchingInfo matchingInfo2;
@@ -92,6 +95,10 @@ public class MatchMaking implements Runnable {
             BattleMap user1Map = new BattleMap();
             BattleMap user2Map = new BattleMap();
 
+            Room room = new Room(userInfo1, userInfo2, new Battle(user1Map), new Battle(user2Map));
+            RoomManager.getInstance().addRoom(room);
+            BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(room,0,100, TimeUnit.MILLISECONDS);
+//            new Thread(room).start();
             // add opponent's username, trophy and 8 card
 
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),

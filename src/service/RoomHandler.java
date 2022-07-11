@@ -73,7 +73,7 @@ public class RoomHandler extends BaseClientRequestHandler {
             PlayerInfo user2 = (PlayerInfo) PlayerInfo.getModel(1, PlayerInfo.class);
             Room room = new Room(userInfo, user2);
             RoomManager.getInstance().addRoom(room);
-            new Thread(room).start();
+//            new Thread(room).start();
             send(new ResponseRequestGetRoomInfo(RoomError.SUCCESS.getValue(), room, (int) user2.getId()), user);
         } catch (Exception e) {
             logger.info("processAddUserGold exception");
