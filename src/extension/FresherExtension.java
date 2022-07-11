@@ -2,9 +2,6 @@ package extension;
 
 
 import battle.Battle;
-import battle.BattleMap;
-import battle.Manager.EntityManager;
-import battle.System.AttackSystem;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -21,11 +18,11 @@ import cmd.receive.authen.RequestLogin;
 import cmd.send.user.ResponseLogout;
 import event.eventType.DemoEventType;
 import event.handler.LoginSuccessHandler;
-import model.Inventory.CardCollection;
+import model.Inventory.Inventory;
 import model.Lobby.LobbyChestContainer;
 import model.PlayerID;
 import model.PlayerInfo;
-import model.Shop.ItemList.DailyItemList;
+import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
@@ -39,8 +36,6 @@ import util.server.ServerConstant;
 import util.server.ServerLoop;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class FresherExtension extends BZExtension {
@@ -106,13 +101,13 @@ public class FresherExtension extends BZExtension {
     public void initUserData(long userID) {
         System.out.println("initUserdata");
         ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
-        DailyItemList dailyShop = new DailyItemList(userID);
-        CardCollection userCardCollection = new CardCollection(userID);
+        DailyShop dailyShop = new DailyShop(userID);
+        Inventory userInventory = new Inventory(userID);
         LobbyChestContainer userLobbyChest = new LobbyChestContainer(userID);
         try {
             goldShop.saveModel(userID);
             dailyShop.saveModel(userID);
-            userCardCollection.saveModel(userID);
+            userInventory.saveModel(userID);
             userLobbyChest.saveModel(userID);
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,10 +117,10 @@ public class FresherExtension extends BZExtension {
 
     public void showUserData(int userId) {
         try {
-            DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userId, DailyItemList.class);
+            DailyShop dailyShop = (DailyShop) DailyShop.getModel(userId, DailyShop.class);
             dailyShop.show();
-            CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userId, CardCollection.class);
-            userCardCollection.show();
+            Inventory userInventory = (Inventory) Inventory.getModel(userId, Inventory.class);
+            userInventory.show();
             LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userId, LobbyChestContainer.class);
             userLobbyChest.show();
         } catch (Exception e) {

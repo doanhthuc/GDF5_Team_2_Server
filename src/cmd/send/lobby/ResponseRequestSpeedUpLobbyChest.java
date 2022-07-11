@@ -2,7 +2,7 @@ package cmd.send.lobby;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
-import model.Item.Item;
+import model.Common.Item;
 import model.Lobby.LobbyDTO;
 
 import java.nio.ByteBuffer;

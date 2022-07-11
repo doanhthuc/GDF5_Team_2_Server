@@ -1,6 +1,6 @@
 package model.Lobby;
 
-import model.Item.Item;
+import model.Common.Item;
 
 import java.util.ArrayList;
 
