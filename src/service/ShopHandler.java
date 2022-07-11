@@ -62,6 +62,7 @@ public class ShopHandler extends BaseClientRequestHandler {
     }
 
     public void handleClientRequest(User user, DataCmd dataCmd) {
+
         try {
             switch (dataCmd.getId()) {
                 case CmdDefine.BUY_GOLD_SHOP:
