@@ -6,6 +6,7 @@ import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import cmd.HandlerId;
 import cmd.receive.cheat.RequestCheatUserCard;
 import cmd.receive.cheat.RequestCheatUserInfo;
 import cmd.receive.cheat.RequestCheatUserLobbyChest;
@@ -26,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import util.server.ServerConstant;
 
 public class CheatHandler extends BaseClientRequestHandler {
-    public static short CHEAT_MULTI_IDS = 7000;
+    public static short HANDLER_ID = HandlerId.CHEAT.getValue();
     private final Logger logger = LoggerFactory.getLogger("UserHandler");
 
     public CheatHandler() {

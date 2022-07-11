@@ -6,6 +6,7 @@ import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import cmd.HandlerId;
 import cmd.receive.lobby.RequestLobbyChest;
 import cmd.send.lobby.ResponseRequestClaimLobbyChest;
 import cmd.send.lobby.ResponseRequestGetUserLobbyChest;
@@ -29,7 +30,7 @@ import util.server.ServerConstant;
 import java.util.ArrayList;
 
 public class LobbyHandler extends BaseClientRequestHandler {
-    public static short LOBBY_MULTI_IDS = 4000;
+    public static short HANDLER_ID = HandlerId.LOBBY.getValue();
     private final Logger logger = LoggerFactory.getLogger("UserHandler");
 
     public LobbyHandler() {

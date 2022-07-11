@@ -6,6 +6,7 @@ import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import cmd.HandlerId;
 import cmd.receive.shop.RequestBuyDailyShop;
 import cmd.receive.shop.RequestBuyGoldShop;
 import cmd.send.shop.ResponseRequestBuyDailyShop;
@@ -32,7 +33,7 @@ import util.server.ServerConstant;
 import java.util.ArrayList;
 
 public class ShopHandler extends BaseClientRequestHandler {
-    public static short SHOP_MULTI_IDS = 2000;
+    public static short HANDLER_ID = HandlerId.SHOP.getValue();
     private final Logger logger = LoggerFactory.getLogger("ShopHandler");
 
     public ShopHandler() {
@@ -62,7 +63,6 @@ public class ShopHandler extends BaseClientRequestHandler {
     }
 
     public void handleClientRequest(User user, DataCmd dataCmd) {
-
         try {
             switch (dataCmd.getId()) {
                 case CmdDefine.BUY_GOLD_SHOP:

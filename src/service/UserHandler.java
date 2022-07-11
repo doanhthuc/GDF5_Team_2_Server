@@ -10,6 +10,7 @@ import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
+import cmd.HandlerId;
 import cmd.receive.user.RequestAddGem;
 import cmd.receive.user.RequestAddGold;
 import cmd.send.user.ResponseAddGem;
@@ -28,7 +29,7 @@ import util.server.ServerConstant;
 import java.util.List;
 
 public class UserHandler extends BaseClientRequestHandler {
-    public static short USER_MULTI_IDS = 1000;
+    public static short HANDLER_ID = HandlerId.USER.getValue();
     private final Logger logger = LoggerFactory.getLogger("UserHandler");
 
     public UserHandler() {
