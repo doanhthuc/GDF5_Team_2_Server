@@ -28,4 +28,5 @@ public class CmdDefine {
     public static final short CHEAT_USER_LOBBY_CHEST = 7003;
 
     public static final short MATCHING = 8001;
+    public static final short CANCEL_MATCHING = 8002;
 }

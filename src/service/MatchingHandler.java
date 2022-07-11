@@ -4,6 +4,7 @@ import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
+import cmd.receive.matching.RequestCancelMatching;
 import cmd.receive.matching.RequestMatching;
 import cmd.send.cheat.ResponseRequestCheatUserInfo;
 import match.MatchMaking;
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class MatchingHandler extends BaseClientRequestHandler {
     public static short MATCH_MULTI_IDS = 8000;
     private final Logger logger = LoggerFactory.getLogger("MatchHandler");
-    private MatchMaking matchMaking;
+    private MatchMaking matchMaking = new MatchMaking();
 
     @Override
     public void init() {
@@ -29,11 +30,16 @@ public class MatchingHandler extends BaseClientRequestHandler {
 
     @Override
     public void handleClientRequest(User user, DataCmd dataCmd) {
+
         try {
             switch (dataCmd.getId()) {
                 case CmdDefine.MATCHING:
-                    RequestMatching request = new RequestMatching(dataCmd);
-                    processMatching(request, user);
+                    RequestMatching rqMatching = new RequestMatching(dataCmd);
+                    processMatching(rqMatching, user);
+                    break;
+                case CmdDefine.CANCEL_MATCHING:
+                    RequestCancelMatching rqCancel = new RequestCancelMatching(dataCmd);
+                    processCancelMatching(rqCancel,user);
                     break;
             }
         } catch (Exception e) {
@@ -49,6 +55,20 @@ public class MatchingHandler extends BaseClientRequestHandler {
                 return;
             }
 
+            this.matchMaking.addUser(user.getId(), userInfo.getTrophy());
+        } catch (Exception e) {
+            logger.error("processMatching exception");
+        }
+    }
+
+    private void processCancelMatching(RequestCancelMatching request, User user) {
+        try {
+            PlayerInfo userInfo = getUserInfo(user);
+            if (userInfo == null) {
+                return;
+            }
+
+            this.matchMaking.cancelMatching(user);
         } catch (Exception e) {
             logger.error("processMatching exception");
         }
