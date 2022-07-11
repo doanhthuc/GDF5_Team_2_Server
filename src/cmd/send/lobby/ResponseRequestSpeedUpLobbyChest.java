@@ -27,7 +27,6 @@ public class ResponseRequestSpeedUpLobbyChest extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         if (this.lobbyDTO != null) {
             bf.putInt(this.lobbyDTO.getChestId());
             bf.putInt(this.lobbyDTO.getState());

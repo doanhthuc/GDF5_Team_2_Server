@@ -26,7 +26,6 @@ public class ResponseRequestCheatUserLobbyChest extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(chestId);
         bf.putInt(cheatLobbyChest.getState());
         bf.putLong(cheatLobbyChest.getClaimTime());
