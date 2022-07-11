@@ -1,6 +1,6 @@
 package model.Shop.ItemList;
 
-import model.Item.ItemDefine;
+import model.Common.ItemDefine;
 import model.Shop.ShopItem;
 
 public class DailyItemList extends ShopItemList {
