@@ -5,6 +5,7 @@ import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
+import bitzero.util.socialcontroller.bean.UserInfo;
 import cmd.CmdDefine;
 import cmd.receive.cheat.RequestCheatUserInfo;
 import cmd.receive.room.RequestRoomInfo;
@@ -17,6 +18,9 @@ import cmd.send.user.ResponseLogout;
 import cmd.send.user.ResponseRequestUserInfo;
 import extension.FresherExtension;
 import model.PlayerInfo;
+import model.battle.PlayerInBattle;
+import model.battle.Room;
+import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,47 +70,19 @@ public class RoomHandler extends BaseClientRequestHandler {
                 send(new ResponseRequestGetRoomInfo(RoomError.FAIL.getValue()), user);
             }
             int roomId = rq.getRoomID();
-            send(new ResponseRequestGetRoomInfo(RoomError.SUCCESS.getValue(), user.getId()), user);
+            PlayerInfo user2 = (PlayerInfo) PlayerInfo.getModel(1, PlayerInfo.class);
+            Room room = new Room(userInfo, user2);
+            RoomManager.getInstance().addRoom(room);
+            new Thread(room).start();
+            send(new ResponseRequestGetRoomInfo(RoomError.SUCCESS.getValue(), room, (int) user2.getId()), user);
         } catch (Exception e) {
             logger.info("processAddUserGold exception");
         }
     }
 
-    private void processAddUserGem(RequestAddGem requestaddGem, User user) {
-        try {
-            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
-            if (userInfo == null) {
-                logger.info("PlayerInfo null");
-                send(new ResponseRequestUserInfo(UserHandler.UserError.USERINFO_NULL.getValue()), user);
-            }
-            userInfo.addGem(requestaddGem.getGem());
-            userInfo.saveModel(userInfo.getId());
-            send(new ResponseAddGem(UserHandler.UserError.SUCCESS.getValue(), requestaddGem.getGem()), user);
-        } catch (Exception e) {
-            logger.info("processAddUserGem exception");
-        }
-    }
-    private void processLogoutUser(User user){
-        System.out.println("loggout");
-        send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()),user);
-        BitZeroServer.getInstance().getSessionManager().removeSession(user.getSession());
-        BitZeroServer.getInstance().getUserManager().disconnectUser(user);
-        //      ExtensionUtility.dispatchEvent(new BZEvent(BZEventType.USER_DISCONNECT));
-    }
-
-    private void userDisconnect(User user) {
-        System.out.println("UserDisconnect");
-    }
-
-    private void userChangeName(User user, String name) {
-        List<User> allUser = BitZeroServer.getInstance().getUserManager().getAllUsers();
-        for (User aUser : allUser) {
-        }
-    }
-
     public enum RoomError {
         SUCCESS((short) 0),
-        FAIL((short)1),
+        FAIL((short) 1),
         ;
 
 

@@ -66,4 +66,27 @@ public class Inventory extends DataModel {
         return this.cardCollection.size();
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public ArrayList<Card> getCardCollection() {
+        return cardCollection;
+    }
+
+    public void setCardCollection(ArrayList<Card> cardCollection) {
+        this.cardCollection = cardCollection;
+    }
+
+    public ArrayList<Integer> getBattleDeck() {
+        return battleDeck;
+    }
+
+    public void setBattleDeck(ArrayList<Integer> battleDeck) {
+        this.battleDeck = battleDeck;
+    }
 }

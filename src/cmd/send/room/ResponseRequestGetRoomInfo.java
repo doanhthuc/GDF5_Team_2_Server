@@ -2,21 +2,27 @@ package cmd.send.room;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
+import model.Inventory.Card;
+import model.PlayerInfo;
+import model.battle.PlayerInBattle;
+import model.battle.Room;
 
 import java.nio.ByteBuffer;
 
 public class ResponseRequestGetRoomInfo extends BaseMsg {
     public short error;
-    private int userId;
+    private Room room;
+    private int opponentId;
 
     public ResponseRequestGetRoomInfo(short error) {
         super(CmdDefine.ENTER_ROOM);
         this.error = error;
     }
 
-    public ResponseRequestGetRoomInfo(short _error, int userId) {
+    public ResponseRequestGetRoomInfo(short _error, Room room, int opponentId) {
         super(CmdDefine.ENTER_ROOM);
-        this.userId = userId;
+        this.room = room;
+        this.opponentId = opponentId;
         error = _error;
     }
 
@@ -28,18 +34,26 @@ public class ResponseRequestGetRoomInfo extends BaseMsg {
         this.error = error;
     }
 
-    public int getUserId() {
-        return userId;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putInt(this.userId);
+        PlayerInfo opponentPlayer = room.getOpponentPlayer(opponentId);
+        putStr(bf, opponentPlayer.getUserName());
+        bf.putInt(opponentPlayer.getTrophy());
+        PlayerInBattle myPlayerInBattle = room.getMyPlayerInBattle(opponentId);
+        bf.putInt(myPlayerInBattle.getBattleDeck().size());
+        for (Card card: myPlayerInBattle.getBattleDeck()) {
+            bf.putInt(card.getCardType());
+            bf.putInt(card.getLevel());
+        }
         return packBuffer(bf);
     }
 }

@@ -20,7 +20,6 @@ public class Battle {
         this.entityManager = EntityManager.getInstance();
         this._initTower();
         this.attackSystem = new AttackSystem();
-        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(this.attackSystem,0,100, TimeUnit.MILLISECONDS);
     }
 
     public void _initTower() {
