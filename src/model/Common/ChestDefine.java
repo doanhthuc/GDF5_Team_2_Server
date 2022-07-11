@@ -1,4 +1,4 @@
-package model.Chest;
+package model.Common;
 
 public class ChestDefine {
     public static int MINGOLD=10;

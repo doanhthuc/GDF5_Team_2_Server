@@ -14,19 +14,21 @@ public class EntityECS {
     public int id;
     public boolean _active;
     public String mode;
+
     public EntityECS(int typeID) {
         this.typeID = typeID;
         this.components = new HashMap<>();
         this.id = Utils.UUID.genIncrementID();
         this._active = true;
     }
-    public EntityECS(int typeID,String mode) {
+
+    public EntityECS(int typeID, String mode) {
         this.typeID = typeID;
         this.components = new HashMap<>();
         this.id = Utils.UUID.genIncrementID();
         this._active = true;
-        if (mode=="") mode= GameConfig.PLAYER;
-        this.mode=mode;
+        if (mode == "") mode = GameConfig.PLAYER;
+        this.mode = mode;
     }
 
     public void addComponent(Component component) {
@@ -47,9 +49,13 @@ public class EntityECS {
     public boolean hasAllComponent(ArrayList<Integer> typeIDs) {
         int c = 0;
         for (Integer typeID : typeIDs) {
-            if (this.getComponent(typeID) != null)
+            // System.out.println("AllTypeIDS"+ typeID);
+            if (this.getComponent(typeID) != null) {
                 c++;
+            }
         }
+//        System.out.println(c);
+//        System.out.println();
         return (c == typeIDs.size());
     }
 
@@ -59,5 +65,17 @@ public class EntityECS {
 
     public boolean getActive() {
         return this._active;
+    }
+
+    public void showComponent() {
+        Component component = null;
+        for (int i = 1; i <= 15; i++) {
+            component = this.getComponent(i);
+            if (component != null) {
+                System.out.println(component.name);
+            }
+        }
+        System.out.println("entityecs--------------");
+        System.out.println();
     }
 }

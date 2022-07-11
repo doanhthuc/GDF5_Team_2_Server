@@ -1,6 +1,7 @@
 package battle.Manager;
 
 
+import battle.Component.Component.Component;
 import battle.Entity.EntityECS;
 
 import java.util.ArrayList;
@@ -24,8 +25,10 @@ public class EntityManager {
         return this.entities.get(entityID);
     }
 
-    public ArrayList<EntityECS> getEntitiesByComponents(ArrayList<Integer> componentTypeIDS) {
+    public ArrayList<EntityECS> getEntitiesHasComponents(ArrayList<Integer> componentTypeIDS) {
         ArrayList<EntityECS> entityList = new ArrayList<>();
+        //for(Integer i:componentTypeIDS) System.out.println("AllTypeIDS: "+i+" ");
+        //System.out.println();
         for (Map.Entry<Integer, EntityECS> entry : entities.entrySet()) {
             EntityECS entity = entry.getValue();
             if (entity.getActive() && entity.hasAllComponent(componentTypeIDS)) {
@@ -41,6 +44,9 @@ public class EntityManager {
 
     public void destroyEntity(int id) {
         this.entities.get(id).setActive(false);
+        for (Map.Entry<Integer, Component> entry : this.entities.get(id).components.entrySet()) {
+            entry.getValue().setActive(false);
+        }
         this.entities.remove(id);
     }
 

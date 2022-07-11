@@ -18,6 +18,8 @@ public class Component {
     }
 
     public Component(int typeID) {
+        this.name=GameConfig.COMPONENT_NAME.NAME.get(typeID);
+      //  System.out.println(typeID+" "+this.name);
         this.typeID = typeID;
         this.id=Utils.UUID.genIncrementID();
         this._active = true;

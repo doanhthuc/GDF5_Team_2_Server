@@ -12,4 +12,8 @@ public class FrozenEffect extends EffectComponent {
         this.duration=duration;
         this.countdown=this.duration;
     }
+    public FrozenEffect clone()
+    {
+        return new FrozenEffect(duration);
+    }
 }

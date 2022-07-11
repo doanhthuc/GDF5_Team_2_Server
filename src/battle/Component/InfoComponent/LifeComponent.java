@@ -2,8 +2,8 @@ package battle.Component.InfoComponent;
 import battle.Config.GameConfig;
 public class LifeComponent extends InfoComponent {
     public String name= "LifeComponent";
-    double hp;
-    double maxHP;
+    public double hp;
+    public double maxHP;
     public LifeComponent(double hp, double maxHP)
     {
         super(GameConfig.COMPONENT_ID.LIFE);

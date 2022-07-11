@@ -1,4 +1,4 @@
-package model.Item;
+package model.Common;
 
 public class Item {
     // Zing me

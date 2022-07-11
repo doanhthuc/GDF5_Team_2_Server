@@ -1,16 +1,16 @@
 package model.Shop.ItemList;
 
-import model.Item.ItemDefine;
+import model.Common.ItemDefine;
 import model.Shop.ShopItem;
 
-public class DailyItemList extends ShopItemList {
+public class DailyShop extends ShopItemList {
     public int remainingTime;
 
-    public DailyItemList(long userId) {
+    public DailyShop(long userId) {
         this.userId = userId;
         //System.out.println(("DailyItemList"));
-        //this.itemList.add(new ShopItem(0,ItemDefine.CHESTTYPE, 1, ShopItemDefine.CAN_BUY, ShopItemDefine.DAILY_CHEST_PRICE));
-        for (int i = 0; i <= 2; i++) {
+        this.itemList.add(new ShopItem(0,ItemDefine.CHESTTYPE, 1, ShopItemDefine.CAN_BUY, ShopItemDefine.DAILY_CHEST_PRICE));
+        for (int i = 1; i <= 2; i++) {
             ShopItem shopCardItem = new ShopItem();
             shopCardItem.randomCardItem(i);
             this.itemList.add(shopCardItem);

@@ -2,7 +2,6 @@ package cmd.send.shop;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
-import model.Shop.ItemList.DailyItemList;
 import model.Shop.ItemList.ShopItemList;
 import model.Shop.ShopItem;
 

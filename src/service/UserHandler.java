@@ -1,17 +1,20 @@
 package service;
 
 import bitzero.server.BitZeroServer;
+import bitzero.server.core.BZEvent;
 import bitzero.server.core.BZEventParam;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
+import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
 import cmd.receive.user.RequestAddGem;
 import cmd.receive.user.RequestAddGold;
 import cmd.send.user.ResponseAddGem;
 import cmd.send.user.ResponseAddGold;
+import cmd.send.user.ResponseLogout;
 import cmd.send.user.ResponseRequestUserInfo;
 import event.eventType.DemoEventParam;
 import event.eventType.DemoEventType;
@@ -33,13 +36,12 @@ public class UserHandler extends BaseClientRequestHandler {
     }
 
     public void init() {
-        getExtension().addEventListener(BZEventType.USER_DISCONNECT, this);
-        getExtension().addEventListener(BZEventType.USER_RECONNECTION_SUCCESS, this);
+//        getExtension().addEventListener(BZEventType.USER_DISCONNECT, this);
+//        getExtension().addEventListener(BZEventType.USER_RECONNECTION_SUCCESS, this);
 
         /**
          *  register new event, so the core will dispatch event type to this class
          */
-        getExtension().addEventListener(DemoEventType.CHANGE_NAME, this);
     }
 
     private FresherExtension getExtension() {
@@ -48,10 +50,10 @@ public class UserHandler extends BaseClientRequestHandler {
 
     public void handleServerEvent(IBZEvent ibzevent) {
 
-        if (ibzevent.getType() == BZEventType.USER_DISCONNECT)
-            this.userDisconnect((User) ibzevent.getParameter(BZEventParam.USER));
-        else if (ibzevent.getType() == DemoEventType.CHANGE_NAME)
-            this.userChangeName((User) ibzevent.getParameter(DemoEventParam.USER), (String) ibzevent.getParameter(DemoEventParam.NAME));
+//        if (ibzevent.getType() == BZEventType.USER_DISCONNECT)
+//            this.userDisconnect((User) ibzevent.getParameter(BZEventParam.USER));
+//        else if (ibzevent.getType() == DemoEventType.CHANGE_NAME)
+//            this.userChangeName((User) ibzevent.getParameter(DemoEventParam.USER), (String) ibzevent.getParameter(DemoEventParam.NAME));
     }
 
     public void handleClientRequest(User user, DataCmd dataCmd) {
@@ -66,6 +68,8 @@ public class UserHandler extends BaseClientRequestHandler {
                 case CmdDefine.ADD_USER_GEM:
                     RequestAddGem addGem = new RequestAddGem(dataCmd);
                     processAddUserGem(addGem, user);
+                case CmdDefine.LOG_OUT:
+                    processLogoutUser(user);
             }
         } catch (Exception e) {
             logger.warn("USERHANDLER EXCEPTION " + e.getMessage());
@@ -118,8 +122,16 @@ public class UserHandler extends BaseClientRequestHandler {
             logger.info("processAddUserGem exception");
         }
     }
+    private void processLogoutUser(User user){
+        System.out.println("loggout");
+        send(new ResponseLogout(UserError.SUCCESS.getValue()),user);
+        BitZeroServer.getInstance().getSessionManager().removeSession(user.getSession());
+        BitZeroServer.getInstance().getUserManager().disconnectUser(user);
+  //      ExtensionUtility.dispatchEvent(new BZEvent(BZEventType.USER_DISCONNECT));
+    }
 
     private void userDisconnect(User user) {
+        System.out.println("UserDisconnect");
     }
 
     private void userChangeName(User user, String name) {

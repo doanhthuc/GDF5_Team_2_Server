@@ -1,21 +1,21 @@
 package model.Inventory;
 
-import model.Item.ItemDefine;
+import model.Common.ItemDefine;
 import util.database.DataModel;
 
 import java.util.ArrayList;
 
-public class CardCollection extends DataModel {
+public class Inventory extends DataModel {
     public long id;
     public ArrayList<Card> cardCollection = new ArrayList<Card>();
     public ArrayList<Integer> battleDeck = new ArrayList<Integer>();
 
-    public CardCollection(long id) {
+    public Inventory(long id) {
         this.id = id;
-        this.cardCollection.add(new Card(ItemDefine.OWL, "", 6, 1, 50));
-        this.cardCollection.add(new Card(ItemDefine.CROW, "", 9, 1, 50));
-        this.cardCollection.add(new Card(ItemDefine.FROG, "", 10, 1, 50));
-        this.cardCollection.add(new Card(ItemDefine.BUNNY, "", 6, 1, 50));
+        this.cardCollection.add(new Card(ItemDefine.OWL, "", 6, 1, 0));
+        this.cardCollection.add(new Card(ItemDefine.CROW, "", 9, 1, 0));
+        this.cardCollection.add(new Card(ItemDefine.FROG, "", 10, 1, 0));
+        this.cardCollection.add(new Card(ItemDefine.BUNNY, "", 6, 1, 0));
         this.cardCollection.add(new Card(ItemDefine.POLAR, "", 9, 1, 0));
         this.cardCollection.add(new Card(ItemDefine.GOAT, "", 10, 1, 0));
         this.cardCollection.add(new Card(ItemDefine.SNAKE, "", 6, 1, 0));

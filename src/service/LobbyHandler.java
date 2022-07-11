@@ -1,6 +1,5 @@
 package service;
 
-import bitzero.server.BitZeroServer;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
@@ -12,12 +11,11 @@ import cmd.send.lobby.ResponseRequestClaimLobbyChest;
 import cmd.send.lobby.ResponseRequestGetUserLobbyChest;
 import cmd.send.lobby.ResponseRequestSpeedUpLobbyChest;
 import cmd.send.lobby.ResponseRequestUnlockLobbyChest;
-import cmd.send.user.ResponseRequestUserInfo;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
-import model.Inventory.CardCollection;
-import model.Item.Item;
-import model.Item.ItemDefine;
+import model.Inventory.Inventory;
+import model.Common.Item;
+import model.Common.ItemDefine;
 import model.Lobby.LobbyChest;
 import model.Lobby.LobbyChestContainer;
 import model.Lobby.LobbyChestDefine;
@@ -29,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import util.server.ServerConstant;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LobbyHandler extends BaseClientRequestHandler {
     public static short LOBBY_MULTI_IDS = 4000;
@@ -215,14 +212,14 @@ public class LobbyHandler extends BaseClientRequestHandler {
     }
 
     private void updateInventory(ArrayList<Item> reward, PlayerInfo userInfo) throws Exception {
-        CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(), CardCollection.class);
+        Inventory userInventory = (Inventory) Inventory.getModel(userInfo.getId(), Inventory.class);
         for (int i = 0; i < reward.size(); i++) {
             Item item = reward.get(i);
             if (item.getItemType() == ItemDefine.GOLDTYPE) userInfo.addGold(item.getQuantity());
-            else userCardCollection.updateCard(item.getItemType(), item.getQuantity());
+            else userInventory.updateCard(item.getItemType(), item.getQuantity());
         }
         userInfo.saveModel(userInfo.getId());
-        userCardCollection.saveModel(userInfo.getId());
+        userInventory.saveModel(userInfo.getId());
     }
 
     public enum LobbyError {

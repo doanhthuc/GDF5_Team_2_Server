@@ -1,10 +1,7 @@
 package battle.Factory;
 
 import battle.Common.Point;
-import battle.Component.Component.CollisionComponent;
-import battle.Component.Component.PathComponent;
-import battle.Component.Component.PositionComponent;
-import battle.Component.Component.VelocityComponent;
+import battle.Component.Component.*;
 import battle.Component.EffectComponent.EffectComponent;
 import battle.Component.InfoComponent.BulletInfoComponent;
 import battle.Component.InfoComponent.LifeComponent;
@@ -98,9 +95,29 @@ public class ComponentFactory {
         return lifeComponent;
     }
 
-    public TowerInfoComponent createTowerInfoComponent(){
-        return null;
+    public TowerInfoComponent createTowerInfoComponent(int energy, String bulletTargetType, String archType, String targetType, String bulletType) {
+        TowerInfoComponent towerInfoComponent = (TowerInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.TOWER_INFO);
+
+        if (towerInfoComponent != null) {
+            towerInfoComponent.reset(energy, bulletTargetType, archType, targetType, bulletType);
+        } else {
+            towerInfoComponent = new TowerInfoComponent(energy, bulletTargetType, archType, targetType, bulletType);
+            ComponentManager.getInstance().add(towerInfoComponent);
+        }
+        return towerInfoComponent;
     }
+
+    public AttackComponent createAttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
+        AttackComponent attackComponent = (AttackComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.ATTACK);
+        if (attackComponent != null) {
+            attackComponent.reset(damage, targetStrategy, range, speed, countdown, effects);
+        } else {
+            attackComponent = new AttackComponent(damage, targetStrategy, range, speed, countdown, effects);
+            ComponentManager.getInstance().add(attackComponent);
+        }
+        return attackComponent;
+    }
+
     public static ComponentFactory getInstance() {
         if (_instance == null) _instance = new ComponentFactory();
         return _instance;

@@ -2,16 +2,16 @@ package cmd.send.shop;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
-import model.Shop.ItemList.DailyItemList;
+import model.Shop.ItemList.DailyShop;
 import model.Shop.ShopItem;
 
 import java.nio.ByteBuffer;
 
 public class ResponseRequestGetUserDailyShop extends BaseMsg {
-    public DailyItemList dailyShop;
+    public DailyShop dailyShop;
     public short error;
 
-    public ResponseRequestGetUserDailyShop(short _error, DailyItemList dailyShop) {
+    public ResponseRequestGetUserDailyShop(short _error, DailyShop dailyShop) {
         super(CmdDefine.GET_DAILY_SHOP);
         this.dailyShop = dailyShop;
         error = _error;

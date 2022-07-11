@@ -1,8 +1,9 @@
 package extension;
 
 
-import battle.BattleMap;
+import battle.Battle;
 import bitzero.engine.sessions.ISession;
+import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
 import bitzero.server.core.BZEventType;
 import bitzero.server.entities.User;
@@ -14,15 +15,17 @@ import bitzero.util.common.business.Debug;
 import bitzero.util.datacontroller.business.DataController;
 import bitzero.util.socialcontroller.bean.UserInfo;
 import cmd.receive.authen.RequestLogin;
+import cmd.send.user.ResponseLogout;
 import event.eventType.DemoEventType;
 import event.handler.LoginSuccessHandler;
-import model.Inventory.CardCollection;
+import model.Inventory.Inventory;
 import model.Lobby.LobbyChestContainer;
 import model.PlayerID;
 import model.PlayerInfo;
-import model.Shop.ItemList.DailyItemList;
+import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
+import model.UserIncrementID;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.*;
@@ -33,7 +36,6 @@ import util.server.ServerConstant;
 import util.server.ServerLoop;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class FresherExtension extends BZExtension {
@@ -53,8 +55,8 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
-        BattleMap btm = new BattleMap();
-        btm.show();
+
+        //initBattle();
 
         trace("  Register Handler ");
         addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
@@ -91,17 +93,22 @@ public class FresherExtension extends BZExtension {
         }
     }
 
+    public void initBattle() {
+        //        BattleMap btm = new BattleMap();
+//        btm.show();
+        Battle battle = new Battle();
+    }
+
     public void initUserData(long userID) {
         System.out.println("initUserdata");
         ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
-        System.out.println(goldShop.itemList.get(0).getItemID());
-        DailyItemList dailyShop = new DailyItemList(userID);
-        CardCollection userCardCollection = new CardCollection(userID);
+        DailyShop dailyShop = new DailyShop(userID);
+        Inventory userInventory = new Inventory(userID);
         LobbyChestContainer userLobbyChest = new LobbyChestContainer(userID);
         try {
             goldShop.saveModel(userID);
             dailyShop.saveModel(userID);
-            userCardCollection.saveModel(userID);
+            userInventory.saveModel(userID);
             userLobbyChest.saveModel(userID);
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,10 +118,10 @@ public class FresherExtension extends BZExtension {
 
     public void showUserData(int userId) {
         try {
-            DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userId, DailyItemList.class);
+            DailyShop dailyShop = (DailyShop) DailyShop.getModel(userId, DailyShop.class);
             dailyShop.show();
-            CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userId, CardCollection.class);
-            userCardCollection.show();
+            Inventory userInventory = (Inventory) Inventory.getModel(userId, Inventory.class);
+            userInventory.show();
             LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userId, LobbyChestContainer.class);
             userLobbyChest.show();
         } catch (Exception e) {
@@ -154,15 +161,26 @@ public class FresherExtension extends BZExtension {
         try {
             PlayerInfo userInfo;
             if (PlayerID.getModel(reqGet.userIDStr, PlayerID.class) == null) {
-                int newUserID= genNewID();
-                userInfo = new PlayerInfo(newUserID,  reqGet.userIDStr, 2000, 2000, 0);
+                UserIncrementID newID = (UserIncrementID) UserIncrementID.getModel(0, UserIncrementID.class);
+                if (newID == null) {
+                    newID = new UserIncrementID();
+                    newID.saveModel(0);
+                }
+                int newUserID = newID.genIncrementID();
+                newID.saveModel(0);
+                userInfo = new PlayerInfo(newUserID, reqGet.userIDStr, 0, 0, 0);
                 userInfo.show();
                 userInfo.saveModel(userInfo.getId());
-                PlayerID newPID=new PlayerID(newUserID,reqGet.userIDStr);
+                PlayerID newPID = new PlayerID(newUserID, reqGet.userIDStr);
                 newPID.saveModel(reqGet.userIDStr);
                 initUserData(userInfo.getId());
             } else {
                 PlayerID pID = (PlayerID) PlayerID.getModel(reqGet.userIDStr, PlayerID.class);
+                //check If there is UserOnline
+                User user = BitZeroServer.getInstance().getUserManager().getUserById(pID.userID);
+                if (user!=null) { //Send Logout to Old user
+                    send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()),user);
+                }
                 userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
             }
             UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
@@ -197,10 +215,12 @@ public class FresherExtension extends BZExtension {
         addEventHandler(BZEventType.USER_LOGIN, LoginSuccessHandler.class);
         addEventHandler(DemoEventType.LOGIN_SUCCESS, DemoHandler.class);
     }
-    private int genNewID(){
-        final AtomicInteger guestCount = new AtomicInteger(1);
-        return guestCount.incrementAndGet();
-    };
+
+    private int genNewID() {
+        return GuestLogin.guestCount.incrementAndGet();
+    }
+
+    ;
 }
 // addEventHandler(BZEventType.USER_LOGOUT, LogoutHandler.class);
 //addEventHandler(BZEventType.USER_DISCONNECT, LogoutHandler.class);

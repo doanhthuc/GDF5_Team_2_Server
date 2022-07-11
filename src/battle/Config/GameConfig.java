@@ -1,8 +1,15 @@
 package battle.Config;
 
+import battle.Component.Component.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class GameConfig {
-    public static String PLAYER="player";
-    public static String OPPONENT="opponent";
+    public static String PLAYER = "player";
+    public static String OPPONENT = "opponent";
+
     public static class COMPONENT_ID {
         public static int MONSTER_INFO = 1;
         public static int TOWER_INFO = 2;
@@ -29,6 +36,35 @@ public class GameConfig {
         public static final int FROG_TOWER = 5;
     }
 
+    public static class TOWER_TARGET_STRATEGY {
+        public static final int MAX_HP = 1;
+        public static final int MIN_HP = 2;
+        public static final int MAX_DISTANCE = 3;
+        public static final int MIN_DISTANCE = 4;
+    }
+
+    public static class SYSTEM_ID {
+        public static final int MOVEMENT = 1;
+        public static final int PATH_MONSTER = 2;
+        public static final int RENDER = 3;
+        public static final int LIFE = 4;
+        public static final int ATTACK = 5;
+        public static final int EFFECT = 6;
+        public static final int SPRITE_SHEET = 7;
+        public static final int SPELL = 8;
+        public static final int SKELETON = 9;
+    }
+    public static class GROUP_ID {
+        public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.BEAR_TOWER,ENTITY_ID.BEAR_TOWER,ENTITY_ID.CANNON_TOWER);
+        public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN);
+        public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET);
+        public static List<Integer> EFFECT_COMPONENT = Arrays.asList(COMPONENT_ID.DAMAGE_EFFECT, COMPONENT_ID.FROZEN_EFFECT,COMPONENT_ID.SLOW_EFFECT);
+        public static List<Integer> INFO_COMPONENT = Arrays.asList(COMPONENT_ID.BULLET_INFO,COMPONENT_ID.TOWER_INFO,COMPONENT_ID.MONSTER_INFO);
+    }
+    public static class COMPONENT_NAME{
+        public static List<String> NAME= Arrays.asList("","MONSTER_INFO","TOWER_INFO","BULLET_INFO","LIFE","POSITION","VELOCITY","APPEARANCE","PATH","COLLISION","DAMAGE_EFFECT","SLOW_EFFECT",
+        "FROZEN_EFFECT","ATTACK","BUFF_ATTACK_SPEED","BUFF_ATTACK_DAMAGE");
+    }
     public static int TILE_WIDTH = 77;
 
     public static int TILE_HEIGHT = 77;

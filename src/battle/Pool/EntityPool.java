@@ -1,6 +1,7 @@
 package battle.Pool;
 
 import battle.Entity.EntityECS;
+import battle.Factory.EntityFactory;
 
 import java.util.ArrayList;
 
@@ -9,8 +10,11 @@ public class EntityPool {
     EntityECS invisibleEntity;
     public ArrayList<ArrayList<EntityECS>> pool = new ArrayList<>();
 
+    public EntityPool() {
+        this.initiate();
+    }
     public void initiate() {
-        for (int i = 0; i <= this.entityTypeAmount; i++) {
+        for (int i = 0; i < this.entityTypeAmount; i++) {
             this.pool.add(new ArrayList<EntityECS>());
         }
     }
