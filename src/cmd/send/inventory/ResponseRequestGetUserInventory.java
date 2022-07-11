@@ -2,15 +2,15 @@ package cmd.send.inventory;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
-import model.Inventory.CardCollection;
+import model.Inventory.Inventory;
 
 import java.nio.ByteBuffer;
 
 public class ResponseRequestGetUserInventory extends BaseMsg {
-    public CardCollection cc;
+    public Inventory cc;
     public short error;
 
-    public ResponseRequestGetUserInventory(short _error, CardCollection cc) {
+    public ResponseRequestGetUserInventory(short _error, Inventory cc) {
         super(CmdDefine.GET_USER_INVENTORY);
         this.cc = cc;
         error = _error;

@@ -1,7 +1,7 @@
 package model.Lobby;
 
-import model.Chest.Chest;
-import model.Chest.ChestDefine;
+import model.Common.Chest;
+import model.Common.ChestDefine;
 
 public class LobbyChest extends Chest {
     private int state;

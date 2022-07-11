@@ -1,7 +1,4 @@
-package model.Chest;
-
-import model.Item.Item;
-import model.Item.ItemDefine;
+package model.Common;
 
 import java.util.ArrayList;
 import java.util.Random;
