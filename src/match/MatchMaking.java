@@ -51,7 +51,7 @@ public class MatchMaking implements Runnable {
                 }
 
                 if ((matchingInfo1.getTrophy() >= matchingInfo2.getStartRank() && matchingInfo1.getTrophy() <= matchingInfo2.getEndRank())
-                || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
+                        || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
                     processMatching(matchingInfo1, matchingInfo2);
                     break;
                 }
@@ -95,16 +95,15 @@ public class MatchMaking implements Runnable {
             BattleMap user1Map = new BattleMap();
             BattleMap user2Map = new BattleMap();
 
-            Room room = new Room(userInfo1, userInfo2, new Battle(user1Map), new Battle(user2Map));
+            Room room = new Room(userInfo1, userInfo2, user1Map, user2Map);
             RoomManager.getInstance().addRoom(room);
-            BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(room,0,100, TimeUnit.MILLISECONDS);
-//            new Thread(room).start();
+            new Thread(room).start();
             // add opponent's username, trophy and 8 card
 
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    user1Map, user2Map, opponentInfoOfUser1), user1);
+                    room.getRoomId(), user1Map, user2Map, opponentInfoOfUser1), user1);
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    user2Map, user1Map, opponentInfoOfUser2), user2);
+                    room.getRoomId(), user2Map, user1Map, opponentInfoOfUser2), user2);
 
             waitingQueue.remove(matchingInfo1);
             waitingQueue.remove(matchingInfo2);

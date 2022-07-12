@@ -22,6 +22,7 @@ public class CmdDefine {
     public static final short CLAIM_LOBBY_CHEST = 4004;
 
     public static final short GET_BATTLE_MAP = 5001;
+    public static final short PUT_TOWER = 5002;
 
     public static final short ENTER_ROOM = 6001;
 

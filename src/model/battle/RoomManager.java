@@ -12,6 +12,7 @@ public class RoomManager {
     private RoomManager() {
         roomMap = new HashMap<Integer, Room>();
     }
+
     public static RoomManager getInstance() {
         return instance;
     }
@@ -28,6 +29,15 @@ public class RoomManager {
         return roomMap.get(roomId);
     }
 
+    public Room getRoomByUserId(int userId) {
+        for (Room room : roomMap.values()) {
+            if (room.getPlayer1().getId() == userId || room.getPlayer2().getId() == userId) {
+                return room;
+            }
+        }
+        return null;
+    }
+
     public void clear() {
         roomMap.clear();
     }
@@ -39,7 +49,6 @@ public class RoomManager {
     public int getRoomCount() {
         return roomMap.size();
     }
-
 
 
 }
