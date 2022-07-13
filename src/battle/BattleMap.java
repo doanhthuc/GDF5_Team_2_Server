@@ -4,14 +4,16 @@ import bitzero.core.P;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class BattleMap {
     public int mapW = 7;
     public int mapH = 5;
     public int buffTileAmount = 3;
-    public int attackSpeedTile = 1;
-    public int attackRangeTile = 2;
-    public int attackDamageTile = 3;
+    public static int attackSpeedTile = 1;
+    public static int attackRangeTile = 2;
+    public static int attackDamageTile = 3;
+    public static List<Integer> buffTileArray = Arrays.asList(attackSpeedTile,attackRangeTile,attackDamageTile);
     public int pathTile = 4;
     public int treeTileNum = 5;
     public int pitTile = 6;
@@ -24,8 +26,8 @@ public class BattleMap {
         this.genPath();
         this.genTree();
         this.genPitCell();
-        this.removePath();
-        //this.show();
+      //  this.removePath();
+        this.show();
     }
     public BattleMap(int X)
     {
@@ -50,7 +52,7 @@ public class BattleMap {
         ArrayList<Point> buffTileRandom;
         boolean finishGenBuffTle = false;
         while (finishGenBuffTle == false) {
-            int buffTileType = attackSpeedTile;
+            int buffTileIndex = 0;
             this.reset();
             buffTileRandom = new ArrayList<>();
             for (int i = 1; i <= mapW - 2; i++)
@@ -58,13 +60,16 @@ public class BattleMap {
                     if (i == 1 && j == mapH - 2) continue;
                     buffTileRandom.add(new Point(i, j));
                 }
-            while (buffTileType <= buffTileAmount) {
+            while (buffTileIndex < buffTileAmount) {
                 if (buffTileRandom.size() == 0) break;
+
                 int rdPoint = rd.nextInt(buffTileRandom.size());
+
                 int x = buffTileRandom.get(rdPoint).x;
                 int y = buffTileRandom.get(rdPoint).y;
-                map[x][y] = buffTileType;
-                buffTileType++;
+
+                map[x][y] = buffTileArray.get(buffTileIndex);
+                buffTileIndex++;
                 int i = 0;
                 while (i < buffTileRandom.size()) {
                     if (checkAround(new Point(x, y), buffTileRandom.get(i))) {
@@ -74,7 +79,7 @@ public class BattleMap {
                     i++;
                 }
             }
-            if (buffTileType == buffTileAmount + 1) finishGenBuffTle = true;
+            if (buffTileIndex == buffTileAmount ) finishGenBuffTle = true;
         }
     }
 

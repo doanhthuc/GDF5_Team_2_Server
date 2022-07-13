@@ -147,12 +147,16 @@ public class LobbyHandler extends BaseClientRequestHandler {
                 return;
             }
             //verify State
-            if (lobbyChestToSpeedup.getState() != LobbyChestDefine.OPENING_STATE) {
+            if ((lobbyChestToSpeedup.getState() != LobbyChestDefine.OPENING_STATE)
+                    && !(userLobbyChest.checkSpeedUpChest() == true && lobbyChestToSpeedup.getState() == LobbyChestDefine.NOT_OPENING_STATE)) {
                 send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_STATE_ERROR.getValue()), user);
                 return;
             }
+            //If LobbyChest.State== NOTOPENING STATE
+            if (lobbyChestToSpeedup.getState()==LobbyChestDefine.NOT_OPENING_STATE) lobbyChestToSpeedup.unlock();
+
             long remainingTime = lobbyChestToSpeedup.getRemainingTime();
-            int gemRequire = (int)Math.ceil(remainingTime / LobbyChestDefine.MILLISECOND_PER_GEM);
+            int gemRequire = (int) Math.ceil(remainingTime / LobbyChestDefine.MILLISECOND_PER_GEM);
             //verify Gem
             if ((verifyPurchase(userInfo.getGem(), gemRequire)) == true) {
                 userInfo.addGem(-gemRequire);
@@ -165,7 +169,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
                 send(new ResponseRequestSpeedUpLobbyChest(LobbyError.SUCCESS.getValue(),
                         new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToSpeedup.getChestReward(), -gemRequire)), user);
             } else {
-                send(new ResponseRequestSpeedUpLobbyChest(LobbyError.NOT_ENOUGH_GEM.getValue()),user);
+                send(new ResponseRequestSpeedUpLobbyChest(LobbyError.NOT_ENOUGH_GEM.getValue()), user);
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -177,7 +181,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
                 logger.info("PlayerInfo null");
-                send(new ResponseRequestClaimLobbyChest(LobbyError.USERINFO_NULL.getValue()),user);
+                send(new ResponseRequestClaimLobbyChest(LobbyError.USERINFO_NULL.getValue()), user);
                 return;
             }
             System.out.println("Lobby Handle ProcessClaimLobbyChest");
@@ -201,14 +205,14 @@ public class LobbyHandler extends BaseClientRequestHandler {
             userLobbyChest.saveModel(userInfo.getId());
             updateInventory(lobbyChestToClaim.getChestReward(), userInfo);
             send(new ResponseRequestClaimLobbyChest(LobbyError.SUCCESS.getValue(),
-                        new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToClaim.getChestReward(), gemRequire)), user);
+                    new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToClaim.getChestReward(), gemRequire)), user);
         } catch (Exception exception) {
 
         }
     }
 
     private boolean verifyPurchase(int userResource, int itemPrice) {
-        return userResource>=itemPrice;
+        return userResource >= itemPrice;
     }
 
     private void updateInventory(ArrayList<Item> reward, PlayerInfo userInfo) throws Exception {
