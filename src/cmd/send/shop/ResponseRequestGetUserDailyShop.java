@@ -25,7 +25,6 @@ public class ResponseRequestGetUserDailyShop extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.dailyShop.getSize());
         for (int i = 0; i < this.dailyShop.getSize(); i++) {
             ShopItem shopItem = this.dailyShop.itemList.get(i);

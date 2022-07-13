@@ -45,4 +45,9 @@ public class LobbyChestContainer extends DataModel {
     public void update() {
         for (int i = 0; i < this.lobbyChestContainer.size(); i++) this.lobbyChestContainer.get(i).updateChest();
     }
+    public boolean checkSpeedUpChest(){
+        for (int i =0;i<this.lobbyChestContainer.size();i++)
+            if (this.lobbyChestContainer.get(i).getState()==LobbyChestDefine.OPENING_STATE) return true;
+        return  false;
+    }
 }

@@ -21,7 +21,6 @@ public class ResponseAddGem extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(this.error);
         bf.putInt(this.gem);
         return packBuffer(bf);
     }

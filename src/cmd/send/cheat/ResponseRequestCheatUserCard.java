@@ -25,7 +25,6 @@ public class ResponseRequestCheatUserCard extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.cheatCard.getCardType());
         bf.putInt(this.cheatCard.getLevel());
         bf.putInt(this.cheatCard.getAmount());

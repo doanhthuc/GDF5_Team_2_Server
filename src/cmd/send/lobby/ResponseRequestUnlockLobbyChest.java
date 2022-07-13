@@ -15,6 +15,7 @@ public class ResponseRequestUnlockLobbyChest extends BaseMsg {
         this.lobbyDTO = lobbyDTO;
         error = _error;
     }
+
     public ResponseRequestUnlockLobbyChest(short _error) {
         super(CmdDefine.UNLOCK_LOBBY_CHEST);
         error = _error;
@@ -23,10 +24,11 @@ public class ResponseRequestUnlockLobbyChest extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
-        bf.putInt(this.lobbyDTO.getChestId());
-        bf.putInt(this.lobbyDTO.getState());
-        bf.putLong(this.lobbyDTO.getclaimTime());
+        if (this.lobbyDTO != null) {
+            bf.putInt(this.lobbyDTO.getChestId());
+            bf.putInt(this.lobbyDTO.getState());
+            bf.putLong(this.lobbyDTO.getclaimTime());
+        }
         return packBuffer(bf);
     }
 }

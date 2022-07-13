@@ -23,7 +23,6 @@ public class ResponseRequestBuyGoldShop extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.shopDTO.getItemID());
         bf.putInt(this.shopDTO.getGoldChange());
         bf.putInt(this.shopDTO.getGemChange());
