@@ -19,7 +19,6 @@ public class ResponseRequestGetUserInventory extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.cc.cardCollection.size());
         for (int i = 0; i < this.cc.cardCollection.size(); i++) {
             int cardtype = this.cc.cardCollection.get(i).getCardType();

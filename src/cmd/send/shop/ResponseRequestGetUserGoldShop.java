@@ -25,7 +25,6 @@ public class ResponseRequestGetUserGoldShop extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.goldShop.getSize());
         for (int i = 0; i < this.goldShop.getSize(); i++) {
             ShopItem shopItem = this.goldShop.itemList.get(i);

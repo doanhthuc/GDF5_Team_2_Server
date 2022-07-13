@@ -19,7 +19,6 @@ public class ResponseRequestUpgradeCard extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(inventoryDTO.getGoldChange());
         bf.putInt(inventoryDTO.getCardType());
         bf.putInt(inventoryDTO.getFragmentChange());

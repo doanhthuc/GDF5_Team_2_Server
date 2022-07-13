@@ -20,7 +20,6 @@ public class ResponseAddGold extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.gold);
         return packBuffer(bf);
     }

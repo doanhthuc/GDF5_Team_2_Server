@@ -23,7 +23,6 @@ public class ResponseRequestUserInfo extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt((int)info.getId());
         putStr(bf, info.getUserName());
         bf.putInt(info.getGold());

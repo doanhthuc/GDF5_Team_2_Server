@@ -25,7 +25,6 @@ public class ResponseRequestClaimLobbyChest extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.lobbyDTO.getChestId());
         bf.putInt(this.lobbyDTO.getState());
         bf.putInt(this.lobbyDTO.getGemchange());
