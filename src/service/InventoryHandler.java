@@ -6,6 +6,7 @@ import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import cmd.HandlerId;
 import cmd.receive.inventory.RequestUpgradeCard;
 import cmd.send.inventory.ResponseRequestGetUserInventory;
 import cmd.send.inventory.ResponseRequestUpgradeCard;
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import util.server.ServerConstant;
 
 public class InventoryHandler extends BaseClientRequestHandler {
-    public static short INVENTORY_MULTI_IDS = 3000;
+    public static short HANDLER_ID = HandlerId.INVENTORY.getValue();
     private final Logger logger = LoggerFactory.getLogger("UserHandler");
 
     public InventoryHandler() {
