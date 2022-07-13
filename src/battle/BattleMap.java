@@ -26,7 +26,7 @@ public class BattleMap {
         this.genPath();
         this.genTree();
         this.genPitCell();
-      //  this.removePath();
+        this.removePath();
         this.show();
     }
     public BattleMap(int X)
