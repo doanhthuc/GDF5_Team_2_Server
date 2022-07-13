@@ -1,11 +1,12 @@
 package cmd.receive.battle.tower;
 
 
-import battle.Common.Point;
+
 import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.common.business.CommonHandle;
 
+import java.awt.*;
 import java.nio.ByteBuffer;
 
 public class RequestPutTower extends BaseCmd {
@@ -27,7 +28,7 @@ public class RequestPutTower extends BaseCmd {
             this.roomId = readInt(bf);
             this.towerId = readInt(bf);
             this.tilePos = new Point(readInt(bf), readInt(bf));
-            this.pixelPos = new Point(readDouble(bf), readDouble(bf));
+            this.pixelPos = new Point(readInt(bf), readInt(bf));
 //            this.point.x = readInt(bf);
 //            this.point.y = readInt(bf);
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 package service;
 
 import battle.BattleMap;
+import battle.Tower;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
@@ -51,6 +52,7 @@ public class BattleHandler extends BaseClientRequestHandler {
             System.out.println("[BattleHandler.java line 50] cmdId: " + dataCmd.getId());
             switch (dataCmd.getId()) {
                 case CmdDefine.GET_BATTLE_MAP:
+                    System.out.println("[BattleHandler.java line 54] GET_BATTLE_MAP cmdId: " + dataCmd.getId());
                     processGetBattleMap(user);
                     break;
                 case CmdDefine.PUT_TOWER:
@@ -94,7 +96,15 @@ public class BattleHandler extends BaseClientRequestHandler {
             System.out.println("[BattleHandler.java line 90 processPutTower]  y: " + req.getTilePos().y);
             System.out.println("[BattleHandler.java line 90 processPutTower]  x: " + req.getPixelPos().x);
             System.out.println("[BattleHandler.java line 90 processPutTower]  y: " + req.getPixelPos().y);
-            send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), req.getTilePos(), req.getPixelPos()), user);
+            System.out.println("[BattleHandler.java line 90 processPutTower]  BattleMap: " + battleMap);
+            Tower tower = battleMap.putTowerIntoMap(req.getTowerId(), 1, req.getTilePos());
+            if (tower == null) {
+//                send(new ResponseRequestPutTower(BattleError.TOWER_NOT_FOUND.getValue()), user);
+                System.out.println("[BattleHandler.java line 103 processPutTower]  tower null");
+                return;
+            }
+            battleMap.show();
+            send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos(), req.getPixelPos()), user);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }

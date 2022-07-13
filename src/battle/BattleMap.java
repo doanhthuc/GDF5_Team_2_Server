@@ -13,12 +13,14 @@ public class BattleMap {
     public static int attackSpeedTile = 1;
     public static int attackRangeTile = 2;
     public static int attackDamageTile = 3;
+    public static int towerTile = 7;
     public static List<Integer> buffTileArray = Arrays.asList(attackSpeedTile,attackRangeTile,attackDamageTile);
     public int pathTile = 4;
     public int treeTileNum = 5;
     public int pitTile = 6;
     public int[][] map = new int[mapW][mapH + 1];
     public ArrayList<Point> path = new ArrayList<>();
+    public ArrayList<Tower> towerList = new ArrayList<>();
 
     public BattleMap() {
         this.reset();
@@ -252,4 +254,17 @@ public class BattleMap {
     public boolean compareNode(Point a, Point b) {
         return (a.x == b.x && a.y == b.y);
     }
+
+    public Tower putTowerIntoMap(int towerId, int towerLevel, Point towerPos) {
+        if (isCellHaveObstacle(towerPos)) return null;
+        Tower tower = new Tower(towerId, towerLevel, towerPos);
+        this.towerList.add(tower);
+        map[towerPos.x][towerPos.y] = towerTile;
+        return tower;
+    }
+
+    public boolean isCellHaveObstacle(Point p) {
+        return p.x < mapH && p.y < mapW && map[p.x][p.y] != 0;
+    }
+
 }
