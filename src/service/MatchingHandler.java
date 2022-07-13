@@ -4,6 +4,7 @@ import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
+import cmd.HandlerId;
 import cmd.receive.matching.RequestCancelMatching;
 import cmd.receive.matching.RequestMatching;
 import cmd.send.cheat.ResponseRequestCheatUserInfo;
@@ -18,7 +19,7 @@ import util.server.ServerConstant;
 import java.util.concurrent.TimeUnit;
 
 public class MatchingHandler extends BaseClientRequestHandler {
-    public static short MATCH_MULTI_IDS = 8000;
+    public static short HANDLER_ID = HandlerId.MATCHING.getValue();
     private final Logger logger = LoggerFactory.getLogger("MatchHandler");
     private MatchMaking matchMaking = new MatchMaking();
 

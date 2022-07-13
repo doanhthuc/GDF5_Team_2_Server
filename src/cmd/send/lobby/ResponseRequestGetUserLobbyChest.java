@@ -24,7 +24,6 @@ public class ResponseRequestGetUserLobbyChest extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.lcc.lobbyChestContainer.size());
         for (int i = 0; i < this.lcc.lobbyChestContainer.size(); i++) {
             int state = this.lcc.lobbyChestContainer.get(i).getState();

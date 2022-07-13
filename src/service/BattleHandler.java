@@ -8,6 +8,7 @@ import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.receive.battle.tower.RequestPutTower;
+import cmd.HandlerId;
 import cmd.send.battle.ResponseRequestGetBattleMap;
 import cmd.send.battle.ResponseRequestPutTower;
 import event.eventType.DemoEventType;
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import util.server.ServerConstant;
 
 public class BattleHandler extends BaseClientRequestHandler {
-    public static short BATTLE_MULTI_IDS = 5000;
+    public static short HANDLER_ID = HandlerId.BATTLE.getValue();
     private final Logger logger = LoggerFactory.getLogger("UserHandler");
 
     public BattleHandler() {

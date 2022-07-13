@@ -24,7 +24,6 @@ public class ResponseRequestBuyDailyShop extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(this.error);
         if (this.shopDTO != null) {
             bf.putInt(shopDTO.getItemID());
             bf.putInt(shopDTO.getGoldChange());

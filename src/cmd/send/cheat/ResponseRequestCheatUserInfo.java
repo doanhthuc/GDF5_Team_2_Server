@@ -22,7 +22,6 @@ public class ResponseRequestCheatUserInfo extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(info.getGold());
         bf.putInt(info.getGem());
         bf.putInt(info.getTrophy());

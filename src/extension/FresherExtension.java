@@ -2,6 +2,7 @@ package extension;
 
 
 import battle.Battle;
+import battle.BattleMap;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -59,14 +60,14 @@ public class FresherExtension extends BZExtension {
         //initBattle();
 
         trace("  Register Handler ");
-        addRequestHandler(UserHandler.USER_MULTI_IDS, UserHandler.class);
-        addRequestHandler(ShopHandler.SHOP_MULTI_IDS, ShopHandler.class);
-        addRequestHandler(InventoryHandler.INVENTORY_MULTI_IDS, InventoryHandler.class);
-        addRequestHandler(LobbyHandler.LOBBY_MULTI_IDS, LobbyHandler.class);
-        addRequestHandler(CheatHandler.CHEAT_MULTI_IDS, CheatHandler.class);
-        addRequestHandler(BattleHandler.BATTLE_MULTI_IDS, BattleHandler.class);
+        addRequestHandler(UserHandler.HANDLER_ID, UserHandler.class);
+        addRequestHandler(ShopHandler.HANDLER_ID, ShopHandler.class);
+        addRequestHandler(InventoryHandler.HANDLER_ID, InventoryHandler.class);
+        addRequestHandler(LobbyHandler.HANDLER_ID, LobbyHandler.class);
+        addRequestHandler(CheatHandler.HANDLER_ID, CheatHandler.class);
+        addRequestHandler(BattleHandler.HANDLER_ID, BattleHandler.class);
         addRequestHandler(RoomHandler.ROOM_MULTI_IDS, RoomHandler.class);
-        addRequestHandler(MatchingHandler.MATCH_MULTI_IDS, MatchingHandler.class);
+        addRequestHandler(MatchingHandler.HANDLER_ID, MatchingHandler.class);
         registerHandler();
     }
 
