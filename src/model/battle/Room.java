@@ -29,10 +29,15 @@ public class Room implements Runnable {
 
     @Override
     public void run() {
+//        this.battle.attackSystem2.run();
+
 
         System.out.println("Hello AAAA");
 //        System.out.println("Room java line 31 " + this.battle.attackSystem);
-        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(this.battle.attackSystem,0,100, TimeUnit.MILLISECONDS);
+         BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
+             this.battle.attackSystem.run();
+
+         },0,100, TimeUnit.MILLISECONDS);
 
 //        this.battle.attackSystem.run();
     }
@@ -42,6 +47,14 @@ public class Room implements Runnable {
             return player1;
         } else {
             return player2;
+        }
+    }
+
+    public PlayerInfo getOpponentPlayerByMyPlayerId(int playerId) {
+        if (playerId == player1.getId()) {
+            return player2;
+        } else {
+            return player1;
         }
     }
 

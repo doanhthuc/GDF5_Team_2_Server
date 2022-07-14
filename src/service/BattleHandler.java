@@ -2,6 +2,7 @@ package service;
 
 import battle.BattleMap;
 import battle.Tower;
+import bitzero.server.BitZeroServer;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
@@ -10,11 +11,13 @@ import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.receive.battle.tower.RequestPutTower;
 import cmd.HandlerId;
+import cmd.send.battle.ResponseOppentPutTower;
 import cmd.send.battle.ResponseRequestGetBattleMap;
 import cmd.send.battle.ResponseRequestPutTower;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
 import model.PlayerInfo;
+import model.battle.Room;
 import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -88,7 +91,8 @@ public class BattleHandler extends BaseClientRequestHandler {
     private void processPutTower(User user, RequestPutTower req) {
         System.out.println("BattleMap " + " processPutTower");
         try {
-            BattleMap battleMap = RoomManager.getInstance().getRoom(req.getRoomId()).getBattle().getBattleMapByPlayerId(user.getId());
+            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
             System.out.println("[BattleHandler.java processPutTower] battleMap " + battleMap.mapH);
             System.out.println("[BattleHandler.java line 90 processPutTower]  roomID: " + req.getRoomId());
             System.out.println("[BattleHandler.java line 90 processPutTower]  TowerID: " + req.getTowerId());
@@ -105,6 +109,11 @@ public class BattleHandler extends BaseClientRequestHandler {
             }
             battleMap.show();
             send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos(), req.getPixelPos()), user);
+            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+            System.out.println("[BattleHandler.java line 114 processPutTower]  2 player ID: " + room.getPlayer1().getId() + "   " + room.getPlayer2().getId());
+            System.out.println("[BattleHandler.java line 115 processPutTower]  opponentId: " + opponent.getId());
+            send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos()), opponent);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }
