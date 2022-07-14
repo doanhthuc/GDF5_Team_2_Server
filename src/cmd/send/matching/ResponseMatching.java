@@ -10,13 +10,15 @@ import java.nio.ByteBuffer;
 
 public class ResponseMatching extends BaseMsg {
     public short error;
+    private int roomId;
     public BattleMap playerMap;
     public BattleMap opponentMap;
     public OpponentInfo opponentInfo;
 
-    public ResponseMatching(short error, BattleMap playerMap, BattleMap opponentMap, OpponentInfo opponentInfo) {
+    public ResponseMatching(short error, int roomId, BattleMap playerMap, BattleMap opponentMap, OpponentInfo opponentInfo) {
         super(CmdDefine.MATCHING);
         this.error = error;
+        this.roomId = roomId;
         this.playerMap = playerMap;
         this.opponentMap = opponentMap;
         this.opponentInfo = opponentInfo;
@@ -26,6 +28,7 @@ public class ResponseMatching extends BaseMsg {
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
         bf.putShort(error);
+        bf.putInt(roomId);
         packMap(bf, this.playerMap);
         packMap(bf, this.opponentMap);
         bf.putInt(opponentInfo.getId());
@@ -47,5 +50,13 @@ public class ResponseMatching extends BaseMsg {
             bf.putInt(battleMap.path.get(i).x);
             bf.putInt(battleMap.path.get(i).y);
         }
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 }

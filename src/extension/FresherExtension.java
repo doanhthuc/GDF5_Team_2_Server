@@ -58,7 +58,7 @@ public class FresherExtension extends BZExtension {
          */
 
         //initBattle();
-        BattleMap btm = new BattleMap();
+
         trace("  Register Handler ");
         addRequestHandler(UserHandler.HANDLER_ID, UserHandler.class);
         addRequestHandler(ShopHandler.HANDLER_ID, ShopHandler.class);
@@ -66,6 +66,7 @@ public class FresherExtension extends BZExtension {
         addRequestHandler(LobbyHandler.HANDLER_ID, LobbyHandler.class);
         addRequestHandler(CheatHandler.HANDLER_ID, CheatHandler.class);
         addRequestHandler(BattleHandler.HANDLER_ID, BattleHandler.class);
+        addRequestHandler(RoomHandler.ROOM_MULTI_IDS, RoomHandler.class);
         addRequestHandler(MatchingHandler.HANDLER_ID, MatchingHandler.class);
         registerHandler();
     }

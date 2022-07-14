@@ -1,17 +1,24 @@
 package service;
 
 import battle.BattleMap;
+import battle.Tower;
+import bitzero.server.BitZeroServer;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import cmd.receive.battle.tower.RequestPutTower;
 import cmd.HandlerId;
+import cmd.send.battle.ResponseOppentPutTower;
 import cmd.send.battle.ResponseRequestGetBattleMap;
+import cmd.send.battle.ResponseRequestPutTower;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
 import model.PlayerInfo;
+import model.battle.Room;
+import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,10 +52,17 @@ public class BattleHandler extends BaseClientRequestHandler {
 
     public void handleClientRequest(User user, DataCmd dataCmd) {
         try {
+            System.out.println("[BattleHandler.java line 50] cmdId: " + dataCmd.getId());
             switch (dataCmd.getId()) {
                 case CmdDefine.GET_BATTLE_MAP:
+                    System.out.println("[BattleHandler.java line 54] GET_BATTLE_MAP cmdId: " + dataCmd.getId());
                     processGetBattleMap(user);
                     break;
+                case CmdDefine.PUT_TOWER:
+                    System.out.println("[BattleHandler.java line 55] cmd Put tower: " + CmdDefine.PUT_TOWER);
+                    RequestPutTower req = new RequestPutTower(dataCmd);
+                    processPutTower(user, req);
+
             }
         } catch (Exception e) {
             logger.warn("BATTLEHANDLER EXCEPTION " + e.getMessage());
@@ -69,6 +83,37 @@ public class BattleHandler extends BaseClientRequestHandler {
             BattleMap btm= new BattleMap();
             btm.show();
             send(new ResponseRequestGetBattleMap(BattleHandler.BattleError.SUCCESS.getValue(), btm), user);
+        } catch (Exception e) {
+            logger.info("processGetName exception");
+        }
+    }
+
+    private void processPutTower(User user, RequestPutTower req) {
+        System.out.println("BattleMap " + " processPutTower");
+        try {
+            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+            System.out.println("[BattleHandler.java processPutTower] battleMap " + battleMap.mapH);
+            System.out.println("[BattleHandler.java line 90 processPutTower]  roomID: " + req.getRoomId());
+            System.out.println("[BattleHandler.java line 90 processPutTower]  TowerID: " + req.getTowerId());
+            System.out.println("[BattleHandler.java line 90 processPutTower]  x: " + req.getTilePos().x);
+            System.out.println("[BattleHandler.java line 90 processPutTower]  y: " + req.getTilePos().y);
+            System.out.println("[BattleHandler.java line 90 processPutTower]  x: " + req.getPixelPos().x);
+            System.out.println("[BattleHandler.java line 90 processPutTower]  y: " + req.getPixelPos().y);
+            System.out.println("[BattleHandler.java line 90 processPutTower]  BattleMap: " + battleMap);
+            Tower tower = battleMap.putTowerIntoMap(req.getTowerId(), 1, req.getTilePos());
+            if (tower == null) {
+//                send(new ResponseRequestPutTower(BattleError.TOWER_NOT_FOUND.getValue()), user);
+                System.out.println("[BattleHandler.java line 103 processPutTower]  tower null");
+                return;
+            }
+            battleMap.show();
+            send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos(), req.getPixelPos()), user);
+            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+            System.out.println("[BattleHandler.java line 114 processPutTower]  2 player ID: " + room.getPlayer1().getId() + "   " + room.getPlayer2().getId());
+            System.out.println("[BattleHandler.java line 115 processPutTower]  opponentId: " + opponent.getId());
+            send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos()), opponent);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }
