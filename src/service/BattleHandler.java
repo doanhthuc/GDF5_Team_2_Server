@@ -1,7 +1,7 @@
 package service;
 
 import battle.BattleMap;
-import battle.Tower;
+import battle.newMap.Tower;
 import bitzero.server.BitZeroServer;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;

@@ -1,14 +1,15 @@
-package battle;
+package battle.newMap;
 
 
 import java.awt.*;
 
-public class Tower {
+public class Tower extends ObjectInCell {
     private int id;
     private int level;
     private Point tilePos;
 
     public Tower(int id, int level, Point tilePos) {
+        super(ObjectInCellType.TOWER);
         this.id = id;
         this.level = level;
         this.tilePos = tilePos;
@@ -36,5 +37,14 @@ public class Tower {
 
     public void setTilePos(Point tilePos) {
         this.tilePos = tilePos;
+    }
+
+    @Override
+    public String toString() {
+        return "Tower{" +
+                "id=" + id +
+                ", level=" + level +
+                ", tilePos=" + tilePos +
+                '}' + '\n';
     }
 }

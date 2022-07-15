@@ -1,6 +1,7 @@
 package battle;
 
-import bitzero.core.P;
+import battle.newMap.BattleMapObject;
+import battle.newMap.Tower;
 
 import java.awt.*;
 import java.util.*;
@@ -18,9 +19,10 @@ public class BattleMap {
     public int pathTile = 4;
     public int treeTileNum = 5;
     public int pitTile = 6;
-    public int[][] map = new int[mapW][mapH + 1];
+    public int[][] map = new int[mapW][mapH];
     public ArrayList<Point> path = new ArrayList<>();
     public ArrayList<Tower> towerList = new ArrayList<>();
+    public BattleMapObject battleMapObject;
 
     public BattleMap() {
         this.reset();
@@ -30,6 +32,10 @@ public class BattleMap {
         this.genPitCell();
         this.removePath();
         this.show();
+
+        this.battleMapObject = new BattleMapObject(this.map);
+        this.battleMapObject.showConsole();
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
     public BattleMap(int X)
     {
