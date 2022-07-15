@@ -36,6 +36,7 @@ import util.metric.MetricLog;
 import util.server.ServerConstant;
 import util.server.ServerLoop;
 
+import javax.management.BadAttributeValueExpException;
 import java.util.List;
 
 
@@ -58,7 +59,7 @@ public class FresherExtension extends BZExtension {
          */
 
         //initBattle();
-
+       // BattleMap btm = new BattleMap();
         trace("  Register Handler ");
         addRequestHandler(UserHandler.HANDLER_ID, UserHandler.class);
         addRequestHandler(ShopHandler.HANDLER_ID, ShopHandler.class);

@@ -14,7 +14,7 @@ public class BattleMap {
     public static int attackRangeTile = 2;
     public static int attackDamageTile = 3;
     public static int towerTile = 7;
-    public static List<Integer> buffTileArray = Arrays.asList(attackSpeedTile,attackRangeTile,attackDamageTile);
+    public static List<Integer> buffTileArray = Arrays.asList(attackSpeedTile, attackRangeTile, attackDamageTile);
     public int pathTile = 4;
     public int treeTileNum = 5;
     public int pitTile = 6;
@@ -24,20 +24,40 @@ public class BattleMap {
 
     public BattleMap() {
         this.reset();
+        while (this.checkOK() == false) {
+            this.reset();
+            this.genEverything();
+        }
+        this.show();
+    }
+
+    public boolean checkOK() {
+        int countPitTile = 0;
+        int countTreeTile = 0;
+        int requirePitTile = 1;
+        int requireTreeTile = 1;
+        for (int i = 0; i < this.mapW; i++)
+            for (int j = 0; j < this.mapH; j++) {
+                if (this.map[i][j] == pitTile) countPitTile++;
+                if (this.map[i][j] == treeTileNum) countTreeTile++;
+            }
+        return (countPitTile == requirePitTile && countTreeTile >= requireTreeTile);
+    }
+
+    public void genEverything() {
         this.genBuffTile();
         this.genPath();
         this.genTree();
         this.genPitCell();
         this.removePath();
-        this.show();
     }
-    public BattleMap(int X)
-    {
-        int arr[][] ={{0,0,0,0,0},{0,0,0,0,0},{0,0,0,3,0},{0,0,0,0,0},{0,1,0,0,0},{0,0,0,2,0},{0,0,0,0,0,0}};
+
+    public BattleMap(int X) {
+        int arr[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 3, 0}, {0, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 0, 2, 0}, {0, 0, 0, 0, 0, 0}};
         //int arr[][] ={{0,0,0,0,0},{0,0,2,0,0},{0,0,0,0,0},{0,3,0,0,0},{0,0,0,1,0},{0,0,0,0,0},{0,0,0,0,0,0}};
-        for(int i=0;i<mapW;i++)
-            for(int j=0;j<mapH;j++)
-                this.map[i][j]=arr[i][j];
+        for (int i = 0; i < mapW; i++)
+            for (int j = 0; j < mapH; j++)
+                this.map[i][j] = arr[i][j];
         this.genPath();
         this.genTree();
         this.genPitCell();
@@ -81,7 +101,7 @@ public class BattleMap {
                     i++;
                 }
             }
-            if (buffTileIndex == buffTileAmount ) finishGenBuffTle = true;
+            if (buffTileIndex == buffTileAmount) finishGenBuffTle = true;
         }
     }
 
@@ -205,17 +225,19 @@ public class BattleMap {
     }
 
     public void genPitCell() {
-        while (true) {
-            Random RD = new Random();
-            int i = RD.nextInt(mapW);
-            int j = RD.nextInt(mapH);
-            if ((checkBuffTileAround(new Point(i, j)) == false) && map[i][j] == 0)
-                if (checkPathAround(new Point(i, j))) {
-                    map[i][j] = pitTile;
-                    break;
-                }
-        }
+        boolean finishGenPitTile = false;
+        for (int i = 0; i < this.mapW; i++) {
+            for (int j = 0; j < this.mapH; j++) {
+                if ((checkBuffTileAround(new Point(i, j)) == false) && map[i][j] == 0)
+                    if (checkPathAround(new Point(i, j))) {
+                        map[i][j] = pitTile;
+                        finishGenPitTile = true;
+                        break;
+                    }
 
+            }
+            if (finishGenPitTile == true) break;
+        }
     }
 
     public boolean isInBound(int x, int y) {
@@ -247,7 +269,8 @@ public class BattleMap {
     }
 
     public boolean isValuedTile(int value) {
-        if (value == attackDamageTile || value == attackRangeTile || value == attackSpeedTile || value == treeTileNum) return true;
+        if (value == attackDamageTile || value == attackRangeTile || value == attackSpeedTile || value == treeTileNum)
+            return true;
         return false;
     }
 
