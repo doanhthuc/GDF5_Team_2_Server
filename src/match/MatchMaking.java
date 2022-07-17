@@ -114,9 +114,9 @@ public class MatchMaking implements Runnable {
             waitingMap.remove(matchingInfo1.getPlayerId());
             waitingMap.remove(matchingInfo2.getPlayerId());
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    user1Map.battleMapObject), user1);
+                    user1Map.battleMapObject, user2Map.battleMapObject), user1);
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    user2Map.battleMapObject), user2);
+                    user2Map.battleMapObject, user1Map.battleMapObject), user2);
 //            for (int i = 0; i < user1Map.battleMapObject.getHeight(); i++) {
 //                for (int j = 0; j < user1Map.battleMapObject.getWidth(); j++) {
 //                    CellObject cellObject = user1Map.battleMapObject.getCellObject(i, j);

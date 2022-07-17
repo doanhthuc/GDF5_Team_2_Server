@@ -20,19 +20,18 @@ public class BattleMapObject {
             List<CellObject> row = new ArrayList<>();
             for (int j = 0; j < this.width; j++) {
                 if (map[i][j] == BuffCellType.NONE.value) {
-                    row.add(new CellObject(new Point(j, i), BuffCellType.NONE, new ObjectInCell(ObjectInCellType.NONE)));
+                    row.add(new CellObject(new Point(i, j), BuffCellType.NONE, new ObjectInCell(ObjectInCellType.NONE)));
                 } else if (map[i][j] == BuffCellType.ATTACK_SPEED_UP.value) {
-                    row.add(new CellObject(new Point(j, i), BuffCellType.ATTACK_SPEED_UP, new ObjectInCell(ObjectInCellType.NONE)));
+                    row.add(new CellObject(new Point(i, j), BuffCellType.ATTACK_SPEED_UP, new ObjectInCell(ObjectInCellType.NONE)));
                 } else if (map[i][j] == BuffCellType.DAMAGE_UP.value) {
-                    row.add(new CellObject(new Point(j, i), BuffCellType.DAMAGE_UP, new ObjectInCell(ObjectInCellType.NONE)));
+                    row.add(new CellObject(new Point(i, j), BuffCellType.DAMAGE_UP, new ObjectInCell(ObjectInCellType.NONE)));
                 } else if (map[i][j] == BuffCellType.ATTACK_RANGE_UP.value) {
-                    row.add(new CellObject(new Point(j, i), BuffCellType.ATTACK_RANGE_UP, new ObjectInCell(ObjectInCellType.NONE)));
+                    row.add(new CellObject(new Point(i, j), BuffCellType.ATTACK_RANGE_UP, new ObjectInCell(ObjectInCellType.NONE)));
                 } else if (map[i][j] == 5) {
-                    row.add(new CellObject(new Point(j, i), BuffCellType.NONE, new Tree(100)));
+                    row.add(new CellObject(new Point(i, j), BuffCellType.NONE, new Tree(100)));
                 } else if (map[i][j] == 6) {
-                    row.add(new CellObject(new Point(j, i), BuffCellType.NONE, new Pit()));
+                    row.add(new CellObject(new Point(i, j), BuffCellType.NONE, new Pit()));
                 }
-                System.out.println("[BattleMapObject java line 35 ]" + row.get(j));
             }
             battleMap.add(row);
         }
@@ -42,14 +41,17 @@ public class BattleMapObject {
         return battleMap.get(x).get(y);
     }
 
+    public CellObject getCellObject(Point pos) {
+        return battleMap.get(pos.x).get(pos.y);
+    }
+
     public ObjectInCellType setObjectInCellType(int typeId) {
         return ObjectInCellType.getObjectInCellTypeByTypeId(typeId);
     }
 
-    public CellObject putTowerIntoMap(Point tilePos, int towerId) {
+    public Tower putTowerIntoMap(Point tilePos, int towerId) {
         CellObject cellObject = this.battleMap.get(tilePos.x).get(tilePos.y);
-        cellObject.buildTower(towerId, 1);
-        return cellObject;
+        return cellObject.buildTower(towerId, 1);
     }
 
     public int getWidth() {

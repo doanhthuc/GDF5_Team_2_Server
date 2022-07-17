@@ -261,14 +261,6 @@ public class BattleMap {
         return (a.x == b.x && a.y == b.y);
     }
 
-    public Tower putTowerIntoMap(int towerId, int towerLevel, Point towerPos) {
-        if (isCellHaveObstacle(towerPos)) return null;
-        Tower tower = new Tower(towerId, towerLevel, towerPos);
-        this.towerList.add(tower);
-        map[towerPos.x][towerPos.y] = towerTile;
-        return tower;
-    }
-
     public boolean isCellHaveObstacle(Point p) {
         return p.x < mapH && p.y < mapW && map[p.x][p.y] != 0;
     }

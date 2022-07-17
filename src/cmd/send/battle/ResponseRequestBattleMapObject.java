@@ -11,33 +11,36 @@ import java.nio.ByteBuffer;
 
 public class ResponseRequestBattleMapObject extends BaseMsg {
     private final short _error;
-    private final BattleMapObject battleMapObject;
+    private final BattleMapObject myBattleMapObject;
+    private final BattleMapObject opponentBattleMapObject;
 
-    public ResponseRequestBattleMapObject(short _error, BattleMapObject battleMapObject) {
+    public ResponseRequestBattleMapObject(short _error, BattleMapObject myBattleMapObject, BattleMapObject opponentBattleMapObject) {
         super(CmdDefine.GET_BATTLE_MAP_OBJECT);
         this._error = _error;
-        this.battleMapObject = battleMapObject;
+        this.myBattleMapObject = myBattleMapObject;
+        this.opponentBattleMapObject = opponentBattleMapObject;
     }
 
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putInt(battleMapObject.getHeight());
-        bf.putInt(battleMapObject.getWidth());
-        System.out.println("ResponseRequestBattleMapObject: " + battleMapObject.getHeight() + " " + battleMapObject.getWidth());
-        for (int i = 0; i < battleMapObject.getHeight(); i++) {
-            for (int j = 0; j < battleMapObject.getWidth(); j++) {
-                System.out.println();
-                System.out.println("ResponseRequestBattleMapObject: " + i + " " + j);
-                packCellPacket(i, j, bf);
-            }
-        }
+        packMapObjectPacket(myBattleMapObject, bf);
+        packMapObjectPacket(opponentBattleMapObject, bf);
         return packBuffer(bf);
     }
 
-    public void packCellPacket(int x, int y, ByteBuffer bf) {
-        CellObject cellObject = battleMapObject.getCellObject(x, y);
-        System.out.println("[ResponseRequestBattleMapObject] cellObject: " + cellObject);
+    public void packMapObjectPacket(BattleMapObject battleMapObject, ByteBuffer bf) {
+        bf.putInt(battleMapObject.getHeight());
+        bf.putInt(battleMapObject.getWidth());
+        for (int i = 0; i < battleMapObject.getHeight(); i++) {
+            for (int j = 0; j < battleMapObject.getWidth(); j++) {
+                CellObject cellObject = battleMapObject.getCellObject(i, j);
+                packCellPacket(cellObject, bf);
+            }
+        }
+    }
+
+    public void packCellPacket(CellObject cellObject, ByteBuffer bf) {
         bf.putInt(cellObject.getTilePos().x);
         bf.putInt(cellObject.getTilePos().y);
         bf.putInt(cellObject.getBuffCellType().value);

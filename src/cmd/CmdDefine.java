@@ -26,6 +26,7 @@ public class CmdDefine {
     public static final short OPPONENT_PUT_TOWER = 5003;
     public static final short GET_BATTLE_MAP_OBJECT = 5004;
     public static final short GET_CELL_OBJECT = 5005;
+    public static final short UPGRADE_TOWER = 5006;
 
     public static final short ENTER_ROOM = 6001;
 

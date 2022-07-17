@@ -1,6 +1,8 @@
 package service;
 
 import battle.BattleMap;
+import battle.newMap.BattleMapObject;
+import battle.newMap.CellObject;
 import battle.newMap.Tower;
 import bitzero.server.BitZeroServer;
 import bitzero.server.core.BZEventType;
@@ -11,9 +13,8 @@ import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.receive.battle.tower.RequestPutTower;
 import cmd.HandlerId;
-import cmd.send.battle.ResponseOppentPutTower;
-import cmd.send.battle.ResponseRequestGetBattleMap;
-import cmd.send.battle.ResponseRequestPutTower;
+import cmd.receive.battle.tower.RequestUpgradeTower;
+import cmd.send.battle.*;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
 import model.PlayerInfo;
@@ -60,8 +61,16 @@ public class BattleHandler extends BaseClientRequestHandler {
                     break;
                 case CmdDefine.PUT_TOWER:
                     System.out.println("[BattleHandler.java line 55] cmd Put tower: " + CmdDefine.PUT_TOWER);
-                    RequestPutTower req = new RequestPutTower(dataCmd);
-                    processPutTower(user, req);
+                    RequestPutTower requestPutTower = new RequestPutTower(dataCmd);
+                    processPutTower(user, requestPutTower);
+                    break;
+                case CmdDefine.UPGRADE_TOWER:
+                    System.out.println("[BattleHandler.java line 56] cmd Upgrade tower: " + CmdDefine.UPGRADE_TOWER);
+                    RequestUpgradeTower requestUpgradeTower = new RequestUpgradeTower(dataCmd);
+                    processUpgradeTower(user, requestUpgradeTower);
+                    break;
+                default:
+                    break;
 
             }
         } catch (Exception e) {
@@ -76,11 +85,11 @@ public class BattleHandler extends BaseClientRequestHandler {
         try {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             if (userInfo == null) {
-                send( new ResponseRequestGetBattleMap(BattleError.USER_INFO_NULL.getValue()), user);
+                send(new ResponseRequestGetBattleMap(BattleError.USER_INFO_NULL.getValue()), user);
                 logger.info("PlayerInfo null");
                 return;
             }
-            BattleMap btm= new BattleMap();
+            BattleMap btm = new BattleMap();
             btm.show();
             send(new ResponseRequestGetBattleMap(BattleHandler.BattleError.SUCCESS.getValue(), btm), user);
         } catch (Exception e) {
@@ -89,31 +98,41 @@ public class BattleHandler extends BaseClientRequestHandler {
     }
 
     private void processPutTower(User user, RequestPutTower req) {
-        System.out.println("BattleMap " + " processPutTower");
+        System.out.println("BattleMap processPutTower");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
-            System.out.println("[BattleHandler.java processPutTower] battleMap " + battleMap.mapH);
-            System.out.println("[BattleHandler.java line 90 processPutTower]  roomID: " + req.getRoomId());
-            System.out.println("[BattleHandler.java line 90 processPutTower]  TowerID: " + req.getTowerId());
-            System.out.println("[BattleHandler.java line 90 processPutTower]  x: " + req.getTilePos().x);
-            System.out.println("[BattleHandler.java line 90 processPutTower]  y: " + req.getTilePos().y);
-            System.out.println("[BattleHandler.java line 90 processPutTower]  x: " + req.getPixelPos().x);
-            System.out.println("[BattleHandler.java line 90 processPutTower]  y: " + req.getPixelPos().y);
-            System.out.println("[BattleHandler.java line 90 processPutTower]  BattleMap: " + battleMap);
-            Tower tower = battleMap.putTowerIntoMap(req.getTowerId(), 1, req.getTilePos());
+            BattleMapObject battleMapObject = battleMap.battleMapObject;
+            Tower tower = battleMapObject.putTowerIntoMap(req.getTilePos(), req.getTowerId());
             if (tower == null) {
-//                send(new ResponseRequestPutTower(BattleError.TOWER_NOT_FOUND.getValue()), user);
                 System.out.println("[BattleHandler.java line 103 processPutTower]  tower null");
                 return;
             }
             battleMap.show();
-            send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos(), req.getPixelPos()), user);
+            send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos()), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            System.out.println("[BattleHandler.java line 114 processPutTower]  2 player ID: " + room.getPlayer1().getId() + "   " + room.getPlayer2().getId());
-            System.out.println("[BattleHandler.java line 115 processPutTower]  opponentId: " + opponent.getId());
             send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos()), opponent);
+        } catch (Exception e) {
+            logger.info("processGetName exception");
+        }
+    }
+
+    private void processUpgradeTower(User user, RequestUpgradeTower req) {
+        System.out.println("BattleMap processUpgradeTower");
+        try {
+            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+            BattleMapObject battleMapObject = battleMap.battleMapObject;
+            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
+            tower = tower.upgradeTower();
+            if (tower == null) {
+                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
+                return;
+            }
+            System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
+            send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
+                    req.getTowerId(), tower.getLevel(), tower.getTilePos()), user);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }
@@ -122,7 +141,7 @@ public class BattleHandler extends BaseClientRequestHandler {
     public enum BattleError {
         SUCCESS((short) 0),
         ERROR((short) 1),
-        USER_INFO_NULL((short)2);
+        USER_INFO_NULL((short) 2);
 
 
         private final short value;

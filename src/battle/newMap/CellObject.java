@@ -13,8 +13,13 @@ public class CellObject {
         this.objectInCell = objectInCell;
     }
 
-    public void buildTower(int towerId, int level) {
-        this.objectInCell = new Tower(towerId, level, tilePos);
+    public Tower buildTower(int towerId, int level) {
+        if (this.objectInCell.getObjectInCellType() == ObjectInCellType.NONE) {
+            this.objectInCell = new Tower(towerId, level, this.tilePos);
+        } else {
+            throw new IllegalStateException("CellObject already has an objectInCell");
+        }
+        return (Tower) this.objectInCell;
     }
 
     public Point getTilePos() {

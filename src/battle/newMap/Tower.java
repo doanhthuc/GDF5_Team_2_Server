@@ -15,6 +15,11 @@ public class Tower extends ObjectInCell {
         this.tilePos = tilePos;
     }
 
+    public Tower upgradeTower() {
+        this.level++;
+        return this;
+    }
+
     public int getId() {
         return id;
     }
