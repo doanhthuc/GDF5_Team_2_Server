@@ -7,12 +7,14 @@ import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class EffectSystem extends System {
+public class EffectSystem extends SystemECS {
     int id = GameConfig.SYSTEM_ID.EFFECT;
     public String name = "EffectSystem";
 
     public EffectSystem() {
+        super();
         java.lang.System.out.println("new EffectSystem");
     }
 
@@ -32,9 +34,9 @@ public class EffectSystem extends System {
     }
 
     public void _handleDamageEffect(long tick) {
-        ArrayList<Integer> damageEffectID = new ArrayList<>();
+        List<Integer> damageEffectID = new ArrayList<>();
         damageEffectID.add(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-        ArrayList<EntityECS> damagedEntity = EntityManager.getInstance().getEntitiesHasComponents(damageEffectID);
+        List<EntityECS> damagedEntity = EntityManager.getInstance().getEntitiesHasComponents(damageEffectID);
 
         for (EntityECS entity : damagedEntity) {
             LifeComponent life = (LifeComponent) entity.getComponent(GameConfig.COMPONENT_ID.LIFE);
