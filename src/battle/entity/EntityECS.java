@@ -85,12 +85,12 @@ public class EntityECS {
         return active;
     }
 
-    public EntityMode getMode() {
-        return mode;
-    }
-
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public EntityMode getMode() {
+        return mode;
     }
 
     public void setMode(EntityMode mode) {

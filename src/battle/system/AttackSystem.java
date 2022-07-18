@@ -11,7 +11,7 @@ import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 
-public class AttackSystem extends System implements Runnable {
+public class AttackSystem extends SystemECS implements Runnable {
     public int id = GameConfig.SYSTEM_ID.ATTACK;
     public String name = "AttackSystem";
 
@@ -21,7 +21,7 @@ public class AttackSystem extends System implements Runnable {
 
     @Override
     public void run() {
-        this.tick=this.getEclapseTime();
+        this.tick = this.getElapseTime();
         java.lang.System.out.println(this.tick);
         //Create List of Component TypeIDs
         ArrayList<Integer> typeIDTower = new ArrayList<>();
@@ -31,7 +31,7 @@ public class AttackSystem extends System implements Runnable {
 //            i.showComponent();
 //        }
 
-        ArrayList<Integer> typeIDMonster= new ArrayList<>();
+        ArrayList<Integer> typeIDMonster = new ArrayList<>();
         typeIDMonster.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
         ArrayList<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(typeIDMonster);
 //        for(EntityECS i:monsterList) {
@@ -40,14 +40,14 @@ public class AttackSystem extends System implements Runnable {
         ArrayList<Integer> typeIDBullet = new ArrayList<>();
         typeIDBullet.add(GameConfig.COMPONENT_ID.BULLET_INFO);
         ArrayList<EntityECS> bulletList = EntityManager.getInstance().getEntitiesHasComponents(typeIDBullet);
-        for (EntityECS bullet: bulletList) {
+        for (EntityECS bullet : bulletList) {
             bullet.toString();
         }
         for (EntityECS tower : towerList) {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
-            double countDown=attackComponent.getCountdown();
+            double countDown = attackComponent.getCountdown();
             if (countDown > 0) {
-                attackComponent.setCountdown(countDown-tick);
+                attackComponent.setCountdown(countDown - tick);
             }
             if (countDown <= 0) {
                 ArrayList<EntityECS> monsterInRange = new ArrayList<>();
@@ -62,7 +62,7 @@ public class AttackSystem extends System implements Runnable {
                     PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                     PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
                     EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos.getPos(), monsterPos.getPos(), attackComponent.getEffects());
-                    attackComponent.setCountdown(attackComponent.getSpeed()*1000);
+                    attackComponent.setCountdown(attackComponent.getSpeed() * 1000);
                 }
             }
 

@@ -7,7 +7,7 @@ import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 
-public class LifeSystem extends System{
+public class LifeSystem extends SystemECS{
     public int id = GameConfig.SYSTEM_ID.LIFE;
     public LifeSystem(){
         java.lang.System.out.println("new LifeSystem");

@@ -14,8 +14,13 @@ import battle.pool.ComponentPool;
 import java.util.ArrayList;
 
 public class ComponentFactory {
-    ComponentPool pool = new ComponentPool();
     private static ComponentFactory _instance = null;
+    ComponentPool pool = new ComponentPool();
+
+    public static ComponentFactory getInstance() {
+        if (_instance == null) _instance = new ComponentFactory();
+        return _instance;
+    }
 
     public BulletInfoComponent createBulletInfoComponent(ArrayList<EffectComponent> effects, int type) {
         BulletInfoComponent bulletInfoComponent = (BulletInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.BULLET_INFO);
@@ -115,11 +120,6 @@ public class ComponentFactory {
             ComponentManager.getInstance().add(attackComponent);
         }
         return attackComponent;
-    }
-
-    public static ComponentFactory getInstance() {
-        if (_instance == null) _instance = new ComponentFactory();
-        return _instance;
     }
 
 

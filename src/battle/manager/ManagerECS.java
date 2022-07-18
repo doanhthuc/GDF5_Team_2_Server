@@ -1,2 +1,9 @@
-package battle.manager;public class ManagerECS {
+package battle.manager;
+
+public class ManagerECS {
+
+    public ManagerECS() {
+
+    }
+
 }

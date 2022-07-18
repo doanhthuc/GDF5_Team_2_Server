@@ -18,20 +18,20 @@ public class VelocityComponent extends Component {
         this.speedY = speedY;
         this.dynamicPosition = dynamicPosition;
         this.originSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
-        this.originSpeedX=this.speedX;
-        this.originSpeedY=this.speedY;
+        this.originSpeedX = this.speedX;
+        this.originSpeedY = this.speedY;
     }
+
     public void reset(double speedX, double speedY, Point dynamicPosition) {
         this.speedX = speedX;
         this.speedY = speedY;
         this.dynamicPosition = dynamicPosition;
         this.originSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
-        this.originSpeedX=this.speedX;
-        this.originSpeedY=this.speedY;
+        this.originSpeedX = this.speedX;
+        this.originSpeedY = this.speedY;
     }
 
-    public double calulateSpeed(double speedX, double speedY)
-    {
+    public double calulateSpeed(double speedX, double speedY) {
         return Math.sqrt(Math.pow(speedX, 2) + Math.pow(speedY, 2));
     }
 }
