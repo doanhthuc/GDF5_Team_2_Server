@@ -19,11 +19,11 @@ public class Battle {
         this.entityManager = EntityManager.getInstance();
         this._initTower();
         this.attackSystem = new AttackSystem();
-        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(this.attackSystem,0,100, TimeUnit.MILLISECONDS);
+        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(this.attackSystem, 0, 100, TimeUnit.MILLISECONDS);
     }
 
     public void _initTower() {
         EntityFactory.getInstance().createCannonOwlTower(new Point(1, 3));
-        EntityFactory.getInstance().createSwordManMonster(new Point(35, 77*3), "");
+        EntityFactory.getInstance().createSwordManMonster(new Point(35, 77 * 3), "");
     }
 }

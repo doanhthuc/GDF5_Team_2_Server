@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public class ComponentPool {
     public String name = "ComponentObjectPool";
-    ArrayList<ArrayList<Component>> _store= new ArrayList<>();
+    ArrayList<ArrayList<Component>> _store = new ArrayList<>();
 
     public ComponentPool() {
-        for(int i=0;i<=100;i++)
+        for (int i = 0; i <= 100; i++)
             this._store.add(new ArrayList<>());
     }
 
@@ -18,14 +18,13 @@ public class ComponentPool {
     }
 
     public Component checkOut(int typeID) {
-       for(Component component: this._store.get(typeID))
-       {
-           if (component.getActive()==false) {
-               component.setActive(true);
-               return component;
-           }
-       }
-       return null;
+        for (Component component : this._store.get(typeID)) {
+            if (component.getActive() == false) {
+                component.setActive(true);
+                return component;
+            }
+        }
+        return null;
     }
 
     public void checkIn(Component component) {

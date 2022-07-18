@@ -5,17 +5,53 @@ import battle.component.EffectComponent.EffectComponent;
 import battle.config.GameConfig;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AttackComponent extends Component {
-    private String name="AttackComponent";
+    private String name = "AttackComponent";
     private int originDamage;
-    private double _damage;
+    private double damage;
     private int targetStrategy;
     private double range;
     private double originSpeed;
     private double speed;
     private double countdown;
-    private ArrayList<EffectComponent> effects = new ArrayList<>();
+    private List<EffectComponent> effects = new ArrayList<>();
+
+    public AttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
+        super(GameConfig.COMPONENT_ID.ATTACK);
+        this.originDamage = damage;
+        this.damage = damage;
+        this.targetStrategy = targetStrategy;
+        this.range = range;
+        this.speed = speed;
+        this.countdown = countdown;
+        this.effects.add(new DamageEffect(this.damage));
+    }
+
+    public void reset(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
+        this.originDamage = damage;
+        this.damage = damage;
+        this.targetStrategy = targetStrategy;
+        this.range = range;
+        this.speed = speed;
+        this.countdown = countdown;
+        this.effects.add(new DamageEffect(this.damage));
+    }
+
+    public double getDamage() {
+        return this.damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+        for (int i = 0; i < this.effects.size(); i++) {
+            DamageEffect effect = (DamageEffect) this.effects.get(i);
+            if (effect.getTypeID() == GameConfig.COMPONENT_ID.DAMAGE_EFFECT) {
+                effect.damage = this.damage;
+            }
+        }
+    }
 
     public int getOriginDamage() {
         return originDamage;
@@ -37,10 +73,10 @@ public class AttackComponent extends Component {
         return range;
     }
 
-
     public double getSpeed() {
         return speed;
     }
+
     public void setSpeed(double speed) {
         this.speed = speed;
     }
@@ -53,10 +89,9 @@ public class AttackComponent extends Component {
         this.countdown = countdown;
     }
 
-    public ArrayList<EffectComponent> getEffects() {
+    public List<EffectComponent> getEffects() {
         return effects;
     }
-
 
     public String getName() {
         return name;
@@ -64,40 +99,5 @@ public class AttackComponent extends Component {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public AttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
-        super(GameConfig.COMPONENT_ID.ATTACK);
-        this.originDamage = damage;
-        this._damage = damage;
-        this.targetStrategy = targetStrategy;
-        this.range = range;
-        this.speed = speed;
-        this.countdown = countdown;
-        this.effects.add(new DamageEffect(this._damage));
-    }
-
-    public void reset(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
-        this.originDamage = damage;
-        this._damage = damage;
-        this.targetStrategy = targetStrategy;
-        this.range = range;
-        this.speed = speed;
-        this.countdown = countdown;
-        this.effects.add(new DamageEffect(this._damage));
-    }
-
-    public void setDamage(int damage) {
-        this._damage = damage;
-        for (int i = 0; i < this.effects.size(); i++) {
-            DamageEffect effect = (DamageEffect) this.effects.get(i);
-            if (effect.typeID == GameConfig.COMPONENT_ID.DAMAGE_EFFECT) {
-                effect.damage = this._damage;
-            }
-        }
-    }
-
-    public double getDamage() {
-        return this._damage;
     }
 }

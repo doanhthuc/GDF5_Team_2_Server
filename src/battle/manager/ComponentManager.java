@@ -8,15 +8,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ComponentManager extends ManagerECS {
-    private final Map<Long, Component> storeInstance;
-    private final Map<Integer, Class> storeCls;
     private static final String name = "ComponentManager";
     private static ComponentManager instance = null;
+    private final Map<Long, Component> storeInstance;
+    private final Map<Integer, Class> storeCls;
 
     public ComponentManager() {
         super();
         this.storeCls = new HashMap<>();
         this.storeInstance = new HashMap<>();
+    }
+
+    public static ComponentManager getInstance() {
+        if (instance == null) {
+            instance = new ComponentManager();
+        }
+        return instance;
     }
 
     public void registerClass(Component cpn) {
@@ -43,13 +50,6 @@ public class ComponentManager extends ManagerECS {
     public void remove(Component component) {
         component.setActive(false);
         this.storeInstance.remove(component.getId());
-    }
-
-    public static ComponentManager getInstance() {
-        if (instance == null) {
-            instance = new ComponentManager();
-        }
-        return instance;
     }
 
     public String getName() {

@@ -1,9 +1,10 @@
 package battle.component.EffectComponent;
+
 import battle.config.GameConfig;
 
 public class BuffAttackDamageEffect extends EffectComponent {
-    private String name = "BuffAttackDamageEffect";
     public double percent;
+    private String name = "BuffAttackDamageEffect";
 
     public BuffAttackDamageEffect(double percent) {
         super(GameConfig.COMPONENT_ID.BUFF_ATTACK_DAMAGE);
@@ -16,5 +17,7 @@ public class BuffAttackDamageEffect extends EffectComponent {
 
     public void reset() {
 
-    };
+    }
+
+    ;
 }

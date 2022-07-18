@@ -4,7 +4,10 @@ import battle.common.Point;
 import battle.common.Utils;
 import battle.component.Component.*;
 import battle.component.EffectComponent.EffectComponent;
-import battle.component.InfoComponent.*;
+import battle.component.InfoComponent.BulletInfoComponent;
+import battle.component.InfoComponent.LifeComponent;
+import battle.component.InfoComponent.MonsterInfoComponent;
+import battle.component.InfoComponent.TowerInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
@@ -13,8 +16,14 @@ import battle.pool.EntityPool;
 import java.util.ArrayList;
 
 public class EntityFactory {
-    public EntityPool pool = new EntityPool();
     static EntityFactory _instance;
+    public EntityPool pool = new EntityPool();
+
+    public static EntityFactory getInstance() {
+        if (_instance == null) _instance = new EntityFactory();
+        return _instance;
+    }
+
     public EntityECS _createEntity(int typeID) {
         EntityECS entity = null;
         if (entity == null) {
@@ -132,11 +141,6 @@ public class EntityFactory {
         entity.addComponent(positionComponent);
         entity.addComponent(attackComponent);
         return entity;
-    }
-    public static EntityFactory getInstance()
-    {
-        if (_instance==null) _instance=new EntityFactory();
-        return _instance;
     }
 }
 

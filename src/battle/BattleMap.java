@@ -1,19 +1,17 @@
 package battle;
 
-import bitzero.core.P;
-
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class BattleMap {
-    public int mapW = 7;
-    public int mapH = 5;
-    public int buffTileAmount = 3;
     public static int attackSpeedTile = 1;
     public static int attackRangeTile = 2;
     public static int attackDamageTile = 3;
-    public static List<Integer> buffTileArray = Arrays.asList(attackSpeedTile,attackRangeTile,attackDamageTile);
+    public static List<Integer> buffTileArray = Arrays.asList(attackSpeedTile, attackRangeTile, attackDamageTile);
+    public int mapW = 7;
+    public int mapH = 5;
+    public int buffTileAmount = 3;
     public int pathTile = 4;
     public int treeTileNum = 5;
     public int pitTile = 6;
@@ -29,13 +27,13 @@ public class BattleMap {
         this.removePath();
         this.show();
     }
-    public BattleMap(int X)
-    {
-        int arr[][] ={{0,0,0,0,0},{0,0,0,0,0},{0,0,0,3,0},{0,0,0,0,0},{0,1,0,0,0},{0,0,0,2,0},{0,0,0,0,0,0}};
+
+    public BattleMap(int X) {
+        int arr[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 3, 0}, {0, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 0, 2, 0}, {0, 0, 0, 0, 0, 0}};
         //int arr[][] ={{0,0,0,0,0},{0,0,2,0,0},{0,0,0,0,0},{0,3,0,0,0},{0,0,0,1,0},{0,0,0,0,0},{0,0,0,0,0,0}};
-        for(int i=0;i<mapW;i++)
-            for(int j=0;j<mapH;j++)
-                this.map[i][j]=arr[i][j];
+        for (int i = 0; i < mapW; i++)
+            for (int j = 0; j < mapH; j++)
+                this.map[i][j] = arr[i][j];
         this.genPath();
         this.genTree();
         this.genPitCell();
@@ -79,7 +77,7 @@ public class BattleMap {
                     i++;
                 }
             }
-            if (buffTileIndex == buffTileAmount ) finishGenBuffTle = true;
+            if (buffTileIndex == buffTileAmount) finishGenBuffTle = true;
         }
     }
 
@@ -245,7 +243,8 @@ public class BattleMap {
     }
 
     public boolean isValuedTile(int value) {
-        if (value == attackDamageTile || value == attackRangeTile || value == attackSpeedTile || value == treeTileNum) return true;
+        if (value == attackDamageTile || value == attackRangeTile || value == attackSpeedTile || value == treeTileNum)
+            return true;
         return false;
     }
 

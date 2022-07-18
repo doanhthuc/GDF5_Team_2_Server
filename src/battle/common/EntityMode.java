@@ -5,6 +5,7 @@ public enum EntityMode {
     OPPONENT(1);
 
     private int value;
+
     EntityMode(int value) {
         this.value = value;
     }

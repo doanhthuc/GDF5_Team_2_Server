@@ -6,9 +6,10 @@ public class EffectComponent extends Component {
     public String name = "EffectComponent";
 
     public EffectComponent(int typeID) {
-       super(typeID);
+        super(typeID);
     }
-    public EffectComponent clone(){
+
+    public EffectComponent clone() {
         return null;
     }
 }

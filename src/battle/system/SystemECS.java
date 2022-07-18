@@ -5,12 +5,10 @@ import battle.common.UUIDGeneratorECS;
 public class SystemECS implements Runnable {
     private final static String name = "SystemECS";
     private static int typeID;
-
-    private long id;
-
     long currentMillis;
     long pastMillis;
     long tick;
+    private long id;
 
     public SystemECS(int typeID) {
         typeID = typeID;

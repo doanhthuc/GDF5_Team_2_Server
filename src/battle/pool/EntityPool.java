@@ -5,13 +5,14 @@ import battle.entity.EntityECS;
 import java.util.ArrayList;
 
 public class EntityPool {
-    int entityTypeAmount=100;
-    EntityECS invisibleEntity;
     public ArrayList<ArrayList<EntityECS>> pool = new ArrayList<>();
+    int entityTypeAmount = 100;
+    EntityECS invisibleEntity;
 
     public EntityPool() {
         this.initiate();
     }
+
     public void initiate() {
         for (int i = 0; i < this.entityTypeAmount; i++) {
             this.pool.add(new ArrayList<EntityECS>());

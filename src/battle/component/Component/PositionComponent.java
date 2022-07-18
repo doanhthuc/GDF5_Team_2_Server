@@ -23,16 +23,18 @@ public class PositionComponent extends Component {
         return x;
     }
 
-    public void setX(int x) {
+    public PositionComponent setX(int x) {
         this.x = x;
+        return this;
     }
 
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public PositionComponent setY(int y) {
         this.y = y;
+        return this;
     }
 
     public Point getPos() {

@@ -9,8 +9,8 @@ import battle.manager.EntityManager;
 import java.util.ArrayList;
 
 public class EffectSystem extends SystemECS {
-    int id = GameConfig.SYSTEM_ID.EFFECT;
     public String name = "EffectSystem";
+    int id = GameConfig.SYSTEM_ID.EFFECT;
 
     public EffectSystem() {
         java.lang.System.out.println("new EffectSystem");
@@ -38,9 +38,9 @@ public class EffectSystem extends SystemECS {
 
         for (EntityECS entity : damagedEntity) {
             LifeComponent life = (LifeComponent) entity.getComponent(GameConfig.COMPONENT_ID.LIFE);
-            if (life!=null) {
-                DamageEffect damageEffect= (DamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-                life.hp-=damageEffect.damage;
+            if (life != null) {
+                DamageEffect damageEffect = (DamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
+                life.hp -= damageEffect.damage;
                 entity.removeComponent(damageEffect);
             }
         }
