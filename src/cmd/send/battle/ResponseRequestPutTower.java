@@ -12,15 +12,13 @@ public class ResponseRequestPutTower extends BaseMsg {
     private int towerId;
     private int towerLevel;
     private Point tilePos;
-    private Point pixelPos;
 
-    public ResponseRequestPutTower(short error, int towerId, int towerLevel, Point tilePos, Point pixelPos) {
+    public ResponseRequestPutTower(short error, int towerId, int towerLevel, Point tilePos) {
         super(CmdDefine.PUT_TOWER);
         this.error = error;
         this.towerId = towerId;
         this.towerLevel = towerLevel;
         this.tilePos = tilePos;
-        this.pixelPos = pixelPos;
     }
 
     @Override
@@ -29,10 +27,8 @@ public class ResponseRequestPutTower extends BaseMsg {
         bf.putShort(error);
         bf.putInt(towerId);
         bf.putInt(towerLevel);
-        bf.putInt((int) tilePos.x);
-        bf.putInt((int) tilePos.y);
-        bf.putDouble(pixelPos.x);
-        bf.putDouble(pixelPos.y);
+        bf.putInt(tilePos.x);
+        bf.putInt(tilePos.y);
         return packBuffer(bf);
     }
 

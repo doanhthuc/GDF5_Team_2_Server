@@ -1,6 +1,7 @@
 package battle;
 
-import bitzero.core.P;
+import battle.newMap.BattleMapObject;
+import battle.newMap.Tower;
 
 import java.awt.*;
 import java.util.*;
@@ -18,9 +19,10 @@ public class BattleMap {
     public int pathTile = 4;
     public int treeTileNum = 5;
     public int pitTile = 6;
-    public int[][] map = new int[mapW][mapH + 1];
+    public int[][] map = new int[mapW][mapH];
     public ArrayList<Point> path = new ArrayList<>();
     public ArrayList<Tower> towerList = new ArrayList<>();
+    public BattleMapObject battleMapObject;
 
     public BattleMap() {
         this.reset();
@@ -50,14 +52,19 @@ public class BattleMap {
         this.genTree();
         this.genPitCell();
         this.removePath();
-    }
+        this.show();
 
-    public BattleMap(int X) {
-        int arr[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 3, 0}, {0, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 0, 2, 0}, {0, 0, 0, 0, 0, 0}};
+        this.battleMapObject = new BattleMapObject(this.map);
+        this.battleMapObject.showConsole();
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+    public BattleMap(int X)
+    {
+        int arr[][] ={{0,0,0,0,0},{0,0,0,0,0},{0,0,0,3,0},{0,0,0,0,0},{0,1,0,0,0},{0,0,0,2,0},{0,0,0,0,0,0}};
         //int arr[][] ={{0,0,0,0,0},{0,0,2,0,0},{0,0,0,0,0},{0,3,0,0,0},{0,0,0,1,0},{0,0,0,0,0},{0,0,0,0,0,0}};
-        for (int i = 0; i < mapW; i++)
-            for (int j = 0; j < mapH; j++)
-                this.map[i][j] = arr[i][j];
+        for(int i=0;i<mapW;i++)
+            for(int j=0;j<mapH;j++)
+                this.map[i][j]=arr[i][j];
         this.genPath();
         this.genTree();
         this.genPitCell();
@@ -101,7 +108,7 @@ public class BattleMap {
                     i++;
                 }
             }
-            if (buffTileIndex == buffTileAmount) finishGenBuffTle = true;
+            if (buffTileIndex == buffTileAmount ) finishGenBuffTle = true;
         }
     }
 
@@ -269,21 +276,12 @@ public class BattleMap {
     }
 
     public boolean isValuedTile(int value) {
-        if (value == attackDamageTile || value == attackRangeTile || value == attackSpeedTile || value == treeTileNum)
-            return true;
+        if (value == attackDamageTile || value == attackRangeTile || value == attackSpeedTile || value == treeTileNum) return true;
         return false;
     }
 
     public boolean compareNode(Point a, Point b) {
         return (a.x == b.x && a.y == b.y);
-    }
-
-    public Tower putTowerIntoMap(int towerId, int towerLevel, Point towerPos) {
-        if (isCellHaveObstacle(towerPos)) return null;
-        Tower tower = new Tower(towerId, towerLevel, towerPos);
-        this.towerList.add(tower);
-        map[towerPos.x][towerPos.y] = towerTile;
-        return tower;
     }
 
     public boolean isCellHaveObstacle(Point p) {

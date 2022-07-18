@@ -1,12 +1,12 @@
 package match;
 
-import battle.Battle;
 import battle.BattleMap;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.obj.matching.MatchingInfo;
 import cmd.obj.matching.OpponentInfo;
+import cmd.send.battle.ResponseRequestBattleMapObject;
 import cmd.send.matching.ResponseCancelMatching;
 import cmd.send.matching.ResponseMatching;
 import model.PlayerInfo;
@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public class MatchMaking implements Runnable {
     private static final BlockingQueue<MatchingInfo> waitingQueue = new LinkedBlockingQueue<>();
@@ -105,11 +104,23 @@ public class MatchMaking implements Runnable {
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getRoomId(), user2Map, user1Map, opponentInfoOfUser2), user2);
 
+
+
             waitingQueue.remove(matchingInfo1);
             waitingQueue.remove(matchingInfo2);
             waitingMap.remove(matchingInfo1.getPlayerId());
             waitingMap.remove(matchingInfo2.getPlayerId());
-
+            ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    user1Map.battleMapObject, user2Map.battleMapObject), user1);
+            ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    user2Map.battleMapObject, user1Map.battleMapObject), user2);
+//            for (int i = 0; i < user1Map.battleMapObject.getHeight(); i++) {
+//                for (int j = 0; j < user1Map.battleMapObject.getWidth(); j++) {
+//                    CellObject cellObject = user1Map.battleMapObject.getCellObject(i, j);
+//                    System.out.println("[ResponseRequestBattleMapObject] cellObject: " + cellObject);
+//                }
+//                System.out.println();
+//            }
         } catch (Exception e) {
             logger.error("MatchMaking error: " + e.getMessage());
         }

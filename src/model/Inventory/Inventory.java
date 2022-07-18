@@ -57,6 +57,15 @@ public class Inventory extends DataModel {
         return CardDefine.fragmentToUpgrade.get(currentLevel);
     }
 
+    public Card getCardById(int cardId) {
+        for (Card card : this.cardCollection) {
+            if (card.getCardType() == cardId) {
+                return card;
+            }
+        }
+        return null;
+    }
+
     public void setCard(int cardType, int cardLevel, int cardAmount)
     {
         this.cardCollection.get(cardType).setLevel(cardLevel);
