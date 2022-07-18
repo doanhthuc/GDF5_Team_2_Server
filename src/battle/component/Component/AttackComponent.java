@@ -7,21 +7,70 @@ import battle.config.GameConfig;
 import java.util.ArrayList;
 
 public class AttackComponent extends Component {
-    public String name="AttackComponent";
-    public int originDamage;
-    public double _damage;
-    public int targetStategy;
-    public double range;
-    public double originSpeed;
-    public double speed;
-    public double countdown;
-    public ArrayList<EffectComponent> effects = new ArrayList<>();
+    private String name="AttackComponent";
+    private int originDamage;
+    private double _damage;
+    private int targetStrategy;
+    private double range;
+    private double originSpeed;
+    private double speed;
+    private double countdown;
+    private ArrayList<EffectComponent> effects = new ArrayList<>();
+
+    public int getOriginDamage() {
+        return originDamage;
+    }
+
+    public void setOriginDamage(int originDamage) {
+        this.originDamage = originDamage;
+    }
+
+    public int getTargetStrategy() {
+        return targetStrategy;
+    }
+
+    public void setTargetStrategy(int targetStrategy) {
+        this.targetStrategy = targetStrategy;
+    }
+
+    public double getRange() {
+        return range;
+    }
+
+
+    public double getSpeed() {
+        return speed;
+    }
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public double getCountdown() {
+        return countdown;
+    }
+
+    public void setCountdown(double countdown) {
+        this.countdown = countdown;
+    }
+
+    public ArrayList<EffectComponent> getEffects() {
+        return effects;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public AttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
         super(GameConfig.COMPONENT_ID.ATTACK);
         this.originDamage = damage;
         this._damage = damage;
-        this.targetStategy = targetStrategy;
+        this.targetStrategy = targetStrategy;
         this.range = range;
         this.speed = speed;
         this.countdown = countdown;
@@ -31,7 +80,7 @@ public class AttackComponent extends Component {
     public void reset(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
         this.originDamage = damage;
         this._damage = damage;
-        this.targetStategy = targetStrategy;
+        this.targetStrategy = targetStrategy;
         this.range = range;
         this.speed = speed;
         this.countdown = countdown;

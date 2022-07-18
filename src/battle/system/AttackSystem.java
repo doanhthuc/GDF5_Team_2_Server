@@ -41,27 +41,28 @@ public class AttackSystem extends SystemECS implements Runnable {
         typeIDBullet.add(GameConfig.COMPONENT_ID.BULLET_INFO);
         ArrayList<EntityECS> bulletList = EntityManager.getInstance().getEntitiesHasComponents(typeIDBullet);
         for (EntityECS bullet: bulletList) {
-            bullet.showComponent();
+            bullet.toString();
         }
         for (EntityECS tower : towerList) {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
-            if (attackComponent.countdown > 0) {
-                attackComponent.countdown -= tick;
+            double countDown=attackComponent.getCountdown();
+            if (countDown > 0) {
+                attackComponent.setCountdown(countDown-tick);
             }
-            if (attackComponent.countdown <= 0) {
+            if (countDown <= 0) {
                 ArrayList<EntityECS> monsterInRange = new ArrayList<>();
                 for (EntityECS monster : monsterList) {
                     double distance = this._distanceFrom(tower, monster);
                     //java.lang.System.out.println(distance+" "+attackComponent.range);
-                    if (distance <= attackComponent.range) monsterInRange.add(monster);
+                    if (distance <= attackComponent.getRange()) monsterInRange.add(monster);
                 }
                 if (monsterInRange.size() > 0) {
-                    EntityECS targetMonster = this._findtargetMonsterByStratgy(attackComponent.targetStategy, monsterInRange);
+                    EntityECS targetMonster = this._findtargetMonsterByStratgy(attackComponent.getTargetStrategy(), monsterInRange);
                     //targetMonster.showComponent();
                     PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                     PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
-                    EntityFactory.getInstance().createBullet(tower.typeID, towerPos.getPos(), monsterPos.getPos(), attackComponent.effects);
-                    attackComponent.countdown = attackComponent.speed*1000;
+                    EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos.getPos(), monsterPos.getPos(), attackComponent.getEffects());
+                    attackComponent.setCountdown(attackComponent.getSpeed()*1000);
                 }
             }
 
@@ -72,7 +73,7 @@ public class AttackSystem extends SystemECS implements Runnable {
     public double _distanceFrom(EntityECS tower, EntityECS monster) {
         PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
         PositionComponent monsterPos = (PositionComponent) monster.getComponent(GameConfig.COMPONENT_ID.POSITION);
-        return Utils.euclidDistance(new Point(towerPos.x, towerPos.y), new Point(monsterPos.x, monsterPos.y));
+        return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
     }
 
     public EntityECS _findtargetMonsterByStratgy(int stategy, ArrayList<EntityECS> monsterInRange) {

@@ -4,13 +4,13 @@ import battle.common.Point;
 import battle.config.GameConfig;
 
 public class VelocityComponent extends Component {
-    public String name = "VelocityComponent";
-    public double speedX;
-    public double speedY;
-    public double originSpeedX;
-    public double originSpeedY;
-    public Point dynamicPosition;
-    public double originSpeed;
+    private String name = "VelocityComponent";
+    private double speedX;
+    private double speedY;
+    private double originSpeedX;
+    private double originSpeedY;
+    private Point dynamicPosition;
+    private double originSpeed;
 
     public VelocityComponent(double speedX, double speedY, Point dynamicPosition) {
         super(GameConfig.COMPONENT_ID.VELOCITY);

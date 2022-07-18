@@ -50,11 +50,11 @@ public class CollisionSystem extends SystemECS {
         PositionComponent pos2 = (PositionComponent) entity1.getComponent(GameConfig.COMPONENT_ID.POSITION);
         CollisionComponent collision1 = (CollisionComponent) entity1.getComponent(GameConfig.COMPONENT_ID.COLLISION);
         CollisionComponent collision2 = (CollisionComponent) entity2.getComponent(GameConfig.COMPONENT_ID.COLLISION);
-        double w1 = collision1.width, h1 = collision1.height;
-        double w2 = collision2.width, h2 = collision2.height;
+        double w1 = collision1.getWidth(), h1 = collision1.getHeight();
+        double w2 = collision2.getWidth(), h2 = collision2.getHeight();
         if ((w1 == 0 && h1 == 0) || (w2 == 0) && (h2 == 0)) return false;
 
-        return this._interSectRect(pos1.x - w1 / 2, pos1.y - h1 / 2, w1, h1, pos2.x - w2 / 2, pos2.y - h2 / 2, w2, h2);
+        return this._interSectRect(pos1.getX() - w1 / 2, pos1.getY() - h1 / 2, w1, h1, pos2.getX()- w2 / 2, pos2.getY() - h2 / 2, w2, h2);
     }
 
     public boolean _interSectRect(double x1, double y1, double w1, double h1, double x2, double y2, double w2, double h2) {
