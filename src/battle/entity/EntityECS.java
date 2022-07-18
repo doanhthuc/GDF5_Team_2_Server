@@ -35,9 +35,9 @@ public class EntityECS {
         return this;
     }
 
-    public void removeComponent(Component component) {
-        Component component = this.components.get(components.getTypeID());
-        if (component) {
+    public void removeComponent(Component cpn) {
+        Component component = this.components.get(cpn.getTypeID());
+        if (component != null) {
             ComponentManager.getInstance().remove(component);
             this.components.remove(component.typeID);
         }
