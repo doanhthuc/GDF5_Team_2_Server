@@ -42,7 +42,7 @@ public class EntityManager {
         this.entities.put(entity.id, entity);
     }
 
-    public void destroyEntity(int id) {
+    public void destroyEntity(long id) {
         this.entities.get(id).setActive(false);
         for (Map.Entry<Integer, Component> entry : this.entities.get(id).components.entrySet()) {
             entry.getValue().setActive(false);

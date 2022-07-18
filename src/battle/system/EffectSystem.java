@@ -40,7 +40,7 @@ public class EffectSystem extends System {
             LifeComponent life = (LifeComponent) entity.getComponent(GameConfig.COMPONENT_ID.LIFE);
             if (life!=null) {
                 DamageEffect damageEffect= (DamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-                life.hp-=damageEffect.damage;
+                life.setHp(life.getHp()-damageEffect.getDamage());
                 entity.removeComponent(damageEffect);
             }
         }

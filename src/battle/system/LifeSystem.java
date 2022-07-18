@@ -21,7 +21,7 @@ public class LifeSystem extends System{
         for(EntityECS entity: lifeEntity)
         {
             LifeComponent lifeComponent= (LifeComponent) entity.getComponent(GameConfig.COMPONENT_ID.LIFE);
-            if (lifeComponent.hp<=0) EntityManager.getInstance().destroyEntity(entity.id);
+            if (lifeComponent.getHp()<=0) EntityManager.getInstance().destroyEntity(entity.getId());
         }
     }
 }

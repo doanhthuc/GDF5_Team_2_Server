@@ -92,7 +92,7 @@ public class AttackComponent extends Component {
         for (int i = 0; i < this.effects.size(); i++) {
             DamageEffect effect = (DamageEffect) this.effects.get(i);
             if (effect.typeID == GameConfig.COMPONENT_ID.DAMAGE_EFFECT) {
-                effect.damage = this._damage;
+                effect.setDamage(this._damage);
             }
         }
     }

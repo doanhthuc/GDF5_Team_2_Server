@@ -3,8 +3,8 @@ package battle.component.EffectComponent;
 import battle.config.GameConfig;
 
 public class BuffAttackSpeedEffect extends EffectComponent {
-    public String name = "BuffAttackSpeedEffect";
-    public double percent;
+    private String name = "BuffAttackSpeedEffect";
+    private double percent;
 
     public BuffAttackSpeedEffect(double percent) {
         super(GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED);

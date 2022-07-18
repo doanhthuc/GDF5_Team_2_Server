@@ -36,7 +36,7 @@ public class CollisionSystem extends System {
                         EntityECS bullet = Utils.isBullet(entity1) ? entity1 : entity2;
                         EntityECS monster = Utils.isMonster(entity1) ? entity1 : entity2;
                         BulletInfoComponent bulletInfo = (BulletInfoComponent) bullet.getComponent(GameConfig.COMPONENT_ID.BULLET_INFO);
-                        for (EffectComponent effectComponent : bulletInfo.effects) {
+                        for (EffectComponent effectComponent : bulletInfo.getEffects()) {
                             monster.addComponent(effectComponent.clone());
                         }
                     }
