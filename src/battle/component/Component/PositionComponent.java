@@ -4,9 +4,9 @@ import battle.common.Point;
 import battle.config.GameConfig;
 
 public class PositionComponent extends Component {
-    public String name = "PositionComponent";
-    public int x;
-    public int y;
+    private String name = "PositionComponent";
+    private int x;
+    private int y;
 
     public PositionComponent(int x, int y) {
         super(GameConfig.COMPONENT_ID.POSITION);
@@ -16,6 +16,22 @@ public class PositionComponent extends Component {
 
     public void reset(int x, int y) {
         this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
         this.y = y;
     }
 

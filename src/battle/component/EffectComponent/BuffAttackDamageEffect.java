@@ -2,7 +2,7 @@ package battle.component.EffectComponent;
 import battle.config.GameConfig;
 
 public class BuffAttackDamageEffect extends EffectComponent {
-    public String name = "BuffAttackDamageEffect";
+    private String name = "BuffAttackDamageEffect";
     public double percent;
 
     public BuffAttackDamageEffect(double percent) {

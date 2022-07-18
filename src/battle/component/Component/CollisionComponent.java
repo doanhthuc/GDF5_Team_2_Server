@@ -3,9 +3,18 @@ package battle.component.Component;
 import battle.config.GameConfig;
 
 public class CollisionComponent extends Component {
-    public String name="CollisionComponent";
-    public double width,height;
-    public CollisionComponent(double width,double height){
+    private String name="CollisionComponent";
+    private double width,height;
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public CollisionComponent(double width, double height){
         super(GameConfig.COMPONENT_ID.COLLISION);
         this.width=width;
         this.height=height;
