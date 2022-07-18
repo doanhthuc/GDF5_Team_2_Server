@@ -1,8 +1,11 @@
 package battle.system;
 
 public class System implements Runnable{
-    int id=0;
-    String name="SystemECS";
+    private final static String name="SystemECS";
+    private static long typeID;
+
+    private long id;
+
     long currentMillis;
     long pastMillis;
     long tick;
