@@ -1,7 +1,7 @@
 package cmd.send.battle;
 
 import battle.newMap.BattleMapObject;
-import battle.newMap.CellObject;
+import battle.newMap.TileObject;
 import battle.newMap.Tower;
 import battle.newMap.Tree;
 import bitzero.server.extensions.data.BaseMsg;
@@ -34,25 +34,25 @@ public class ResponseRequestBattleMapObject extends BaseMsg {
         bf.putInt(battleMapObject.getWidth());
         for (int i = 0; i < battleMapObject.getHeight(); i++) {
             for (int j = 0; j < battleMapObject.getWidth(); j++) {
-                CellObject cellObject = battleMapObject.getCellObject(i, j);
-                packCellPacket(cellObject, bf);
+                TileObject tileObject = battleMapObject.getCellObject(i, j);
+                packCellPacket(tileObject, bf);
             }
         }
     }
 
-    public void packCellPacket(CellObject cellObject, ByteBuffer bf) {
-        bf.putInt(cellObject.getTilePos().x);
-        bf.putInt(cellObject.getTilePos().y);
-        bf.putInt(cellObject.getBuffCellType().value);
-        bf.putInt(cellObject.getObjectInCell().getObjectInCellType().value);
-        switch (cellObject.getObjectInCell().getObjectInCellType()) {
+    public void packCellPacket(TileObject tileObject, ByteBuffer bf) {
+        bf.putInt(tileObject.getTilePos().x);
+        bf.putInt(tileObject.getTilePos().y);
+        bf.putInt(tileObject.getBuffCellType().value);
+        bf.putInt(tileObject.getObjectInCell().getObjectInCellType().value);
+        switch (tileObject.getObjectInCell().getObjectInCellType()) {
             case TOWER:
-                Tower tower = (Tower) cellObject.getObjectInCell();
+                Tower tower = (Tower) tileObject.getObjectInCell();
                 bf.putInt(tower.getId());
                 bf.putInt(tower.getLevel());
                 break;
             case TREE:
-                Tree tree = (Tree) cellObject.getObjectInCell();
+                Tree tree = (Tree) tileObject.getObjectInCell();
                 bf.putDouble(tree.getHp());
                 break;
             case PIT:

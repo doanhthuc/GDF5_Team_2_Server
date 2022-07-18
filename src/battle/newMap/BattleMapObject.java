@@ -7,7 +7,7 @@ import java.util.List;
 public class BattleMapObject {
     private final int width;
     private final int height;
-    private final List<List<CellObject>> battleMap = new ArrayList<List<CellObject>>();
+    private final List<List<TileObject>> battleMap = new ArrayList<List<TileObject>>();
 
     public BattleMapObject(int[][] simpleMap) {
         this.width = simpleMap[0].length;
@@ -17,41 +17,41 @@ public class BattleMapObject {
 
     public void initBattleMap(int[][] map) {
         for (int i = 0; i < this.height; i++) {
-            List<CellObject> row = new ArrayList<>();
+            List<TileObject> row = new ArrayList<>();
             for (int j = 0; j < this.width; j++) {
-                if (map[i][j] == BuffCellType.NONE.value) {
-                    row.add(new CellObject(new Point(i, j), BuffCellType.NONE, new ObjectInCell(ObjectInCellType.NONE)));
-                } else if (map[i][j] == BuffCellType.ATTACK_SPEED_UP.value) {
-                    row.add(new CellObject(new Point(i, j), BuffCellType.ATTACK_SPEED_UP, new ObjectInCell(ObjectInCellType.NONE)));
-                } else if (map[i][j] == BuffCellType.DAMAGE_UP.value) {
-                    row.add(new CellObject(new Point(i, j), BuffCellType.DAMAGE_UP, new ObjectInCell(ObjectInCellType.NONE)));
-                } else if (map[i][j] == BuffCellType.ATTACK_RANGE_UP.value) {
-                    row.add(new CellObject(new Point(i, j), BuffCellType.ATTACK_RANGE_UP, new ObjectInCell(ObjectInCellType.NONE)));
+                if (map[i][j] == BuffTileType.NONE.value) {
+                    row.add(new TileObject(new Point(i, j), BuffTileType.NONE, new ObjectInTile(ObjectInTileType.NONE)));
+                } else if (map[i][j] == BuffTileType.ATTACK_SPEED_UP.value) {
+                    row.add(new TileObject(new Point(i, j), BuffTileType.ATTACK_SPEED_UP, new ObjectInTile(ObjectInTileType.NONE)));
+                } else if (map[i][j] == BuffTileType.DAMAGE_UP.value) {
+                    row.add(new TileObject(new Point(i, j), BuffTileType.DAMAGE_UP, new ObjectInTile(ObjectInTileType.NONE)));
+                } else if (map[i][j] == BuffTileType.ATTACK_RANGE_UP.value) {
+                    row.add(new TileObject(new Point(i, j), BuffTileType.ATTACK_RANGE_UP, new ObjectInTile(ObjectInTileType.NONE)));
                 } else if (map[i][j] == 5) {
-                    row.add(new CellObject(new Point(i, j), BuffCellType.NONE, new Tree(100)));
+                    row.add(new TileObject(new Point(i, j), BuffTileType.NONE, new Tree(100)));
                 } else if (map[i][j] == 6) {
-                    row.add(new CellObject(new Point(i, j), BuffCellType.NONE, new Pit()));
+                    row.add(new TileObject(new Point(i, j), BuffTileType.NONE, new Pit()));
                 }
             }
             battleMap.add(row);
         }
     }
 
-    public CellObject getCellObject(int x, int y) {
+    public TileObject getCellObject(int x, int y) {
         return battleMap.get(x).get(y);
     }
 
-    public CellObject getCellObject(Point pos) {
+    public TileObject getCellObject(Point pos) {
         return battleMap.get(pos.x).get(pos.y);
     }
 
-    public ObjectInCellType setObjectInCellType(int typeId) {
-        return ObjectInCellType.getObjectInCellTypeByTypeId(typeId);
+    public ObjectInTileType setObjectInCellType(int typeId) {
+        return ObjectInTileType.getObjectInCellTypeByTypeId(typeId);
     }
 
     public Tower putTowerIntoMap(Point tilePos, int towerId) {
-        CellObject cellObject = this.battleMap.get(tilePos.x).get(tilePos.y);
-        return cellObject.buildTower(towerId, 1);
+        TileObject tileObject = this.battleMap.get(tilePos.x).get(tilePos.y);
+        return tileObject.buildTower(towerId, 1);
     }
 
     public int getWidth() {
@@ -62,14 +62,14 @@ public class BattleMapObject {
         return height;
     }
 
-    public List<List<CellObject>> getBattleMap() {
+    public List<List<TileObject>> getBattleMap() {
         return battleMap;
     }
 
     public void showConsole() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (battleMap.get(i).get(j).getBuffCellType().value != BuffCellType.NONE.value) {
+                if (battleMap.get(i).get(j).getBuffCellType().value != BuffTileType.NONE.value) {
                     System.out.print(battleMap.get(i).get(j).getBuffCellType().value + " ");
                     continue;
                 }

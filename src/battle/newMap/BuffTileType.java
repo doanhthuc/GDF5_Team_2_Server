@@ -1,6 +1,6 @@
 package battle.newMap;
 
-public enum BuffCellType {
+public enum BuffTileType {
     NONE(0),
     ATTACK_SPEED_UP(1),
     DAMAGE_UP(3),
@@ -8,7 +8,7 @@ public enum BuffCellType {
 
     public final int value;
 
-    BuffCellType (final int value) {
+    BuffTileType(final int value) {
         this.value = value;
     }
 

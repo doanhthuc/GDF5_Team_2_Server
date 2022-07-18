@@ -3,13 +3,13 @@ package battle.newMap;
 
 import java.awt.*;
 
-public class Tower extends ObjectInCell {
+public class Tower extends ObjectInTile {
     private int id;
     private int level;
     private Point tilePos;
 
     public Tower(int id, int level, Point tilePos) {
-        super(ObjectInCellType.TOWER);
+        super(ObjectInTileType.TOWER);
         this.id = id;
         this.level = level;
         this.tilePos = tilePos;

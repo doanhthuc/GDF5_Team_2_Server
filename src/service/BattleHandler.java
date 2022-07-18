@@ -2,7 +2,6 @@ package service;
 
 import battle.BattleMap;
 import battle.newMap.BattleMapObject;
-import battle.newMap.CellObject;
 import battle.newMap.Tower;
 import bitzero.server.BitZeroServer;
 import bitzero.server.core.BZEventType;
@@ -11,12 +10,14 @@ import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
-import cmd.receive.battle.tower.RequestPutTower;
 import cmd.HandlerId;
+import cmd.receive.battle.tower.RequestPutTower;
 import cmd.receive.battle.tower.RequestUpgradeTower;
 import cmd.send.battle.*;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
+import model.Inventory.Card;
+import model.Inventory.Inventory;
 import model.PlayerInfo;
 import model.battle.Room;
 import model.battle.RoomManager;
@@ -103,12 +104,12 @@ public class BattleHandler extends BaseClientRequestHandler {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
             BattleMapObject battleMapObject = battleMap.battleMapObject;
+            System.out.println("Battle Handler line 107 towerId: " + req.getTowerId());
             Tower tower = battleMapObject.putTowerIntoMap(req.getTilePos(), req.getTowerId());
             if (tower == null) {
                 System.out.println("[BattleHandler.java line 103 processPutTower]  tower null");
                 return;
             }
-            battleMap.show();
             send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos()), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
@@ -125,7 +126,13 @@ public class BattleHandler extends BaseClientRequestHandler {
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
             BattleMapObject battleMapObject = battleMap.battleMapObject;
             Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
-            tower = tower.upgradeTower();
+            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
+            Card towerCard = inventory.getCardById(req.getTowerId());
+            if (towerCard.getCardRankNumber() > tower.getLevel()) {
+                tower = tower.upgradeTower();
+            } else {
+                return;
+            }
             if (tower == null) {
                 System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
                 return;
@@ -133,6 +140,10 @@ public class BattleHandler extends BaseClientRequestHandler {
             System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
             send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
                     req.getTowerId(), tower.getLevel(), tower.getTilePos()), user);
+            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+            send(new ResponseOpponentUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
+                    req.getTowerId(), tower.getLevel(), tower.getTilePos()), opponent);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }

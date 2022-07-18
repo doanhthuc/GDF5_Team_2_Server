@@ -1,10 +1,10 @@
 package battle.newMap;
 
-public class Tree extends ObjectInCell {
+public class Tree extends ObjectInTile {
     private double hp;
 
     public Tree(double hp) {
-        super(ObjectInCellType.TREE);
+        super(ObjectInTileType.TREE);
         this.hp = hp;
     }
 

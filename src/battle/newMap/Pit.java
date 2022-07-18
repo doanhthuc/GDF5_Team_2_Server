@@ -1,9 +1,9 @@
 package battle.newMap;
 
-public class Pit extends ObjectInCell {
+public class Pit extends ObjectInTile {
 
     public Pit() {
-        super(ObjectInCellType.PIT);
+        super(ObjectInTileType.PIT);
     }
 
     @Override
