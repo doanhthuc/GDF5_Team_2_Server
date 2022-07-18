@@ -7,20 +7,6 @@ import battle.entity.EntityECS;
 public class Utils {
     private static Utils _instance = null;
 
-    public static class UUID {
-        static int _instanceID = 0;
-        static int _componentTypeID = 0;
-
-        public static int genIncrementID() {
-            return ++_instanceID;
-        }
-    }
-
-    public static Utils getInstance() {
-        if (_instance == null) _instance = new Utils();
-        return _instance;
-    }
-
     public Point calculateVelocityVector(Point startPos, Point targetPos, double speed) {
         double Xa = startPos.x, Ya = startPos.y, Xb = targetPos.x, Yb = targetPos.y;
         if (Xa - Xb == 0) return new Point(0, Math.signum((Yb - Ya) * speed));

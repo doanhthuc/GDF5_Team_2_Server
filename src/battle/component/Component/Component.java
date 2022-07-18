@@ -1,31 +1,42 @@
 package battle.component.Component;
 
-import battle.common.Utils;
-import battle.config.GameConfig;
+import battle.common.UUIDGeneratorECS;
+
 
 public class Component {
     public int typeID = 0;
-    public String name = "ComponentECS";
-    public int id;
-    public boolean _active;
+    private String name = "ComponentECS";
+    private long id;
+    private boolean active;
 
     public Component() {
     }
 
     public Component(int typeID) {
-        this.name=GameConfig.COMPONENT_NAME.NAME.get(typeID);
-      //  System.out.println(typeID+" "+this.name);
         this.typeID = typeID;
-        this.id=Utils.UUID.genIncrementID();
-        this._active = true;
+        this.name = "ComponentECS";
+        this.id = UUIDGeneratorECS.genComponentID();
+        this.active = true;
     }
 
-    public boolean getActive() {
-        return this._active;
+    public int getTypeID() {
+        return typeID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public void setActive(boolean active) {
-        this._active = active;
+        this.active = active;
     }
 }
 
