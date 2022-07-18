@@ -11,7 +11,7 @@ import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 
-public class CollisionSystem extends System {
+public class CollisionSystem extends SystemECS {
     int id = GameConfig.SYSTEM_ID.LIFE;
     String name = "CollisionSystem";
 
@@ -21,7 +21,7 @@ public class CollisionSystem extends System {
 
     @Override
     public void run() {
-        this.tick=this.getEclapseTime();
+        this.tick=this.getElapseTime();
         ArrayList<Integer> typeIDs = new ArrayList<>();
         typeIDs.add(GameConfig.COMPONENT_ID.COLLISION);
         ArrayList<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);

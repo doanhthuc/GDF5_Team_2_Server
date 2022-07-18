@@ -11,7 +11,7 @@ import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 
-public class AttackSystem extends System implements Runnable {
+public class AttackSystem extends SystemECS implements Runnable {
     public int id = GameConfig.SYSTEM_ID.ATTACK;
     public String name = "AttackSystem";
 
@@ -21,7 +21,7 @@ public class AttackSystem extends System implements Runnable {
 
     @Override
     public void run() {
-        this.tick=this.getEclapseTime();
+        this.tick=this.getElapseTime();
         java.lang.System.out.println(this.tick);
         //Create List of Component TypeIDs
         ArrayList<Integer> typeIDTower = new ArrayList<>();

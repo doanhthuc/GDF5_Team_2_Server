@@ -2,49 +2,57 @@ package battle.manager;
 
 
 import battle.component.Component.Component;
+import org.apache.commons.lang.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ComponentManager {
-    public Map<Integer, Component> _storeInstance;
-    public Map<Integer, Component> _storeCls;
-    String name = "ComponentManager";
-    private static ComponentManager _instance = null;
+public class ComponentManager extends ManagerECS {
+    private final Map<Long, Component> storeInstance;
+    private final Map<Integer, Class> storeCls;
+    private static final String name = "ComponentManager";
+    private static ComponentManager instance = null;
 
     public ComponentManager() {
-        this._storeCls = new HashMap();
-        this._storeInstance = new HashMap<>();
+        super();
+        this.storeCls = new HashMap<>();
+        this.storeInstance = new HashMap<>();
     }
 
-    public void registerClass(Component cls) {
-        this._storeInstance.put(cls.typeID, cls);
+    public void registerClass(Component cpn) {
+        // TODO: implement here
+        throw new NotImplementedException();
     }
 
-    public void getClass(int typeID) {
-        if (this._storeCls.get(typeID) == null) {
+    public Class getClass(int typeID) {
+        // TODO: implement here
+        throw new NotImplementedException();
+    }
 
+    public void add(Component component) throws Exception {
+        if (this.storeInstance.get(component.getId()) == null) {
+            throw new Exception("Component with typeID = " + component.getTypeID() + ", id = " + component.getId() + " exists.");
         }
-        return;
+        this.storeInstance.put(component.getId(), component);
     }
 
-    public void add(Component component) {
-        if (this._storeInstance.get(component.id) == null) {
-
-        }
-        this._storeInstance.put(component.id, component);
-    }
-
-    public Component findByInstanceID(int instanceID) {
-        return this._storeInstance.get(instanceID);
+    public Component findByInstanceID(long instanceID) {
+        return this.storeInstance.get(instanceID);
     }
 
     public void remove(Component component) {
-        this._storeInstance.remove(component.id);
+        component.setActive(false);
+        this.storeInstance.remove(component.getId());
     }
 
     public static ComponentManager getInstance() {
-        if (_instance == null) _instance = new ComponentManager();
-        return _instance;
+        if (instance == null) {
+            instance = new ComponentManager();
+        }
+        return instance;
+    }
+
+    public String getName() {
+        return name;
     }
 }

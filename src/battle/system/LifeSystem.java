@@ -7,7 +7,7 @@ import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 
-public class LifeSystem extends System{
+public class LifeSystem extends SystemECS {
     public int id = GameConfig.SYSTEM_ID.LIFE;
     public LifeSystem(){
         java.lang.System.out.println("new LifeSystem");
@@ -21,7 +21,7 @@ public class LifeSystem extends System{
         for(EntityECS entity: lifeEntity)
         {
             LifeComponent lifeComponent= (LifeComponent) entity.getComponent(GameConfig.COMPONENT_ID.LIFE);
-            if (lifeComponent.hp<=0) EntityManager.getInstance().destroyEntity(entity.id);
+            if (lifeComponent.hp<=0) EntityManager.getInstance().destroy(entity.id);
         }
     }
 }

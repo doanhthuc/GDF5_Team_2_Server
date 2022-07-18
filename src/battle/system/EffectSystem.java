@@ -8,7 +8,7 @@ import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 
-public class EffectSystem extends System {
+public class EffectSystem extends SystemECS {
     int id = GameConfig.SYSTEM_ID.EFFECT;
     public String name = "EffectSystem";
 
@@ -18,7 +18,7 @@ public class EffectSystem extends System {
 
     @Override
     public void run() {
-        this.tick = this.getEclapseTime();
+        this.tick = this.getElapseTime();
         this._handleBuffAttackSpeedEffect(tick);
         this._handleDamageEffect(tick);
     }
