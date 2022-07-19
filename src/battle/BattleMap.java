@@ -8,8 +8,8 @@ import java.util.*;
 import java.util.List;
 
 public class BattleMap {
-    public int mapW = 7;
-    public int mapH = 5;
+    public static int mapW = 7;
+    public static int mapH = 5;
     public int buffTileAmount = 3;
     public static int attackSpeedTile = 1;
     public static int attackRangeTile = 2;

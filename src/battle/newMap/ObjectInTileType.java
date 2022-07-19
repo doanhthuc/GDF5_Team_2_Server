@@ -14,19 +14,6 @@ public enum ObjectInTileType {
         this.value = value;
     }
 
-    public static ObjectInTileType getObjectInCellType(int typeId) {
-        switch (typeId) {
-            case 1:
-                return ObjectInTileType.TREE;
-            case 2:
-                return ObjectInTileType.TOWER;
-            case 3:
-                return ObjectInTileType.PIT;
-            default:
-                return ObjectInTileType.NONE;
-        }
-    }
-
     public static ObjectInTileType getObjectInCellTypeByTypeId(int typeId) {
         return valueList[typeId];
     }
