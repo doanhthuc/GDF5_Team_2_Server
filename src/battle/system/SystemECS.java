@@ -11,7 +11,7 @@ public class SystemECS implements Runnable {
     private long id;
 
     public SystemECS(int typeID) {
-        typeID = typeID;
+        this.typeID = typeID;
         id = UUIDGeneratorECS.genSystemID();
     }
 

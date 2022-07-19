@@ -31,10 +31,10 @@ public class EntityPool {
     }
 
     public void push(EntityECS entity) {
-        if (this.pool.get(entity.typeID) != null) {
-            this.pool.get(entity.typeID).add(entity);
+        if (this.pool.get(entity.getTypeID()) != null) {
+            this.pool.get(entity.getTypeID()).add(entity);
         } else {
-            this.pool.get(entity.typeID).add(entity);
+            this.pool.get(entity.getTypeID()).add(entity);
         }
     }
 }

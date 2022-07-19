@@ -7,18 +7,20 @@ import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EffectSystem extends SystemECS {
-    public String name = "EffectSystem";
     int id = GameConfig.SYSTEM_ID.EFFECT;
+    public String name = "EffectSystem";
 
     public EffectSystem() {
+        super();
         java.lang.System.out.println("new EffectSystem");
     }
 
     @Override
     public void run() {
-        this.tick = this.getElapseTime();
+        this.tick = this.getEclapseTime();
         this._handleBuffAttackSpeedEffect(tick);
         this._handleDamageEffect(tick);
     }
@@ -32,15 +34,15 @@ public class EffectSystem extends SystemECS {
     }
 
     public void _handleDamageEffect(long tick) {
-        ArrayList<Integer> damageEffectID = new ArrayList<>();
+        List<Integer> damageEffectID = new ArrayList<>();
         damageEffectID.add(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-        ArrayList<EntityECS> damagedEntity = EntityManager.getInstance().getEntitiesHasComponents(damageEffectID);
+        List<EntityECS> damagedEntity = EntityManager.getInstance().getEntitiesHasComponents(damageEffectID);
 
         for (EntityECS entity : damagedEntity) {
             LifeComponent life = (LifeComponent) entity.getComponent(GameConfig.COMPONENT_ID.LIFE);
-            if (life != null) {
-                DamageEffect damageEffect = (DamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-                life.hp -= damageEffect.damage;
+            if (life!=null) {
+                DamageEffect damageEffect= (DamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
+                life.setHp(life.getHp()-damageEffect.getDamage());
                 entity.removeComponent(damageEffect);
             }
         }
