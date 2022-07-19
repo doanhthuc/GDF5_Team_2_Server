@@ -1,21 +1,17 @@
-package cmd.receive.battle.tower;
+package cmd.receive.battle.spell;
 
-
-
+import battle.Common.Point;
 import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.common.business.CommonHandle;
 
-import java.awt.*;
 import java.nio.ByteBuffer;
 
-public class RequestPutTower extends BaseCmd {
-
+public class RequestDropSpell extends BaseCmd {
     private int roomId;
-    private int towerId;
-    private Point tilePos;
-
-    public RequestPutTower(DataCmd dataCmd) {
+    private int spellId;
+    private Point pixelPos;
+    public RequestDropSpell(DataCmd dataCmd) {
         super(dataCmd);
         unpackData();
     }
@@ -25,19 +21,11 @@ public class RequestPutTower extends BaseCmd {
         ByteBuffer bf = makeBuffer();
         try {
             this.roomId = readInt(bf);
-            this.towerId = readInt(bf);
-            this.tilePos = new Point(readInt(bf), readInt(bf));
+            this.spellId = readInt(bf);
+            this.pixelPos = new Point(readDouble(bf), readDouble(bf));
         } catch (Exception e) {
             CommonHandle.writeErrLog(e);
         }
-    }
-
-    public Point getTilePos() {
-        return tilePos;
-    }
-
-    public void setTilePos(Point tilePos) {
-        this.tilePos = tilePos;
     }
 
     public int getRoomId() {
@@ -48,11 +36,19 @@ public class RequestPutTower extends BaseCmd {
         this.roomId = roomId;
     }
 
-    public int getTowerId() {
-        return towerId;
+    public int getSpellId() {
+        return spellId;
     }
 
-    public void setTowerId(int towerId) {
-        this.towerId = towerId;
+    public void setSpellId(int spellId) {
+        this.spellId = spellId;
+    }
+
+    public Point getPixelPos() {
+        return pixelPos;
+    }
+
+    public void setPixelPos(Point pixelPos) {
+        this.pixelPos = pixelPos;
     }
 }

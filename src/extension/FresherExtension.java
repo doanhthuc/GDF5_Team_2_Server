@@ -58,8 +58,8 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
 
-        //initBattle();
-       // BattleMap btm = new BattleMap();
+//        initBattle();
+
         trace("  Register Handler ");
         addRequestHandler(UserHandler.HANDLER_ID, UserHandler.class);
         addRequestHandler(ShopHandler.HANDLER_ID, ShopHandler.class);
@@ -97,9 +97,9 @@ public class FresherExtension extends BZExtension {
     }
 
     public void initBattle() {
-        //        BattleMap btm = new BattleMap();
-//        btm.show();
-        Battle battle = new Battle();
+        BattleMap btm = new BattleMap();
+        btm.show();
+//        Battle battle = new Battle();
     }
 
     public void initUserData(long userID) {
@@ -181,8 +181,8 @@ public class FresherExtension extends BZExtension {
                 PlayerID pID = (PlayerID) PlayerID.getModel(reqGet.userIDStr, PlayerID.class);
                 //check If there is UserOnline
                 User user = BitZeroServer.getInstance().getUserManager().getUserById(pID.userID);
-                if (user!=null) { //Send Logout to Old user
-                    send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()),user);
+                if (user != null) { //Send Logout to Old user
+                    send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()), user);
                 }
                 userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
             }
