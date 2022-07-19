@@ -4,12 +4,12 @@ import java.awt.*;
 
 public class TileObject {
     private Point tilePos;
-    private BuffTileType buffTileType;
+    private TileType tileType;
     private ObjectInTile objectInTile;
 
-    public TileObject(Point tilePos, BuffTileType buffTileType, ObjectInTile objectInTile) {
+    public TileObject(Point tilePos, TileType tileType, ObjectInTile objectInTile) {
         this.tilePos = tilePos;
-        this.buffTileType = buffTileType;
+        this.tileType = tileType;
         this.objectInTile = objectInTile;
     }
 
@@ -30,12 +30,12 @@ public class TileObject {
         this.tilePos = tilePos;
     }
 
-    public BuffTileType getBuffCellType() {
-        return buffTileType;
+    public TileType getBuffCellType() {
+        return tileType;
     }
 
-    public void setBuffCellType(BuffTileType buffTileType) {
-        this.buffTileType = buffTileType;
+    public void setBuffCellType(TileType tileType) {
+        this.tileType = tileType;
     }
 
     public ObjectInTile getObjectInCell() {
@@ -50,7 +50,7 @@ public class TileObject {
     public String toString() {
         return "CellObject{" +
                 "tilePos=" + tilePos.x + "," + tilePos.y +
-                ", buffCellType=" + buffTileType +
+                ", buffCellType=" + tileType +
                 ", objectInCell=" + objectInTile +
                 '}';
     }

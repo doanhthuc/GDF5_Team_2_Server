@@ -7,7 +7,7 @@ import java.util.List;
 public class BattleMapObject {
     private final int width;
     private final int height;
-    private final List<List<TileObject>> battleMap = new ArrayList<List<TileObject>>();
+    private final List<List<TileObject>> battleMap = new ArrayList<>();
 
     public BattleMapObject(int[][] simpleMap) {
         this.width = simpleMap[0].length;
@@ -19,19 +19,25 @@ public class BattleMapObject {
         for (int i = 0; i < this.height; i++) {
             List<TileObject> row = new ArrayList<>();
             for (int j = 0; j < this.width; j++) {
-                if (map[i][j] == BuffTileType.NONE.value) {
-                    row.add(new TileObject(new Point(i, j), BuffTileType.NONE, new ObjectInTile(ObjectInTileType.NONE)));
-                } else if (map[i][j] == BuffTileType.ATTACK_SPEED_UP.value) {
-                    row.add(new TileObject(new Point(i, j), BuffTileType.ATTACK_SPEED_UP, new ObjectInTile(ObjectInTileType.NONE)));
-                } else if (map[i][j] == BuffTileType.DAMAGE_UP.value) {
-                    row.add(new TileObject(new Point(i, j), BuffTileType.DAMAGE_UP, new ObjectInTile(ObjectInTileType.NONE)));
-                } else if (map[i][j] == BuffTileType.ATTACK_RANGE_UP.value) {
-                    row.add(new TileObject(new Point(i, j), BuffTileType.ATTACK_RANGE_UP, new ObjectInTile(ObjectInTileType.NONE)));
-                } else if (map[i][j] == 5) {
-                    row.add(new TileObject(new Point(i, j), BuffTileType.NONE, new Tree(100)));
-                } else if (map[i][j] == 6) {
-                    row.add(new TileObject(new Point(i, j), BuffTileType.NONE, new Pit()));
+                Point point = new Point(i, j);
+                TileType tileType = TileType.getTileTypeByValue(map[i][j]);
+                ObjectInTile objectInTile = null;
+                switch (tileType) {
+                    case NONE:
+                    case ATTACK_SPEED_UP:
+                    case ATTACK_RANGE_UP:
+                    case DAMAGE_UP:
+                    case PATH:
+                        objectInTile = new ObjectInTile(ObjectInTileType.NONE);
+                        break;
+                    case TREE:
+                        objectInTile = new Tree(100);
+                        break;
+                    case PIT:
+                        objectInTile = new Pit();
+                        break;
                 }
+                row.add(new TileObject(point, tileType, objectInTile));
             }
             battleMap.add(row);
         }
@@ -69,7 +75,7 @@ public class BattleMapObject {
     public void showConsole() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (battleMap.get(i).get(j).getBuffCellType().value != BuffTileType.NONE.value) {
+                if (battleMap.get(i).get(j).getBuffCellType().value != TileType.NONE.value) {
                     System.out.print(battleMap.get(i).get(j).getBuffCellType().value + " ");
                     continue;
                 }
