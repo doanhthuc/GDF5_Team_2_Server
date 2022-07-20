@@ -1,6 +1,6 @@
-package battle.component.InfoComponent;
+package battle.component.infoComponent;
 
-import battle.component.EffectComponent.EffectComponent;
+import battle.component.effectComponent.EffectComponent;
 import battle.config.GameConfig;
 
 import java.util.List;

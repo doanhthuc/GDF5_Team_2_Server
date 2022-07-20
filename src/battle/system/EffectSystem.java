@@ -1,18 +1,16 @@
 package battle.system;
 
-<<<<<<< HEAD:src/battle/System/EffectSystem.java
 import battle.Component.EffectComponent.DamageEffect;
 import battle.Component.InfoComponent.LifeComponent;
 import battle.Config.GameConfig;
 import battle.Entity.EntityECS;
 import battle.Manager.EntityManager;
-=======
+
 import battle.component.EffectComponent.DamageEffect;
 import battle.component.InfoComponent.LifeComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
->>>>>>> master:src/battle/system/EffectSystem.java
 
 import java.util.ArrayList;
 import java.util.List;

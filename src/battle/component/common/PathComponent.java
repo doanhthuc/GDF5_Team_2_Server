@@ -1,14 +1,10 @@
 package battle.component.Component;
 
-<<<<<<< HEAD:src/battle/Component/Component/PathComponent.java
-import battle.Common.Point;
-import battle.Common.Utils;
-import battle.Config.GameConfig;
-import battle.Factory.ComponentFactory;
-=======
+import battle.common.EntityMode;
 import battle.common.Point;
+import battle.common.Utils;
 import battle.config.GameConfig;
->>>>>>> master:src/battle/component/Component/PathComponent.java
+import battle.factory.ComponentFactory;
 
 import java.util.List;
 
@@ -16,17 +12,17 @@ public class PathComponent extends Component {
     private String name = "PathComponent";
     private List<Point> path;
     private int currentPathIDx;
-    private int mode;
+    private EntityMode mode;
 
-    public PathComponent(List<Point> pathTile, int mode, boolean isConvert) {
+    public PathComponent(List<Point> pathTile, EntityMode mode, boolean isConvert) {
         super(GameConfig.COMPONENT_ID.PATH);
         this.reset(pathTile, mode, isConvert);
     }
 
-    public void reset(List<Point> pathTile, int mode, boolean isConvert) {
+    public void reset(List<Point> pathTile, EntityMode mode, boolean isConvert) {
         if (isConvert == true) {
-            List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
-            this.path = pathTile2;
+          //  List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
+            this.path = pathTile;
         } else {
             this.path = pathTile;
         }
@@ -35,7 +31,12 @@ public class PathComponent extends Component {
     }
 
     public PathComponent clone() {
-        return ComponentFactory.getInstance().createPathComponent(this.path, this.mode);
+        try {
+            return ComponentFactory.getInstance().createPathComponent(this.path, this.mode, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  null;
     }
 
     public List<Point> getPath() {

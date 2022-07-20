@@ -1,20 +1,5 @@
 package battle.factory;
 
-<<<<<<< HEAD:src/battle/Factory/EntityFactory.java
-import battle.Common.EntityMode;
-import battle.Common.Point;
-import battle.Common.Utils;
-import battle.Component.Component.*;
-import battle.Component.EffectComponent.EffectComponent;
-import battle.Component.InfoComponent.BulletInfoComponent;
-import battle.Component.InfoComponent.LifeComponent;
-import battle.Component.InfoComponent.MonsterInfoComponent;
-import battle.Component.InfoComponent.TowerInfoComponent;
-import battle.Config.GameConfig;
-import battle.Entity.EntityECS;
-import battle.Manager.EntityManager;
-import battle.Pool.EntityPool;
-=======
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.Component.*;
@@ -24,20 +9,13 @@ import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.pool.EntityPool;
->>>>>>> master:src/battle/factory/EntityFactory.java
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class EntityFactory {
     static EntityFactory _instance;
     public EntityPool pool = new EntityPool();
-
-    public static EntityFactory getInstance() {
-        if (_instance == null) _instance = new EntityFactory();
-        return _instance;
-    }
-
+    static EntityFactory _instance;
     public EntityECS _createEntity(int typeID) {
         EntityECS entity = null;
         if (entity == null) {
@@ -155,6 +133,11 @@ public class EntityFactory {
         entity.addComponent(positionComponent);
         entity.addComponent(attackComponent);
         return entity;
+    }
+    public static EntityFactory getInstance()
+    {
+        if (_instance==null) _instance=new EntityFactory();
+        return _instance;
     }
 }
 

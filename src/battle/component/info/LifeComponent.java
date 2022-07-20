@@ -1,4 +1,4 @@
-package battle.component.InfoComponent;
+package battle.component.infoComponent;
 import battle.config.GameConfig;
 public class LifeComponent extends InfoComponent {
     private String name= "LifeComponent";

@@ -1,10 +1,6 @@
 package battle.pool;
 
-<<<<<<< HEAD:src/battle/Pool/EntityPool.java
-import battle.Entity.EntityECS;
-=======
 import battle.entity.EntityECS;
->>>>>>> master:src/battle/pool/EntityPool.java
 
 import java.util.ArrayList;
 

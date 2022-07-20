@@ -1,11 +1,5 @@
-<<<<<<< HEAD:src/battle/Component/InfoComponent/TowerInfoComponent.java
-package battle.Component.InfoComponent;
-
-import battle.Config.GameConfig;
-=======
-package battle.component.InfoComponent;
+package battle.component.infoComponent;
 import battle.config.GameConfig;
->>>>>>> master:src/battle/component/InfoComponent/TowerInfoComponent.java
 
 public class TowerInfoComponent extends InfoComponent {
     public String name = "TowerInfoComponent";

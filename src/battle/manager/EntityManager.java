@@ -1,18 +1,11 @@
 package battle.manager;
 
 
-<<<<<<< HEAD:src/battle/Manager/EntityManager.java
-import battle.Component.Component.Component;
-import battle.Entity.EntityECS;
-import org.apache.commons.lang.NotImplementedException;
-=======
 import battle.component.Component.Component;
 import battle.entity.EntityECS;
->>>>>>> master:src/battle/manager/EntityManager.java
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class EntityManager extends ManagerECS {

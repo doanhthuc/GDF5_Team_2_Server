@@ -1,13 +1,6 @@
-<<<<<<< HEAD:src/battle/Component/InfoComponent/MonsterInfoComponent.java
-package battle.Component.InfoComponent;
-
-import battle.Component.EffectComponent.EffectComponent;
-import battle.Config.GameConfig;
-=======
-package battle.component.InfoComponent;
-import battle.component.EffectComponent.EffectComponent;
+package battle.component.infoComponent;
+import battle.component.effectComponent.EffectComponent;
 import battle.config.GameConfig;
->>>>>>> master:src/battle/component/InfoComponent/MonsterInfoComponent.java
 
 public class MonsterInfoComponent extends InfoComponent {
     private String name = "MonsterInfoComponent";

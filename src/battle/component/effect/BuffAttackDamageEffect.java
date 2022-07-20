@@ -1,4 +1,4 @@
-package battle.component.EffectComponent;
+package battle.component.effectComponent;
 import battle.config.GameConfig;
 
 public class BuffAttackDamageEffect extends EffectComponent {

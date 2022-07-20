@@ -1,6 +1,6 @@
 package battle.common;
 
-public enum EntityMode {
+public enum EntityMode{
     PLAYER(0),
     OPPONENT(1);
 
