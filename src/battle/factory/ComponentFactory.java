@@ -1,17 +1,17 @@
 package battle.factory;
 
+import battle.common.EntityMode;
 import battle.common.Point;
-import battle.component.Component.*;
-import battle.component.EffectComponent.EffectComponent;
-import battle.component.InfoComponent.BulletInfoComponent;
-import battle.component.InfoComponent.LifeComponent;
-import battle.component.InfoComponent.MonsterInfoComponent;
-import battle.component.InfoComponent.TowerInfoComponent;
+import battle.component.common.*;
+import battle.component.effect.EffectComponent;
+import battle.component.info.BulletInfoComponent;
+import battle.component.info.LifeComponent;
+import battle.component.info.MonsterInfoComponent;
+import battle.component.info.TowerInfoComponent;
 import battle.config.GameConfig;
 import battle.manager.ComponentManager;
 import battle.pool.ComponentPool;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ComponentFactory {
@@ -67,12 +67,12 @@ public class ComponentFactory {
         return collisionComponent;
     }
 
-    public PathComponent createPathComponent(ArrayList<Point> path) throws Exception {
+    public PathComponent createPathComponent(List<Point> path, EntityMode mode, boolean isConvert) throws Exception {
         PathComponent pathComponent = (PathComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.PATH);
         if (pathComponent != null) {
-            pathComponent.reset(path);
+            pathComponent.reset(path,mode,isConvert);
         } else {
-            pathComponent = new PathComponent(path);
+            pathComponent = new PathComponent(path,mode,isConvert);
             ComponentManager.getInstance().add(pathComponent);
         }
         return pathComponent;

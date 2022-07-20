@@ -1,4 +1,4 @@
-package battle.component.infoComponent;
+package battle.component.info;
 
 import battle.component.common.Component;
 

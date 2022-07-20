@@ -1,4 +1,4 @@
-package battle.component.effectComponent;
+package battle.component.effect;
 
 import battle.config.GameConfig;
 

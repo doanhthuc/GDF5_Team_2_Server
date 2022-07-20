@@ -1,8 +1,7 @@
-package battle.component.Component;
+package battle.component.common;
 
 import battle.common.EntityMode;
 import battle.common.Point;
-import battle.common.Utils;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 

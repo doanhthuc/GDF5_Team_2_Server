@@ -1,11 +1,12 @@
 package battle.config;
 
+import battle.common.EntityMode;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-    public static String PLAYER = "player";
-    public static String OPPONENT = "opponent";
+
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;

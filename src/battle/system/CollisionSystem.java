@@ -1,10 +1,10 @@
 package battle.system;
 
 import battle.common.Utils;
-import battle.component.Component.CollisionComponent;
-import battle.component.Component.PositionComponent;
-import battle.component.EffectComponent.EffectComponent;
-import battle.component.InfoComponent.BulletInfoComponent;
+import battle.component.common.CollisionComponent;
+import battle.component.common.PositionComponent;
+import battle.component.effect.EffectComponent;
+import battle.component.info.BulletInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;

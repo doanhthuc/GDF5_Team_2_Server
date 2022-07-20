@@ -1,11 +1,11 @@
 package battle.entity;
 
 
-import battle.common.Utils;
-import battle.component.Component.Component;
-import battle.config.GameConfig;
+import battle.common.EntityMode;
+import battle.common.UUIDGeneratorECS;
+import battle.component.common.Component;
+import battle.manager.ComponentManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

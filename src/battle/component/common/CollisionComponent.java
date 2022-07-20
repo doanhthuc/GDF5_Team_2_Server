@@ -1,4 +1,4 @@
-package battle.component.Component;
+package battle.component.common;
 
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;

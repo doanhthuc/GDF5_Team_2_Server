@@ -1,7 +1,5 @@
-package battle.component.Component;
+package battle.component.common;
 
-import battle.common.Utils;
-import battle.config.GameConfig;
 import battle.common.UUIDGeneratorECS;
 
 public class Component {
@@ -32,7 +30,7 @@ public class Component {
         return id;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 

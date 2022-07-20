@@ -20,7 +20,7 @@ public class QuadTree {
     private int MAX_LEVELS;
     private int currentLevel;
     private Rect boundingBox;
-    private List<QuadTreeData>listObjects;
+    private List<QuadTreeData> listObjects;
     private List<QuadTree> nodes;
 
     public QuadTree(int level, Rect rect) {
@@ -39,10 +39,11 @@ public class QuadTree {
         double halfH = Math.floor(this.boundingBox.height / 2);
         double x = this.boundingBox.x;
         double y = this.boundingBox.y;
+        //FIXME
+//        this.nodes[QuadTree.BOTTOM_LEFT] = new QuadTree(this.level + 1, cc.rect(x, y, halfW, halfH));
+//        this.nodes[QuadTree.BOTTOM_RIGHT]  = new QuadTree(this.level + 1, cc.rect(x + halfW, y, halfW, halfH));
+//        this.nodes[QuadTree.TOP_LEFT] = new QuadTree(this.level + 1, cc.rect(x, y + halfH, halfW, halfH));
+//        this.nodes[QuadTree.TOP_RIGHT] = new QuadTree(this.level + 1, cc.rect(x + halfW, y + halfH, halfW, halfH));
 
-        this.nodes[QuadTree.BOTTOM_LEFT] = new QuadTree(this.level + 1, cc.rect(x, y, halfW, halfH));
-        this.nodes[QuadTree.BOTTOM_RIGHT]  = new QuadTree(this.level + 1, cc.rect(x + halfW, y, halfW, halfH));
-        this.nodes[QuadTree.TOP_LEFT] = new QuadTree(this.level + 1, cc.rect(x, y + halfH, halfW, halfH));
-        this.nodes[QuadTree.TOP_RIGHT] = new QuadTree(this.level + 1, cc.rect(x + halfW, y + halfH, halfW, halfH));
     }
 }

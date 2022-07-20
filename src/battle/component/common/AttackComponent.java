@@ -1,7 +1,7 @@
-package battle.component.Component;
+package battle.component.common;
 
-import battle.component.EffectComponent.DamageEffect;
-import battle.component.EffectComponent.EffectComponent;
+import battle.component.effect.DamageEffect;
+import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 
 import java.util.ArrayList;

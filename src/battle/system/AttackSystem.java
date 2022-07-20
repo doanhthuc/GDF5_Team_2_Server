@@ -2,8 +2,8 @@ package battle.system;
 
 import battle.common.Point;
 import battle.common.Utils;
-import battle.component.Component.AttackComponent;
-import battle.component.Component.PositionComponent;
+import battle.component.common.AttackComponent;
+import battle.component.common.PositionComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.EntityFactory;

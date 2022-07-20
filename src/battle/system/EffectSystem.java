@@ -1,13 +1,7 @@
 package battle.system;
 
-import battle.Component.EffectComponent.DamageEffect;
-import battle.Component.InfoComponent.LifeComponent;
-import battle.Config.GameConfig;
-import battle.Entity.EntityECS;
-import battle.Manager.EntityManager;
-
-import battle.component.EffectComponent.DamageEffect;
-import battle.component.InfoComponent.LifeComponent;
+import battle.component.effect.DamageEffect;
+import battle.component.info.LifeComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
@@ -26,9 +20,9 @@ public class EffectSystem extends SystemECS implements Runnable {
 
     @Override
     public void run() {
-        this.tick = this.getEclapseTime();
-        this._handleBuffAttackSpeedEffect(tick);
-        this._handleDamageEffect(tick);
+//        this.tick = this.getEclapseTime();
+//        this._handleBuffAttackSpeedEffect(tick);
+//        this._handleDamageEffect(tick);
     }
 
     public void _handleBuffAttackSpeedEffect(long tick) {

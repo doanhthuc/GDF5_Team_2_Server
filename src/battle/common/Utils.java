@@ -7,12 +7,14 @@ import battle.entity.EntityECS;
 public class Utils {
     private static Utils _instance = null;
 
-    public static Point pixel2Tile(double xx, double yy, String mode) {
-        if (mode == "") mode = GameConfig.PLAYER;
-        if (mode == GameConfig.PLAYER) {
+    public static Point pixel2Tile(double xx, double yy, EntityMode mode) {
+        if (mode.getValue() == EntityMode.PLAYER.getValue()) {
             int x = (int) Math.floor(xx / GameConfig.TILE_WIDTH);
             int y = (int) Math.floor(yy / GameConfig.TILE_HEIGHT);
             return new Point(x, y);
+        } // FIXME add mode== GameConfig.OPPONENT
+        else {
+
         }
         return null;
     }

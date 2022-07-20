@@ -1,5 +1,5 @@
-package battle.component.infoComponent;
-import battle.component.effectComponent.EffectComponent;
+package battle.component.info;
+import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 
 public class MonsterInfoComponent extends InfoComponent {
