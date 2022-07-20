@@ -1,6 +1,6 @@
 package cmd.send.battle;
 
-import battle.Common.Point;
+import battle.common.Point;
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
 

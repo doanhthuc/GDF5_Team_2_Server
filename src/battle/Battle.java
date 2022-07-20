@@ -1,15 +1,12 @@
 package battle;
 
-import battle.Common.Point;
-import battle.Config.GameConfig;
-import battle.Factory.EntityFactory;
-import battle.Manager.EntityManager;
-import battle.System.AttackSystem;
-import battle.System.CollisionSystem;
-import bitzero.server.BitZeroServer;
+import battle.common.Point;
+import battle.factory.EntityFactory;
+import battle.manager.EntityManager;
+import battle.system.AttackSystem;
+import battle.system.CollisionSystem;
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 public class Battle {
     public BattleMap battleMap;
