@@ -1,7 +1,9 @@
 package battle.component.Component;
 
 import battle.common.Point;
+import battle.common.Utils;
 import battle.config.GameConfig;
+import battle.factory.ComponentFactory;
 
 import java.util.List;
 
@@ -9,11 +11,26 @@ public class PathComponent extends Component {
     private String name = "PathComponent";
     private List<Point> path;
     private int currentPathIDx;
+    private int mode;
 
-    public PathComponent(List<Point> path) {
+    public PathComponent(List<Point> pathTile, int mode, boolean isConvert) {
         super(GameConfig.COMPONENT_ID.PATH);
-        this.path = path;
+        this.reset(pathTile, mode, isConvert);
+    }
+
+    public void reset(List<Point> pathTile, int mode, boolean isConvert) {
+        if (isConvert == true) {
+            List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
+            this.path = pathTile2;
+        } else {
+            this.path = pathTile;
+        }
+        this.mode = mode;
         this.currentPathIDx = 0;
+    }
+
+    public PathComponent clone() {
+        return ComponentFactory.getInstance().createPathComponent(this.path, this.mode);
     }
 
     public List<Point> getPath() {
@@ -24,21 +41,8 @@ public class PathComponent extends Component {
         this.path = path;
     }
 
-    public int getCurrentPathIDx() {
-        return currentPathIDx;
-    }
-
     public void setCurrentPathIDx(int currentPathIDx) {
         this.currentPathIDx = currentPathIDx;
     }
 
-    public void reset(List<Point> path) {
-        this.path = path;
-        this.currentPathIDx = 0;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
 }

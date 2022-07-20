@@ -20,7 +20,7 @@ public class AttackComponent extends Component {
 
     public AttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
         super(GameConfig.COMPONENT_ID.ATTACK);
-        this.reset(damage,targetStrategy,range,speed,countdown,effects);
+        this.reset(damage, targetStrategy, range, speed, countdown, effects);
     }
 
     public void reset(int damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
@@ -71,9 +71,6 @@ public class AttackComponent extends Component {
         return speed;
     }
 
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
 
     public double getCountdown() {
         return countdown;
