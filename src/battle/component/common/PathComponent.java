@@ -20,7 +20,8 @@ public class PathComponent extends Component {
 
     public void reset(List<Point> pathTile, EntityMode mode, boolean isConvert) {
         if (isConvert == true) {
-          //  List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
+            // FIX ME: Code TileArray2PixelArray
+            //  List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
             this.path = pathTile;
         } else {
             this.path = pathTile;

@@ -9,6 +9,8 @@ public class Component {
     private boolean active;
 
     public Component() {
+        this.id = UUIDGeneratorECS.genComponentID();
+        this.active = true;
     }
 
     public Component(int typeID) {

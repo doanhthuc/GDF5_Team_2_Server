@@ -9,8 +9,7 @@ public class CollisionComponent extends Component {
 
     public CollisionComponent(double width, double height) {
         super(GameConfig.COMPONENT_ID.COLLISION);
-        this.width = width;
-        this.height = height;
+        this.reset(width,height);
     }
 
     public CollisionComponent clone() {

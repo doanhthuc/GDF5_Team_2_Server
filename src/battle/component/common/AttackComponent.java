@@ -3,13 +3,14 @@ package battle.component.common;
 import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
+import battle.factory.ComponentFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AttackComponent extends Component {
     private String name = "AttackComponent";
-    private int originDamage;
+    private double originDamage;
     private double damage;
     private int targetStrategy;
     private double range;
@@ -18,12 +19,12 @@ public class AttackComponent extends Component {
     private double countdown;
     private List<EffectComponent> effects = new ArrayList<>();
 
-    public AttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
+    public AttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
         super(GameConfig.COMPONENT_ID.ATTACK);
         this.reset(damage, targetStrategy, range, speed, countdown, effects);
     }
 
-    public void reset(int damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
+    public void reset(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
         this.originDamage = damage;
         this.damage = damage;
         this.targetStrategy = targetStrategy;
@@ -46,8 +47,17 @@ public class AttackComponent extends Component {
             }
         }
     }
+    public AttackComponent clone()
+    {
+        try {
+            return ComponentFactory.getInstance().createAttackComponent(this.damage,this.targetStrategy,this.range,this.speed,this.countdown,this.effects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-    public int getOriginDamage() {
+    public double getOriginDamage() {
         return originDamage;
     }
 
@@ -70,7 +80,6 @@ public class AttackComponent extends Component {
     public double getSpeed() {
         return speed;
     }
-
 
     public double getCountdown() {
         return countdown;

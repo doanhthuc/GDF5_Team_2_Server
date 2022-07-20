@@ -55,7 +55,7 @@ public class AttackSystem extends SystemECS implements Runnable {
                     }
                 }
                 if (monsterInRange.size() > 0) {
-                    EntityECS targetMonster = this._findtargetMonsterByStratgy(attackComponent.getTargetStrategy(), monsterInRange);
+                    EntityECS targetMonster = this.findTargetMonsterByStrategy(attackComponent.getTargetStrategy(), monsterInRange);
                     if (targetMonster != null) {
                         PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                         PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
@@ -79,7 +79,7 @@ public class AttackSystem extends SystemECS implements Runnable {
         return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
     }
 
-    public EntityECS _findtargetMonsterByStratgy(int stategy, List<EntityECS> monsterInRange) {
+    public EntityECS findTargetMonsterByStrategy(int strategy, List<EntityECS> monsterInRange) {
         return monsterInRange.get(0);
     }
 }

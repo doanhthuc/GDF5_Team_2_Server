@@ -2,6 +2,7 @@ package battle.component.common;
 
 import battle.common.Point;
 import battle.config.GameConfig;
+import battle.factory.ComponentFactory;
 
 public class PositionComponent extends Component {
     private String name = "PositionComponent";
@@ -19,6 +20,14 @@ public class PositionComponent extends Component {
         this.y = y;
     }
 
+    public PositionComponent clone(){
+        try {
+            return ComponentFactory.getInstance().createPositionComponent(this.x,this.y);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public int getX() {
         return x;
     }

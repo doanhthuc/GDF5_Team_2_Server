@@ -78,13 +78,12 @@ public class ComponentFactory {
         return pathComponent;
     }
 
-    public MonsterInfoComponent createMonsterInfoComponent(String name, String category, String classs, int energy,
-                                                           int gainEnergy, List<Component> ability, List<EffectComponent> effects) throws Exception {
+    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, EffectComponent effect) throws Exception {
         MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.MONSTER_INFO);
         if (monsterInfoComponent != null) {
-            monsterInfoComponent.reset(name, category, classs, energy, gainEnergy, ability, effects);
+            monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
         } else {
-            monsterInfoComponent = new MonsterInfoComponent(name, category, classs, energy, gainEnergy, ability, effects);
+            monsterInfoComponent = new MonsterInfoComponent(category, classs, weight, energy, gainEnergy, ability, effect);
             ComponentManager.getInstance().add(monsterInfoComponent);
         }
         return monsterInfoComponent;
@@ -113,7 +112,7 @@ public class ComponentFactory {
         return towerInfoComponent;
     }
 
-    public AttackComponent createAttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) throws Exception {
+    public AttackComponent createAttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) throws Exception {
         AttackComponent attackComponent = (AttackComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.ATTACK);
         if (attackComponent != null) {
             attackComponent.reset(damage, targetStrategy, range, speed, countdown, effects);
@@ -123,4 +122,36 @@ public class ComponentFactory {
         }
         return attackComponent;
     }
+
+    public HealingAbilityComponent createHealingAbilityComponent(double range, double healingRate) throws Exception {
+        HealingAbilityComponent healingAbilityComponent = (HealingAbilityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.HEALING_ABILITY);
+        if (healingAbilityComponent != null) {
+            healingAbilityComponent.reset(range,healingRate);
+        } else {
+            healingAbilityComponent = new HealingAbilityComponent(range,healingRate);
+            ComponentManager.getInstance().add(healingAbilityComponent);
+        }
+        return healingAbilityComponent;
+    }
+    public UnderGroundComponent createUnderGroundComponent() throws Exception {
+        UnderGroundComponent underGroundComponent = (UnderGroundComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.UNDER_GROUND);
+        if (underGroundComponent != null) {
+            underGroundComponent.reset();
+        } else {
+            underGroundComponent = new UnderGroundComponent();
+            ComponentManager.getInstance().add(underGroundComponent);
+        }
+        return underGroundComponent;
+    }
+    public SpawnMinionComponent createSpawnMinionComponent(double period) throws Exception {
+        SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.SPAWN_MINION);
+        if (spawnMinionComponent != null) {
+            spawnMinionComponent.reset(period);
+        } else {
+            spawnMinionComponent = new SpawnMinionComponent(period);
+            ComponentManager.getInstance().add(spawnMinionComponent);
+        }
+        return spawnMinionComponent;
+    }
+
 }

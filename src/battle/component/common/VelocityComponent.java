@@ -14,12 +14,7 @@ public class VelocityComponent extends Component {
 
     public VelocityComponent(double speedX, double speedY, Point dynamicPosition) {
         super(GameConfig.COMPONENT_ID.VELOCITY);
-        this.speedX = speedX;
-        this.speedY = speedY;
-        this.dynamicPosition = dynamicPosition;
-        this.originSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
-        this.originSpeedX = this.speedX;
-        this.originSpeedY = this.speedY;
+        this.reset(speedX,speedY,dynamicPosition);
     }
 
     public void reset(double speedX, double speedY, Point dynamicPosition) {
@@ -31,7 +26,7 @@ public class VelocityComponent extends Component {
         this.originSpeedY = this.speedY;
     }
 
-    public double calulateSpeed(double speedX, double speedY) {
+    public double calculateSpeed(double speedX, double speedY) {
         return Math.sqrt(Math.pow(speedX, 2) + Math.pow(speedY, 2));
     }
 }
