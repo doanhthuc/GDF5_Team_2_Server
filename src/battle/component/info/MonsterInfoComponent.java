@@ -1,42 +1,42 @@
 package battle.component.info;
+import battle.component.common.Component;
 import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
+import battle.factory.ComponentFactory;
+
+import java.util.List;
 
 public class MonsterInfoComponent extends InfoComponent {
     private String name = "MonsterInfoComponent";
     private String category;
     private String classs;
-    private double weight;
-    private int damageEnergy;
+    private int energy;
     private int gainEnergy;
-    private int ability;
-    private EffectComponent effects;
+    private List<Component> ability;
+    private List<EffectComponent> effects;
 
-    public MonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, EffectComponent effects) {
+    public MonsterInfoComponent(String name, String category, String classs, int energy,
+                                int gainEnergy, List<Component> ability, List<EffectComponent> effects) {
         super(GameConfig.COMPONENT_ID.MONSTER_INFO);
+        this.reset(name, category, classs, energy, gainEnergy, ability, effects);
+    }
+
+    public void reset(String name, String category, String classs, int energy,
+                      int gainEnergy, List<Component> ability, List<EffectComponent> effects) {
+        this.name = name;
         this.category = category;
         this.classs = classs;
-        this.weight = weight;
-        this.damageEnergy = energy;
+        this.energy = energy;
         this.gainEnergy = gainEnergy;
         this.ability = ability;
         this.effects = effects;
     }
 
-    public void reset(String category, String classs, int weight, int energy, int gainEnergy, int ability, EffectComponent effects) {
-        this.category = category;
-        this.classs = classs;
-        this.weight = weight;
-        this.damageEnergy = energy;
-        this.gainEnergy = gainEnergy;
-        this.ability = ability;
-        this.effects = effects;
-    }
-
-    public void setCategory(String category) {
-        if (category.getClass().getSimpleName() != "String") {
-            //throw new InvalidArgumentTypeError(category, "string")
+    public MonsterInfoComponent clone() {
+        try {
+            return ComponentFactory.getInstance().createMonsterInfoComponent(name, category, classs, energy, gainEnergy, ability, effects);
+        } catch (Exception e) {
+            return null;
         }
-        this.category = category;
     }
 }

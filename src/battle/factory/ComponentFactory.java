@@ -78,12 +78,13 @@ public class ComponentFactory {
         return pathComponent;
     }
 
-    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, EffectComponent effect) throws Exception {
+    public MonsterInfoComponent createMonsterInfoComponent(String name, String category, String classs, int energy,
+                                                           int gainEnergy, List<Component> ability, List<EffectComponent> effects) throws Exception {
         MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.MONSTER_INFO);
         if (monsterInfoComponent != null) {
-            monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
+            monsterInfoComponent.reset(name, category, classs, energy, gainEnergy, ability, effects);
         } else {
-            monsterInfoComponent = new MonsterInfoComponent(category, classs, weight, energy, gainEnergy, ability, effect);
+            monsterInfoComponent = new MonsterInfoComponent(name, category, classs, energy, gainEnergy, ability, effects);
             ComponentManager.getInstance().add(monsterInfoComponent);
         }
         return monsterInfoComponent;
@@ -122,8 +123,4 @@ public class ComponentFactory {
         }
         return attackComponent;
     }
-
-  
-
-
 }
