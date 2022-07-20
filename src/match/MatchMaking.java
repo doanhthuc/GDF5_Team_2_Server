@@ -6,9 +6,12 @@ import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.obj.matching.MatchingInfo;
 import cmd.obj.matching.OpponentInfo;
+import cmd.send.battle.ResponseRequestBattleMapObject;
 import cmd.send.matching.ResponseCancelMatching;
 import cmd.send.matching.ResponseMatching;
 import model.PlayerInfo;
+import model.battle.Room;
+import model.battle.RoomManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.MatchingHandler;
@@ -27,7 +30,6 @@ public class MatchMaking implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Queue size = " + waitingQueue.size());
         while (waitingQueue.size() >= 2) {
             MatchingInfo matchingInfo1 = waitingQueue.peek();
             MatchingInfo matchingInfo2;
@@ -48,7 +50,7 @@ public class MatchMaking implements Runnable {
                 }
 
                 if ((matchingInfo1.getTrophy() >= matchingInfo2.getStartRank() && matchingInfo1.getTrophy() <= matchingInfo2.getEndRank())
-                || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
+                        || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
                     processMatching(matchingInfo1, matchingInfo2);
                     break;
                 }
@@ -92,18 +94,33 @@ public class MatchMaking implements Runnable {
             BattleMap user1Map = new BattleMap();
             BattleMap user2Map = new BattleMap();
 
+            Room room = new Room(userInfo1, userInfo2, user1Map, user2Map);
+            RoomManager.getInstance().addRoom(room);
+            new Thread(room).start();
             // add opponent's username, trophy and 8 card
 
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    user1Map, user2Map, opponentInfoOfUser1), user1);
+                    room.getRoomId(), user1Map, user2Map, opponentInfoOfUser1), user1);
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    user2Map, user1Map, opponentInfoOfUser2), user2);
+                    room.getRoomId(), user2Map, user1Map, opponentInfoOfUser2), user2);
+
+
 
             waitingQueue.remove(matchingInfo1);
             waitingQueue.remove(matchingInfo2);
             waitingMap.remove(matchingInfo1.getPlayerId());
             waitingMap.remove(matchingInfo2.getPlayerId());
-
+            ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    user1Map.battleMapObject, user2Map.battleMapObject), user1);
+            ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    user2Map.battleMapObject, user1Map.battleMapObject), user2);
+//            for (int i = 0; i < user1Map.battleMapObject.getHeight(); i++) {
+//                for (int j = 0; j < user1Map.battleMapObject.getWidth(); j++) {
+//                    CellObject cellObject = user1Map.battleMapObject.getCellObject(i, j);
+//                    System.out.println("[ResponseRequestBattleMapObject] cellObject: " + cellObject);
+//                }
+//                System.out.println();
+//            }
         } catch (Exception e) {
             logger.error("MatchMaking error: " + e.getMessage());
         }

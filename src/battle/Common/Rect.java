@@ -1,4 +1,4 @@
-package battle.Common;
+package battle.common;
 
 public class Rect {
     public double x;

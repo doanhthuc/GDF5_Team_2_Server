@@ -1,5 +1,6 @@
-package battle.Factory;
+package battle.factory;
 
+<<<<<<< HEAD:src/battle/Factory/EntityFactory.java
 import battle.Common.EntityMode;
 import battle.Common.Point;
 import battle.Common.Utils;
@@ -13,6 +14,17 @@ import battle.Config.GameConfig;
 import battle.Entity.EntityECS;
 import battle.Manager.EntityManager;
 import battle.Pool.EntityPool;
+=======
+import battle.common.Point;
+import battle.common.Utils;
+import battle.component.Component.*;
+import battle.component.EffectComponent.EffectComponent;
+import battle.component.InfoComponent.*;
+import battle.config.GameConfig;
+import battle.entity.EntityECS;
+import battle.manager.EntityManager;
+import battle.pool.EntityPool;
+>>>>>>> master:src/battle/factory/EntityFactory.java
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,7 @@
-package battle.Manager;
+package battle.manager;
 
 
-import battle.Component.Component.Component;
-import org.apache.commons.lang.NotImplementedException;
+import battle.component.Component.Component;
 
 import java.util.HashMap;
 import java.util.Map;

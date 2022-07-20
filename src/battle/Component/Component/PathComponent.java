@@ -1,9 +1,14 @@
-package battle.Component.Component;
+package battle.component.Component;
 
+<<<<<<< HEAD:src/battle/Component/Component/PathComponent.java
 import battle.Common.Point;
 import battle.Common.Utils;
 import battle.Config.GameConfig;
 import battle.Factory.ComponentFactory;
+=======
+import battle.common.Point;
+import battle.config.GameConfig;
+>>>>>>> master:src/battle/component/Component/PathComponent.java
 
 import java.util.List;
 

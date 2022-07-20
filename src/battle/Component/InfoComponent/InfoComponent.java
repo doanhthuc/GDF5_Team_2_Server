@@ -1,6 +1,6 @@
-package battle.Component.InfoComponent;
+package battle.component.InfoComponent;
 
-import battle.Component.Component.Component;
+import battle.component.Component.Component;
 
 public class InfoComponent extends Component {
     private String name= "InfoComponent";

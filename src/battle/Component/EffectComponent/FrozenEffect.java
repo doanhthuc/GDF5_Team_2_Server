@@ -1,6 +1,6 @@
-package battle.Component.EffectComponent;
+package battle.component.EffectComponent;
 
-import battle.Config.GameConfig;
+import battle.config.GameConfig;
 
 public class FrozenEffect extends EffectComponent {
     private String name ="Frozen Effect";

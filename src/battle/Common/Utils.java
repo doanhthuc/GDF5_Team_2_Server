@@ -1,8 +1,8 @@
-package battle.Common;
+package battle.common;
 
 
-import battle.Config.GameConfig;
-import battle.Entity.EntityECS;
+import battle.config.GameConfig;
+import battle.entity.EntityECS;
 
 public class Utils {
     private static Utils _instance = null;

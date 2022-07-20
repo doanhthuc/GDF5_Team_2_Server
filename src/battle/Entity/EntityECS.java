@@ -1,9 +1,15 @@
-package battle.Entity;
+package battle.entity;
 
+<<<<<<< HEAD:src/battle/Entity/EntityECS.java
 import battle.Common.EntityMode;
 import battle.Common.UUIDGeneratorECS;
 import battle.Component.Component.Component;
 import battle.Manager.ComponentManager;
+=======
+import battle.common.Utils;
+import battle.component.Component.Component;
+import battle.config.GameConfig;
+>>>>>>> master:src/battle/entity/EntityECS.java
 
 import java.util.HashMap;
 import java.util.List;

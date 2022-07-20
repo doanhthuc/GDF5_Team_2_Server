@@ -1,6 +1,6 @@
-package battle.Pool;
+package battle.pool;
 
-import battle.Component.Component.Component;
+import battle.component.Component.Component;
 
 import java.util.ArrayList;
 

@@ -57,6 +57,15 @@ public class Inventory extends DataModel {
         return CardDefine.fragmentToUpgrade.get(currentLevel);
     }
 
+    public Card getCardById(int cardId) {
+        for (Card card : this.cardCollection) {
+            if (card.getCardType() == cardId) {
+                return card;
+            }
+        }
+        return null;
+    }
+
     public void setCard(int cardType, int cardLevel, int cardAmount)
     {
         this.cardCollection.get(cardType).setLevel(cardLevel);
@@ -66,4 +75,27 @@ public class Inventory extends DataModel {
         return this.cardCollection.size();
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public ArrayList<Card> getCardCollection() {
+        return cardCollection;
+    }
+
+    public void setCardCollection(ArrayList<Card> cardCollection) {
+        this.cardCollection = cardCollection;
+    }
+
+    public ArrayList<Integer> getBattleDeck() {
+        return battleDeck;
+    }
+
+    public void setBattleDeck(ArrayList<Integer> battleDeck) {
+        this.battleDeck = battleDeck;
+    }
 }

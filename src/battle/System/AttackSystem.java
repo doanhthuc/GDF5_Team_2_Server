@@ -1,13 +1,13 @@
-package battle.System;
+package battle.system;
 
-import battle.Common.Point;
-import battle.Common.Utils;
-import battle.Component.Component.AttackComponent;
-import battle.Component.Component.PositionComponent;
-import battle.Config.GameConfig;
-import battle.Entity.EntityECS;
-import battle.Factory.EntityFactory;
-import battle.Manager.EntityManager;
+import battle.common.Point;
+import battle.common.Utils;
+import battle.component.Component.AttackComponent;
+import battle.component.Component.PositionComponent;
+import battle.config.GameConfig;
+import battle.entity.EntityECS;
+import battle.factory.EntityFactory;
+import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;

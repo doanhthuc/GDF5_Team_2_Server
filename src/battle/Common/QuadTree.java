@@ -1,6 +1,6 @@
-package battle.Common;
+package battle.common;
 
-import battle.Entity.EntityECS;
+import battle.entity.EntityECS;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,13 @@
-package battle.System;
+package battle.system;
 
-import battle.Common.Utils;
-import battle.Component.Component.CollisionComponent;
-import battle.Component.Component.PositionComponent;
-import battle.Component.EffectComponent.EffectComponent;
-import battle.Component.InfoComponent.BulletInfoComponent;
-import battle.Config.GameConfig;
-import battle.Entity.EntityECS;
-import battle.Manager.EntityManager;
+import battle.common.Utils;
+import battle.component.Component.CollisionComponent;
+import battle.component.Component.PositionComponent;
+import battle.component.EffectComponent.EffectComponent;
+import battle.component.InfoComponent.BulletInfoComponent;
+import battle.config.GameConfig;
+import battle.entity.EntityECS;
+import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;

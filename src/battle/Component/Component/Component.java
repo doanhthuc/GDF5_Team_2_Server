@@ -1,7 +1,8 @@
-package battle.Component.Component;
+package battle.component.Component;
 
+import battle.common.Utils;
+import battle.config.GameConfig;
 import battle.Common.UUIDGeneratorECS;
-
 
 public class Component {
     public static int typeID = 0;
