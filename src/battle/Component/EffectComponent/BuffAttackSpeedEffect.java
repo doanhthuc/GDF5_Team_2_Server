@@ -1,6 +1,6 @@
-package battle.component.EffectComponent;
+package battle.Component.EffectComponent;
 
-import battle.config.GameConfig;
+import battle.Config.GameConfig;
 
 public class BuffAttackSpeedEffect extends EffectComponent {
     private String name = "BuffAttackSpeedEffect";

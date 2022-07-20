@@ -1,5 +1,5 @@
-package battle.component.EffectComponent;
-import battle.config.GameConfig;
+package battle.Component.EffectComponent;
+import battle.Config.GameConfig;
 
 public class BuffAttackDamageEffect extends EffectComponent {
     private String name = "BuffAttackDamageEffect";

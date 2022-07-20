@@ -1,6 +1,6 @@
-package battle.system;
+package battle.System;
 
-import battle.common.UUIDGeneratorECS;
+import battle.Common.UUIDGeneratorECS;
 
 public class SystemECS implements Runnable {
     private final static String name = "SystemECS";

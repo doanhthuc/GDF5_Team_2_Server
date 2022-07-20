@@ -1,8 +1,8 @@
-package battle.manager;
+package battle.Manager;
 
 
-import battle.component.Component.Component;
-import battle.entity.EntityECS;
+import battle.Component.Component.Component;
+import battle.Entity.EntityECS;
 import org.apache.commons.lang.NotImplementedException;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package battle.config;
+package battle.Config;
 
 import java.util.Arrays;
 import java.util.List;

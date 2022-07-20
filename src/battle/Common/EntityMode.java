@@ -1,4 +1,4 @@
-package battle.common;
+package battle.Common;
 
 public enum EntityMode {
     PLAYER(0),

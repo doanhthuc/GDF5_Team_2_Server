@@ -1,7 +1,7 @@
-package battle.component.Component;
+package battle.Component.Component;
 
-import battle.common.Point;
-import battle.config.GameConfig;
+import battle.Common.Point;
+import battle.Config.GameConfig;
 
 public class VelocityComponent extends Component {
     private String name = "VelocityComponent";

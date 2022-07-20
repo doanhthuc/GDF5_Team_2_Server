@@ -1,9 +1,9 @@
-package battle.entity;
+package battle.Entity;
 
-import battle.common.EntityMode;
-import battle.common.UUIDGeneratorECS;
-import battle.component.Component.Component;
-import battle.manager.ComponentManager;
+import battle.Common.EntityMode;
+import battle.Common.UUIDGeneratorECS;
+import battle.Component.Component.Component;
+import battle.Manager.ComponentManager;
 
 import java.util.HashMap;
 import java.util.List;

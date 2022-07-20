@@ -1,5 +1,5 @@
-package battle.component.InfoComponent;
-import battle.config.GameConfig;
+package battle.Component.InfoComponent;
+import battle.Config.GameConfig;
 public class LifeComponent extends InfoComponent {
     private String name= "LifeComponent";
     private double hp;

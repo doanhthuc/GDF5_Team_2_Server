@@ -1,6 +1,6 @@
-package battle.pool;
+package battle.Pool;
 
-import battle.entity.EntityECS;
+import battle.Entity.EntityECS;
 
 import java.util.ArrayList;
 

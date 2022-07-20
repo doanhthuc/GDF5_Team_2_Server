@@ -1,6 +1,6 @@
-package battle.component.Component;
+package battle.Component.Component;
 
-import battle.common.UUIDGeneratorECS;
+import battle.Common.UUIDGeneratorECS;
 
 
 public class Component {

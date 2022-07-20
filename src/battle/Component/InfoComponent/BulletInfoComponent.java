@@ -1,9 +1,8 @@
-package battle.component.InfoComponent;
+package battle.Component.InfoComponent;
 
-import battle.component.EffectComponent.EffectComponent;
-import battle.config.GameConfig;
+import battle.Component.EffectComponent.EffectComponent;
+import battle.Config.GameConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BulletInfoComponent extends InfoComponent {

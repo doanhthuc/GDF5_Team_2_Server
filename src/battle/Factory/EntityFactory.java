@@ -1,18 +1,18 @@
-package battle.factory;
+package battle.Factory;
 
-import battle.common.EntityMode;
-import battle.common.Point;
-import battle.common.Utils;
-import battle.component.Component.*;
-import battle.component.EffectComponent.EffectComponent;
-import battle.component.InfoComponent.BulletInfoComponent;
-import battle.component.InfoComponent.LifeComponent;
-import battle.component.InfoComponent.MonsterInfoComponent;
-import battle.component.InfoComponent.TowerInfoComponent;
-import battle.config.GameConfig;
-import battle.entity.EntityECS;
-import battle.manager.EntityManager;
-import battle.pool.EntityPool;
+import battle.Common.EntityMode;
+import battle.Common.Point;
+import battle.Common.Utils;
+import battle.Component.Component.*;
+import battle.Component.EffectComponent.EffectComponent;
+import battle.Component.InfoComponent.BulletInfoComponent;
+import battle.Component.InfoComponent.LifeComponent;
+import battle.Component.InfoComponent.MonsterInfoComponent;
+import battle.Component.InfoComponent.TowerInfoComponent;
+import battle.Config.GameConfig;
+import battle.Entity.EntityECS;
+import battle.Manager.EntityManager;
+import battle.Pool.EntityPool;
 
 import java.util.ArrayList;
 import java.util.List;

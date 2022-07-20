@@ -1,6 +1,6 @@
-package battle.component.EffectComponent;
+package battle.Component.EffectComponent;
 
-import battle.component.Component.Component;
+import battle.Component.Component.Component;
 
 public class EffectComponent extends Component {
     private String name = "EffectComponent";

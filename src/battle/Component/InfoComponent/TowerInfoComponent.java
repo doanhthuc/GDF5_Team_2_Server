@@ -1,6 +1,6 @@
-package battle.component.InfoComponent;
+package battle.Component.InfoComponent;
 
-import battle.config.GameConfig;
+import battle.Config.GameConfig;
 
 public class TowerInfoComponent extends InfoComponent {
     public String name = "TowerInfoComponent";

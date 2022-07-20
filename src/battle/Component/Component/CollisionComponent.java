@@ -1,7 +1,7 @@
-package battle.component.Component;
+package battle.Component.Component;
 
-import battle.config.GameConfig;
-import battle.factory.ComponentFactory;
+import battle.Config.GameConfig;
+import battle.Factory.ComponentFactory;
 
 public class CollisionComponent extends Component {
     private String name = "CollisionComponent";

@@ -1,10 +1,8 @@
-package battle.common;
+package battle.Common;
 
 
-import battle.config.GameConfig;
-import battle.entity.EntityECS;
-
-import javax.rmi.CORBA.Util;
+import battle.Config.GameConfig;
+import battle.Entity.EntityECS;
 
 public class Utils {
     private static Utils _instance = null;

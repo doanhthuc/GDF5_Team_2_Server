@@ -1,9 +1,9 @@
-package battle.component.Component;
+package battle.Component.Component;
 
-import battle.common.Point;
-import battle.common.Utils;
-import battle.config.GameConfig;
-import battle.factory.ComponentFactory;
+import battle.Common.Point;
+import battle.Common.Utils;
+import battle.Config.GameConfig;
+import battle.Factory.ComponentFactory;
 
 import java.util.List;
 

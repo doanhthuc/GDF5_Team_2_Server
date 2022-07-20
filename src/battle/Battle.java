@@ -1,10 +1,10 @@
 package battle;
 
-import battle.common.Point;
-import battle.factory.EntityFactory;
-import battle.manager.EntityManager;
-import battle.system.AttackSystem;
-import battle.system.CollisionSystem;
+import battle.Common.Point;
+import battle.Factory.EntityFactory;
+import battle.Manager.EntityManager;
+import battle.System.AttackSystem;
+import battle.System.CollisionSystem;
 import bitzero.server.BitZeroServer;
 
 import java.util.concurrent.TimeUnit;

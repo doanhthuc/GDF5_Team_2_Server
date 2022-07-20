@@ -1,8 +1,8 @@
-package battle.component.Component;
+package battle.Component.Component;
 
-import battle.component.EffectComponent.DamageEffect;
-import battle.component.EffectComponent.EffectComponent;
-import battle.config.GameConfig;
+import battle.Component.EffectComponent.DamageEffect;
+import battle.Component.EffectComponent.EffectComponent;
+import battle.Config.GameConfig;
 
 import java.util.ArrayList;
 import java.util.List;

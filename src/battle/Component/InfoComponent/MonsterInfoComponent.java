@@ -1,7 +1,7 @@
-package battle.component.InfoComponent;
+package battle.Component.InfoComponent;
 
-import battle.component.EffectComponent.EffectComponent;
-import battle.config.GameConfig;
+import battle.Component.EffectComponent.EffectComponent;
+import battle.Config.GameConfig;
 
 public class MonsterInfoComponent extends InfoComponent {
     private String name = "MonsterInfoComponent";

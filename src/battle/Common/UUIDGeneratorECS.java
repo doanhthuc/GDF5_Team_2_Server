@@ -1,4 +1,4 @@
-package battle.common;
+package battle.Common;
 
 public class UUIDGeneratorECS {
     private static long entityID = 0;

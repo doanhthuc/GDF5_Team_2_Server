@@ -1,10 +1,10 @@
-package battle.system;
+package battle.System;
 
-import battle.component.EffectComponent.DamageEffect;
-import battle.component.InfoComponent.LifeComponent;
-import battle.config.GameConfig;
-import battle.entity.EntityECS;
-import battle.manager.EntityManager;
+import battle.Component.EffectComponent.DamageEffect;
+import battle.Component.InfoComponent.LifeComponent;
+import battle.Config.GameConfig;
+import battle.Entity.EntityECS;
+import battle.Manager.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
