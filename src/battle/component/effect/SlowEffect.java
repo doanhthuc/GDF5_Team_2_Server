@@ -33,7 +33,8 @@ public class SlowEffect extends EffectComponent {
         return new SlowEffect(this.duration, this.percent);
     }
 
-    public void reset() {
-
+    public void reset(double duration, double percent) {
+        this.duration = duration;
+        this.percent = percent;
     }
 }

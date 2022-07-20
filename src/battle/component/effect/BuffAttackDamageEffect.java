@@ -1,4 +1,5 @@
 package battle.component.effect;
+
 import battle.config.GameConfig;
 
 public class BuffAttackDamageEffect extends EffectComponent {
@@ -14,8 +15,7 @@ public class BuffAttackDamageEffect extends EffectComponent {
         return new BuffAttackDamageEffect(this.percent);
     }
 
-    public void reset() {
-
-    };
-
+    public void reset(double percent) {
+        this.percent = percent;
+    }
 }
