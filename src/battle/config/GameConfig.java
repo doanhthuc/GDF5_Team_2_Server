@@ -55,6 +55,11 @@ public class GameConfig {
         public static final int SPRITE_SHEET = 7;
         public static final int SPELL = 8;
         public static final int SKELETON = 9;
+        public static final int BULLET = 10;
+        public static final int MONSTER = 11;
+        public static final int ABILITY = 12;
+        public static final int COLLISION = 13;
+
     }
 
     public static class GROUP_ID {

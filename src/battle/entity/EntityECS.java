@@ -81,7 +81,7 @@ public class EntityECS {
         return id;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 

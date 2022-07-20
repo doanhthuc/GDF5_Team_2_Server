@@ -4,14 +4,14 @@ import battle.component.EffectComponent.EffectComponent;
 import battle.config.GameConfig;
 
 public class MonsterInfoComponent extends InfoComponent {
-    public String name = "MonsterInfoComponent";
-    String category;
-    String classs;
-    double weight;
-    int damageEnergy;
-    int gainEnergy;
-    int ability;
-    EffectComponent effects;
+    private String name = "MonsterInfoComponent";
+    private String category;
+    private String classs;
+    private double weight;
+    private int damageEnergy;
+    private int gainEnergy;
+    private int ability;
+    private EffectComponent effects;
 
     public MonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, EffectComponent effects) {
         super(GameConfig.COMPONENT_ID.MONSTER_INFO);

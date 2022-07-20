@@ -18,18 +18,12 @@ public class AttackComponent extends Component {
     private double countdown;
     private List<EffectComponent> effects = new ArrayList<>();
 
-    public AttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
+    public AttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
         super(GameConfig.COMPONENT_ID.ATTACK);
-        this.originDamage = damage;
-        this.damage = damage;
-        this.targetStrategy = targetStrategy;
-        this.range = range;
-        this.speed = speed;
-        this.countdown = countdown;
-        this.effects.add(new DamageEffect(this.damage));
+        this.reset(damage,targetStrategy,range,speed,countdown,effects);
     }
 
-    public void reset(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
+    public void reset(int damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
         this.originDamage = damage;
         this.damage = damage;
         this.targetStrategy = targetStrategy;

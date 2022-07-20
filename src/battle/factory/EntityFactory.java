@@ -1,5 +1,6 @@
 package battle.factory;
 
+import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.Component.*;
@@ -14,6 +15,7 @@ import battle.manager.EntityManager;
 import battle.pool.EntityPool;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EntityFactory {
     static EntityFactory _instance;
@@ -34,7 +36,7 @@ public class EntityFactory {
         return entity;
     }
 
-    public EntityECS createBullet(int towerType, Point startPosition, Point targetPosition, ArrayList<EffectComponent> effects) {
+    public EntityECS createBullet(int towerType, Point startPosition, Point targetPosition, List<EffectComponent> effects, EntityMode mode) throws Exception {
         int typeID;
         EntityECS entity;
         BulletInfoComponent infoComponent;
@@ -97,7 +99,7 @@ public class EntityFactory {
         return null;
     }
 
-    public EntityECS createSwordManMonster(Point pixelPos, String mode) {
+    public EntityECS createSwordManMonster(Point pixelPos, String mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.SWORD_MAN;
         EntityECS entity = new EntityECS(typeID, mode);
         this.pool.push(entity);
@@ -126,7 +128,7 @@ public class EntityFactory {
         return entity;
     }
 
-    public EntityECS createCannonOwlTower(Point tilePos) {
+    public EntityECS createCannonOwlTower(Point tilePos) throws Exception {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
         EntityECS entity = this._createEntity(typeID);
 

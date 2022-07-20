@@ -4,6 +4,8 @@ package battle.common;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 
+import javax.rmi.CORBA.Util;
+
 public class Utils {
     private static Utils _instance = null;
 
@@ -35,14 +37,14 @@ public class Utils {
 
     public static boolean isMonster(EntityECS entity) {
         for (Integer id : GameConfig.GROUP_ID.MONSTER_ENTITY) {
-            if (id == entity.id) return true;
+            if (id == entity.getId()) return true;
         }
         return false;
     }
 
     public static boolean isBullet(EntityECS entity) {
         for (Integer id : GameConfig.GROUP_ID.BULLET_ENTITY) {
-            if (id == entity.id) return true;
+            if (id == entity.getId()) return true;
         }
         return false;
     }
@@ -55,5 +57,10 @@ public class Utils {
         double speedX = Math.sqrt(speed * speed / (1 + k * k));
         double speedY = k * speedX;
         return new Point(Math.signum((Xb - Xa) * speedX), Math.signum((Yb - Ya) * speedY));
+    }
+
+    public static Utils getInstance(){
+        if (_instance== null) _instance = new Utils();
+        return _instance;
     }
 }

@@ -9,12 +9,12 @@ import battle.manager.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EffectSystem extends SystemECS {
+public class EffectSystem extends SystemECS implements Runnable {
     int id = GameConfig.SYSTEM_ID.EFFECT;
     public String name = "EffectSystem";
 
     public EffectSystem() {
-        super();
+        super(GameConfig.SYSTEM_ID.EFFECT);
         java.lang.System.out.println("new EffectSystem");
     }
 
@@ -40,9 +40,9 @@ public class EffectSystem extends SystemECS {
 
         for (EntityECS entity : damagedEntity) {
             LifeComponent life = (LifeComponent) entity.getComponent(GameConfig.COMPONENT_ID.LIFE);
-            if (life!=null) {
-                DamageEffect damageEffect= (DamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-                life.setHp(life.getHp()-damageEffect.getDamage());
+            if (life != null) {
+                DamageEffect damageEffect = (DamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
+                life.setHp(life.getHp() - damageEffect.getDamage());
                 entity.removeComponent(damageEffect);
             }
         }

@@ -12,6 +12,7 @@ import battle.manager.ComponentManager;
 import battle.pool.ComponentPool;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ComponentFactory {
     private static ComponentFactory _instance = null;
@@ -22,7 +23,7 @@ public class ComponentFactory {
         return _instance;
     }
 
-    public BulletInfoComponent createBulletInfoComponent(ArrayList<EffectComponent> effects, int type) {
+    public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, int type) throws Exception {
         BulletInfoComponent bulletInfoComponent = (BulletInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.BULLET_INFO);
         if (bulletInfoComponent != null) {
             bulletInfoComponent.reset(effects, type);
@@ -33,7 +34,7 @@ public class ComponentFactory {
         return bulletInfoComponent;
     }
 
-    public PositionComponent createPositionComponent(int x, int y) {
+    public PositionComponent createPositionComponent(int x, int y) throws Exception {
         PositionComponent positionComponent = (PositionComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.POSITION);
         if (positionComponent != null) {
             positionComponent.reset(x, y);
@@ -44,7 +45,7 @@ public class ComponentFactory {
         return positionComponent;
     }
 
-    public VelocityComponent createVelocityComponent(double speedX, double speedY, Point targetPosition) {
+    public VelocityComponent createVelocityComponent(double speedX, double speedY, Point targetPosition) throws Exception {
         VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
         if (velocityComponent != null) {
             velocityComponent.reset(speedX, speedY, targetPosition);
@@ -55,7 +56,7 @@ public class ComponentFactory {
         return velocityComponent;
     }
 
-    public CollisionComponent createCollisionComponent(double width, double height) {
+    public CollisionComponent createCollisionComponent(double width, double height) throws Exception {
         CollisionComponent collisionComponent = (CollisionComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.COLLISION);
         if (collisionComponent != null) {
             collisionComponent.reset(width, height);
@@ -66,7 +67,7 @@ public class ComponentFactory {
         return collisionComponent;
     }
 
-    public PathComponent createPathComponent(ArrayList<Point> path) {
+    public PathComponent createPathComponent(ArrayList<Point> path) throws Exception {
         PathComponent pathComponent = (PathComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.PATH);
         if (pathComponent != null) {
             pathComponent.reset(path);
@@ -77,7 +78,7 @@ public class ComponentFactory {
         return pathComponent;
     }
 
-    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, EffectComponent effect) {
+    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, EffectComponent effect) throws Exception {
         MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.MONSTER_INFO);
         if (monsterInfoComponent != null) {
             monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
@@ -88,7 +89,7 @@ public class ComponentFactory {
         return monsterInfoComponent;
     }
 
-    public LifeComponent createLifeComponent(double hp) {
+    public LifeComponent createLifeComponent(double hp) throws Exception {
         LifeComponent lifeComponent = (LifeComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.LIFE);
         if (lifeComponent != null) {
             lifeComponent.reset(hp);
@@ -99,7 +100,7 @@ public class ComponentFactory {
         return lifeComponent;
     }
 
-    public TowerInfoComponent createTowerInfoComponent(int energy, String bulletTargetType, String archType, String targetType, String bulletType) {
+    public TowerInfoComponent createTowerInfoComponent(int energy, String bulletTargetType, String archType, String targetType, String bulletType) throws Exception {
         TowerInfoComponent towerInfoComponent = (TowerInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.TOWER_INFO);
 
         if (towerInfoComponent != null) {
@@ -111,7 +112,7 @@ public class ComponentFactory {
         return towerInfoComponent;
     }
 
-    public AttackComponent createAttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, EffectComponent effects) {
+    public AttackComponent createAttackComponent(int damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) throws Exception {
         AttackComponent attackComponent = (AttackComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.ATTACK);
         if (attackComponent != null) {
             attackComponent.reset(damage, targetStrategy, range, speed, countdown, effects);
