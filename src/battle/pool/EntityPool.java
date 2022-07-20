@@ -1,7 +1,6 @@
-package battle.Pool;
+package battle.pool;
 
-import battle.Entity.EntityECS;
-import battle.Factory.EntityFactory;
+import battle.entity.EntityECS;
 
 import java.util.ArrayList;
 

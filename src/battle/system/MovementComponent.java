@@ -1,4 +1,4 @@
-package battle.System;
+package battle.system;
 
 public class MovementComponent {
 }

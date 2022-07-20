@@ -1,8 +1,5 @@
-package battle.Config;
+package battle.config;
 
-import battle.Component.Component.Component;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package battle.Component.InfoComponent;
+package battle.component.InfoComponent;
 
-import battle.Component.EffectComponent.EffectComponent;
-import battle.Config.GameConfig;
+import battle.component.EffectComponent.EffectComponent;
+import battle.config.GameConfig;
 
 import java.util.ArrayList;
 

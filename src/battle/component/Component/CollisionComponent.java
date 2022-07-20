@@ -1,6 +1,6 @@
-package battle.Component.Component;
+package battle.component.Component;
 
-import battle.Config.GameConfig;
+import battle.config.GameConfig;
 
 public class CollisionComponent extends Component {
     public String name="CollisionComponent";

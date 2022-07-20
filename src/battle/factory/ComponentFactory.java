@@ -1,16 +1,15 @@
-package battle.Factory;
+package battle.factory;
 
-import battle.Common.Point;
-import battle.Component.Component.*;
-import battle.Component.EffectComponent.EffectComponent;
-import battle.Component.InfoComponent.BulletInfoComponent;
-import battle.Component.InfoComponent.LifeComponent;
-import battle.Component.InfoComponent.MonsterInfoComponent;
-import battle.Component.InfoComponent.TowerInfoComponent;
-import battle.Config.GameConfig;
-import battle.Manager.ComponentManager;
-import battle.Pool.ComponentPool;
-import bitzero.core.P;
+import battle.common.Point;
+import battle.component.Component.*;
+import battle.component.EffectComponent.EffectComponent;
+import battle.component.InfoComponent.BulletInfoComponent;
+import battle.component.InfoComponent.LifeComponent;
+import battle.component.InfoComponent.MonsterInfoComponent;
+import battle.component.InfoComponent.TowerInfoComponent;
+import battle.config.GameConfig;
+import battle.manager.ComponentManager;
+import battle.pool.ComponentPool;
 
 import java.util.ArrayList;
 

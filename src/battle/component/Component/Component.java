@@ -1,12 +1,7 @@
-package battle.Component.Component;
+package battle.component.Component;
 
-import battle.Common.Utils;
-import battle.Component.EffectComponent.*;
-import battle.Component.EffectComponent.EffectComponent;
-import battle.Config.GameConfig;
-
-import java.awt.*;
-import java.util.ArrayList;
+import battle.common.Utils;
+import battle.config.GameConfig;
 
 public class Component {
     public int typeID = 0;

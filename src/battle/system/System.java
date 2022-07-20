@@ -1,8 +1,4 @@
-package battle.System;
-
-import battle.Entity.EntityECS;
-
-import java.util.ArrayList;
+package battle.system;
 
 public class System implements Runnable{
     int id=0;

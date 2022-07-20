@@ -1,4 +1,4 @@
-package battle.Common;
+package battle.common;
 
 public class Point {
     public double x;

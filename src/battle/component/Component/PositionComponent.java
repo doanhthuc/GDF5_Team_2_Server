@@ -1,7 +1,7 @@
-package battle.Component.Component;
+package battle.component.Component;
 
-import battle.Common.Point;
-import battle.Config.GameConfig;
+import battle.common.Point;
+import battle.config.GameConfig;
 
 public class PositionComponent extends Component {
     public String name = "PositionComponent";

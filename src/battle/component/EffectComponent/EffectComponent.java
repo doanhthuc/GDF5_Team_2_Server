@@ -1,8 +1,6 @@
-package battle.Component.EffectComponent;
+package battle.component.EffectComponent;
 
-import battle.Common.Utils;
-import battle.Component.Component.Component;
-import battle.Config.GameConfig;
+import battle.component.Component.Component;
 
 public class EffectComponent extends Component {
     public String name = "EffectComponent";

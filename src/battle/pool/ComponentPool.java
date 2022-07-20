@@ -1,10 +1,8 @@
-package battle.Pool;
+package battle.pool;
 
-import battle.Component.Component.Component;
+import battle.component.Component.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ComponentPool {
     public String name = "ComponentObjectPool";

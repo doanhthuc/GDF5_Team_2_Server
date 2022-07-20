@@ -1,8 +1,8 @@
-package battle.Entity;
+package battle.entity;
 
-import battle.Common.Utils;
-import battle.Component.Component.Component;
-import battle.Config.GameConfig;
+import battle.common.Utils;
+import battle.component.Component.Component;
+import battle.config.GameConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;

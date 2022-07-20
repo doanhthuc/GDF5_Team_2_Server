@@ -1,8 +1,7 @@
-package battle.Component.Component;
+package battle.component.Component;
 
-import battle.Common.Point;
-import battle.Config.GameConfig;
-import bitzero.core.P;
+import battle.common.Point;
+import battle.config.GameConfig;
 
 import java.util.ArrayList;
 

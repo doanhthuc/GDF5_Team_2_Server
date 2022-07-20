@@ -1,8 +1,8 @@
-package battle.Manager;
+package battle.manager;
 
 
-import battle.Component.Component.Component;
-import battle.Entity.EntityECS;
+import battle.component.Component.Component;
+import battle.entity.EntityECS;
 
 import java.util.ArrayList;
 import java.util.HashMap;
