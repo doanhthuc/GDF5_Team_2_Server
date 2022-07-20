@@ -12,7 +12,7 @@ public class Component {
     }
 
     public Component(int typeID) {
-        typeID = typeID;
+        Component.typeID = typeID;
         this.name = "ComponentECS";
         this.id = UUIDGeneratorECS.genComponentID();
         this.active = true;

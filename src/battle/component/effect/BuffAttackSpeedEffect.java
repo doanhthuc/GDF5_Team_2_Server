@@ -15,7 +15,7 @@ public class BuffAttackSpeedEffect extends EffectComponent {
         return new BuffAttackSpeedEffect(this.percent);
     }
 
-    public void reset() {
-
+    public void reset(double percent) {
+        this.percent = percent;
     }
 }

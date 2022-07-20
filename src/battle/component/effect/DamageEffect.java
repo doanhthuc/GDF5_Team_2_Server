@@ -23,6 +23,7 @@ public class DamageEffect extends EffectComponent {
         this.damage = damage;
     }
 
-    public void reset() {
+    public void reset(double damage) {
+        this.damage = damage;
     }
 }
