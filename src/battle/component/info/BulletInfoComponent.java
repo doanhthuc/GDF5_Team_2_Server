@@ -23,6 +23,14 @@ public class BulletInfoComponent extends InfoComponent {
         this.type = type;
     }
 
+    public List<EffectComponent> getEffects() {
+        return effects;
+    }
+
+    public void setEffects(List<EffectComponent> effects) {
+        this.effects = effects;
+    }
+
     public BulletInfoComponent clone() {
         try {
             return ComponentFactory.getInstance().createBulletInfoComponent(this.effects, this.type);
@@ -31,4 +39,5 @@ public class BulletInfoComponent extends InfoComponent {
             return null;
         }
     }
+
 }

@@ -15,6 +15,7 @@ import java.util.List;
 public class CollisionSystem extends SystemECS implements Runnable {
     private int id = GameConfig.SYSTEM_ID.LIFE;
     private String name = "CollisionSystem";
+
     public CollisionSystem() {
         super(GameConfig.SYSTEM_ID.COLLISION);
         java.lang.System.out.println(this.name);
