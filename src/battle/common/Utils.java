@@ -1,12 +1,26 @@
 package battle.common;
 
 
+import battle.component.common.PositionComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import bitzero.core.G;
+import bitzero.core.P;
+import com.sun.org.apache.bcel.internal.generic.DCONST;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
     private static Utils _instance = null;
+    public static int cellsEachTile = 11;
+    public static double cellWidth = GameConfig.TILE_WIDTH / cellsEachTile;
+    public static double cellHeight = GameConfig.TILE_HEIGHT / cellsEachTile;
+    public static int cellsX = GameConfig.MAP_WIDTH * cellsEachTile;
+    public static int cellsY = GameConfig.MAP_HEIGHT * cellsEachTile;
+    public static double mapWidthPixel = GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH;
+    public static double mapHeightPixel = GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT;
+
 
     public static Point pixel2Tile(double xx, double yy, EntityMode mode) {
         if (mode.getValue() == EntityMode.PLAYER.getValue()) {
@@ -39,11 +53,17 @@ public class Utils {
         return null;
     }
 
-    public static double euclidDistance(Point a, Point b) {
-        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+    public static double euclidDistance(Point pointA, Point pointB) {
+        return Math.sqrt(Math.pow(pointA.getX() - pointB.getX(), 2) + Math.pow(pointA.getX() - pointB.getY(), 2));
     }
 
-    ;
+    public static double euclidDistance(PositionComponent pointA, PositionComponent pointB) {
+        return Math.sqrt(Math.pow(pointA.getX() - pointB.getX(), 2) + Math.pow(pointA.getY() - pointB.getY(), 2));
+    }
+
+    public static double euclidDistance(PositionComponent pointA, Point pointB) {
+        return Math.sqrt(Math.pow(pointA.getX() - pointB.getX(), 2) + Math.pow(pointA.getY() - pointB.getY(), 2));
+    }
 
     public static boolean isMonster(EntityECS entity) {
         for (Integer id : GameConfig.GROUP_ID.MONSTER_ENTITY) {
@@ -59,14 +79,50 @@ public class Utils {
         return false;
     }
 
+
     public Point calculateVelocityVector(Point startPos, Point targetPos, double speed) {
-        double Xa = startPos.x, Ya = startPos.y, Xb = targetPos.x, Yb = targetPos.y;
-        if (Xa - Xb == 0) return new Point(0, Math.signum((Yb - Ya) * speed));
-        if (Ya - Yb == 0) return new Point(Math.signum((Xb - Xa) * speed), 0);
+        double Xa = startPos.getX(), Ya = startPos.getY(), Xb = targetPos.getX(), Yb = targetPos.getY();
+        if (Xa - Xb == 0)
+            return new Point(0, Math.signum((Yb - Ya) * speed));
+        if (Ya - Yb == 0)
+            return new Point(Math.signum((Xb - Xa) * speed), 0);
+
         double k = Math.abs(((Ya - Yb) / Xa - Xb));
         double speedX = Math.sqrt(speed * speed / (1 + k * k));
         double speedY = k * speedX;
         return new Point(Math.signum((Xb - Xa) * speedX), Math.signum((Yb - Ya) * speedY));
+    }
+
+    public Point pixel2Cell(double x, double y, EntityMode mode) {
+        Point tilePos = pixel2Tile(x, y, EntityMode.PLAYER);
+        int cellX, cellY;
+        double paddingLeftX = cell2Pixel(0, 0, mode).getX();
+        return null;
+    }
+
+    public Point cell2Pixel(int cellX, int cellY, EntityMode mode) {
+        double x = 0, y = 0;
+        if (mode == EntityMode.PLAYER) {
+            x = (cellX + 1) * cellWidth - mapWidthPixel / 2 - cellWidth / 2;
+            y = (cellY + 1) * cellHeight - mapWidthPixel / 2 - cellHeight / 2;
+        } else if (mode == EntityMode.OPPONENT) {
+            x = mapWidthPixel / 2 - (cellX + 1) * cellWidth + cellWidth / 2;
+            y = mapHeightPixel / 2 - (cellX + 1) * cellHeight + cellHeight / 2;
+        }
+        return new Point(x, y);
+    }
+
+    public List<Point> tileArray2PixelCellArray(List<Point> tileArr, EntityMode mode) {
+        if (tileArr.size() < 2) return null;
+        List<Point> cellArr = new ArrayList<>();
+        int cellX, cellY, beforeCellX, beforeCellY;
+        int magicNumber = 27;
+        int moduleCellRange = 4;
+        int cellBound = 4;
+        int divideAmount = 3;
+        for (int i = 0; i < tileArr.size() - 1; i++) {
+            
+        }
     }
 
     public static Utils getInstance() {

@@ -17,7 +17,7 @@ public class MonsterSystem extends SystemECS {
 
     public MonsterSystem() {
         super(GameConfig.SYSTEM_ID.LIFE);
-        java.lang.System.out.println("new LifeSystem");
+        java.lang.System.out.println("new MonsterSystem");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MonsterSystem extends SystemECS {
             if (posTile.x == GameConfig.HOUSE_POSITION.x && posTile.y==GameConfig.HOUSE_POSITION.y)
             {
                 MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
-                // TODO: Minus House Energy and Add Add Energy for player
+                // TODO: Minus House Energy and Add Energy for player
                 EntityManager.destroy(monster);
             }
         }

@@ -4,6 +4,7 @@ import battle.factory.ComponentFactory;
 
 public class TowerInfoComponent extends InfoComponent {
     private String name = "TowerInfoComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.TOWER_INFO;
     private int energy;
     private String bulletTargetType;
     private String archType;

@@ -5,6 +5,7 @@ import battle.factory.ComponentFactory;
 
 public class UnderGroundComponent extends Component {
     private String name = "UnderGroundComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.UNDER_GROUND;
     private int currentPathIdx;
     private int trigger;
     private boolean isInGround;

@@ -5,19 +5,20 @@ import battle.config.GameConfig;
 
 public class VelocityComponent extends Component {
     private String name = "VelocityComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.VELOCITY;
     private double speedX;
     private double speedY;
     private double originSpeedX;
     private double originSpeedY;
-    private Point dynamicPosition;
+    private PositionComponent dynamicPosition;
     private double originSpeed;
 
-    public VelocityComponent(double speedX, double speedY, Point dynamicPosition) {
+    public VelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition) {
         super(GameConfig.COMPONENT_ID.VELOCITY);
         this.reset(speedX,speedY,dynamicPosition);
     }
 
-    public void reset(double speedX, double speedY, Point dynamicPosition) {
+    public void reset(double speedX, double speedY, PositionComponent dynamicPosition) {
         this.speedX = speedX;
         this.speedY = speedY;
         this.dynamicPosition = dynamicPosition;
@@ -28,15 +29,6 @@ public class VelocityComponent extends Component {
 
     public double calculateSpeed(double speedX, double speedY) {
         return Math.sqrt(Math.pow(speedX, 2) + Math.pow(speedY, 2));
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getSpeedX() {
@@ -71,11 +63,11 @@ public class VelocityComponent extends Component {
         this.originSpeedY = originSpeedY;
     }
 
-    public Point getDynamicPosition() {
+    public PositionComponent getDynamicPosition() {
         return dynamicPosition;
     }
 
-    public void setDynamicPosition(Point dynamicPosition) {
+    public void setDynamicPosition(PositionComponent dynamicPosition) {
         this.dynamicPosition = dynamicPosition;
     }
 

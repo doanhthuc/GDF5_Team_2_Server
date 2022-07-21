@@ -6,17 +6,19 @@ import battle.factory.ComponentFactory;
 
 public class PositionComponent extends Component {
     private String name = "PositionComponent";
-    private int x;
-    private int y;
-    private int moveDistance;
+    public static int typeID = GameConfig.COMPONENT_ID.POSITION;
+    private double x;
+    private double y;
+    private double moveDistance;
 
-    public PositionComponent(int x, int y) {
+
+
+    public PositionComponent(double x, double y) {
         super(GameConfig.COMPONENT_ID.POSITION);
-        this.x = x;
-        this.y = y;
+        this.reset(x,y);
     }
 
-    public void reset(int x, int y) {
+    public void reset(double x, double y) {
         this.x = x;
         this.y = y;
         this.moveDistance = 0;
@@ -30,20 +32,20 @@ public class PositionComponent extends Component {
         }
         return null;
     }
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public PositionComponent setX(int x) {
+    public PositionComponent setX(double x) {
         this.x = x;
         return this;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public PositionComponent setY(int y) {
+    public PositionComponent setY(double y) {
         this.y = y;
         return this;
     }
@@ -55,12 +57,11 @@ public class PositionComponent extends Component {
     public String toString() {
         return (this.x + " " + this.y);
     }
-
-    public int getMoveDistance() {
+    public double getMoveDistance() {
         return moveDistance;
     }
 
-    public void setMoveDistance(int moveDistance) {
+    public void setMoveDistance(double moveDistance) {
         this.moveDistance = moveDistance;
     }
 }

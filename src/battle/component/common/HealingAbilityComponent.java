@@ -5,6 +5,7 @@ import battle.factory.ComponentFactory;
 
 public class HealingAbilityComponent extends Component{
     private String name = "HealingAbilityComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.HEALING_ABILITY;
     private double range;
     private double healingRate;
     private double countdown;

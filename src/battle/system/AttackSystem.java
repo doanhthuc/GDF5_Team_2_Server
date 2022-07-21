@@ -61,7 +61,7 @@ public class AttackSystem extends SystemECS implements Runnable {
                         PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                         PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
                         try {
-                            EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos.getPos(), monsterPos.getPos(), attackComponent.getEffects(),tower.getMode());
+                            EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(),tower.getMode());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
