@@ -61,4 +61,12 @@ public class SpellInfoComponent extends Component {
         }
         return null;
     }
+
+    public List<EffectComponent> getEffects() {
+        return effects;
+    }
+
+    public void setEffects(List<EffectComponent> effects) {
+        this.effects = effects;
+    }
 }

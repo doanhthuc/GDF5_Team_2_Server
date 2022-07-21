@@ -37,7 +37,7 @@ public class PathComponent extends Component {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return  null;
+        return null;
     }
 
     public List<Point> getPath() {
@@ -52,4 +52,7 @@ public class PathComponent extends Component {
         this.currentPathIDx = currentPathIDx;
     }
 
+    public int getCurrentPathIDx() {
+        return currentPathIDx;
+    }
 }

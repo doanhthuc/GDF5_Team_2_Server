@@ -34,7 +34,7 @@ public class MovementSystem extends SystemECS {
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) monster.getComponent(VelocityComponent.typeID);
             if ((velocityComponent.getDynamicPosition() != null) && velocityComponent.getDynamicPosition().getActive() == true) {
-                Point newVelocity = Utils.getInstance().calculateVelocityVector(positionComponent, velocityComponent.getDynamicPosition(), velocityComponent.getOriginSpeed());
+                Point newVelocity = Utils.getInstance().calculateVelocityVector(positionComponent.getPos(), velocityComponent.getDynamicPosition().getPos(), velocityComponent.getOriginSpeed());
                 velocityComponent.setSpeedX(newVelocity.x);
                 velocityComponent.setSpeedY(newVelocity.y);
             }

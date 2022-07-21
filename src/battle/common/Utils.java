@@ -40,11 +40,17 @@ public class Utils {
         return null;
     }
 
-    public static double euclidDistance(Point a, Point b) {
-        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+    public static double euclidDistance(Point pointA, Point pointB) {
+        return Math.sqrt(Math.pow(pointA.getX() - pointB.getX(), 2) + Math.pow(pointA.getX() - pointB.getY(), 2));
     }
 
-    ;
+    public static double euclidDistance(PositionComponent pointA, PositionComponent pointB) {
+        return Math.sqrt(Math.pow(pointA.getX() - pointB.getX(), 2) + Math.pow(pointA.getY() - pointB.getY(), 2));
+    }
+
+    public static double euclidDistance(PositionComponent pointA, Point pointB) {
+        return Math.sqrt(Math.pow(pointA.getX() - pointB.getX(), 2) + Math.pow(pointA.getY() - pointB.getY(), 2));
+    }
 
     public static boolean isMonster(EntityECS entity) {
         for (Integer id : GameConfig.GROUP_ID.MONSTER_ENTITY) {
@@ -60,7 +66,8 @@ public class Utils {
         return false;
     }
 
-    public Point calculateVelocityVector(PositionComponent startPos, PositionComponent targetPos, double speed) {
+
+    public Point calculateVelocityVector(Point startPos, Point targetPos, double speed) {
         double Xa = startPos.getX(), Ya = startPos.getY(), Xb = targetPos.getX(), Yb = targetPos.getY();
         if (Xa - Xb == 0)
             return new Point(0, Math.signum((Yb - Ya) * speed));
@@ -72,6 +79,8 @@ public class Utils {
         double speedY = k * speedX;
         return new Point(Math.signum((Xb - Xa) * speedX), Math.signum((Yb - Ya) * speedY));
     }
+
+
 
     public static Utils getInstance() {
         if (_instance == null) _instance = new Utils();
