@@ -10,7 +10,7 @@ import util.server.ServerConstant;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GuestLogin {
-    private static final AtomicInteger guestCount = new AtomicInteger(1);
+    public static final AtomicInteger guestCount = new AtomicInteger(1);
     private static final Logger logger = LoggerFactory.getLogger("GuestLogin");
 
     public static UserInfo newGuest() {

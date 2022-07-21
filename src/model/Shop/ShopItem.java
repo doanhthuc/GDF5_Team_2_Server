@@ -1,7 +1,7 @@
 package model.Shop;
 
-import model.Item.Item;
-import model.Item.ItemDefine;
+import model.Common.Item;
+import model.Common.ItemDefine;
 import model.Shop.ItemList.ShopItemDefine;
 
 import java.util.Random;

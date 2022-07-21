@@ -2,7 +2,6 @@ package cmd.send.shop;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
-import model.Shop.ItemList.DailyItemList;
 import model.Shop.ItemList.ShopItemList;
 import model.Shop.ShopItem;
 
@@ -26,7 +25,6 @@ public class ResponseRequestGetUserGoldShop extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.goldShop.getSize());
         for (int i = 0; i < this.goldShop.getSize(); i++) {
             ShopItem shopItem = this.goldShop.itemList.get(i);

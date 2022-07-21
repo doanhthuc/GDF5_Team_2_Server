@@ -1,29 +1,22 @@
 package service;
 
-import bitzero.server.BitZeroServer;
-import bitzero.server.core.BZEventParam;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import cmd.HandlerId;
 import cmd.receive.cheat.RequestCheatUserCard;
 import cmd.receive.cheat.RequestCheatUserInfo;
 import cmd.receive.cheat.RequestCheatUserLobbyChest;
-import cmd.receive.user.RequestAddGem;
-import cmd.receive.user.RequestAddGold;
 import cmd.send.cheat.ResponseRequestCheatUserCard;
 import cmd.send.cheat.ResponseRequestCheatUserInfo;
 import cmd.send.cheat.ResponseRequestCheatUserLobbyChest;
-import cmd.send.user.ResponseAddGem;
-import cmd.send.user.ResponseAddGold;
-import cmd.send.user.ResponseRequestUserInfo;
-import event.eventType.DemoEventParam;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
 import model.Inventory.Card;
-import model.Inventory.CardCollection;
+import model.Inventory.Inventory;
 import model.Lobby.LobbyChest;
 import model.Lobby.LobbyChestContainer;
 import model.Lobby.LobbyChestDefine;
@@ -33,10 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.server.ServerConstant;
 
-import java.util.List;
-
 public class CheatHandler extends BaseClientRequestHandler {
-    public static short CHEAT_MULTI_IDS = 7000;
+    public static short HANDLER_ID = HandlerId.CHEAT.getValue();
     private final Logger logger = LoggerFactory.getLogger("UserHandler");
 
     public CheatHandler() {
@@ -114,10 +105,10 @@ public class CheatHandler extends BaseClientRequestHandler {
                 send(new ResponseRequestCheatUserCard(CheatError.USER_INFO_NULL.getValue()), user);
                 return;
             }
-            CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(), CardCollection.class);
-            userCardCollection.setCard(rq.getCardType(), rq.getCardLevel(), rq.getCardAmount());
-            userCardCollection.cardCollection.get(rq.getCardType()).show();
-            userCardCollection.saveModel(userInfo.getId());
+            Inventory userInventory = (Inventory) Inventory.getModel(userInfo.getId(), Inventory.class);
+            userInventory.setCard(rq.getCardType(), rq.getCardLevel(), rq.getCardAmount());
+            userInventory.cardCollection.get(rq.getCardType()).show();
+            userInventory.saveModel(userInfo.getId());
             send(new ResponseRequestCheatUserCard(CheatError.SUCCESS.getValue(), new Card(rq.getCardType(), rq.getCardLevel(), rq.getCardAmount())), user);
         } catch (Exception e) {
             logger.info("processcheatUserCard exeption");

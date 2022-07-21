@@ -1,23 +1,34 @@
 package battle.Entity;
 
 import battle.Common.Utils;
-import battle.Component.Component;
+import battle.Component.Component.Component;
+import battle.Config.GameConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EntityECS {
-    int typeID;
-    Map<Integer, Component> components;
-    int id;
-    boolean _active;
+    public int typeID;
+    public Map<Integer, Component> components;
+    public int id;
+    public boolean _active;
+    public String mode;
 
     public EntityECS(int typeID) {
         this.typeID = typeID;
         this.components = new HashMap<>();
         this.id = Utils.UUID.genIncrementID();
         this._active = true;
+    }
+
+    public EntityECS(int typeID, String mode) {
+        this.typeID = typeID;
+        this.components = new HashMap<>();
+        this.id = Utils.UUID.genIncrementID();
+        this._active = true;
+        if (mode == "") mode = GameConfig.PLAYER;
+        this.mode = mode;
     }
 
     public void addComponent(Component component) {
@@ -34,18 +45,37 @@ public class EntityECS {
     public Component getComponent(int typeID) {
         return this.components.get(typeID);
     }
-    public boolean hasAllComponent(ArrayList<Integer> typeIDs){
-        int c=0;
-        for(Integer typeID: typeIDs){
-            if (this.getComponent(typeID)!=null)
+
+    public boolean hasAllComponent(ArrayList<Integer> typeIDs) {
+        int c = 0;
+        for (Integer typeID : typeIDs) {
+            // System.out.println("AllTypeIDS"+ typeID);
+            if (this.getComponent(typeID) != null) {
                 c++;
+            }
         }
-        return (c==typeIDs.size());
+//        System.out.println(c);
+//        System.out.println();
+        return (c == typeIDs.size());
     }
-    public void setActive(boolean value){
-        this._active=value;
+
+    public void setActive(boolean value) {
+        this._active = value;
     }
-    public boolean getActive(){
+
+    public boolean getActive() {
         return this._active;
+    }
+
+    public void showComponent() {
+        Component component = null;
+        for (int i = 1; i <= 15; i++) {
+            component = this.getComponent(i);
+            if (component != null) {
+                System.out.println(component.name);
+            }
+        }
+        System.out.println("entityecs--------------");
+        System.out.println();
     }
 }

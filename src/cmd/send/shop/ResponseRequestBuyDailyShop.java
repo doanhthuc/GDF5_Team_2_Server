@@ -15,6 +15,7 @@ public class ResponseRequestBuyDailyShop extends BaseMsg {
         this.shopDTO = shopDTO;
         error = _error;
     }
+
     public ResponseRequestBuyDailyShop(short _error) {
         super(CmdDefine.BUY_DAILY_SHOP);
         error = _error;
@@ -23,15 +24,17 @@ public class ResponseRequestBuyDailyShop extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(this.error);
-        bf.putInt(shopDTO.getItemID());
-        bf.putInt(shopDTO.getGoldChange());
-        bf.putInt(shopDTO.getGemChange());
-        bf.putInt(shopDTO.itemList.size());
-        for (int i = 0; i < shopDTO.itemList.size(); i++) {
-            bf.putInt(shopDTO.itemList.get(i).getItemType());
-            bf.putInt(shopDTO.itemList.get(i).getQuantity());
+        if (this.shopDTO != null) {
+            bf.putInt(shopDTO.getItemID());
+            bf.putInt(shopDTO.getGoldChange());
+            bf.putInt(shopDTO.getGemChange());
+            bf.putInt(shopDTO.itemList.size());
+            for (int i = 0; i < shopDTO.itemList.size(); i++) {
+                bf.putInt(shopDTO.itemList.get(i).getItemType());
+                bf.putInt(shopDTO.itemList.get(i).getQuantity());
+            }
         }
+
         return packBuffer(bf);
     }
 }

@@ -1,27 +1,26 @@
 package service;
 
-import bitzero.server.BitZeroServer;
 import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import cmd.HandlerId;
 import cmd.receive.shop.RequestBuyDailyShop;
 import cmd.receive.shop.RequestBuyGoldShop;
 import cmd.send.shop.ResponseRequestBuyDailyShop;
 import cmd.send.shop.ResponseRequestBuyGoldShop;
 import cmd.send.shop.ResponseRequestGetUserDailyShop;
 import cmd.send.shop.ResponseRequestGetUserGoldShop;
-import cmd.send.user.ResponseRequestUserInfo;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
-import model.Chest.Chest;
-import model.Inventory.CardCollection;
-import model.Item.Item;
-import model.Item.ItemDefine;
+import model.Common.Chest;
+import model.Inventory.Inventory;
+import model.Common.Item;
+import model.Common.ItemDefine;
 import model.PlayerInfo;
-import model.Shop.ItemList.DailyItemList;
+import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.Shop.ShopDTO;
@@ -32,10 +31,9 @@ import org.slf4j.LoggerFactory;
 import util.server.ServerConstant;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ShopHandler extends BaseClientRequestHandler {
-    public static short SHOP_MULTI_IDS = 2000;
+    public static short HANDLER_ID = HandlerId.SHOP.getValue();
     private final Logger logger = LoggerFactory.getLogger("ShopHandler");
 
     public ShopHandler() {
@@ -97,7 +95,7 @@ public class ShopHandler extends BaseClientRequestHandler {
             }
             System.out.println("ShopHandle ProcessBuyDailyShop");
             //getDailyShop and the ItemToBuy by ID
-            DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
+            DailyShop dailyShop = (DailyShop) DailyShop.getModel(userInfo.getId(), DailyShop.class);
             ShopItem itemToBuy = null;
             itemToBuy = dailyShop.getItemByID(rq.getId());
             //Verify Item
@@ -118,20 +116,21 @@ public class ShopHandler extends BaseClientRequestHandler {
             }
 
             userInfo.addGold(goldchange);
-            CardCollection userCardCollection = (CardCollection) CardCollection.getModel(userInfo.getId(), CardCollection.class);
+            Inventory userInventory = (Inventory) Inventory.getModel(userInfo.getId(), Inventory.class);
 
             if (itemToBuy.getItemType() == ItemDefine.CHESTTYPE) {
                 Chest ch = new Chest();
+                ch.randomRewardItem();
                 ArrayList<Item> reward = ch.getChestReward();
                 for (int i = 0; i < reward.size(); i++) {
                     Item item = reward.get(i);
                     item.show();
                     if (item.getItemType() == ItemDefine.GOLDTYPE) userInfo.addGold(item.getQuantity());
-                    else userCardCollection.updateCard(item.getItemType(), item.getQuantity());
+                    else userInventory.updateCard(item.getItemType(), item.getQuantity());
                 }
                 send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, reward, rq.getId())), user);
             } else {
-                userCardCollection.updateCard(itemToBuy.getItemType(), itemToBuy.getQuantity());
+                userInventory.updateCard(itemToBuy.getItemType(), itemToBuy.getQuantity());
                 ArrayList<Item> itemList = new ArrayList<Item>();
                 itemList.add(itemToBuy);
                 send(new ResponseRequestBuyDailyShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldchange, 0, itemList,rq.getId())), user);
@@ -139,7 +138,7 @@ public class ShopHandler extends BaseClientRequestHandler {
             //Set Shop Item State and save model
             dailyShop.itemList.get(rq.getId()).setState(ShopItemDefine.CAN_NOT_BUY);
             userInfo.saveModel(userInfo.getId());
-            userCardCollection.saveModel(userInfo.getId());
+            userInventory.saveModel(userInfo.getId());
             dailyShop.saveModel(userInfo.getId());
         } catch (Exception e) {
             logger.info("processBuyDailyShop exception");
@@ -166,14 +165,15 @@ public class ShopHandler extends BaseClientRequestHandler {
             }
 
             //Verify Gem
-            int gemChange = -itemToBuy.getPrice();
+            int gemChange = itemToBuy.getPrice();
             int goldChange = itemToBuy.getQuantity();
             System.out.println(gemChange + " " + goldChange);
             if (verifyPurchase(userInfo.getGem(), gemChange) == true) {
-                userInfo.addGem(gemChange);
+                userInfo.addGem(-gemChange);
                 userInfo.addGold(goldChange);
                 userInfo.saveModel(userInfo.getId());
-                send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldChange, gemChange, rqBuyGold.getId())), user);
+                userInfo.show();
+                send(new ResponseRequestBuyGoldShop(ShopError.SUCCESS.getValue(), new ShopDTO(goldChange, -gemChange, rqBuyGold.getId())), user);
             } else {
                 send(new ResponseRequestBuyGoldShop(ShopError.NOT_ENOUGH_GEM.getValue()), user);
             }
@@ -193,7 +193,7 @@ public class ShopHandler extends BaseClientRequestHandler {
             }
             logger.info("get inventoryID " + userInfo.getId());
             //CheckDailyShop
-            DailyItemList dailyShop = (DailyItemList) DailyItemList.getModel(userInfo.getId(), DailyItemList.class);
+            DailyShop dailyShop = (DailyShop) DailyShop.getModel(userInfo.getId(), DailyShop.class);
             if (dailyShop == null) {
                 send(new ResponseRequestGetUserDailyShop(ShopError.DALY_SHOP_NULL.getValue()), user);
                 return;

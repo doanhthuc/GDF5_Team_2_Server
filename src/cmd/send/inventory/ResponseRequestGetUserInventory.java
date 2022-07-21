@@ -2,15 +2,15 @@ package cmd.send.inventory;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
-import model.Inventory.CardCollection;
+import model.Inventory.Inventory;
 
 import java.nio.ByteBuffer;
 
 public class ResponseRequestGetUserInventory extends BaseMsg {
-    public CardCollection cc;
+    public Inventory cc;
     public short error;
 
-    public ResponseRequestGetUserInventory(short _error, CardCollection cc) {
+    public ResponseRequestGetUserInventory(short _error, Inventory cc) {
         super(CmdDefine.GET_USER_INVENTORY);
         this.cc = cc;
         error = _error;
@@ -19,7 +19,6 @@ public class ResponseRequestGetUserInventory extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putShort(error);
         bf.putInt(this.cc.cardCollection.size());
         for (int i = 0; i < this.cc.cardCollection.size(); i++) {
             int cardtype = this.cc.cardCollection.get(i).getCardType();
