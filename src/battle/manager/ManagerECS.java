@@ -1,4 +1,4 @@
-package battle.manager;
+package battle.Manager;
 
 public class ManagerECS {
 

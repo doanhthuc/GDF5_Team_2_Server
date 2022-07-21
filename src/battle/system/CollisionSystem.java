@@ -1,30 +1,32 @@
 package battle.system;
 
 import battle.common.Utils;
-import battle.component.Component.CollisionComponent;
-import battle.component.Component.PositionComponent;
-import battle.component.EffectComponent.EffectComponent;
-import battle.component.InfoComponent.BulletInfoComponent;
+import battle.component.common.CollisionComponent;
+import battle.component.common.PositionComponent;
+import battle.component.effect.EffectComponent;
+import battle.component.info.BulletInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class CollisionSystem extends SystemECS {
-    int id = GameConfig.SYSTEM_ID.LIFE;
-    String name = "CollisionSystem";
+public class CollisionSystem extends SystemECS implements Runnable {
+    private int id = GameConfig.SYSTEM_ID.LIFE;
+    private String name = "CollisionSystem";
 
     public CollisionSystem() {
+        super(GameConfig.SYSTEM_ID.COLLISION);
         java.lang.System.out.println(this.name);
     }
 
     @Override
     public void run() {
-        this.tick = this.getElapseTime();
-        ArrayList<Integer> typeIDs = new ArrayList<>();
+        this.tick = this.getEclapseTime();
+        List<Integer> typeIDs = new ArrayList<>();
         typeIDs.add(GameConfig.COMPONENT_ID.COLLISION);
-        ArrayList<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);
+        List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);
 
         for (int i = 0; i < entityList.size() - 1; i++) {
             for (int j = 1; j < entityList.size(); j++) {

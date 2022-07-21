@@ -1,11 +1,12 @@
 package battle.config;
 
+import battle.common.EntityMode;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-    public static String PLAYER = "player";
-    public static String OPPONENT = "opponent";
+
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;
@@ -28,8 +29,18 @@ public class GameConfig {
         public static int ATTACK = 13;
         public static int BUFF_ATTACK_SPEED = 14;
         public static int BUFF_ATTACK_DAMAGE = 15;
-    }
+        public static int SPELL = 16;
+        public static int SKELETON = 17;
+        public static int UNDER_GROUND = 18;
+        public static int SPAWN_MINION = 19;
+        public static int HEALING_ABILITY = 20;
+        public static int SPRITE_SHEET = 20;
 
+    }
+    public static class HOUSE_POSITION {
+        public static double x = 6;
+        public static double y = 0;
+    }
     public static class ENTITY_ID {
         public static final int SWORD_MAN = 1;
         public static final int CANNON_TOWER = 2;
@@ -55,6 +66,11 @@ public class GameConfig {
         public static final int SPRITE_SHEET = 7;
         public static final int SPELL = 8;
         public static final int SKELETON = 9;
+        public static final int BULLET = 10;
+        public static final int MONSTER = 11;
+        public static final int ABILITY = 12;
+        public static final int COLLISION = 13;
+
     }
 
     public static class GROUP_ID {

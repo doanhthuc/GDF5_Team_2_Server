@@ -37,6 +37,16 @@ public class Card {
         this.accumulate += amount;
     }
 
+    public int getCardRankNumber() {
+        if (this.level <= 1) {
+            return 1;
+        } else if (this.level <= 3) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+
     public void show() {
         System.out.println("Card" + this.cardType + " energy= " + this.energy + " level=" + this.level + " accumulate= " + this.accumulate);
     }

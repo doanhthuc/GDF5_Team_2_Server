@@ -1,16 +1,13 @@
 package battle.manager;
 
 
-import battle.component.Component.Component;
+import battle.component.common.Component;
 import battle.entity.EntityECS;
-import org.apache.commons.lang.NotImplementedException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class EntityManager extends ManagerECS {
+public class EntityManager extends battle.Manager.ManagerECS {
     private static Map<Long, EntityECS> entities = null;
     private static EntityManager instance = null;
     private final String name = "EntityManager";
@@ -48,9 +45,9 @@ public class EntityManager extends ManagerECS {
 
         for (Map.Entry<Long, EntityECS> entry : entities.entrySet()) {
             EntityECS entity = entry.getValue();
-            if (entity.isActive() && entity.hasAllComponent(componentTypeIDS)) {
+            if (entity.getActive() && entity.hasAllComponent(componentTypeIDS)) {
                 entityList.add(entity);
-            } else if (!entry.getValue().isActive()) {
+            } else if (!entry.getValue().getActive()) {
                 // remove entity
                 // delete this.entities[id];
             }

@@ -20,7 +20,7 @@ public class SystemECS implements Runnable {
 
     }
 
-    public long getElapseTime() {
+    public long getEclapseTime() {
         this.currentMillis = java.lang.System.currentTimeMillis();
         this.tick = currentMillis - pastMillis;
         this.pastMillis = currentMillis;

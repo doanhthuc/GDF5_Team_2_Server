@@ -1,13 +1,12 @@
 package battle.manager;
 
 
-import battle.component.Component.Component;
-import org.apache.commons.lang.NotImplementedException;
+import battle.component.common.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ComponentManager extends ManagerECS {
+public class ComponentManager extends battle.Manager.ManagerECS {
     private static final String name = "ComponentManager";
     private static ComponentManager instance = null;
     private final Map<Long, Component> storeInstance;
@@ -28,12 +27,13 @@ public class ComponentManager extends ManagerECS {
 
     public void registerClass(Component cpn) {
         // TODO: implement here
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public Class getClass(int typeID) {
         // TODO: implement here
-        throw new NotImplementedException();
+       // throw new NotImplementedException();
+        return null;
     }
 
     public void add(Component component) throws Exception {

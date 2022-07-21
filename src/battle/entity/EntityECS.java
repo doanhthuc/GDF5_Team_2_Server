@@ -1,8 +1,9 @@
 package battle.entity;
 
+
 import battle.common.EntityMode;
 import battle.common.UUIDGeneratorECS;
-import battle.component.Component.Component;
+import battle.component.common.Component;
 import battle.manager.ComponentManager;
 
 import java.util.HashMap;
@@ -20,9 +21,9 @@ public class EntityECS {
     public EntityECS(int typeID, EntityMode mode) {
         this.typeID = typeID;
         this.components = new HashMap<>();
-
         this.id = UUIDGeneratorECS.genEntityID();
         this.active = true;
+
         this.mode = mode;
     }
 
@@ -81,7 +82,7 @@ public class EntityECS {
         return id;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 
