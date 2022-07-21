@@ -4,6 +4,7 @@ import battle.config.GameConfig;
 
 public class BuffAttackDamageEffect extends EffectComponent {
     private String name = "BuffAttackDamageEffect";
+    public static int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_DAMAGE;
     private double percent;
 
     public BuffAttackDamageEffect(double percent) {
@@ -16,6 +17,14 @@ public class BuffAttackDamageEffect extends EffectComponent {
     }
 
     public void reset(double percent) {
+        this.percent = percent;
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
         this.percent = percent;
     }
 }

@@ -4,6 +4,7 @@ import battle.config.GameConfig;
 
 public class SlowEffect extends EffectComponent {
     private String name = "SlowEffect";
+    public static int typeID = GameConfig.COMPONENT_ID.SLOW_EFFECT;
     private double duration;
     private double percent;
 

@@ -15,6 +15,7 @@ import java.util.List;
 public class CollisionSystem extends SystemECS implements Runnable {
     private int id = GameConfig.SYSTEM_ID.LIFE;
     private String name = "CollisionSystem";
+
     public CollisionSystem() {
         super(GameConfig.SYSTEM_ID.COLLISION);
         java.lang.System.out.println(this.name);
@@ -22,7 +23,7 @@ public class CollisionSystem extends SystemECS implements Runnable {
 
     @Override
     public void run() {
-        this.tick = this.getEclapseTime();
+        this.tick = this.getElapseTime();
         List<Integer> typeIDs = new ArrayList<>();
         typeIDs.add(GameConfig.COMPONENT_ID.COLLISION);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);

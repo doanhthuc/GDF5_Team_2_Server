@@ -35,15 +35,35 @@ public class GameConfig {
         public static int SPAWN_MINION = 19;
         public static int HEALING_ABILITY = 20;
         public static int SPRITE_SHEET = 20;
-
+        public static int TOWER_ABILITY = 21;
     }
-
+    public static class HOUSE_POSITION {
+        public static double x = 6;
+        public static double y = 0;
+    }
     public static class ENTITY_ID {
-        public static final int SWORD_MAN = 1;
-        public static final int CANNON_TOWER = 2;
-        public static final int BULLET = 3;
+        public static final int CANNON_TOWER = 0;
+        public static final int WIZARD_TOWER = 1;
+        public static final int FROG_TOWER = 2;
+        public static final int BUNNY_TOWER = 3;
         public static final int BEAR_TOWER = 4;
-        public static final int FROG_TOWER = 5;
+        public static final int GOAT_TOWER = 5;
+        public static final int SNAKE_TOWER = 6;
+        public static final int FIRE_SPELL = 7;
+        public static final int FROZEN_SPELL = 8;
+        public static final int TRAP_SPELL = 9;
+
+        public static final int ASSASSIN = 11;
+        public static final int BAT = 12;
+        public static final int GIANT = 13;
+        public static final int NINJA = 14;
+        public static final int DEMON_TREE = 15;
+        public static final int DEMON_TREE_MINION = 16;
+        public static final int DARK_GIANT = 17;
+        public static final int SATYR = 18;
+        public static final int SWORD_MAN = 19;
+
+        public static final int BULLET = 20;
     }
 
     public static class TOWER_TARGET_STRATEGY {
