@@ -18,4 +18,8 @@ public class BuffAttackSpeedEffect extends EffectComponent {
     public void reset(double percent) {
         this.percent = percent;
     }
+
+    public double getPercent() {
+        return percent;
+    }
 }

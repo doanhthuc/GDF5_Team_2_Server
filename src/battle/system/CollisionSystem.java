@@ -22,7 +22,7 @@ public class CollisionSystem extends SystemECS implements Runnable {
 
     @Override
     public void run() {
-        this.tick = this.getEclapseTime();
+        this.tick = this.getElapseTime();
         List<Integer> typeIDs = new ArrayList<>();
         typeIDs.add(GameConfig.COMPONENT_ID.COLLISION);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);

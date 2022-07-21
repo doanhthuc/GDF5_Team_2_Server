@@ -8,6 +8,7 @@ public class PositionComponent extends Component {
     private String name = "PositionComponent";
     private int x;
     private int y;
+    private int moveDistance;
 
     public PositionComponent(int x, int y) {
         super(GameConfig.COMPONENT_ID.POSITION);
@@ -18,6 +19,7 @@ public class PositionComponent extends Component {
     public void reset(int x, int y) {
         this.x = x;
         this.y = y;
+        this.moveDistance = 0;
     }
 
     public PositionComponent clone(){
@@ -52,5 +54,13 @@ public class PositionComponent extends Component {
 
     public String toString() {
         return (this.x + " " + this.y);
+    }
+
+    public int getMoveDistance() {
+        return moveDistance;
+    }
+
+    public void setMoveDistance(int moveDistance) {
+        this.moveDistance = moveDistance;
     }
 }

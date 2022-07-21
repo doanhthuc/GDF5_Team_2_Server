@@ -18,4 +18,12 @@ public class BuffAttackDamageEffect extends EffectComponent {
     public void reset(double percent) {
         this.percent = percent;
     }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
+    }
 }

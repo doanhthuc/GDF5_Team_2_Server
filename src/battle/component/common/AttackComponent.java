@@ -38,7 +38,7 @@ public class AttackComponent extends Component {
         return this.damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(double damage) {
         this.damage = damage;
         for (int i = 0; i < this.effects.size(); i++) {
             DamageEffect effect = (DamageEffect) this.effects.get(i);
@@ -99,5 +99,13 @@ public class AttackComponent extends Component {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public double getOriginSpeed() {
+        return originSpeed;
     }
 }

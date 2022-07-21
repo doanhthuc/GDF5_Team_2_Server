@@ -4,6 +4,7 @@ import battle.common.EntityMode;
 import battle.common.Point;
 import battle.component.common.*;
 import battle.component.effect.EffectComponent;
+import battle.component.effect.TowerAbilityComponent;
 import battle.component.info.BulletInfoComponent;
 import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
@@ -154,4 +155,14 @@ public class ComponentFactory {
         return spawnMinionComponent;
     }
 
+    public TowerAbilityComponent createTowerAbilityComponent(double range, EffectComponent effect) throws Exception {
+        TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.TOWER_ABILITY);
+        if (towerAbilityComponent != null) {
+            towerAbilityComponent.reset(range, effect);
+        } else {
+            towerAbilityComponent = new TowerAbilityComponent(range, effect);
+            ComponentManager.getInstance().add(towerAbilityComponent);
+        }
+        return towerAbilityComponent;
+    }
 }

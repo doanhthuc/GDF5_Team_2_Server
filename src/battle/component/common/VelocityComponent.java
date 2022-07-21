@@ -29,4 +29,61 @@ public class VelocityComponent extends Component {
     public double calculateSpeed(double speedX, double speedY) {
         return Math.sqrt(Math.pow(speedX, 2) + Math.pow(speedY, 2));
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getSpeedX() {
+        return speedX;
+    }
+
+    public void setSpeedX(double speedX) {
+        this.speedX = speedX;
+    }
+
+    public double getSpeedY() {
+        return speedY;
+    }
+
+    public void setSpeedY(double speedY) {
+        this.speedY = speedY;
+    }
+
+    public double getOriginSpeedX() {
+        return originSpeedX;
+    }
+
+    public void setOriginSpeedX(double originSpeedX) {
+        this.originSpeedX = originSpeedX;
+    }
+
+    public double getOriginSpeedY() {
+        return originSpeedY;
+    }
+
+    public void setOriginSpeedY(double originSpeedY) {
+        this.originSpeedY = originSpeedY;
+    }
+
+    public Point getDynamicPosition() {
+        return dynamicPosition;
+    }
+
+    public void setDynamicPosition(Point dynamicPosition) {
+        this.dynamicPosition = dynamicPosition;
+    }
+
+    public double getOriginSpeed() {
+        return originSpeed;
+    }
+
+    public void setOriginSpeed(double originSpeed) {
+        this.originSpeed = originSpeed;
+    }
 }

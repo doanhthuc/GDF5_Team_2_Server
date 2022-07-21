@@ -6,7 +6,7 @@ import battle.factory.ComponentFactory;
 public class SpawnMinionComponent extends Component {
     private String name = "SpawnMinionComponent";
     private double period;
-    private int spawmAmount;
+    private int spawnAmount;
     public SpawnMinionComponent(double period) {
         super(GameConfig.COMPONENT_ID.SPAWN_MINION);
         this.reset(period);
@@ -14,7 +14,7 @@ public class SpawnMinionComponent extends Component {
 
     public void reset(double period) {
         this.period = period;
-        this.spawmAmount = 0;
+        this.spawnAmount = 0;
     }
     public SpawnMinionComponent clone(){
         try {
@@ -23,5 +23,21 @@ public class SpawnMinionComponent extends Component {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public double getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(double period) {
+        this.period = period;
+    }
+
+    public int getSpawnAmount() {
+        return spawnAmount;
+    }
+
+    public void setSpawnAmount(int spawnAmount) {
+        this.spawnAmount = spawnAmount;
     }
 }
