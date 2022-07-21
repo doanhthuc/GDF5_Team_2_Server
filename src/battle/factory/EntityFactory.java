@@ -109,7 +109,7 @@ public class EntityFactory {
         path.add(new Point(0, 6));
         path.add(new Point(0, 5));
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode , true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -125,7 +125,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         double attackRange = 1.5 * GameConfig.TILE_WIDTH;
-        Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y);
+        Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
         TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pixelPos.x, (int) pixelPos.y);

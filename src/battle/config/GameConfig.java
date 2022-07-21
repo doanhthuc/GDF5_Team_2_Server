@@ -37,7 +37,10 @@ public class GameConfig {
         public static int SPRITE_SHEET = 20;
 
     }
-
+    public static class HOUSE_POSITION {
+        public static double x = 6;
+        public static double y = 0;
+    }
     public static class ENTITY_ID {
         public static final int SWORD_MAN = 1;
         public static final int CANNON_TOWER = 2;
