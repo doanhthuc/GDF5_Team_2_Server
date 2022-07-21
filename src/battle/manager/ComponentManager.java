@@ -6,7 +6,7 @@ import battle.component.common.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ComponentManager extends battle.Manager.ManagerECS {
+public class ComponentManager extends battle.manager.ManagerECS {
     private static final String name = "ComponentManager";
     private static ComponentManager instance = null;
     private final Map<Long, Component> storeInstance;
@@ -37,7 +37,7 @@ public class ComponentManager extends battle.Manager.ManagerECS {
     }
 
     public void add(Component component) throws Exception {
-        if (this.storeInstance.get(component.getId()) == null) {
+        if (this.storeInstance.get(component.getId()) != null) {
             throw new Exception("Component with typeID = " + component.getTypeID() + ", id = " + component.getId() + " exists.");
         }
         this.storeInstance.put(component.getId(), component);

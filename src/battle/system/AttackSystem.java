@@ -25,7 +25,6 @@ public class AttackSystem extends SystemECS implements Runnable {
     @Override
     public void run() {
         this.tick = this.getElapseTime();
-        java.lang.System.out.println(this.tick);
         //Create List of Component TypeIDs
         List<Integer> typeIDTower = new ArrayList<>();
         typeIDTower.add(GameConfig.COMPONENT_ID.ATTACK);
@@ -61,7 +60,7 @@ public class AttackSystem extends SystemECS implements Runnable {
                         PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                         PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
                         try {
-                            EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(),tower.getMode());
+                            EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(), tower.getMode());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -81,7 +80,7 @@ public class AttackSystem extends SystemECS implements Runnable {
     }
 
     public EntityECS findTargetMonsterByStrategy(int strategy, List<EntityECS> monsterInRange) {
-        for (EntityECS monster: monsterInRange) {
+        for (EntityECS monster : monsterInRange) {
             if (monster.getTypeID() == GameConfig.ENTITY_ID.DARK_GIANT) {
                 return monster;
             }

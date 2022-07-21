@@ -5,10 +5,7 @@ import battle.common.Point;
 import battle.component.common.*;
 import battle.component.effect.EffectComponent;
 import battle.component.effect.TowerAbilityComponent;
-import battle.component.info.BulletInfoComponent;
-import battle.component.info.LifeComponent;
-import battle.component.info.MonsterInfoComponent;
-import battle.component.info.TowerInfoComponent;
+import battle.component.info.*;
 import battle.config.GameConfig;
 import battle.manager.ComponentManager;
 import battle.pool.ComponentPool;
@@ -79,16 +76,16 @@ public class ComponentFactory {
         return pathComponent;
     }
 
-//    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, EffectComponent effect) throws Exception {
-//        MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.MONSTER_INFO);
-//        if (monsterInfoComponent != null) {
-//            monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
-//        } else {
-//            monsterInfoComponent = new MonsterInfoComponent(category, classs, weight, energy, gainEnergy, ability, effect);
-//            ComponentManager.getInstance().add(monsterInfoComponent);
-//        }
-//        return monsterInfoComponent;
-//    }
+    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, List<Component> ability, List<EffectComponent> effect) throws Exception {
+        MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.MONSTER_INFO);
+        if (monsterInfoComponent != null) {
+            monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
+        } else {
+            monsterInfoComponent = new MonsterInfoComponent(category, classs, weight, energy, gainEnergy, ability, effect);
+            ComponentManager.getInstance().add(monsterInfoComponent);
+        }
+        return monsterInfoComponent;
+    }
 
     public LifeComponent createLifeComponent(double hp) throws Exception {
         LifeComponent lifeComponent = (LifeComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.LIFE);
@@ -109,6 +106,7 @@ public class ComponentFactory {
         } else {
             towerInfoComponent = new TowerInfoComponent(energy, bulletTargetType, archType, targetType, bulletType);
             ComponentManager.getInstance().add(towerInfoComponent);
+           // this.pool.checkIn(towerInfoComponent);
         }
         return towerInfoComponent;
     }

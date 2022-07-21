@@ -23,12 +23,12 @@ public class MovementSystem extends SystemECS {
 
     @Override
     public void run() {
-        this.tick = this.getEclapseTime();
+        this.tick = this.getElapseTime();
         //Get Movement Entity
-        List<Integer> movementEntitylistIds = new ArrayList<>();
-        movementEntitylistIds.add(VelocityComponent.typeID);
-        movementEntitylistIds.add(PositionComponent.typeID);
-        List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(movementEntitylistIds);
+        List<Integer> movementEntityListIds = new ArrayList<>();
+        movementEntityListIds.add(VelocityComponent.typeID);
+        movementEntityListIds.add(PositionComponent.typeID);
+        List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(movementEntityListIds);
 
         for (EntityECS monster : entityList) {
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);

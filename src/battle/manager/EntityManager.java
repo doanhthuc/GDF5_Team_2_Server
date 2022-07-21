@@ -7,7 +7,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 
-public class EntityManager extends battle.Manager.ManagerECS {
+public class EntityManager extends ManagerECS {
     private static Map<Long, EntityECS> entities = null;
     private static EntityManager instance = null;
     private final String name = "EntityManager";
@@ -37,13 +37,13 @@ public class EntityManager extends battle.Manager.ManagerECS {
     }
 
     public EntityECS getEntity(int entityID) {
-        return this.entities.get(entityID);
+        return entities.get(entityID);
     }
 
     public List<EntityECS> getEntitiesHasComponents(List<Integer> componentTypeIDS) {
         List<EntityECS> entityList = new ArrayList<>();
 
-        for (Map.Entry<Long, EntityECS> entry : entities.entrySet()) {
+        for (Map.Entry<Long, EntityECS> entry : this.entities.entrySet()) {
             EntityECS entity = entry.getValue();
             if (entity.getActive() && entity.hasAllComponent(componentTypeIDS)) {
                 entityList.add(entity);
@@ -59,11 +59,19 @@ public class EntityManager extends battle.Manager.ManagerECS {
         if (entity == null) {
             throw new IllegalArgumentException();
         }
-        entities.put(entity.getId(), entity);
+        this.entities.put(entity.getId(), entity);
     }
 
     public void remove(EntityECS entity) {
         entity.setActive(false);
-        entities.remove(entity.getId());
+        this.entities.remove(entity.getId());
+    }
+
+    public void showEntity()
+    {
+        for (Map.Entry<Long, EntityECS> entry : this.entities.entrySet()) {
+            System.out.println(entry.getKey());
+            entry.getValue().showComponent();
+        }
     }
 }
