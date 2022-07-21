@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionSystem extends SystemECS implements Runnable {
-    private int id = GameConfig.SYSTEM_ID.LIFE;
+    public static int typeID = GameConfig.SYSTEM_ID.COLLISION;
     private String name = "CollisionSystem";
 
     public CollisionSystem() {
@@ -60,9 +60,6 @@ public class CollisionSystem extends SystemECS implements Runnable {
     }
 
     public boolean _interSectRect(double x1, double y1, double w1, double h1, double x2, double y2, double w2, double h2) {
-        if (((x1 + w1 >= x2) && (x1 <= x2 + w2)) && (y1 + h1 >= y2) && (y1 <= y2 + h2)) {
-            return true;
-        }
-        return false;
+        return ((x1 + w1 >= x2) && (x1 <= x2 + w2)) && (y1 + h1 >= y2) && (y1 <= y2 + h2);
     }
 }
