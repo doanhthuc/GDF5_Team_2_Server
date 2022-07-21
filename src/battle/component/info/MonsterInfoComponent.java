@@ -36,9 +36,9 @@ public class MonsterInfoComponent extends InfoComponent {
 
     public MonsterInfoComponent clone() {
         try {
-            return ComponentFactory.getInstance().createMonsterInfoComponent(name, category, classs, energy, gainEnergy, ability, effects);
+        //    return ComponentFactory.getInstance().createMonsterInfoComponent(name, category, classs, energy, gainEnergy, ability, effects);
         } catch (Exception e) {
-            return null;
         }
+        return null;
     }
 }

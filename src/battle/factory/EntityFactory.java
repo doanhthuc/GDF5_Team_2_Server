@@ -97,7 +97,7 @@ public class EntityFactory {
         this.pool.push(entity);
         EntityManager.getInstance().addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = ComponentFactory.getInstance().createMonsterInfoComponent("normal", "land", 30, 1, 1, 0, null);
+      //  MonsterInfoComponent monsterInfoComponent = ComponentFactory.getInstance().createMonsterInfoComponent("normal", "land", 30, 1, 1, 0, null);
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
         VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.8 * GameConfig.TILE_WIDTH, (double) 0, null);
         CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 30);
@@ -111,7 +111,7 @@ public class EntityFactory {
         //ToDo: find shortest Path with TilePos
         PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode, true);
 
-        entity.addComponent(monsterInfoComponent);
+        //entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
         entity.addComponent(velocityComponent);
         entity.addComponent(collisionComponent);

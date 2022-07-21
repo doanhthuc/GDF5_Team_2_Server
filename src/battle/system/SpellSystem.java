@@ -41,13 +41,13 @@ public class SpellSystem extends SystemECS {
                 List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(monsterIds);
 
                 for (EntityECS monster : monsterList) {
-                    if (monster.getMode() == spellEntity.getMode()){
+                    if (monster.getMode() == spellEntity.getMode()) {
 
                         PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
-                        double distance = Utils.euclidDistance(monsterPos,spellInfoComponent.getPosition());
+                        double distance = Utils.euclidDistance(monsterPos, spellInfoComponent.getPosition());
 
                         if (distance <= spellInfoComponent.getRange()) {
-                            for (EffectComponent effect: spellInfoComponent.getEffects()){
+                            for (EffectComponent effect : spellInfoComponent.getEffects()) {
                                 monster.addComponent(effect.clone());
                             }
                         }
