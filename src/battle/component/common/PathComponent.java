@@ -9,6 +9,7 @@ import java.util.List;
 
 public class PathComponent extends Component {
     private String name = "PathComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.PATH;
     private List<Point> path;
     private int currentPathIDx;
     private EntityMode mode;

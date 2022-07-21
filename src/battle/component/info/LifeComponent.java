@@ -5,6 +5,7 @@ import battle.factory.ComponentFactory;
 
 public class LifeComponent extends InfoComponent {
     private String name = "LifeComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.LIFE;
     private double hp;
     private double maxHP;
 

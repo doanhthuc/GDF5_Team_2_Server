@@ -5,6 +5,7 @@ import battle.factory.ComponentFactory;
 
 public class SpawnMinionComponent extends Component {
     private String name = "SpawnMinionComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.SPAWN_MINION;
     private double period;
     private int spawmAmount;
     public SpawnMinionComponent(double period) {

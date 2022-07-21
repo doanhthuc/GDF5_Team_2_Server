@@ -1,6 +1,7 @@
 package battle.common;
 
 
+import battle.component.common.PositionComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import bitzero.core.G;
@@ -59,10 +60,13 @@ public class Utils {
         return false;
     }
 
-    public Point calculateVelocityVector(Point startPos, Point targetPos, double speed) {
-        double Xa = startPos.x, Ya = startPos.y, Xb = targetPos.x, Yb = targetPos.y;
-        if (Xa - Xb == 0) return new Point(0, Math.signum((Yb - Ya) * speed));
-        if (Ya - Yb == 0) return new Point(Math.signum((Xb - Xa) * speed), 0);
+    public Point calculateVelocityVector(PositionComponent startPos, PositionComponent targetPos, double speed) {
+        double Xa = startPos.getX(), Ya = startPos.getY(), Xb = targetPos.getX(), Yb = targetPos.getY();
+        if (Xa - Xb == 0)
+            return new Point(0, Math.signum((Yb - Ya) * speed));
+        if (Ya - Yb == 0)
+            return new Point(Math.signum((Xb - Xa) * speed), 0);
+
         double k = Math.abs(((Ya - Yb) / Xa - Xb));
         double speedX = Math.sqrt(speed * speed / (1 + k * k));
         double speedY = k * speedX;

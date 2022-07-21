@@ -5,6 +5,7 @@ import battle.factory.ComponentFactory;
 
 public class CollisionComponent extends Component {
     private String name = "CollisionComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.COLLISION;
     private double width, height;
 
     public CollisionComponent(double width, double height) {

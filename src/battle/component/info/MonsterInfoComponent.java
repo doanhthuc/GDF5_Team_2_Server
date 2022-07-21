@@ -8,6 +8,8 @@ import java.util.List;
 
 public class MonsterInfoComponent extends InfoComponent {
     private String name = "MonsterInfoComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.MONSTER_INFO;
+
     private String category;
     private String classs;
     private int energy;

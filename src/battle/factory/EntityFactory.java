@@ -28,7 +28,7 @@ public class EntityFactory {
         return entity;
     }
 
-    public EntityECS createBullet(int towerType, Point startPosition, Point targetPosition, List<EffectComponent> effects, EntityMode mode) throws Exception {
+    public EntityECS createBullet(int towerType, PositionComponent startPosition, PositionComponent targetPosition, List<EffectComponent> effects, EntityMode mode) throws Exception {
         int typeID;
         EntityECS entity;
         BulletInfoComponent infoComponent;
@@ -73,7 +73,7 @@ public class EntityFactory {
                 infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 3);
                 collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 20);
 
-                ArrayList<Point> path = new ArrayList<>();
+                List<Point> path = new ArrayList<>();
                 path.add(startPosition);
                 path.add(targetPosition);
                 path.add(startPosition);

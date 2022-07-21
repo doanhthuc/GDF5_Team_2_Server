@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AttackComponent extends Component {
+    public static int typeID = GameConfig.COMPONENT_ID.ATTACK;
     private String name = "AttackComponent";
     private double originDamage;
     private double damage;
