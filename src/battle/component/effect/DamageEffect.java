@@ -4,6 +4,7 @@ import battle.config.GameConfig;
 
 public class DamageEffect extends EffectComponent {
     private String name = "DamageEffect";
+    public static int typeID = GameConfig.COMPONENT_ID.DAMAGE_EFFECT;
     private double damage;
 
     public DamageEffect(double damage) {
@@ -23,6 +24,7 @@ public class DamageEffect extends EffectComponent {
         this.damage = damage;
     }
 
-    public void reset() {
+    public void reset(double damage) {
+        this.damage = damage;
     }
 }

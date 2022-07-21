@@ -29,8 +29,18 @@ public class GameConfig {
         public static int ATTACK = 13;
         public static int BUFF_ATTACK_SPEED = 14;
         public static int BUFF_ATTACK_DAMAGE = 15;
-    }
+        public static int SPELL = 16;
+        public static int SKELETON = 17;
+        public static int UNDER_GROUND = 18;
+        public static int SPAWN_MINION = 19;
+        public static int HEALING_ABILITY = 20;
+        public static int SPRITE_SHEET = 20;
 
+    }
+    public static class HOUSE_POSITION {
+        public static double x = 6;
+        public static double y = 0;
+    }
     public static class ENTITY_ID {
         public static final int SWORD_MAN = 1;
         public static final int CANNON_TOWER = 2;

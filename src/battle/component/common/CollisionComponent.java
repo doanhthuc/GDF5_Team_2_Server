@@ -5,12 +5,12 @@ import battle.factory.ComponentFactory;
 
 public class CollisionComponent extends Component {
     private String name = "CollisionComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.COLLISION;
     private double width, height;
 
     public CollisionComponent(double width, double height) {
         super(GameConfig.COMPONENT_ID.COLLISION);
-        this.width = width;
-        this.height = height;
+        this.reset(width,height);
     }
 
     public CollisionComponent clone() {

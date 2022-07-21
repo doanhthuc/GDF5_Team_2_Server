@@ -21,9 +21,9 @@ public class EntityECS {
     public EntityECS(int typeID, EntityMode mode) {
         this.typeID = typeID;
         this.components = new HashMap<>();
-
         this.id = UUIDGeneratorECS.genEntityID();
         this.active = true;
+
         this.mode = mode;
     }
 

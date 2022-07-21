@@ -4,6 +4,7 @@ import battle.config.GameConfig;
 
 public class FrozenEffect extends EffectComponent {
     private String name ="Frozen Effect";
+    public static int typeID = GameConfig.COMPONENT_ID.FROZEN_EFFECT;
     private double duration;
     private double countdown;
 

@@ -28,11 +28,11 @@ public class EntityFactory {
         return entity;
     }
 
-    public EntityECS createBullet(int towerType, Point startPosition, Point targetPosition, List<EffectComponent> effects, EntityMode mode) throws Exception {
+    public EntityECS createBullet(int towerType, PositionComponent startPosition, PositionComponent targetPosition, List<EffectComponent> effects, EntityMode mode) throws Exception {
         int typeID;
         EntityECS entity;
         BulletInfoComponent infoComponent;
-        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) startPosition.x, (int) startPosition.y);
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(startPosition.getX(), startPosition.getY());
         CollisionComponent collisionComponent;
         double bulletSpeed;
         switch (towerType) {
@@ -43,7 +43,7 @@ public class EntityFactory {
                 collisionComponent = ComponentFactory.getInstance().createCollisionComponent(0, 0);
 
                 bulletSpeed = 5 * GameConfig.TILE_WIDTH;
-                Point speed = Utils.getInstance().calculateVelocityVector(startPosition, targetPosition, bulletSpeed);
+                Point speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
                 VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.x, speed.y, targetPosition);
 
                 entity.addComponent(infoComponent);
@@ -58,7 +58,7 @@ public class EntityFactory {
                 infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 2);
                 collisionComponent = ComponentFactory.getInstance().createCollisionComponent(1, 1);
                 bulletSpeed = 4 * GameConfig.TILE_WIDTH;
-                speed = Utils.getInstance().calculateVelocityVector(startPosition, targetPosition, bulletSpeed);
+                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
                 velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.x, speed.y, targetPosition);
 
                 entity.addComponent(infoComponent);
@@ -73,13 +73,13 @@ public class EntityFactory {
                 infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 3);
                 collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 20);
 
-                ArrayList<Point> path = new ArrayList<>();
-                path.add(startPosition);
-                path.add(targetPosition);
-                path.add(startPosition);
+                List<Point> path = new ArrayList<>();
+                path.add(startPosition.getPos());
+                path.add(targetPosition.getPos());
+                path.add(startPosition.getPos());
                 PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode, true);
                 bulletSpeed = 4 * GameConfig.TILE_WIDTH;
-                speed = Utils.getInstance().calculateVelocityVector(startPosition, targetPosition, bulletSpeed);
+                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
                 velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.x, speed.y, targetPosition);
 
                 entity.addComponent(infoComponent);
@@ -97,7 +97,7 @@ public class EntityFactory {
         this.pool.push(entity);
         EntityManager.getInstance().addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = ComponentFactory.getInstance().createMonsterInfoComponent("normal", "land", 30, 1, 1, 0, null);
+      //  MonsterInfoComponent monsterInfoComponent = ComponentFactory.getInstance().createMonsterInfoComponent("normal", "land", 30, 1, 1, 0, null);
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
         VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.8 * GameConfig.TILE_WIDTH, (double) 0, null);
         CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 30);
@@ -109,9 +109,9 @@ public class EntityFactory {
         path.add(new Point(0, 6));
         path.add(new Point(0, 5));
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode , true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode, true);
 
-        entity.addComponent(monsterInfoComponent);
+        //entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
         entity.addComponent(velocityComponent);
         entity.addComponent(collisionComponent);
@@ -125,7 +125,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         double attackRange = 1.5 * GameConfig.TILE_WIDTH;
-        Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y);
+        Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
         TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pixelPos.x, (int) pixelPos.y);

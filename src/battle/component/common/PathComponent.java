@@ -9,6 +9,7 @@ import java.util.List;
 
 public class PathComponent extends Component {
     private String name = "PathComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.PATH;
     private List<Point> path;
     private int currentPathIDx;
     private EntityMode mode;
@@ -20,7 +21,8 @@ public class PathComponent extends Component {
 
     public void reset(List<Point> pathTile, EntityMode mode, boolean isConvert) {
         if (isConvert == true) {
-          //  List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
+            // FIX ME: Code TileArray2PixelArray
+            //  List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
             this.path = pathTile;
         } else {
             this.path = pathTile;
@@ -35,7 +37,7 @@ public class PathComponent extends Component {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return  null;
+        return null;
     }
 
     public List<Point> getPath() {
@@ -50,4 +52,7 @@ public class PathComponent extends Component {
         this.currentPathIDx = currentPathIDx;
     }
 
+    public int getCurrentPathIDx() {
+        return currentPathIDx;
+    }
 }
