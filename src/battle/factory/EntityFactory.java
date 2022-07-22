@@ -154,5 +154,22 @@ public class EntityFactory {
         if (_instance == null) _instance = new EntityFactory();
         return _instance;
     }
+
+    public EntityECS createWizardTower(Point tilePos, EntityMode mode) throws Exception {
+        int typeId = GameConfig.ENTITY_ID.WIZARD_TOWER;
+        EntityECS entity = this._createEntity(typeId, mode);
+
+        double attackRange = 1.5 * GameConfig.TILE_WIDTH;
+        Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
+
+        TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(pixelPos.x, pixelPos.y);
+        AttackComponent attackComponent = ComponentFactory.getInstance().createAttackComponent(10, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 0.6, 0.6, null);
+
+        entity.addComponent(towerInfoComponent)
+                .addComponent(positionComponent)
+                .addComponent(attackComponent);
+        return entity;
+    }
 }
 
