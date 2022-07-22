@@ -40,8 +40,8 @@ public class MovementSystem extends SystemECS {
             }
 
             if (velocityComponent.getActive()) {
-                double moveDistanceX = velocityComponent.getSpeedX() * (tick*1.0 / 1000);
-                double moveDistanceY = velocityComponent.getSpeedY() * (tick*1.0 / 1000);
+                double moveDistanceX = velocityComponent.getSpeedX() * (tick * 1.0 / 1000);
+                double moveDistanceY = velocityComponent.getSpeedY() * (tick * 1.0 / 1000);
                 positionComponent.setX(positionComponent.getX() + moveDistanceX);
                 positionComponent.setY(positionComponent.getY() + moveDistanceY);
                 double moveDistance = Math.sqrt(Math.pow(moveDistanceX, 2) + Math.pow(moveDistanceY, 2));
