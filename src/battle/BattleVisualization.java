@@ -11,6 +11,9 @@ import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
 import battle.system.AttackSystem;
+import battle.system.CollisionSystem;
+import battle.system.MovementSystem;
+import battle.system.PathMonsterSystem;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -42,6 +45,9 @@ public class BattleVisualization extends JFrame {
     int size;
     EntityManager entityManager;
     AttackSystem attackSystem;
+    MovementSystem movementSystem;
+    PathMonsterSystem pathMonsterSystem;
+    CollisionSystem collisionSystem;
     public static void main(String[] args) throws Exception {
         new BattleVisualization();
 
@@ -55,18 +61,26 @@ public class BattleVisualization extends JFrame {
         G = B.getGraphics();
         this.setVisible(true);
 
-        this.attackSystem= new AttackSystem();
+        this.attackSystem = new AttackSystem();
+        this.pathMonsterSystem = new PathMonsterSystem();
+        this.movementSystem = new MovementSystem();
+        this.collisionSystem = new CollisionSystem();
         this.entityManager = EntityManager.getInstance();
         this.initTower();
-
     }
 
     public void paint(Graphics G1) {
+
+        //redraw the Graphic
         G.setColor(Color.LIGHT_GRAY);
         G.fillRect(0, 0, this.getWidth(), this.getHeight());
         G.setColor(Color.BLUE);
         G.drawRect(0, 0, this.getWidth(), this.getHeight());
-        attackSystem.run();
+
+        this.updateSystem();
+
+
+
         for (int i = 0; i <= height; i++)
             G.drawLine(paddingY / scale, (paddingY + i * tileHeight) / scale,
                     (paddingY + width * tileHeight) / scale, (paddingY + i * tileHeight) / scale);
@@ -90,19 +104,27 @@ public class BattleVisualization extends JFrame {
             PositionComponent positionComponent = (PositionComponent) tower.getComponent(PositionComponent.typeID);
             G.setColor(Color.RED);
             Point p = this.getTowerPos(positionComponent);
-            G.fillRect((int) p.x, (int) p.y, tileWidth / scale, tileHeight / scale );
+            G.fillRect((int) p.x, (int) p.y, tileWidth / scale, tileHeight / scale);
         }
 
         List<EntityECS> bulletList = this.entityManager.getEntitiesHasComponents(Collections.singletonList(BulletInfoComponent.typeID));
+        //System.out.println(bulletList.size());
         for (EntityECS bullet : bulletList) {
             PositionComponent positionComponent = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(CollisionComponent.typeID);
             G.setColor(Color.GREEN);
-            Point p = this.getMonsterPos(positionComponent,collisionComponent);
+            Point p = this.getMonsterPos(positionComponent, collisionComponent);
             G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() / scale, (int) collisionComponent.getHeight() / scale);
         }
         G1.drawImage(B, 0, 0, this.getWidth(), this.getHeight(), null);
         this.repaint();
+    }
+
+    public void updateSystem() {
+        attackSystem.run();
+        pathMonsterSystem.run();
+        movementSystem.run();
+        collisionSystem.run();
     }
 
     public Point getTowerPos(PositionComponent pos) {
@@ -112,8 +134,9 @@ public class BattleVisualization extends JFrame {
     public Point getMonsterPos(PositionComponent pos, CollisionComponent col) {
         return new Point((centerX + pos.getX() - col.getWidth() / 2) / scale, (centerY - pos.getY() - col.getHeight() / 2) / scale);
     }
+
     public void initTower() throws Exception {
         EntityFactory.getInstance().createCannonOwlTower(new Point(3, 3), EntityMode.PLAYER);
-        EntityFactory.getInstance().createSwordManMonster(new Point(0, 0), EntityMode.PLAYER);
+        EntityFactory.getInstance().createSwordManMonster(new Point(0, 4), EntityMode.PLAYER);
     }
 }

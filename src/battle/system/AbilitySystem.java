@@ -31,7 +31,7 @@ public class AbilitySystem extends SystemECS implements Runnable {
         this.handleBuffAbility(tick);
     }
 
-    private void handleUnderGroundComponent(long tick) {
+    private void handleUnderGroundComponent(double tick) {
         List<EntityECS> underGroundList = EntityManager.getInstance()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.UNDER_GROUND));
@@ -54,7 +54,7 @@ public class AbilitySystem extends SystemECS implements Runnable {
     }
 
     //TODO: continue Implementing when have entity Factory
-    private void handleSpawnMinionComponent(long tick) {
+    private void handleSpawnMinionComponent(double tick) {
         List<EntityECS> entityList = EntityManager.getInstance()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.SPAWN_MINION));
@@ -72,7 +72,7 @@ public class AbilitySystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleHealingAbility(long tick) {
+    private void handleHealingAbility(double tick) {
         List<EntityECS> entityList = EntityManager.getInstance()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.HEALING_ABILITY));
@@ -102,7 +102,7 @@ public class AbilitySystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleBuffAbility(long tick) {
+    private void handleBuffAbility(double tick) {
         List<EntityECS> buffTowerList = EntityManager.getInstance()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.TOWER_ABILITY));

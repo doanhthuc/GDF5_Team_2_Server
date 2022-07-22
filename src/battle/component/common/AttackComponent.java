@@ -30,8 +30,8 @@ public class AttackComponent extends Component {
         this.damage = damage;
         this.targetStrategy = targetStrategy;
         this.range = range;
-        this.speed = speed*1000;
-        this.countdown = countdown * 1000;
+        this.speed = speed;
+        this.countdown = countdown;
       //  System.out.println("countdown "+this.countdown);
         this.effects.add(new DamageEffect(this.damage));
     }
@@ -76,7 +76,7 @@ public class AttackComponent extends Component {
     }
 
     public double getRange() {
-        return range;
+        return this.range;
     }
 
     public double getSpeed() {

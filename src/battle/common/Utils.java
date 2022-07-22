@@ -54,7 +54,8 @@ public class Utils {
     }
 
     public static double euclidDistance(Point pointA, Point pointB) {
-        return Math.sqrt(Math.pow(pointA.getX() - pointB.getX(), 2) + Math.pow(pointA.getX() - pointB.getY(), 2));
+        double distance = Math.sqrt(Math.pow(pointA.getX() - pointB.getX(), 2) + Math.pow(pointA.getY() - pointB.getY(), 2));
+        return distance;
     }
 
     public static double euclidDistance(PositionComponent pointA, PositionComponent pointB) {
@@ -83,14 +84,17 @@ public class Utils {
     public Point calculateVelocityVector(Point startPos, Point targetPos, double speed) {
         double Xa = startPos.getX(), Ya = startPos.getY(), Xb = targetPos.getX(), Yb = targetPos.getY();
         if (Xa - Xb == 0)
-            return new Point(0, Math.signum((Yb - Ya) * speed));
+            return new Point(0, Math.signum(Yb - Ya) * speed);
         if (Ya - Yb == 0)
-            return new Point(Math.signum((Xb - Xa) * speed), 0);
+            return new Point(Math.signum(Xb - Xa) * speed, 0);
 
-        double k = Math.abs(((Ya - Yb) / Xa - Xb));
+        double k = Math.abs((Ya - Yb) / (Xa - Xb));
         double speedX = Math.sqrt(speed * speed / (1 + k * k));
         double speedY = k * speedX;
-        return new Point(Math.signum((Xb - Xa) * speedX), Math.signum((Yb - Ya) * speedY));
+        return new Point(
+                Math.signum(Xb - Xa) * speedX,
+                Math.signum(Yb - Ya) * speedY
+        );
     }
 
     public Point pixel2Cell(double x, double y, EntityMode mode) {
