@@ -3,7 +3,7 @@ package battle.component.common;
 import battle.common.UUIDGeneratorECS;
 
 public class Component {
-    public static int typeID = 0;
+    public  int typeID = 0;
     private String name = "ComponentECS";
     private long id;
     private boolean active;
@@ -14,14 +14,14 @@ public class Component {
     }
 
     public Component(int typeID) {
-        Component.typeID = typeID;
+        this.typeID = typeID;
         this.name = "ComponentECS";
         this.id = UUIDGeneratorECS.genComponentID();
         this.active = true;
     }
 
     public int getTypeID() {
-        return typeID;
+        return this.typeID;
     }
 
     public String getName() {

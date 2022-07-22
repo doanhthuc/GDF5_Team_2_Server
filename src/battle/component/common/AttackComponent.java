@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AttackComponent extends Component {
+    public static int typeID = GameConfig.COMPONENT_ID.ATTACK;
     private String name = "AttackComponent";
     private double originDamage;
     private double damage;
@@ -29,8 +30,9 @@ public class AttackComponent extends Component {
         this.damage = damage;
         this.targetStrategy = targetStrategy;
         this.range = range;
-        this.speed = speed;
-        this.countdown = countdown;
+        this.speed = speed*1000;
+        this.countdown = countdown * 1000;
+      //  System.out.println("countdown "+this.countdown);
         this.effects.add(new DamageEffect(this.damage));
     }
 
@@ -38,7 +40,7 @@ public class AttackComponent extends Component {
         return this.damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(double damage) {
         this.damage = damage;
         for (int i = 0; i < this.effects.size(); i++) {
             DamageEffect effect = (DamageEffect) this.effects.get(i);
@@ -47,10 +49,10 @@ public class AttackComponent extends Component {
             }
         }
     }
-    public AttackComponent clone()
-    {
+
+    public AttackComponent clone() {
         try {
-            return ComponentFactory.getInstance().createAttackComponent(this.damage,this.targetStrategy,this.range,this.speed,this.countdown,this.effects);
+            return ComponentFactory.getInstance().createAttackComponent(this.damage, this.targetStrategy, this.range, this.speed, this.countdown, this.effects);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,5 +101,13 @@ public class AttackComponent extends Component {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public double getOriginSpeed() {
+        return originSpeed;
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class BulletInfoComponent extends InfoComponent {
     private String name = "BulletInfoComponent";
-
+    public static int typeID = GameConfig.COMPONENT_ID.BULLET_INFO;
     private List<EffectComponent> effects;
     private int type;
 

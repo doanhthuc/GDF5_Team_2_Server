@@ -11,7 +11,7 @@ public class SystemECS implements Runnable {
     private long id;
 
     public SystemECS(int typeID) {
-        this.typeID = typeID;
+        SystemECS.typeID = typeID;
         id = UUIDGeneratorECS.genSystemID();
     }
 
@@ -20,7 +20,7 @@ public class SystemECS implements Runnable {
 
     }
 
-    public long getEclapseTime() {
+    public long getElapseTime() {
         this.currentMillis = java.lang.System.currentTimeMillis();
         this.tick = currentMillis - pastMillis;
         this.pastMillis = currentMillis;

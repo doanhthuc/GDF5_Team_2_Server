@@ -23,16 +23,16 @@ public class EntityECS {
         this.components = new HashMap<>();
         this.id = UUIDGeneratorECS.genEntityID();
         this.active = true;
-
         this.mode = mode;
     }
 
     public EntityECS addComponent(Component component) {
-        if (this.components.get(component.typeID) != null) {
+        //System.out.println(component.getTypeID());
+        if (this.components.get(component.getTypeID()) != null) {
             //TODO: check override or not
         }
         component.setActive(true);
-        this.components.put(component.typeID, component);
+        this.components.put(component.getTypeID(), component);
         return this;
     }
 
@@ -62,7 +62,7 @@ public class EntityECS {
     @Override
     public String toString() {
         return "EntityECS{" +
-                "typeID=" + typeID +
+                "typeID=" + this.typeID +
                 ", components=" + components +
                 ", id=" + id +
                 ", active=" + active +
@@ -98,13 +98,13 @@ public class EntityECS {
         this.mode = mode;
     }
 
-    //    public void showComponent() {
-//        Component component = null;
-//        for (int i = 1; i <= 15; i++) {
-//            component = this.getComponent(i);
-//            if (component != null) {
-//                System.out.println(component.name);
-//            }
-//        }
-//    }
+    public void showComponent() {
+        Component component = null;
+        for (int i = 1; i <= 100; i++) {
+            component = this.getComponent(i);
+            if (component != null) {
+                System.out.print(component.getTypeID()+" ");
+            }
+        }
+    }
 }

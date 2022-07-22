@@ -5,6 +5,7 @@ import battle.factory.ComponentFactory;
 
 public class CollisionComponent extends Component {
     private String name = "CollisionComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.COLLISION;
     private double width, height;
 
     public CollisionComponent(double width, double height) {
@@ -31,6 +32,14 @@ public class CollisionComponent extends Component {
 
     public void reset(double width, double height) {
         this.width = width;
+        this.height = height;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
         this.height = height;
     }
 }

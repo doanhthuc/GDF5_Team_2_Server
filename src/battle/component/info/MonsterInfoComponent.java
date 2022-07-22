@@ -8,6 +8,8 @@ import java.util.List;
 
 public class MonsterInfoComponent extends InfoComponent {
     private String name = "MonsterInfoComponent";
+    public static int typeID = GameConfig.COMPONENT_ID.MONSTER_INFO;
+
     private String category;
     private String classs;
     private int energy;
@@ -15,13 +17,13 @@ public class MonsterInfoComponent extends InfoComponent {
     private List<Component> ability;
     private List<EffectComponent> effects;
 
-    public MonsterInfoComponent(String name, String category, String classs, int energy,
+    public MonsterInfoComponent(String category, String classs,int weight, int energy,
                                 int gainEnergy, List<Component> ability, List<EffectComponent> effects) {
         super(GameConfig.COMPONENT_ID.MONSTER_INFO);
-        this.reset(name, category, classs, energy, gainEnergy, ability, effects);
+        this.reset(category, classs, weight, energy, gainEnergy, ability, effects);
     }
 
-    public void reset(String name, String category, String classs, int energy,
+    public void reset( String category, String classs, int weight, int energy,
                       int gainEnergy, List<Component> ability, List<EffectComponent> effects) {
         this.name = name;
         this.category = category;
@@ -34,9 +36,9 @@ public class MonsterInfoComponent extends InfoComponent {
 
     public MonsterInfoComponent clone() {
         try {
-            return ComponentFactory.getInstance().createMonsterInfoComponent(name, category, classs, energy, gainEnergy, ability, effects);
+        //    return ComponentFactory.getInstance().createMonsterInfoComponent(name, category, classs, energy, gainEnergy, ability, effects);
         } catch (Exception e) {
-            return null;
         }
+        return null;
     }
 }

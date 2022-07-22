@@ -4,10 +4,11 @@ import battle.component.common.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ComponentPool {
     public String name = "ComponentObjectPool";
-    private HashMap<Integer, ArrayList<Component>> store;
+    private HashMap<Integer, List<Component>> store;
 
     public ComponentPool() {
         store = new HashMap<>();
@@ -18,7 +19,10 @@ public class ComponentPool {
     }
 
     public Component checkOut(int typeID) {
-        for (Component component : this.store.get(typeID)) {
+        //System.out.println(typeID);
+        List<Component> components = this.store.get(typeID);
+        if (components == null) return null;
+        for (Component component : components) {
             if (!component.getActive()) {
                 component.setActive(true);
                 return component;

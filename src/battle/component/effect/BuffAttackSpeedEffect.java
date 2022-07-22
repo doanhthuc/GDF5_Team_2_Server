@@ -4,6 +4,7 @@ import battle.config.GameConfig;
 
 public class BuffAttackSpeedEffect extends EffectComponent {
     private String name = "BuffAttackSpeedEffect";
+    public static int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED;
     private double percent;
 
     public BuffAttackSpeedEffect(double percent) {
@@ -17,5 +18,9 @@ public class BuffAttackSpeedEffect extends EffectComponent {
 
     public void reset(double percent) {
         this.percent = percent;
+    }
+
+    public double getPercent() {
+        return percent;
     }
 }
