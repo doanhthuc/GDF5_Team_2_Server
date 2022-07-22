@@ -103,7 +103,7 @@ public class EntityFactory {
 
         VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.8 * GameConfig.TILE_WIDTH, 0, null);
         CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 30);
-        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(100000);
+        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(50);
 
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);

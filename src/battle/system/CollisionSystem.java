@@ -83,7 +83,6 @@ public class CollisionSystem extends SystemECS implements Runnable {
                     if (bulletInfo.getType() == 1000) {
 
                     } else {
-                        System.out.println("Collision line 87");
                         if (bulletInfo.getRadius() > 0) {
                             List<EntityECS> monsterList = EntityManager.getInstance()
                                     .getEntitiesHasComponents(

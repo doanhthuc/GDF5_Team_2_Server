@@ -4,21 +4,21 @@ import battle.common.EntityMode;
 import battle.common.Point;
 import battle.component.common.CollisionComponent;
 import battle.component.common.PositionComponent;
+import battle.component.effect.EffectComponent;
 import battle.component.info.BulletInfoComponent;
+import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.component.info.TowerInfoComponent;
 import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
-import battle.system.AttackSystem;
-import battle.system.CollisionSystem;
-import battle.system.MovementSystem;
-import battle.system.PathMonsterSystem;
+import battle.system.*;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
 
-public class BattleVisualization extends JFrame {
+public class BattleVisualization extends JFrame implements MouseListener {
 
     static int width = 7;
     static int height = 5;
@@ -48,6 +48,9 @@ public class BattleVisualization extends JFrame {
     MovementSystem movementSystem;
     PathMonsterSystem pathMonsterSystem;
     CollisionSystem collisionSystem;
+    EffectSystem effectSystem;
+    LifeSystem lifeSystem;
+
     public static void main(String[] args) throws Exception {
         new BattleVisualization();
 
@@ -61,10 +64,8 @@ public class BattleVisualization extends JFrame {
         G = B.getGraphics();
         this.setVisible(true);
 
-        this.attackSystem = new AttackSystem();
-        this.pathMonsterSystem = new PathMonsterSystem();
-        this.movementSystem = new MovementSystem();
-        this.collisionSystem = new CollisionSystem();
+        this.initSystem();
+
         this.entityManager = EntityManager.getInstance();
         this.initTower();
     }
@@ -80,7 +81,6 @@ public class BattleVisualization extends JFrame {
         this.updateSystem();
 
 
-
         for (int i = 0; i <= height; i++)
             G.drawLine(paddingY / scale, (paddingY + i * tileHeight) / scale,
                     (paddingY + width * tileHeight) / scale, (paddingY + i * tileHeight) / scale);
@@ -94,9 +94,15 @@ public class BattleVisualization extends JFrame {
         for (EntityECS monster : monsterList) {
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) monster.getComponent(CollisionComponent.typeID);
+            LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
             G.setColor(Color.BLACK);
             Point p = this.getMonsterPos(positionComponent, collisionComponent);
             G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() / scale, (int) collisionComponent.getHeight() / scale);
+
+            G.setColor(Color.YELLOW);
+            G.setFont(new Font("Arial Black", Font.BOLD, 10));
+            G.drawString(Double.toString(lifeComponent.getHp()), (int) p.x, (int) p.y);
+
         }
 
         List<EntityECS> towerList = this.entityManager.getEntitiesHasComponents(Collections.singletonList(TowerInfoComponent.typeID));
@@ -120,11 +126,22 @@ public class BattleVisualization extends JFrame {
         this.repaint();
     }
 
+    public void initSystem() {
+        this.attackSystem = new AttackSystem();
+        this.pathMonsterSystem = new PathMonsterSystem();
+        this.movementSystem = new MovementSystem();
+        this.collisionSystem = new CollisionSystem();
+        this.effectSystem = new EffectSystem();
+        this.lifeSystem = new LifeSystem();
+    }
+
     public void updateSystem() {
         attackSystem.run();
         pathMonsterSystem.run();
         movementSystem.run();
         collisionSystem.run();
+        effectSystem.run();
+        lifeSystem.run();
     }
 
     public Point getTowerPos(PositionComponent pos) {
@@ -138,5 +155,30 @@ public class BattleVisualization extends JFrame {
     public void initTower() throws Exception {
         EntityFactory.getInstance().createCannonOwlTower(new Point(3, 3), EntityMode.PLAYER);
         EntityFactory.getInstance().createSwordManMonster(new Point(0, 4), EntityMode.PLAYER);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        //System.out.println(e.getX() + " " + e.getY());
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

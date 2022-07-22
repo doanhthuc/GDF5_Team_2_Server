@@ -25,7 +25,6 @@ public class EffectSystem extends SystemECS implements Runnable {
     @Override
     public void run() {
         this.tick = this.getElapseTime();
-        java.lang.System.out.println(this.tick);
         this.handleBuffAttackRangeEffect();
         this.handleBuffAttackSpeedEffect(tick);
         this.handleBuffAttackDamageEffect(tick);
@@ -38,7 +37,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         List<Integer> componentIdList = Arrays.asList(
                 GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED, GameConfig.COMPONENT_ID.ATTACK);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity: entityList) {
+        for (EntityECS entity : entityList) {
             AttackComponent attackComponent = (AttackComponent) entity.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             BuffAttackSpeedEffect buffAttackSpeedComponent = (BuffAttackSpeedEffect) entity.getComponent(GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED);
 
@@ -50,7 +49,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         List<Integer> componentIdList = Arrays.asList(
                 GameConfig.COMPONENT_ID.BUFF_ATTACK_DAMAGE, GameConfig.COMPONENT_ID.ATTACK);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity: entityList) {
+        for (EntityECS entity : entityList) {
             AttackComponent attackComponent = (AttackComponent) entity.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED);
 
@@ -78,7 +77,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         List<Integer> componentIdList = Arrays.asList(
                 GameConfig.COMPONENT_ID.FROZEN_EFFECT, GameConfig.COMPONENT_ID.ATTACK);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity: entityList) {
+        for (EntityECS entity : entityList) {
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(GameConfig.COMPONENT_ID.VELOCITY);
             FrozenEffect frozenComponent = (FrozenEffect) entity.getComponent(GameConfig.COMPONENT_ID.FROZEN_EFFECT);
 
@@ -93,11 +92,11 @@ public class EffectSystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleSlowEffect (double tick) {
+    private void handleSlowEffect(double tick) {
         List<Integer> componentIdList = Arrays.asList(
                 GameConfig.COMPONENT_ID.SLOW_EFFECT, GameConfig.COMPONENT_ID.ATTACK);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity: entityList) {
+        for (EntityECS entity : entityList) {
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(GameConfig.COMPONENT_ID.VELOCITY);
             SlowEffect slowComponent = (SlowEffect) entity.getComponent(GameConfig.COMPONENT_ID.SLOW_EFFECT);
 
@@ -116,7 +115,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         List<Integer> componentIdList = Arrays.asList(
                 GameConfig.COMPONENT_ID.BUFF_ATTACK_RANGE, GameConfig.COMPONENT_ID.ATTACK);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity: entityList) {
+        for (EntityECS entity : entityList) {
             AttackComponent attackComponent = (AttackComponent) entity.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             BuffAttackRangeEffect buffAttackRangeEffect = (BuffAttackRangeEffect) entity.getComponent(GameConfig.COMPONENT_ID.BUFF_ATTACK_RANGE);
 
@@ -124,7 +123,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         }
     }
 
-    private void updateOriginVelocity (VelocityComponent velocityComponent) {
+    private void updateOriginVelocity(VelocityComponent velocityComponent) {
         velocityComponent.setSpeedX(velocityComponent.getOriginSpeedX());
         velocityComponent.setOriginSpeedY(velocityComponent.getSpeedY());
     }
