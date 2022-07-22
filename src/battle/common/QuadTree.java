@@ -112,6 +112,7 @@ public class QuadTree {
             }
         }
         returnObjects.addAll(this.listObjects);
+        System.out.println("QuadTree line 115 " + returnObjects.size());
         return returnObjects;
     }
 

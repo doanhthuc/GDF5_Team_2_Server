@@ -88,12 +88,13 @@ public class AttackSystem extends SystemECS implements Runnable {
                 return monster;
             }
         }
+        return monsterInRange.get(0);
         // TODO: Implement when have burrowed monster
 //        for (EntityECS monster: monsterInRange) {
 //            UnderGround
 //        }
 
-        EntityECS targetMonster = null;
+        /*EntityECS targetMonster = null;
         switch (strategy) {
             case GameConfig.TOWER_TARGET_STRATEGY.MAX_HP: {
                 double maxHP = -1;
@@ -116,6 +117,6 @@ public class AttackSystem extends SystemECS implements Runnable {
             default:
                 throw new Error("Invalid strategy");
         }
-        return targetMonster;
+        return targetMonster;*/
     }
 }

@@ -26,7 +26,7 @@ public class AttackComponent extends Component {
         this.reset(damage, targetStrategy, range, speed, countdown, effects);
     }
 
-    public void reset(double damage, int targetStrategy, double originRange, double speed, double countdown, List<EffectComponent> effects) {
+    public void reset(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
         this.originDamage = damage;
         this.damage = damage;
         this.targetStrategy = targetStrategy;
