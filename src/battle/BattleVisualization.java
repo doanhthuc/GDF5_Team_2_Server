@@ -60,6 +60,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.setTitle("BattleVisualization");
         this.setSize((width * tileWidth + paddingX * 2) / scale, (height * tileHeight + paddingY * 2) / scale);
         this.setDefaultCloseOperation(3);
+        this.addMouseListener(this);
         B = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
         G = B.getGraphics();
         this.setVisible(true);
@@ -159,7 +160,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        //System.out.println(e.getX() + " " + e.getY());
+        System.out.println(e.getX() / tileWidth + " " + e.getY() / tileHeight);
     }
 
     @Override
