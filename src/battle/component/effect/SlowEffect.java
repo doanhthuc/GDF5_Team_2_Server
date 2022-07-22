@@ -1,12 +1,14 @@
 package battle.component.effect;
 
 import battle.config.GameConfig;
+import battle.factory.ComponentFactory;
 
 public class SlowEffect extends EffectComponent {
     private String name = "SlowEffect";
     public static int typeID = GameConfig.COMPONENT_ID.SLOW_EFFECT;
     private double duration;
     private double percent;
+    private double countdown;
 
     public double getDuration() {
         return duration;
@@ -31,11 +33,25 @@ public class SlowEffect extends EffectComponent {
     }
 
     public SlowEffect clone() {
-        return new SlowEffect(this.duration, this.percent);
+        try {
+            return ComponentFactory.getInstance().createSlowEffect(duration, percent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void reset(double duration, double percent) {
         this.duration = duration;
         this.percent = percent;
+        this.countdown = this.duration;
+    }
+
+    public double getCountdown() {
+        return countdown;
+    }
+
+    public void setCountdown(double countdown) {
+        this.countdown = countdown;
     }
 }

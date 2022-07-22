@@ -3,8 +3,7 @@ package battle.factory;
 import battle.common.EntityMode;
 import battle.common.Point;
 import battle.component.common.*;
-import battle.component.effect.EffectComponent;
-import battle.component.effect.TowerAbilityComponent;
+import battle.component.effect.*;
 import battle.component.info.*;
 import battle.config.GameConfig;
 import battle.manager.ComponentManager;
@@ -21,12 +20,12 @@ public class ComponentFactory {
         return _instance;
     }
 
-    public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, int type) throws Exception {
+    public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, int type, double radius) throws Exception {
         BulletInfoComponent bulletInfoComponent = (BulletInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.BULLET_INFO);
         if (bulletInfoComponent != null) {
-            bulletInfoComponent.reset(effects, type);
+            bulletInfoComponent.reset(effects, type, radius);
         } else {
-            bulletInfoComponent = new BulletInfoComponent(effects, type);
+            bulletInfoComponent = new BulletInfoComponent(effects, type, radius);
             ComponentManager.getInstance().add(bulletInfoComponent);
         }
         return bulletInfoComponent;
@@ -177,4 +176,36 @@ public class ComponentFactory {
         return towerAbilityComponent;
     }
 
+    public SlowEffect createSlowEffect(double duration, double percent) throws Exception {
+        SlowEffect slowEffect = (SlowEffect) this.pool.checkOut(SlowEffect.typeID);
+        if (slowEffect != null) {
+            slowEffect.reset(duration, percent);
+        } else {
+            slowEffect = new SlowEffect(duration, percent);
+            ComponentManager.getInstance().add(slowEffect);
+        }
+        return slowEffect;
+    }
+
+    public FrozenEffect createFrozenEffect(double duration) throws Exception {
+        FrozenEffect frozenEffect = (FrozenEffect) this.pool.checkOut(FrozenEffect.typeID);
+        if (frozenEffect != null) {
+            frozenEffect.reset(duration);
+        } else {
+            frozenEffect = new FrozenEffect(duration);
+            ComponentManager.getInstance().add(frozenEffect);
+        }
+        return frozenEffect;
+    }
+
+    public BuffAttackRangeEffect createBuffAttackRangeEffect(double percent) throws Exception {
+        BuffAttackRangeEffect buffAttackRangeEffect = (BuffAttackRangeEffect) this.pool.checkOut(BuffAttackRangeEffect.typeID);
+        if (buffAttackRangeEffect != null) {
+            buffAttackRangeEffect.reset(percent);
+        } else {
+            buffAttackRangeEffect = new BuffAttackRangeEffect(percent);
+            ComponentManager.getInstance().add(buffAttackRangeEffect);
+        }
+        return buffAttackRangeEffect;
+    }
 }

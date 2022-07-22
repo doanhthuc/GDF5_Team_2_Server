@@ -39,7 +39,7 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.CANNON_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 1);
+                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, EntityMode.PLAYER.value, 0);
                 collisionComponent = ComponentFactory.getInstance().createCollisionComponent(5, 5);
 
                 bulletSpeed = 5 * GameConfig.TILE_WIDTH;
@@ -55,7 +55,7 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.BEAR_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 2);
+                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 2, 0);
                 collisionComponent = ComponentFactory.getInstance().createCollisionComponent(1, 1);
                 bulletSpeed = 4 * GameConfig.TILE_WIDTH;
                 speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
@@ -70,7 +70,7 @@ public class EntityFactory {
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
 
-                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 3);
+                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 3, 0);
                 collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 20);
 
                 List<Point> path = new ArrayList<>();

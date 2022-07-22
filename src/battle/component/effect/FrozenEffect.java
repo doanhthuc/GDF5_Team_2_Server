@@ -1,6 +1,7 @@
 package battle.component.effect;
 
 import battle.config.GameConfig;
+import battle.factory.ComponentFactory;
 
 public class FrozenEffect extends EffectComponent {
     private String name ="Frozen Effect";
@@ -32,6 +33,17 @@ public class FrozenEffect extends EffectComponent {
     }
     public FrozenEffect clone()
     {
-        return new FrozenEffect(duration);
+        try {
+            return ComponentFactory.getInstance().createFrozenEffect(this.duration);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void reset(double duration)
+    {
+        this.duration=duration;
+        this.countdown=this.duration;
     }
 }

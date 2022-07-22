@@ -66,7 +66,11 @@ public class BattleVisualization extends JFrame {
         G.fillRect(0, 0, this.getWidth(), this.getHeight());
         G.setColor(Color.BLUE);
         G.drawRect(0, 0, this.getWidth(), this.getHeight());
+
         attackSystem.run();
+
+
+
         for (int i = 0; i <= height; i++)
             G.drawLine(paddingY / scale, (paddingY + i * tileHeight) / scale,
                     (paddingY + width * tileHeight) / scale, (paddingY + i * tileHeight) / scale);
