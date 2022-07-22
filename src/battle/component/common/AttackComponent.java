@@ -14,6 +14,7 @@ public class AttackComponent extends Component {
     private double originDamage;
     private double damage;
     private int targetStrategy;
+    private double originRange;
     private double range;
     private double originSpeed;
     private double speed;
@@ -25,7 +26,7 @@ public class AttackComponent extends Component {
         this.reset(damage, targetStrategy, range, speed, countdown, effects);
     }
 
-    public void reset(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
+    public void reset(double damage, int targetStrategy, double originRange, double speed, double countdown, List<EffectComponent> effects) {
         this.originDamage = damage;
         this.damage = damage;
         this.targetStrategy = targetStrategy;
@@ -75,6 +76,10 @@ public class AttackComponent extends Component {
         this.targetStrategy = targetStrategy;
     }
 
+    public void setRange(double range) {
+        this.range = range;
+    }
+
     public double getRange() {
         return this.range;
     }
@@ -109,5 +114,13 @@ public class AttackComponent extends Component {
 
     public double getOriginSpeed() {
         return originSpeed;
+    }
+
+    public double getOriginRange() {
+        return originRange;
+    }
+
+    public void setOriginRange(double originRange) {
+        this.originRange = originRange;
     }
 }

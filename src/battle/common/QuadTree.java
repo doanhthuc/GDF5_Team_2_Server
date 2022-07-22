@@ -1,31 +1,8 @@
 package battle.common;
 
-import battle.entity.EntityECS;
-
 import java.util.ArrayList;
 import java.util.List;
 
-enum Direction {
-    TOP_RIGHT(0),
-    TOP_LEFT(1),
-    BOTTOM_LEFT(2),
-    BOTTOM_RIGHT(3);
-
-    public int value;
-
-    Direction(int value) {
-        this.value = value;
-    }
-}
-class QuadTreeData {
-    public Rect pRect;
-    public EntityECS entity;
-
-    public QuadTreeData(Rect pRect, EntityECS entity) {
-        this.pRect = pRect;
-        this.entity = entity;
-    }
-}
 
 public class QuadTree {
     private int MAX_OBJECTS;

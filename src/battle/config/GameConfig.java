@@ -34,8 +34,9 @@ public class GameConfig {
         public static int UNDER_GROUND = 18;
         public static int SPAWN_MINION = 19;
         public static int HEALING_ABILITY = 20;
-        public static int SPRITE_SHEET = 20;
-        public static int TOWER_ABILITY = 21;
+        public static int SPRITE_SHEET = 21;
+        public static int TOWER_ABILITY = 22;
+        public static int BUFF_ATTACK_RANGE = 23;
     }
     public static class HOUSE_POSITION {
         public static double x = 6;
