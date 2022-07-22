@@ -23,12 +23,12 @@ public class MovementSystem extends SystemECS {
 
     @Override
     public void run() {
-        this.tick = this.getEclapseTime();
+        this.tick = this.getElapseTime();
         //Get Movement Entity
-        List<Integer> movementEntitylistIds = new ArrayList<>();
-        movementEntitylistIds.add(VelocityComponent.typeID);
-        movementEntitylistIds.add(PositionComponent.typeID);
-        List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(movementEntitylistIds);
+        List<Integer> movementEntityListIds = new ArrayList<>();
+        movementEntityListIds.add(VelocityComponent.typeID);
+        movementEntityListIds.add(PositionComponent.typeID);
+        List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(movementEntityListIds);
 
         for (EntityECS monster : entityList) {
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
@@ -40,8 +40,8 @@ public class MovementSystem extends SystemECS {
             }
 
             if (velocityComponent.getActive()) {
-                double moveDistanceX = velocityComponent.getSpeedX() * tick;
-                double moveDistanceY = velocityComponent.getSpeedY() * tick;
+                double moveDistanceX = velocityComponent.getSpeedX() * (tick * 1.0 / 1000);
+                double moveDistanceY = velocityComponent.getSpeedY() * (tick * 1.0 / 1000);
                 positionComponent.setX(positionComponent.getX() + moveDistanceX);
                 positionComponent.setY(positionComponent.getY() + moveDistanceY);
                 double moveDistance = Math.sqrt(Math.pow(moveDistanceX, 2) + Math.pow(moveDistanceY, 2));

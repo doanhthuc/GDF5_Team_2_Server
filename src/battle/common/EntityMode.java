@@ -4,7 +4,7 @@ public enum EntityMode{
     PLAYER(0),
     OPPONENT(1);
 
-    private int value;
+    public final int value;
 
     EntityMode(int value) {
         this.value = value;

@@ -3,6 +3,7 @@ package battle.pool;
 import battle.entity.EntityECS;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EntityPool {
     public ArrayList<ArrayList<EntityECS>> pool = new ArrayList<>();

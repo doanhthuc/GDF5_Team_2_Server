@@ -14,6 +14,7 @@ public class AttackComponent extends Component {
     private double originDamage;
     private double damage;
     private int targetStrategy;
+    private double originRange;
     private double range;
     private double originSpeed;
     private double speed;
@@ -32,6 +33,7 @@ public class AttackComponent extends Component {
         this.range = range;
         this.speed = speed;
         this.countdown = countdown;
+      //  System.out.println("countdown "+this.countdown);
         this.effects.add(new DamageEffect(this.damage));
     }
 
@@ -39,7 +41,7 @@ public class AttackComponent extends Component {
         return this.damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(double damage) {
         this.damage = damage;
         for (int i = 0; i < this.effects.size(); i++) {
             DamageEffect effect = (DamageEffect) this.effects.get(i);
@@ -48,10 +50,10 @@ public class AttackComponent extends Component {
             }
         }
     }
-    public AttackComponent clone()
-    {
+
+    public AttackComponent clone() {
         try {
-            return ComponentFactory.getInstance().createAttackComponent(this.damage,this.targetStrategy,this.range,this.speed,this.countdown,this.effects);
+            return ComponentFactory.getInstance().createAttackComponent(this.damage, this.targetStrategy, this.range, this.speed, this.countdown, this.effects);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,8 +76,12 @@ public class AttackComponent extends Component {
         this.targetStrategy = targetStrategy;
     }
 
+    public void setRange(double range) {
+        this.range = range;
+    }
+
     public double getRange() {
-        return range;
+        return this.range;
     }
 
     public double getSpeed() {
@@ -100,5 +106,21 @@ public class AttackComponent extends Component {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public double getOriginSpeed() {
+        return originSpeed;
+    }
+
+    public double getOriginRange() {
+        return originRange;
+    }
+
+    public void setOriginRange(double originRange) {
+        this.originRange = originRange;
     }
 }
