@@ -3,7 +3,7 @@ package battle.factory;
 import battle.common.EntityMode;
 import battle.common.Point;
 import battle.component.common.*;
-import battle.component.effect.EffectComponent;
+import battle.component.effect.*;
 import battle.component.info.*;
 import battle.config.GameConfig;
 import battle.manager.ComponentManager;
@@ -20,12 +20,12 @@ public class ComponentFactory {
         return _instance;
     }
 
-    public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, int type) throws Exception {
+    public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, int type, double radius) throws Exception {
         BulletInfoComponent bulletInfoComponent = (BulletInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.BULLET_INFO);
         if (bulletInfoComponent != null) {
-            bulletInfoComponent.reset(effects, type);
+            bulletInfoComponent.reset(effects, type, radius);
         } else {
-            bulletInfoComponent = new BulletInfoComponent(effects, type);
+            bulletInfoComponent = new BulletInfoComponent(effects, type, radius);
             ComponentManager.getInstance().add(bulletInfoComponent);
         }
         return bulletInfoComponent;
@@ -75,16 +75,16 @@ public class ComponentFactory {
         return pathComponent;
     }
 
-//    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, EffectComponent effect) throws Exception {
-//        MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.MONSTER_INFO);
-//        if (monsterInfoComponent != null) {
-//            monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
-//        } else {
-//            monsterInfoComponent = new MonsterInfoComponent(category, classs, weight, energy, gainEnergy, ability, effect);
-//            ComponentManager.getInstance().add(monsterInfoComponent);
-//        }
-//        return monsterInfoComponent;
-//    }
+    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, List<Component> ability, List<EffectComponent> effect) throws Exception {
+        MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.MONSTER_INFO);
+        if (monsterInfoComponent != null) {
+            monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
+        } else {
+            monsterInfoComponent = new MonsterInfoComponent(category, classs, weight, energy, gainEnergy, ability, effect);
+            ComponentManager.getInstance().add(monsterInfoComponent);
+        }
+        return monsterInfoComponent;
+    }
 
     public LifeComponent createLifeComponent(double hp) throws Exception {
         LifeComponent lifeComponent = (LifeComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.LIFE);
@@ -105,6 +105,7 @@ public class ComponentFactory {
         } else {
             towerInfoComponent = new TowerInfoComponent(energy, bulletTargetType, archType, targetType, bulletType);
             ComponentManager.getInstance().add(towerInfoComponent);
+           // this.pool.checkIn(towerInfoComponent);
         }
         return towerInfoComponent;
     }
@@ -164,4 +165,47 @@ public class ComponentFactory {
         return spellInfoComponent;
     }
 
+    public TowerAbilityComponent createTowerAbilityComponent(double range, EffectComponent effect) throws Exception {
+        TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.TOWER_ABILITY);
+        if (towerAbilityComponent != null) {
+            towerAbilityComponent.reset(range, effect);
+        } else {
+            towerAbilityComponent = new TowerAbilityComponent(range, effect);
+            ComponentManager.getInstance().add(towerAbilityComponent);
+        }
+        return towerAbilityComponent;
+    }
+
+    public SlowEffect createSlowEffect(double duration, double percent) throws Exception {
+        SlowEffect slowEffect = (SlowEffect) this.pool.checkOut(SlowEffect.typeID);
+        if (slowEffect != null) {
+            slowEffect.reset(duration, percent);
+        } else {
+            slowEffect = new SlowEffect(duration, percent);
+            ComponentManager.getInstance().add(slowEffect);
+        }
+        return slowEffect;
+    }
+
+    public FrozenEffect createFrozenEffect(double duration) throws Exception {
+        FrozenEffect frozenEffect = (FrozenEffect) this.pool.checkOut(FrozenEffect.typeID);
+        if (frozenEffect != null) {
+            frozenEffect.reset(duration);
+        } else {
+            frozenEffect = new FrozenEffect(duration);
+            ComponentManager.getInstance().add(frozenEffect);
+        }
+        return frozenEffect;
+    }
+
+    public BuffAttackRangeEffect createBuffAttackRangeEffect(double percent) throws Exception {
+        BuffAttackRangeEffect buffAttackRangeEffect = (BuffAttackRangeEffect) this.pool.checkOut(BuffAttackRangeEffect.typeID);
+        if (buffAttackRangeEffect != null) {
+            buffAttackRangeEffect.reset(percent);
+        } else {
+            buffAttackRangeEffect = new BuffAttackRangeEffect(percent);
+            ComponentManager.getInstance().add(buffAttackRangeEffect);
+        }
+        return buffAttackRangeEffect;
+    }
 }

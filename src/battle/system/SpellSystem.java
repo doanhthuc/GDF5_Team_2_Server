@@ -15,6 +15,7 @@ import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SpellSystem extends SystemECS {
@@ -27,10 +28,9 @@ public class SpellSystem extends SystemECS {
 
     @Override
     public void run() {
-        this.tick = this.getEclapseTime();
-        List<Integer> spellIds = new ArrayList<>();
-        spellIds.add(SpellInfoComponent.typeID);
-        List<EntityECS> spellList = EntityManager.getInstance().getEntitiesHasComponents(spellIds);
+        this.tick = this.getElapseTime();
+        List<EntityECS> spellList = EntityManager.getInstance().getEntitiesHasComponents
+                (Collections.singletonList(SpellInfoComponent.typeID));
 
         for (EntityECS spellEntity : spellList) {
             SpellInfoComponent spellInfoComponent = (SpellInfoComponent) spellEntity.getComponent(SpellInfoComponent.typeID);

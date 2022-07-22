@@ -25,7 +25,7 @@ public class PathMonsterSystem extends SystemECS {
 
     @Override
     public void run() {
-        this.tick = this.getEclapseTime();
+        this.tick = this.getElapseTime();
         List<Integer> pathComponentIds = Arrays.asList(PathComponent.typeID);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(pathComponentIds);
 

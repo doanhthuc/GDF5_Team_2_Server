@@ -21,7 +21,7 @@ public class PositionComponent extends Component {
     public void reset(double x, double y) {
         this.x = x;
         this.y = y;
-        this.moveDistance=0;
+        this.moveDistance = 0;
     }
 
     public PositionComponent clone(){

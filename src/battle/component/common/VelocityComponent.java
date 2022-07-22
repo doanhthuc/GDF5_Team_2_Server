@@ -32,7 +32,7 @@ public class VelocityComponent extends Component {
     }
 
     public double getSpeedX() {
-        return speedX;
+        return this.speedX;
     }
 
     public void setSpeedX(double speedX) {
@@ -40,7 +40,7 @@ public class VelocityComponent extends Component {
     }
 
     public double getSpeedY() {
-        return speedY;
+        return this.speedY;
     }
 
     public void setSpeedY(double speedY) {
