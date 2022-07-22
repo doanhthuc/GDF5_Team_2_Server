@@ -10,6 +10,7 @@ import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +45,11 @@ public class AttackSystem extends SystemECS implements Runnable {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             double countDown = attackComponent.getCountdown();
             if (countDown > 0) {
-                attackComponent.setCountdown(countDown - tick);
+                attackComponent.setCountdown(countDown - tick*1.0/1000);
             }
             if (countDown <= 0) {
                 List<EntityECS> monsterInRange = new ArrayList<>();
+
                 for (EntityECS monster : monsterList) {
                     if (monster.getActive() && monster.getMode() == tower.getMode()) {
                         double distance = this._distanceFrom(tower, monster);
@@ -76,6 +78,7 @@ public class AttackSystem extends SystemECS implements Runnable {
     public double _distanceFrom(EntityECS tower, EntityECS monster) {
         PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
         PositionComponent monsterPos = (PositionComponent) monster.getComponent(GameConfig.COMPONENT_ID.POSITION);
+       // System.out.println("AttackSystem Position "+towerPos.getX()+" "+towerPos.getY()+" "+monsterPos.getX()+" "+monsterPos.getY());
         return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
     }
 
@@ -85,12 +88,13 @@ public class AttackSystem extends SystemECS implements Runnable {
                 return monster;
             }
         }
+        return monsterInRange.get(0);
         // TODO: Implement when have burrowed monster
 //        for (EntityECS monster: monsterInRange) {
 //            UnderGround
 //        }
 
-        EntityECS targetMonster = null;
+        /*EntityECS targetMonster = null;
         switch (strategy) {
             case GameConfig.TOWER_TARGET_STRATEGY.MAX_HP: {
                 double maxHP = -1;
@@ -113,6 +117,6 @@ public class AttackSystem extends SystemECS implements Runnable {
             default:
                 throw new Error("Invalid strategy");
         }
-        return targetMonster;
+        return targetMonster;*/
     }
 }

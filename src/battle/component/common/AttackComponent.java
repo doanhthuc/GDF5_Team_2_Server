@@ -26,14 +26,13 @@ public class AttackComponent extends Component {
         this.reset(damage, targetStrategy, range, speed, countdown, effects);
     }
 
-    public void reset(double damage, int targetStrategy, double originRange, double speed, double countdown, List<EffectComponent> effects) {
+    public void reset(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
         this.originDamage = damage;
         this.damage = damage;
         this.targetStrategy = targetStrategy;
-        this.originRange = originRange;
-        this.range = originRange;
-        this.speed = speed*1000;
-        this.countdown = countdown * 1000;
+        this.range = range;
+        this.speed = speed;
+        this.countdown = countdown;
       //  System.out.println("countdown "+this.countdown);
         this.effects.add(new DamageEffect(this.damage));
     }
@@ -82,7 +81,7 @@ public class AttackComponent extends Component {
     }
 
     public double getRange() {
-        return range;
+        return this.range;
     }
 
     public double getSpeed() {

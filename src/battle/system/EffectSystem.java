@@ -34,7 +34,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         this.handleFrozenEffect(tick);
     }
 
-    private void handleBuffAttackSpeedEffect(long tick) {
+    private void handleBuffAttackSpeedEffect(double tick) {
         List<Integer> componentIdList = Arrays.asList(
                 GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED, GameConfig.COMPONENT_ID.ATTACK);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
@@ -46,7 +46,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleBuffAttackDamageEffect(long tick) {
+    private void handleBuffAttackDamageEffect(double tick) {
         List<Integer> componentIdList = Arrays.asList(
                 GameConfig.COMPONENT_ID.BUFF_ATTACK_DAMAGE, GameConfig.COMPONENT_ID.ATTACK);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
@@ -59,7 +59,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleDamageEffect(long tick) {
+    private void handleDamageEffect(double tick) {
         List<Integer> damageEffectID = new ArrayList<>();
         damageEffectID.add(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
         List<EntityECS> damagedEntity = EntityManager.getInstance().getEntitiesHasComponents(damageEffectID);
@@ -74,7 +74,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleFrozenEffect(long tick) {
+    private void handleFrozenEffect(double tick) {
         List<Integer> componentIdList = Arrays.asList(
                 GameConfig.COMPONENT_ID.FROZEN_EFFECT, GameConfig.COMPONENT_ID.ATTACK);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
@@ -93,7 +93,7 @@ public class EffectSystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleSlowEffect (long tick) {
+    private void handleSlowEffect (double tick) {
         List<Integer> componentIdList = Arrays.asList(
                 GameConfig.COMPONENT_ID.SLOW_EFFECT, GameConfig.COMPONENT_ID.ATTACK);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);

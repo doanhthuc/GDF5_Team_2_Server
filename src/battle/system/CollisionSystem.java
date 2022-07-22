@@ -66,9 +66,9 @@ public class CollisionSystem extends SystemECS implements Runnable {
 
         List<QuadTreeData> returnObjects = null;
         if (bulletEntity.getMode() == EntityMode.PLAYER) {
-            returnObjects = quadTreeOpponent.retrieve(new Rect(pos.getX() - w / 2, pos.getY() - h / 2, w, h));
-        } else {
             returnObjects = quadTreePlayer.retrieve(new Rect(pos.getX() - w / 2, pos.getY() - h / 2, w, h));
+        } else {
+            returnObjects = quadTreeOpponent.retrieve(new Rect(pos.getX() - w / 2, pos.getY() - h / 2, w, h));
         }
 
         for (int i = 0; i < returnObjects.size(); i++) {
@@ -83,6 +83,7 @@ public class CollisionSystem extends SystemECS implements Runnable {
                     if (bulletInfo.getType() == 1000) {
 
                     } else {
+                        System.out.println("Collision line 87");
                         if (bulletInfo.getRadius() > 0) {
                             List<EntityECS> monsterList = EntityManager.getInstance()
                                     .getEntitiesHasComponents(
@@ -90,13 +91,14 @@ public class CollisionSystem extends SystemECS implements Runnable {
                             for (EntityECS monsterEntity : monsterList) {
                                 PositionComponent monsterPos = (PositionComponent) monsterEntity.getComponent(GameConfig.COMPONENT_ID.POSITION);
                                 if (Utils.euclidDistance(monsterPos, pos) <= bulletInfo.getRadius()) {
-                                   for (EffectComponent effect: bulletInfo.getEffects()) {
-                                       monsterEntity.addComponent(effect.clone());
-                                   }
+                                    for (EffectComponent effect : bulletInfo.getEffects()) {
+                                        monsterEntity.addComponent(effect.clone());
+                                    }
                                 }
                             }
+
                         } else {
-                            for (EffectComponent effect: bulletInfo.getEffects()) {
+                            for (EffectComponent effect : bulletInfo.getEffects()) {
                                 monster.addComponent(effect.clone());
                             }
                         }
@@ -108,13 +110,13 @@ public class CollisionSystem extends SystemECS implements Runnable {
         }
     }
 
-    public void handleCollisionTrap(EntityECS trapEntity, long tick) {
+    public void handleCollisionTrap(EntityECS trapEntity, double tick) {
 
     }
 
     private boolean isCollide(EntityECS entity1, EntityECS entity2) {
         PositionComponent pos1 = (PositionComponent) entity1.getComponent(GameConfig.COMPONENT_ID.POSITION);
-        PositionComponent pos2 = (PositionComponent) entity1.getComponent(GameConfig.COMPONENT_ID.POSITION);
+        PositionComponent pos2 = (PositionComponent) entity2.getComponent(GameConfig.COMPONENT_ID.POSITION);
         CollisionComponent collision1 = (CollisionComponent) entity1.getComponent(GameConfig.COMPONENT_ID.COLLISION);
         CollisionComponent collision2 = (CollisionComponent) entity2.getComponent(GameConfig.COMPONENT_ID.COLLISION);
         double w1 = collision1.getWidth(), h1 = collision1.getHeight();
