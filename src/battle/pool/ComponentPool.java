@@ -1,34 +1,43 @@
 package battle.pool;
 
-import battle.component.Component.Component;
+import battle.component.common.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ComponentPool {
     public String name = "ComponentObjectPool";
-    ArrayList<ArrayList<Component>> _store= new ArrayList<>();
+    private HashMap<Integer, List<Component>> store;
 
     public ComponentPool() {
-        for(int i=0;i<=100;i++)
-            this._store.add(new ArrayList<>());
+        store = new HashMap<>();
     }
 
     boolean validate(Component component) {
-        return component.getActive() == false;
+        return !component.getActive();
     }
 
     public Component checkOut(int typeID) {
-       for(Component component: this._store.get(typeID))
-       {
-           if (component.getActive()==false) {
-               component.setActive(true);
-               return component;
-           }
-       }
-       return null;
+        //System.out.println(typeID);
+        List<Component> components = this.store.get(typeID);
+        if (components == null) return null;
+        for (Component component : components) {
+            if (!component.getActive()) {
+                component.setActive(true);
+                return component;
+            }
+        }
+        return null;
     }
 
     public void checkIn(Component component) {
-
+        if (store.containsKey(component.getTypeID())) {
+            store.get(component.getTypeID()).add(component);
+        } else {
+            ArrayList<Component> list = new ArrayList<>();
+            list.add(component);
+            store.put(component.getTypeID(), list);
+        }
     }
 }

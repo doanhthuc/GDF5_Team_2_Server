@@ -3,6 +3,8 @@ package extension;
 
 import battle.Battle;
 import battle.BattleMap;
+import battle.BattleVisualization;
+import battle.Bida;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -57,7 +59,12 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
-
+        try {
+            BattleVisualization xh = new BattleVisualization();
+          //  Bida bida= new Bida();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        initBattle();
 
         trace("  Register Handler ");

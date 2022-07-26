@@ -55,7 +55,7 @@ public class BattleMap {
         this.show();
 
         this.battleMapObject = new BattleMapObject(this.map);
-        this.battleMapObject.showConsole();
+//        this.battleMapObject.showConsole();
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
     public BattleMap(int X)

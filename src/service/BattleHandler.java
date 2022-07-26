@@ -58,8 +58,8 @@ public class BattleHandler extends BaseClientRequestHandler {
             System.out.println("[BattleHandler.java line 50] cmdId: " + dataCmd.getId());
             switch (dataCmd.getId()) {
                 case CmdDefine.GET_BATTLE_MAP:
-                    System.out.println("[BattleHandler.java line 54] GET_BATTLE_MAP cmdId: " + dataCmd.getId());
-                    processGetBattleMap(user);
+//                    System.out.println("[BattleHandler.java line 54] GET_BATTLE_MAP cmdId: " + dataCmd.getId());
+//                    processGetBattleMap(user);
                     break;
                 case CmdDefine.PUT_TOWER:
                     System.out.println("[BattleHandler.java line 55] cmd Put tower: " + CmdDefine.PUT_TOWER);

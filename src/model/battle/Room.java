@@ -13,14 +13,14 @@ public class Room implements Runnable {
     private PlayerInBattle player2;
     private Battle battle;
 
-    public Room(PlayerInfo player1, PlayerInfo player2) {
+    public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
         this.battle = new Battle();
     }
 
-    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) {
+    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
@@ -34,10 +34,10 @@ public class Room implements Runnable {
 
         System.out.println("Hello AAAA");
 //        System.out.println("Room java line 31 " + this.battle.attackSystem);
-         BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
-             this.battle.attackSystem.run();
-
-         },0,100, TimeUnit.MILLISECONDS);
+//         BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
+//             this.battle.attackSystem.run();
+//
+//         },0,100, TimeUnit.MILLISECONDS);
 
 //        this.battle.attackSystem.run();
     }

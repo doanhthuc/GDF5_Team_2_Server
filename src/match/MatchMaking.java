@@ -90,20 +90,18 @@ public class MatchMaking implements Runnable {
 
             OpponentInfo opponentInfoOfUser1 = new OpponentInfo(userInfo2.getId(), userInfo2.getUserName(), userInfo2.getTrophy());
             OpponentInfo opponentInfoOfUser2 = new OpponentInfo(userInfo1.getId(), userInfo1.getUserName(), userInfo1.getTrophy());
-
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             BattleMap user1Map = new BattleMap();
             BattleMap user2Map = new BattleMap();
-
+            System.out.println("pppppppppppppppppppppppppppppppppppp");
             Room room = new Room(userInfo1, userInfo2, user1Map, user2Map);
             RoomManager.getInstance().addRoom(room);
             new Thread(room).start();
             // add opponent's username, trophy and 8 card
-
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getRoomId(), user1Map, user2Map, opponentInfoOfUser1), user1);
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getRoomId(), user2Map, user1Map, opponentInfoOfUser2), user2);
-
 
 
             waitingQueue.remove(matchingInfo1);
