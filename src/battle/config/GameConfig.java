@@ -38,10 +38,12 @@ public class GameConfig {
         public static int TOWER_ABILITY = 22;
         public static int BUFF_ATTACK_RANGE = 23;
     }
+
     public static class HOUSE_POSITION {
         public static double x = 6;
         public static double y = 0;
     }
+
     public static class ENTITY_ID {
         public static final int CANNON_TOWER = 0;
         public static final int WIZARD_TOWER = 1;
@@ -93,7 +95,8 @@ public class GameConfig {
 
     public static class GROUP_ID {
         public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.BEAR_TOWER, ENTITY_ID.BEAR_TOWER, ENTITY_ID.CANNON_TOWER);
-        public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN);
+        public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.DEMON_TREE, ENTITY_ID.DEMON_TREE_MINION, ENTITY_ID.ASSASSIN,
+                ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
         public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET);
         public static List<Integer> EFFECT_COMPONENT = Arrays.asList(COMPONENT_ID.DAMAGE_EFFECT, COMPONENT_ID.FROZEN_EFFECT, COMPONENT_ID.SLOW_EFFECT);
         public static List<Integer> INFO_COMPONENT = Arrays.asList(COMPONENT_ID.BULLET_INFO, COMPONENT_ID.TOWER_INFO, COMPONENT_ID.MONSTER_INFO);
