@@ -5,28 +5,22 @@ import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.CollisionComponent;
 import battle.component.common.PositionComponent;
-import battle.component.effect.EffectComponent;
 import battle.component.info.BulletInfoComponent;
 import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.component.info.TowerInfoComponent;
+import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
 import battle.system.*;
-import com.sun.org.apache.xalan.internal.xsltc.trax.Util;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import javax.swing.JFrame;
 
 public class BattleVisualization extends JFrame implements MouseListener {
@@ -55,14 +49,15 @@ public class BattleVisualization extends JFrame implements MouseListener {
     AbilitySystem abilitySystem;
     public static void main(String[] args) throws Exception {
         new BattleVisualization();
-
     }
+    Map<Integer, Color> colorMap = new HashMap<>();
 
     public BattleVisualization() throws Exception {
         this.setTitle("BattleVisualization");
         this.setSize((width * tileWidth + paddingX * 5) * scale, (height * tileHeight + paddingY * 5) * scale);
         this.setDefaultCloseOperation(3);
         this.addMouseListener(this);
+        this.initColor();
         B = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
         G = B.getGraphics();
         this.setVisible(true);
@@ -98,11 +93,9 @@ public class BattleVisualization extends JFrame implements MouseListener {
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) monster.getComponent(CollisionComponent.typeID);
             LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
-            G.setColor(Color.BLACK);
+            G.setColor(colorMap.get(monster.getTypeID()));
             Point p = this.getMonsterPos(positionComponent, collisionComponent);
             G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() * scale, (int) collisionComponent.getHeight() * scale);
-
-            G.setColor(Color.YELLOW);
             G.setFont(new Font("Arial Black", Font.BOLD, 30));
             G.drawString(Double.toString(lifeComponent.getHp()), (int) p.x, (int) p.y);
 
@@ -111,7 +104,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         List<EntityECS> towerList = this.entityManager.getEntitiesHasComponents(Collections.singletonList(TowerInfoComponent.typeID));
         for (EntityECS tower : towerList) {
             PositionComponent positionComponent = (PositionComponent) tower.getComponent(PositionComponent.typeID);
-            G.setColor(Color.RED);
+            G.setColor(colorMap.get(tower.getTypeID()));
             Point p = this.getTowerPos(positionComponent);
             G.fillRect((int) p.x, (int) p.y, tileWidth * scale, tileHeight * scale);
         }
@@ -158,11 +151,34 @@ public class BattleVisualization extends JFrame implements MouseListener {
     }
 
     public void initTower() throws Exception {
-        EntityFactory.getInstance().createCannonOwlTower(new Point(3, 3), EntityMode.PLAYER);
-        //EntityFactory.getInstance().createSwordManMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
-        Thread.sleep(1000);
+        EntityFactory.getInstance().createIceGunPolarBearTower(new Point(3, 3), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createSwordManMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createAssassinMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createBatMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createGiantMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createNinjaMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createDarkGiantBoss(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createSatyrBoss(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
         EntityFactory.getInstance().createDemonTreeBoss(Utils.tile2Pixel(0,4,EntityMode.PLAYER),EntityMode.PLAYER);
+        Thread.sleep(1000);
+
+
     }
+
+    public void initColor(){
+        this.colorMap.put(GameConfig.ENTITY_ID.SWORD_MAN,Color.YELLOW);
+        this.colorMap.put(GameConfig.ENTITY_ID.ASSASSIN,Color.RED);
+        this.colorMap.put(GameConfig.ENTITY_ID.BAT,Color.BLACK);
+        this.colorMap.put(GameConfig.ENTITY_ID.GIANT,Color.BLUE);
+        this.colorMap.put(GameConfig.ENTITY_ID.NINJA,Color.CYAN);
+        this.colorMap.put(GameConfig.ENTITY_ID.DARK_GIANT,Color.PINK);
+        this.colorMap.put(GameConfig.ENTITY_ID.SATYR,Color.GREEN);
+        this.colorMap.put(GameConfig.ENTITY_ID.DEMON_TREE,Color.ORANGE);
+        this.colorMap.put(GameConfig.ENTITY_ID.CANNON_TOWER,Color.RED);
+        this.colorMap.put(GameConfig.ENTITY_ID.BEAR_TOWER,Color.CYAN);
+    }
+
+
 
     @Override
     public void mouseClicked(MouseEvent e) {

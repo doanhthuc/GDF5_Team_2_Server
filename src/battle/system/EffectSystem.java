@@ -75,13 +75,13 @@ public class EffectSystem extends SystemECS implements Runnable {
 
     private void handleFrozenEffect(double tick) {
         List<Integer> componentIdList = Arrays.asList(
-                GameConfig.COMPONENT_ID.FROZEN_EFFECT, GameConfig.COMPONENT_ID.ATTACK);
+                GameConfig.COMPONENT_ID.FROZEN_EFFECT);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
         for (EntityECS entity : entityList) {
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(GameConfig.COMPONENT_ID.VELOCITY);
             FrozenEffect frozenComponent = (FrozenEffect) entity.getComponent(GameConfig.COMPONENT_ID.FROZEN_EFFECT);
 
-            frozenComponent.setCountdown(frozenComponent.getCountdown() - tick);
+            frozenComponent.setCountdown(frozenComponent.getCountdown() - tick / 1000);
             if (frozenComponent.getCountdown() <= 0) {
                 entity.removeComponent(frozenComponent);
                 this.updateOriginVelocity(velocityComponent);
