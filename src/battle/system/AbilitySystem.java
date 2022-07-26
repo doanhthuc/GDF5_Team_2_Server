@@ -9,6 +9,7 @@ import battle.component.effect.TowerAbilityComponent;
 import battle.component.info.LifeComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
+import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
 
 import java.util.Collections;
@@ -26,7 +27,11 @@ public class AbilitySystem extends SystemECS implements Runnable {
     public void run() {
         this.tick = this.getElapseTime();
         this.handleUnderGroundComponent(tick);
-//        this.handleSpawnMinionComponent(tick);
+        try {
+            this.handleSpawnMinionComponent(tick);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.handleHealingAbility(tick);
         this.handleBuffAbility(tick);
     }
@@ -54,19 +59,22 @@ public class AbilitySystem extends SystemECS implements Runnable {
     }
 
     //TODO: continue Implementing when have entity Factory
-    private void handleSpawnMinionComponent(double tick) {
+    private void handleSpawnMinionComponent(double tick) throws Exception {
         List<EntityECS> entityList = EntityManager.getInstance()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.SPAWN_MINION));
         for (EntityECS entity : entityList) {
             SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(GameConfig.COMPONENT_ID.SPAWN_MINION);
             if (spawnMinionComponent.getPeriod() >= 0) {
-                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick);
+                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick / 1000);
             } else {
                 spawnMinionComponent.setPeriod(2);
                 PositionComponent positionComponent = (PositionComponent) entity.getComponent(GameConfig.COMPONENT_ID.POSITION);
-                if (spawnMinionComponent.getSpawnAmount() < 5) {
-
+                int spawnAmount = spawnMinionComponent.getSpawnAmount();
+                if (spawnAmount < 5) {
+                    EntityFactory.getInstance().createDemonTreeMinion(
+                            new Point(positionComponent.getX(), positionComponent.getY()), entity.getMode());
+                    spawnMinionComponent.setSpawnAmount(spawnAmount + 1);
                 }
             }
         }

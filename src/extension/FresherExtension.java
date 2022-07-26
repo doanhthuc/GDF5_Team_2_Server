@@ -61,7 +61,7 @@ public class FresherExtension extends BZExtension {
          */
         try {
             BattleVisualization xh = new BattleVisualization();
-          //  Bida bida= new Bida();
+            //Bida bida= new Bida();
         } catch (Exception e) {
             e.printStackTrace();
         }

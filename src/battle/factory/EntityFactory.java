@@ -91,14 +91,13 @@ public class EntityFactory {
         return null;
     }
 
-    public EntityECS createSwordManMonster(Point tilePos, EntityMode mode) throws Exception {
+    public EntityECS createSwordManMonster(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.SWORD_MAN;
         EntityECS entity = new EntityECS(typeID, mode);
         this.pool.push(entity);
         EntityManager.getInstance().addEntity(entity);
 
         MonsterInfoComponent monsterInfoComponent = ComponentFactory.getInstance().createMonsterInfoComponent("normal", "land", 30, 1, 1, null, null);
-        Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
         VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.8 * GameConfig.TILE_WIDTH, 0, null);
@@ -132,6 +131,84 @@ public class EntityFactory {
 
         return entity;
     }
+    public EntityECS createDemonTreeBoss(Point pixelPos, EntityMode mode) throws Exception {
+        int typeID = GameConfig.ENTITY_ID.DEMON_TREE;
+        EntityECS entity = new EntityECS(typeID, mode);
+        this.pool.push(entity);
+        EntityManager.getInstance().addEntity(entity);
+
+        MonsterInfoComponent monsterInfoComponent = ComponentFactory.getInstance().createMonsterInfoComponent("boss", "land", 400, 10, 10, null, null);
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
+
+        VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.4 * GameConfig.TILE_WIDTH, 0, null);
+        CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 30);
+        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(400);
+        SpawnMinionComponent spawnMinionComponent = ComponentFactory.getInstance().createSpawnMinionComponent(2);
+
+        ArrayList<Point> path = new ArrayList<Point>();
+        path.add(Utils.tile2Pixel(0,4, mode));
+        path.add(Utils.tile2Pixel(1,4, mode));
+        path.add(Utils.tile2Pixel(2,4, mode));
+        path.add(Utils.tile2Pixel(3,4, mode));
+        path.add(Utils.tile2Pixel(4,4, mode));
+        path.add(Utils.tile2Pixel(5,4, mode));
+        path.add(Utils.tile2Pixel(6,4, mode));
+        path.add(Utils.tile2Pixel(6,3, mode));
+        path.add(Utils.tile2Pixel(6,2, mode));
+        path.add(Utils.tile2Pixel(6,1, mode));
+        path.add(Utils.tile2Pixel(6,0, mode));
+        //ToDo: find shortest Path with TilePos
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode, true);
+
+        entity.addComponent(monsterInfoComponent);
+        entity.addComponent(positionComponent);
+        entity.addComponent(velocityComponent);
+        entity.addComponent(collisionComponent);
+        entity.addComponent(lifeComponent);
+        entity.addComponent(pathComponent);
+        entity.addComponent(spawnMinionComponent);
+
+        return entity;
+    }
+
+    public EntityECS createDemonTreeMinion(Point pixelPos, EntityMode mode) throws Exception {
+        int typeID = GameConfig.ENTITY_ID.DEMON_TREE_MINION;
+        EntityECS entity = new EntityECS(typeID, mode);
+        this.pool.push(entity);
+        EntityManager.getInstance().addEntity(entity);
+
+        MonsterInfoComponent monsterInfoComponent = ComponentFactory.getInstance().createMonsterInfoComponent("normal", "land", 50, 1, 1, null, null);
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
+
+        VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.8 * GameConfig.TILE_WIDTH, 0, null);
+        CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 30);
+        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(30);
+        // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
+        //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
+        ArrayList<Point> path = new ArrayList<Point>();
+        path.add(Utils.tile2Pixel(0,4, mode));
+        path.add(Utils.tile2Pixel(1,4, mode));
+        path.add(Utils.tile2Pixel(2,4, mode));
+        path.add(Utils.tile2Pixel(3,4, mode));
+        path.add(Utils.tile2Pixel(4,4, mode));
+        path.add(Utils.tile2Pixel(5,4, mode));
+        path.add(Utils.tile2Pixel(6,4, mode));
+        path.add(Utils.tile2Pixel(6,3, mode));
+        path.add(Utils.tile2Pixel(6,2, mode));
+        path.add(Utils.tile2Pixel(6,1, mode));
+        path.add(Utils.tile2Pixel(6,0, mode));
+        //ToDo: find shortest Path with TilePos
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode, true);
+
+        entity.addComponent(monsterInfoComponent);
+        entity.addComponent(positionComponent);
+        entity.addComponent(velocityComponent);
+        entity.addComponent(collisionComponent);
+        entity.addComponent(lifeComponent);
+        entity.addComponent(pathComponent);
+        return entity;
+    }
+
 
     public EntityECS createCannonOwlTower(Point tilePos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
