@@ -2,6 +2,7 @@ package battle;
 
 import battle.common.EntityMode;
 import battle.common.Point;
+import battle.common.Utils;
 import battle.component.common.CollisionComponent;
 import battle.component.common.PositionComponent;
 import battle.component.effect.EffectComponent;
@@ -13,6 +14,7 @@ import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
 import battle.system.*;
+import com.sun.org.apache.xalan.internal.xsltc.trax.Util;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -50,7 +52,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
     CollisionSystem collisionSystem;
     EffectSystem effectSystem;
     LifeSystem lifeSystem;
-
+    AbilitySystem abilitySystem;
     public static void main(String[] args) throws Exception {
         new BattleVisualization();
 
@@ -134,6 +136,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.collisionSystem = new CollisionSystem();
         this.effectSystem = new EffectSystem();
         this.lifeSystem = new LifeSystem();
+        this.abilitySystem = new AbilitySystem();
     }
 
     public void updateSystem() {
@@ -143,6 +146,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         collisionSystem.run();
         effectSystem.run();
         lifeSystem.run();
+        abilitySystem.run();
     }
 
     public Point getTowerPos(PositionComponent pos) {
@@ -155,7 +159,9 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
     public void initTower() throws Exception {
         EntityFactory.getInstance().createCannonOwlTower(new Point(3, 3), EntityMode.PLAYER);
-        EntityFactory.getInstance().createSwordManMonster(new Point(0, 4), EntityMode.PLAYER);
+        //EntityFactory.getInstance().createSwordManMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+        Thread.sleep(1000);
+        EntityFactory.getInstance().createDemonTreeBoss(Utils.tile2Pixel(0,4,EntityMode.PLAYER),EntityMode.PLAYER);
     }
 
     @Override
