@@ -4,6 +4,7 @@ import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.AttackComponent;
 import battle.component.common.PositionComponent;
+import battle.component.common.UnderGroundComponent;
 import battle.component.info.LifeComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
@@ -53,7 +54,12 @@ public class AttackSystem extends SystemECS implements Runnable {
                 for (EntityECS monster : monsterList) {
                     if (monster.getActive() && monster.getMode() == tower.getMode()) {
                         double distance = this._distanceFrom(tower, monster);
-                        if (distance <= attackComponent.getRange()) monsterInRange.add(monster);
+                        if (distance <= attackComponent.getRange()) {
+                            UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(GameConfig.COMPONENT_ID.UNDER_GROUND);
+                            if (underGroundComponent != null && underGroundComponent.isInGround()) {
+                                monsterInRange.add(monster);
+                            }
+                        }
                     }
                 }
                 if (monsterInRange.size() > 0) {
@@ -88,13 +94,17 @@ public class AttackSystem extends SystemECS implements Runnable {
                 return monster;
             }
         }
-        return monsterInRange.get(0);
+//        return monsterInRange.get(0);
         // TODO: Implement when have burrowed monster
-//        for (EntityECS monster: monsterInRange) {
-//            UnderGround
-//        }
+        /*for (EntityECS monster: monsterInRange) {
+            UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.
+                    getComponent(GameConfig.COMPONENT_ID.UNDER_GROUND);
+            if (underGroundComponent != null && underGroundComponent.isInGround()) {
+                return monster;
+            }
+        }*/
 
-        /*EntityECS targetMonster = null;
+        EntityECS targetMonster;
         switch (strategy) {
             case GameConfig.TOWER_TARGET_STRATEGY.MAX_HP: {
                 double maxHP = -1;
@@ -111,12 +121,45 @@ public class AttackSystem extends SystemECS implements Runnable {
                 break;
             }
             case GameConfig.TOWER_TARGET_STRATEGY.MIN_HP:
+                double minHP = Double.MAX_VALUE;
+                int minHPIndex = -1;
+                for (int i = 0; i < monsterInRange.size(); i++) {
+                    LifeComponent monsterLife = (LifeComponent) monsterInRange.get(i).getComponent(GameConfig.COMPONENT_ID.LIFE);
+                    double hp = monsterLife.getHp();
+                    if (hp < minHP) {
+                        minHP = hp;
+                        minHPIndex = i;
+                    }
+                }
+                targetMonster = monsterInRange.get(minHPIndex);
                 break;
             case GameConfig.TOWER_TARGET_STRATEGY.MAX_DISTANCE:
+                double maxDistance = -1;
+                int maxDistanceIndex = -1;
+                for (int i = 0; i < monsterInRange.size(); i++) {
+                    double distance = this._distanceFrom(monsterInRange.get(i), monsterInRange.get(i));
+                    if (distance > maxDistance) {
+                        maxDistance = distance;
+                        maxDistanceIndex = i;
+                    }
+                }
+                targetMonster = monsterInRange.get(maxDistanceIndex);
+                break;
+            case GameConfig.TOWER_TARGET_STRATEGY.MIN_DISTANCE:
+                double minDistance = Double.MAX_VALUE;
+                int minDistanceIndex = -1;
+                for (int i = 0; i < monsterInRange.size(); i++) {
+                    double distance = this._distanceFrom(monsterInRange.get(i), monsterInRange.get(i));
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        minDistanceIndex = i;
+                    }
+                }
+                targetMonster = monsterInRange.get(minDistanceIndex);
                 break;
             default:
                 throw new Error("Invalid strategy");
         }
-        return targetMonster;*/
+        return targetMonster;
     }
 }
