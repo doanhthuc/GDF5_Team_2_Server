@@ -3,15 +3,17 @@ package battle.pool;
 import battle.entity.EntityECS;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EntityPool {
-    int entityTypeAmount=100;
-    EntityECS invisibleEntity;
     public ArrayList<ArrayList<EntityECS>> pool = new ArrayList<>();
+    int entityTypeAmount = 100;
+    EntityECS invisibleEntity;
 
     public EntityPool() {
         this.initiate();
     }
+
     public void initiate() {
         for (int i = 0; i < this.entityTypeAmount; i++) {
             this.pool.add(new ArrayList<EntityECS>());
@@ -30,10 +32,10 @@ public class EntityPool {
     }
 
     public void push(EntityECS entity) {
-        if (this.pool.get(entity.typeID) != null) {
-            this.pool.get(entity.typeID).add(entity);
+        if (this.pool.get(entity.getTypeID()) != null) {
+            this.pool.get(entity.getTypeID()).add(entity);
         } else {
-            this.pool.get(entity.typeID).add(entity);
+            this.pool.get(entity.getTypeID()).add(entity);
         }
     }
 }

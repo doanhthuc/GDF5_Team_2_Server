@@ -1,59 +1,77 @@
 package battle.manager;
 
 
-import battle.component.Component.Component;
+import battle.component.common.Component;
 import battle.entity.EntityECS;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class EntityManager {
-    String name = "EntityManager";
-    Map<Integer, EntityECS> entities;
-    private static EntityManager _instance = null;
+public class EntityManager extends ManagerECS {
+    private static Map<Long, EntityECS> entities = null;
+    private static EntityManager instance = null;
+    private final String name = "EntityManager";
 
     public EntityManager() {
-        this.entities = new HashMap<>();
+        super();
+        entities = new HashMap<>();
+    }
+
+    public static void destroy(EntityECS entityECS) {
+        EntityECS entity = entities.get(entityECS.getId());
+        for (Map.Entry<Integer, Component> entry : entities.get(entity.getId()).getComponents().entrySet()) {
+            entry.getValue().setActive(false);
+        }
+        entities.remove(entity.getId());
+    }
+
+    public static EntityManager getInstance() {
+        if (instance == null) {
+            instance = new EntityManager();
+        }
+        return instance;
     }
 
     public void createEntity() {
-        return;
+        throw new NotImplementedException();
     }
 
     public EntityECS getEntity(int entityID) {
-        return this.entities.get(entityID);
+        return entities.get(entityID);
     }
 
-    public ArrayList<EntityECS> getEntitiesHasComponents(ArrayList<Integer> componentTypeIDS) {
-        ArrayList<EntityECS> entityList = new ArrayList<>();
-        //for(Integer i:componentTypeIDS) System.out.println("AllTypeIDS: "+i+" ");
-        //System.out.println();
-        for (Map.Entry<Integer, EntityECS> entry : entities.entrySet()) {
+    public List<EntityECS> getEntitiesHasComponents(List<Integer> componentTypeIDS) {
+        List<EntityECS> entityList = new ArrayList<>();
+
+        for (Map.Entry<Long, EntityECS> entry : this.entities.entrySet()) {
             EntityECS entity = entry.getValue();
             if (entity.getActive() && entity.hasAllComponent(componentTypeIDS)) {
                 entityList.add(entity);
+            } else if (!entry.getValue().getActive()) {
+                // remove entity
+                // delete this.entities[id];
             }
         }
         return entityList;
     }
 
     public void addEntity(EntityECS entity) {
-        this.entities.put(entity.id, entity);
+        if (entity == null) {
+            throw new IllegalArgumentException();
+        }
+        this.entities.put(entity.getId(), entity);
     }
 
-    public void destroyEntity(int id) {
-        this.entities.get(id).setActive(false);
-        for (Map.Entry<Integer, Component> entry : this.entities.get(id).components.entrySet()) {
-            entry.getValue().setActive(false);
-        }
-        this.entities.remove(id);
+    public void remove(EntityECS entity) {
+        entity.setActive(false);
+        this.entities.remove(entity.getId());
     }
 
-    public static EntityManager getInstance() {
-        if (_instance == null) {
-            _instance = new EntityManager();
+    public void showEntity()
+    {
+        for (Map.Entry<Long, EntityECS> entry : this.entities.entrySet()) {
+            System.out.println(entry.getKey());
+            entry.getValue().showComponent();
         }
-        return _instance;
     }
 }
