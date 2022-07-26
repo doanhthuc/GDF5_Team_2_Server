@@ -3,7 +3,7 @@ package battle.manager;
 
 import battle.component.common.Component;
 import battle.entity.EntityECS;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 
@@ -33,7 +33,7 @@ public class EntityManager extends ManagerECS {
     }
 
     public void createEntity() {
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
     }
 
     public EntityECS getEntity(int entityID) {

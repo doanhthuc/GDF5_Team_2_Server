@@ -1,4 +1,4 @@
-package cmd.send.battle;
+package cmd.send.battle.opponent;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
@@ -6,27 +6,24 @@ import cmd.CmdDefine;
 import java.awt.*;
 import java.nio.ByteBuffer;
 
-public class ResponseOpponentUpgradeTower extends BaseMsg {
+public class ResponseOpponentChangeTowerTargetStrategy extends BaseMsg {
     private final short _error;
-    private final int towerId;
-    private final int towerLevel;
+    private final int strategyId;
     private final Point tilePos;
 
-    public ResponseOpponentUpgradeTower(short _error, int towerId, int towerLevel, Point tilePos) {
-        super(CmdDefine.OPPONENT_UPGRADE_TOWER);
+    public ResponseOpponentChangeTowerTargetStrategy(short _error, int strategyId, Point tilePos) {
+        super(CmdDefine.OPPONENT_CHANGE_TOWER_STRATEGY);
         this._error = _error;
-        this.towerId = towerId;
-        this.towerLevel = towerLevel;
+        this.strategyId = strategyId;
         this.tilePos = tilePos;
     }
 
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        bf.putInt(towerId);
-        bf.putInt(towerLevel);
         bf.putInt(tilePos.x);
         bf.putInt(tilePos.y);
+        bf.putInt(strategyId);
         return packBuffer(bf);
     }
 }

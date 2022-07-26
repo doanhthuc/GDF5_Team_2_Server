@@ -22,8 +22,8 @@ public class RequestChangeTowerStrategy extends BaseCmd {
         ByteBuffer bf = makeBuffer();
         try {
             this.roomId = readInt(bf);
-            this.strategyId = readInt(bf);
             this.tilePos = new Point(readInt(bf), readInt(bf));
+            this.strategyId = readInt(bf);
         } catch (Exception e) {
             CommonHandle.writeErrLog(e);
         }

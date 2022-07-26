@@ -1,4 +1,4 @@
-package cmd.send.battle;
+package cmd.send.battle.opponent;
 
 import battle.common.Point;
 import bitzero.server.extensions.data.BaseMsg;
@@ -6,14 +6,14 @@ import cmd.CmdDefine;
 
 import java.nio.ByteBuffer;
 
-public class ResponseRequestDropSpell extends BaseMsg {
+public class ResponseOpponentDropSpell extends BaseMsg {
     private short _error;
     private final int spellId;
     private final int spellLevel;
     private final Point pixelPos;
 
-    public ResponseRequestDropSpell(short _error, int spellId, int spellLevel, Point pixelPos) {
-        super(CmdDefine.DROP_SPELL);
+    public ResponseOpponentDropSpell(short _error, int spellId, int spellLevel, Point pixelPos) {
+        super(CmdDefine.OPPONENT_DROP_SPELL);
         this._error = _error;
         this.spellId = spellId;
         this.spellLevel = spellLevel;
