@@ -93,8 +93,12 @@ public class AbilitySystem extends SystemECS implements Runnable {
         for (EntityECS satyr : entityList) {
             HealingAbilityComponent healingAbilityComponent = (HealingAbilityComponent) satyr
                     .getComponent(GameConfig.COMPONENT_ID.HEALING_ABILITY);
-            if (healingAbilityComponent.getCountdown() > 0) {
+            double countdown = healingAbilityComponent.getCountdown();
+            if (countdown > 0) {
+                healingAbilityComponent.setCountdown(countdown - tick / 1000);
+            } else {
                 for (EntityECS monster : monsterList) {
+                    healingAbilityComponent.setCountdown(1);
                     if (monster.getActive() && monster.getMode() == satyr.getMode()) {
                         double distance = distanceFrom(satyr, monster);
                         if (distance <= healingAbilityComponent.getRange()) {
