@@ -34,6 +34,8 @@ public class CmdDefine {
     public static final short OPPONENT_CHANGE_TOWER_STRATEGY = 5011;
     public static final short PUT_TRAP = 5012;
     public static final short OPPONENT_PUT_TRAP = 5013;
+    public static final short DESTROY_TOWER = 5014;
+    public static final short OPPONENT_DESTROY_TOWER = 5015;
 
     public static final short ENTER_ROOM = 6001;
 

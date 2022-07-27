@@ -2,6 +2,7 @@ package service;
 
 import battle.BattleMap;
 import battle.newMap.BattleMapObject;
+import battle.newMap.TileObject;
 import battle.newMap.Tower;
 import bitzero.server.BitZeroServer;
 import bitzero.server.core.BZEventType;
@@ -13,6 +14,7 @@ import cmd.CmdDefine;
 import cmd.HandlerId;
 import cmd.receive.battle.spell.RequestDropSpell;
 import cmd.receive.battle.tower.RequestChangeTowerStrategy;
+import cmd.receive.battle.tower.RequestDestroyTower;
 import cmd.receive.battle.tower.RequestPutTower;
 import cmd.receive.battle.tower.RequestUpgradeTower;
 import cmd.receive.battle.trap.RequestPutTrap;
@@ -88,6 +90,11 @@ public class BattleHandler extends BaseClientRequestHandler {
                     System.out.println("[BattleHandler.java line 59] cmd Put trap: " + CmdDefine.PUT_TRAP);
                     RequestPutTrap requestPutTrap = new RequestPutTrap(dataCmd);
                     processPutTrap(user, requestPutTrap);
+                    break;
+                case CmdDefine.DESTROY_TOWER:
+                    System.out.println("[BattleHandler.java line 60] cmd Destroy tower: " + CmdDefine.DESTROY_TOWER);
+                    RequestDestroyTower requestDestroyTower = new RequestDestroyTower(dataCmd);
+                    processDestroyTower(user, requestDestroyTower);
                     break;
                 default:
                     break;
@@ -215,13 +222,29 @@ public class BattleHandler extends BaseClientRequestHandler {
 //                System.out.println("[BattleHandler.java line 103 processPutTrap]  trap null");
 //                return;
 //            }
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            System.out.println(" fdsfdsfsddsf: " + user.getId());
             send(new ResponseRequestPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos()), user);
-            System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
             send(new ResponseOpponentPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos()), opponent);
+        } catch (Exception e) {
+            logger.info("processGetName exception");
+        }
+    }
+
+    private void processDestroyTower(User user, RequestDestroyTower req) {
+        System.out.println("BattleMap processDestroyTower");
+        try {
+            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+            BattleMapObject battleMapObject = battleMap.battleMapObject;
+//            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
+//            tower.destroyTower();
+            TileObject tileObject = battleMapObject.getCellObject(req.getTilePos());
+            tileObject.destroyTower();
+            send(new ResponseRequestDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos()), user);
+            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+            send(new ResponseOpponentDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos()), opponent);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }
