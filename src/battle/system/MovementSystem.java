@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovementSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.MONSTER;
+    public int id = GameConfig.SYSTEM_ID.MOVEMENT;
 
     public MovementSystem() {
-        super(GameConfig.SYSTEM_ID.LIFE);
+        super(GameConfig.SYSTEM_ID.MOVEMENT);
         java.lang.System.out.println("new LifeSystem");
     }
 

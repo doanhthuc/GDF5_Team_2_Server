@@ -241,4 +241,26 @@ public class ComponentFactory {
         }
         return buffAttackRangeEffect;
     }
+
+    public BuffAttackSpeedEffect createBuffAttackSpeedEffect(double percent) throws Exception {
+        BuffAttackSpeedEffect buffAttackSpeedEffect = (BuffAttackSpeedEffect) this.pool.checkOut(BuffAttackSpeedEffect.typeID);
+        if (buffAttackSpeedEffect != null) {
+            buffAttackSpeedEffect.reset(percent);
+        } else {
+            buffAttackSpeedEffect = new BuffAttackSpeedEffect(percent);
+            ComponentManager.getInstance().add(buffAttackSpeedEffect);
+        }
+        return buffAttackSpeedEffect;
+    }
+
+    public BuffAttackDamageEffect createBuffAttackDamageEffect(double percent) throws Exception {
+        BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) this.pool.checkOut(BuffAttackDamageEffect.typeID);
+        if (buffAttackDamageEffect != null) {
+            buffAttackDamageEffect.reset(percent);
+        } else {
+            buffAttackDamageEffect = new BuffAttackDamageEffect(percent);
+            ComponentManager.getInstance().add(buffAttackDamageEffect);
+        }
+        return buffAttackDamageEffect;
+    }
 }

@@ -32,6 +32,7 @@ public class AttackComponent extends Component {
         this.targetStrategy = targetStrategy;
         this.range = range;
         this.speed = speed;
+        this.originSpeed = speed;
         this.countdown = countdown;
         this.effects.clear();
         if (effects != null) {

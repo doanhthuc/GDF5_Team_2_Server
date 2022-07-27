@@ -1,6 +1,7 @@
 package battle.component.effect;
 
 import battle.config.GameConfig;
+import battle.factory.ComponentFactory;
 
 public class BuffAttackDamageEffect extends EffectComponent {
     private String name = "BuffAttackDamageEffect";
@@ -13,7 +14,12 @@ public class BuffAttackDamageEffect extends EffectComponent {
     }
 
     public BuffAttackDamageEffect clone() {
-        return new BuffAttackDamageEffect(this.percent);
+        try {
+            return ComponentFactory.getInstance().createBuffAttackDamageEffect(percent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void reset(double percent) {

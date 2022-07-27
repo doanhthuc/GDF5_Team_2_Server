@@ -16,7 +16,7 @@ public class MonsterSystem extends SystemECS {
     public int id = GameConfig.SYSTEM_ID.MONSTER;
 
     public MonsterSystem() {
-        super(GameConfig.SYSTEM_ID.LIFE);
+        super(GameConfig.SYSTEM_ID.MONSTER);
         java.lang.System.out.println("new MonsterSystem");
     }
 

@@ -16,6 +16,7 @@ import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
 import battle.system.*;
+import bitzero.core.P;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -50,9 +51,11 @@ public class BattleVisualization extends JFrame implements MouseListener {
     LifeSystem lifeSystem;
     AbilitySystem abilitySystem;
     BulletSystem bulletSystem;
+    ResetSystem resetSystem;
     public static void main(String[] args) throws Exception {
         new BattleVisualization();
     }
+
     Map<Integer, Color> colorMap = new HashMap<>();
 
     public BattleVisualization() throws Exception {
@@ -135,16 +138,19 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.lifeSystem = new LifeSystem();
         this.abilitySystem = new AbilitySystem();
         this.bulletSystem = new BulletSystem();
+        this.resetSystem = new ResetSystem();
     }
 
     public void updateSystem() {
+        resetSystem.run();
+        abilitySystem.run();
         attackSystem.run();
         bulletSystem.run();
         pathMonsterSystem.run();
         collisionSystem.run();
         effectSystem.run();
         lifeSystem.run();
-        abilitySystem.run();
+
         movementSystem.run();
     }
 
@@ -157,37 +163,43 @@ public class BattleVisualization extends JFrame implements MouseListener {
     }
 
     public void initTower() throws Exception {
-         EntityFactory.getInstance().createBunnyOilGunTower(new Point(3, 3), EntityMode.PLAYER);
+        EntityFactory.getInstance().createGoatAttackDamageTower(new Point(3,3), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createSnakeAttackSpeedTower(new Point(3, 3), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createWizardTower(new Point(3, 3), EntityMode.PLAYER);
+//         EntityFactory.getInstance().createBunnyOilGunTower(new Point(3, 3), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createIceGunPolarBearTower(new Point(3, 3), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createFrogTower(new Point(1, 3), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createSwordManMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createAssassinMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createBatMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
-          EntityFactory.getInstance().createGiantMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createGiantMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createNinjaMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
-//        EntityFactory.getInstance().createDarkGiantBoss(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
-//            EntityFactory.getInstance().createSatyrBoss(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+        EntityFactory.getInstance().createDarkGiantBoss(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createSatyrBoss(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createDemonTreeBoss(Utils.tile2Pixel(0,4,EntityMode.PLAYER),EntityMode.PLAYER);
         Thread.sleep(1000);
 
 
     }
 
-    public void initColor(){
-        this.colorMap.put(GameConfig.ENTITY_ID.SWORD_MAN,Color.YELLOW);
-        this.colorMap.put(GameConfig.ENTITY_ID.ASSASSIN,Color.RED);
-        this.colorMap.put(GameConfig.ENTITY_ID.BAT,Color.BLACK);
-        this.colorMap.put(GameConfig.ENTITY_ID.GIANT,Color.BLUE);
-        this.colorMap.put(GameConfig.ENTITY_ID.NINJA,Color.CYAN);
-        this.colorMap.put(GameConfig.ENTITY_ID.DARK_GIANT,Color.PINK);
-        this.colorMap.put(GameConfig.ENTITY_ID.SATYR,Color.GREEN);
-        this.colorMap.put(GameConfig.ENTITY_ID.DEMON_TREE,Color.ORANGE);
-        this.colorMap.put(GameConfig.ENTITY_ID.CANNON_TOWER,Color.BLACK);
-        this.colorMap.put(GameConfig.ENTITY_ID.BEAR_TOWER,Color.CYAN);
-        this.colorMap.put(GameConfig.ENTITY_ID.FROG_TOWER,Color.RED);
-        this.colorMap.put(GameConfig.ENTITY_ID.BUNNY_TOWER,Color.GREEN);
-    }
+    public void initColor() {
+        this.colorMap.put(GameConfig.ENTITY_ID.SWORD_MAN, Color.YELLOW);
+        this.colorMap.put(GameConfig.ENTITY_ID.ASSASSIN, Color.RED);
+        this.colorMap.put(GameConfig.ENTITY_ID.BAT, Color.BLACK);
+        this.colorMap.put(GameConfig.ENTITY_ID.GIANT, Color.BLUE);
+        this.colorMap.put(GameConfig.ENTITY_ID.NINJA, Color.CYAN);
+        this.colorMap.put(GameConfig.ENTITY_ID.DARK_GIANT, Color.PINK);
+        this.colorMap.put(GameConfig.ENTITY_ID.SATYR, Color.GREEN);
+        this.colorMap.put(GameConfig.ENTITY_ID.DEMON_TREE, Color.ORANGE);
 
+
+        this.colorMap.put(GameConfig.ENTITY_ID.CANNON_TOWER, Color.BLACK);
+        this.colorMap.put(GameConfig.ENTITY_ID.BEAR_TOWER, Color.CYAN);
+        this.colorMap.put(GameConfig.ENTITY_ID.FROG_TOWER, Color.RED);
+        this.colorMap.put(GameConfig.ENTITY_ID.BUNNY_TOWER, Color.GREEN);
+        this.colorMap.put(GameConfig.ENTITY_ID.WIZARD_TOWER, Color.PINK);
+        this.colorMap.put(GameConfig.ENTITY_ID.SNAKE_TOWER, Color.ORANGE);
+    }
 
 
     @Override

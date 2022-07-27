@@ -90,7 +90,7 @@ public class GameConfig {
         public static final int MONSTER = 11;
         public static final int ABILITY = 12;
         public static final int COLLISION = 13;
-
+        public static final int RESET_SYSTEM = 14;
     }
 
     public static class GROUP_ID {
