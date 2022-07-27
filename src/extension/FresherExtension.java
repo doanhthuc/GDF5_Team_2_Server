@@ -60,7 +60,7 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
-            //BattleVisualization xh = new BattleVisualization();
+            BattleVisualization xh = new BattleVisualization();
             //Bida bida= new Bida();
         } catch (Exception e) {
             e.printStackTrace();

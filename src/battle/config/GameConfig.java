@@ -106,5 +106,12 @@ public class GameConfig {
         public static List<String> NAME = Arrays.asList("", "MONSTER_INFO", "TOWER_INFO", "BULLET_INFO", "LIFE", "POSITION", "VELOCITY", "APPEARANCE", "PATH", "COLLISION", "DAMAGE_EFFECT", "SLOW_EFFECT",
                 "FROZEN_EFFECT", "ATTACK", "BUFF_ATTACK_SPEED", "BUFF_ATTACK_DAMAGE");
     }
+
+    public static class FROG_BULLET {
+        public static int HIT_FIRST_TIME = 1;
+        public static int HIT_SECOND_TIME = 2;
+        public static int HIT_BOTH_TIME = 3;
+
+    }
 }
 

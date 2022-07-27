@@ -4,32 +4,38 @@ import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BulletInfoComponent extends InfoComponent {
     private String name = "BulletInfoComponent";
     public static int typeID = GameConfig.COMPONENT_ID.BULLET_INFO;
     private List<EffectComponent> effects;
-    private int type;
+    private String type;
     private double radius;
+    private Map<Long, Integer> hitMonster;
 
-    public BulletInfoComponent(List<EffectComponent> effects, int type) {
+    public BulletInfoComponent(List<EffectComponent> effects, String type) {
         super(GameConfig.COMPONENT_ID.BULLET_INFO);
         this.effects = effects;
         this.type = type;
     }
 
-    public BulletInfoComponent(List<EffectComponent> effects, int type, double radius) {
+    public BulletInfoComponent(List<EffectComponent> effects, String type, double radius) {
         super(GameConfig.COMPONENT_ID.BULLET_INFO);
-        this.effects = effects;
-        this.type = type;
-        this.radius = radius;
+        this.reset(effects, type, radius);
     }
 
-    public void reset(List<EffectComponent> effects, int type, double radius) {
+    public Map<Long, Integer> getHitMonster() {
+        return hitMonster;
+    }
+
+    public void reset(List<EffectComponent> effects, String type, double radius) {
         this.effects = effects;
         this.type = type;
         this.radius = radius;
+        this.hitMonster = new HashMap<>();
     }
 
     public List<EffectComponent> getEffects() {
@@ -49,11 +55,11 @@ public class BulletInfoComponent extends InfoComponent {
         }
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -61,6 +67,11 @@ public class BulletInfoComponent extends InfoComponent {
         return radius;
     }
 
+    public void setHitMonster(long monsterId, int bulletState)
+    {
+        this.hitMonster.remove(monsterId);
+        this.hitMonster.put(monsterId,bulletState);
+    }
     public void setRadius(double radius) {
         this.radius = radius;
     }

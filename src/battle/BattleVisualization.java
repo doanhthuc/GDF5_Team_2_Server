@@ -4,7 +4,9 @@ import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.CollisionComponent;
+import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
+import battle.component.effect.EffectComponent;
 import battle.component.info.BulletInfoComponent;
 import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
@@ -47,6 +49,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
     EffectSystem effectSystem;
     LifeSystem lifeSystem;
     AbilitySystem abilitySystem;
+    BulletSystem bulletSystem;
     public static void main(String[] args) throws Exception {
         new BattleVisualization();
     }
@@ -114,6 +117,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         for (EntityECS bullet : bulletList) {
             PositionComponent positionComponent = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(CollisionComponent.typeID);
+            PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
             G.setColor(Color.GREEN);
             Point p = this.getMonsterPos(positionComponent, collisionComponent);
             G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() * scale, (int) collisionComponent.getHeight() * scale);
@@ -130,16 +134,18 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.effectSystem = new EffectSystem();
         this.lifeSystem = new LifeSystem();
         this.abilitySystem = new AbilitySystem();
+        this.bulletSystem = new BulletSystem();
     }
 
     public void updateSystem() {
         attackSystem.run();
+        bulletSystem.run();
         pathMonsterSystem.run();
-        movementSystem.run();
         collisionSystem.run();
         effectSystem.run();
         lifeSystem.run();
         abilitySystem.run();
+        movementSystem.run();
     }
 
     public Point getTowerPos(PositionComponent pos) {
@@ -151,15 +157,17 @@ public class BattleVisualization extends JFrame implements MouseListener {
     }
 
     public void initTower() throws Exception {
-        EntityFactory.getInstance().createIceGunPolarBearTower(new Point(3, 3), EntityMode.PLAYER);
+         EntityFactory.getInstance().createBunnyOilGunTower(new Point(3, 3), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createIceGunPolarBearTower(new Point(3, 3), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createFrogTower(new Point(1, 3), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createSwordManMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createAssassinMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createBatMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
-//        EntityFactory.getInstance().createGiantMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+          EntityFactory.getInstance().createGiantMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createNinjaMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createDarkGiantBoss(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
-//        EntityFactory.getInstance().createSatyrBoss(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
-        EntityFactory.getInstance().createDemonTreeBoss(Utils.tile2Pixel(0,4,EntityMode.PLAYER),EntityMode.PLAYER);
+//            EntityFactory.getInstance().createSatyrBoss(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+//        EntityFactory.getInstance().createDemonTreeBoss(Utils.tile2Pixel(0,4,EntityMode.PLAYER),EntityMode.PLAYER);
         Thread.sleep(1000);
 
 
@@ -174,8 +182,10 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.colorMap.put(GameConfig.ENTITY_ID.DARK_GIANT,Color.PINK);
         this.colorMap.put(GameConfig.ENTITY_ID.SATYR,Color.GREEN);
         this.colorMap.put(GameConfig.ENTITY_ID.DEMON_TREE,Color.ORANGE);
-        this.colorMap.put(GameConfig.ENTITY_ID.CANNON_TOWER,Color.RED);
+        this.colorMap.put(GameConfig.ENTITY_ID.CANNON_TOWER,Color.BLACK);
         this.colorMap.put(GameConfig.ENTITY_ID.BEAR_TOWER,Color.CYAN);
+        this.colorMap.put(GameConfig.ENTITY_ID.FROG_TOWER,Color.RED);
+        this.colorMap.put(GameConfig.ENTITY_ID.BUNNY_TOWER,Color.GREEN);
     }
 
 

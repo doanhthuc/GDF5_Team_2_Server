@@ -125,9 +125,19 @@ public class Utils {
         int cellBound = 4;
         int divideAmount = 3;
         for (int i = 0; i < tileArr.size() - 1; i++) {
-            
+
         }
         return null;
+    }
+
+    public List<Point> divideCellPath(Point pointA, Point pointB, int divideAmount) {
+        List cellArr = new ArrayList();
+        for (int i = 1; i < divideAmount; i++) {
+            double cellX = pointA.getX() + ((pointB.getX() - pointA.getX()) * i) / divideAmount;
+            double cellY = pointA.getY() + ((pointB.getY() - pointA.getY()) * i) / divideAmount;
+            cellArr.add(new Point(cellX, cellY));
+        }
+        return cellArr;
     }
 
     public static Utils getInstance() {

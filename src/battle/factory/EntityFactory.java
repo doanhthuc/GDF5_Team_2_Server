@@ -4,17 +4,19 @@ import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.*;
-import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.component.effect.FrozenEffect;
+import battle.component.effect.SlowEffect;
 import battle.component.info.*;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.pool.EntityPool;
+import bitzero.core.P;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class EntityFactory {
@@ -35,18 +37,19 @@ public class EntityFactory {
         int typeID;
         EntityECS entity;
         BulletInfoComponent infoComponent;
-        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(startPosition.getX(), startPosition.getY());
+        PositionComponent positionComponent;
         CollisionComponent collisionComponent;
         double bulletSpeed;
         switch (towerType) {
             case GameConfig.ENTITY_ID.CANNON_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, EntityMode.PLAYER.value, 0);
-                collisionComponent = ComponentFactory.getInstance().createCollisionComponent(5, 5);
+                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, "cannon", 0);
+                collisionComponent = ComponentFactory.getInstance().createCollisionComponent(3, 3, 15, 15);
                 bulletSpeed = 5 * GameConfig.TILE_WIDTH;
                 Point speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
                 VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.x, speed.y, targetPosition);
+                positionComponent = ComponentFactory.getInstance().createPositionComponent(startPosition.getX(), startPosition.getY());
 
                 entity.addComponent(infoComponent);
                 entity.addComponent(positionComponent);
@@ -57,10 +60,12 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.BEAR_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 2, 0);
-                collisionComponent = ComponentFactory.getInstance().createCollisionComponent(5, 5);
                 bulletSpeed = 4 * GameConfig.TILE_WIDTH;
                 speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
+
+                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, "bear", 0);
+                collisionComponent = ComponentFactory.getInstance().createCollisionComponent(5, 5, 5, 5);
+                positionComponent = ComponentFactory.getInstance().createPositionComponent(startPosition.getX(), startPosition.getY());
                 velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.x, speed.y, targetPosition);
 
                 entity.addComponent(infoComponent);
@@ -71,24 +76,52 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.FROG_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
+                List<Point> dividePath = Utils.getInstance().divideCellPath(new Point(startPosition.getX(), startPosition.getY()),
+                        new Point(targetPosition.getX(), targetPosition.getY()), 5);
 
-                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, 3, 0);
-                collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 20);
-
+                //create PathComponent for frog Bullet
                 List<Point> path = new ArrayList<>();
-                path.add(startPosition.getPos());
-                path.add(targetPosition.getPos());
-                path.add(startPosition.getPos());
-                PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode, true);
+                path.add(new Point(startPosition.getX(), startPosition.getY()));
+                for (int i = 0; i < dividePath.size(); i++) path.add(dividePath.get(i));
+                path.add(new Point(targetPosition.getX(), targetPosition.getY()));
+                for (int i = dividePath.size() - 1; i >= 0; i--) path.add(dividePath.get(i));
+                path.add(new Point(startPosition.getX(), startPosition.getY()));
+
+                PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(path, mode, false);
+
+                //create velocityComponent
                 bulletSpeed = 4 * GameConfig.TILE_WIDTH;
                 speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
-                velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.x, speed.y, targetPosition);
+                velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.x, speed.y);
 
+                //OtherComponent
+                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, "frog", 0);
+                collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 20, 20, 20);
+                positionComponent = ComponentFactory.getInstance().createPositionComponent(startPosition.getX(), startPosition.getY());
+
+                //add Component
                 entity.addComponent(infoComponent);
                 entity.addComponent(positionComponent);
                 entity.addComponent(velocityComponent);
                 entity.addComponent(collisionComponent);
                 entity.addComponent(pathComponent);
+                return entity;
+            case GameConfig.ENTITY_ID.BUNNY_TOWER:
+                typeID = GameConfig.ENTITY_ID.BULLET;
+                entity = this._createEntity(typeID, mode);
+                bulletSpeed = 4 * GameConfig.TILE_WIDTH;
+                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
+
+                infoComponent = ComponentFactory.getInstance().createBulletInfoComponent(effects, "bunny", GameConfig.TILE_WIDTH);
+                collisionComponent = ComponentFactory.getInstance().createCollisionComponent(5, 5, 5, 5);
+                positionComponent = ComponentFactory.getInstance().createPositionComponent(startPosition.getX(), startPosition.getY());
+                velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.x, speed.y, null, new Point(targetPosition.getX(), targetPosition.getY()));
+                System.out.println(velocityComponent.getStaticPosition().getX() + " " + velocityComponent.getStaticPosition().getY());
+                entity.addComponent(infoComponent);
+                entity.addComponent(positionComponent);
+                entity.addComponent(velocityComponent);
+                entity.addComponent(collisionComponent);
+                return entity;
         }
         return null;
     }
@@ -111,7 +144,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -140,7 +173,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -169,7 +202,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.airPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.airMonsterPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -191,14 +224,14 @@ public class EntityFactory {
         MonsterInfoComponent monsterInfoComponent = ComponentFactory.getInstance().createMonsterInfoComponent("normal", "ground", 200, 1, 1, null, null);
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.5 * GameConfig.TILE_WIDTH, 0, null);
+        VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(1 * GameConfig.TILE_WIDTH, 0, null);
         CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(30, 30);
         LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(820);
 
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -227,7 +260,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -253,11 +286,11 @@ public class EntityFactory {
 
         VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.4 * GameConfig.TILE_WIDTH, 0, null);
         CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(20, 30);
-        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(400);
+        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(10000);
         SpawnMinionComponent spawnMinionComponent = ComponentFactory.getInstance().createSpawnMinionComponent(2);
 
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -285,7 +318,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -311,7 +344,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -331,15 +364,15 @@ public class EntityFactory {
         MonsterInfoComponent monsterInfoComponent = ComponentFactory.getInstance().createMonsterInfoComponent("boss", "land", 300, 1, 1, null, null);
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.4 * GameConfig.TILE_WIDTH, 0, null);
+        VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.1 * GameConfig.TILE_WIDTH, 0, null);
         CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(30, 30);
-        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(400);
+        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(10000);
 
-        HealingAbilityComponent healingAbilityComponent = ComponentFactory.getInstance().createHealingAbilityComponent(2*GameConfig.TILE_WIDTH,0.03);
+        HealingAbilityComponent healingAbilityComponent = ComponentFactory.getInstance().createHealingAbilityComponent(2 * GameConfig.TILE_WIDTH, 100);
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -350,7 +383,6 @@ public class EntityFactory {
         entity.addComponent(healingAbilityComponent);
         return entity;
     }
-
 
 
     //Create Tower
@@ -364,7 +396,7 @@ public class EntityFactory {
 
         TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = ComponentFactory.getInstance().createAttackComponent(10, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 0.6, 0.6, null);
+        AttackComponent attackComponent = ComponentFactory.getInstance().createAttackComponent(10, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 0.6, 0, null);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -383,7 +415,44 @@ public class EntityFactory {
         List<EffectComponent> effectList = Arrays.asList(frozenEffect);
         TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "support", "monster", "bulletType");
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = ComponentFactory.getInstance().createAttackComponent(8, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 3.4, 0.6, effectList);
+        AttackComponent attackComponent = ComponentFactory.getInstance().createAttackComponent(8, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 3.4, 0, effectList);
+
+        entity.addComponent(towerInfoComponent);
+        entity.addComponent(positionComponent);
+        entity.addComponent(attackComponent);
+        return entity;
+    }
+
+    public EntityECS createFrogTower(Point tilePos, EntityMode mode) throws Exception {
+        int typeID = GameConfig.ENTITY_ID.FROG_TOWER;
+        EntityECS entity = this._createEntity(typeID, mode);
+
+        double attackRange = 2 * GameConfig.TILE_WIDTH;
+        Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
+
+        TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(pixelPos.x, pixelPos.y);
+        AttackComponent attackComponent = ComponentFactory.getInstance().createAttackComponent(10, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 1.5, 0, null);
+
+        entity.addComponent(towerInfoComponent);
+        entity.addComponent(positionComponent);
+        entity.addComponent(attackComponent);
+        return entity;
+    }
+
+    public EntityECS createBunnyOilGunTower(Point tilePos, EntityMode mode) throws Exception {
+        int typeID = GameConfig.ENTITY_ID.BUNNY_TOWER;
+        EntityECS entity = this._createEntity(typeID, mode);
+
+        double attackRange = 1.5 * GameConfig.TILE_WIDTH;
+        Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
+
+        SlowEffect slowEffect = ComponentFactory.getInstance().createSlowEffect(5, 0.3);
+        List<EffectComponent> effectList = Collections.singletonList(slowEffect);
+
+        TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(pixelPos.x, pixelPos.y);
+        AttackComponent attackComponent = ComponentFactory.getInstance().createAttackComponent(5, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 2.5, 0, effectList);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -398,32 +467,32 @@ public class EntityFactory {
         return _instance;
     }
 
-    public ArrayList<Point> fakeGroundPath(EntityMode mode){
+    public ArrayList<Point> fakeGroundMonsterPath(EntityMode mode) {
         ArrayList<Point> path = new ArrayList<Point>();
-        path.add(Utils.tile2Pixel(0,4, mode));
-        path.add(Utils.tile2Pixel(1,4, mode));
-        path.add(Utils.tile2Pixel(2,4, mode));
-        path.add(Utils.tile2Pixel(3,4, mode));
-        path.add(Utils.tile2Pixel(4,4, mode));
-        path.add(Utils.tile2Pixel(5,4, mode));
-        path.add(Utils.tile2Pixel(6,4, mode));
-        path.add(Utils.tile2Pixel(6,3, mode));
-        path.add(Utils.tile2Pixel(6,2, mode));
-        path.add(Utils.tile2Pixel(6,1, mode));
-        path.add(Utils.tile2Pixel(6,0, mode));
+        path.add(Utils.tile2Pixel(0, 4, mode));
+        path.add(Utils.tile2Pixel(1, 4, mode));
+        path.add(Utils.tile2Pixel(2, 4, mode));
+        path.add(Utils.tile2Pixel(3, 4, mode));
+        path.add(Utils.tile2Pixel(4, 4, mode));
+        path.add(Utils.tile2Pixel(5, 4, mode));
+        path.add(Utils.tile2Pixel(6, 4, mode));
+        path.add(Utils.tile2Pixel(6, 3, mode));
+        path.add(Utils.tile2Pixel(6, 2, mode));
+        path.add(Utils.tile2Pixel(6, 1, mode));
+        path.add(Utils.tile2Pixel(6, 0, mode));
 
         return path;
     }
 
-    public ArrayList<Point> airPath(EntityMode mode){
+    public ArrayList<Point> airMonsterPath(EntityMode mode) {
         ArrayList<Point> path = new ArrayList<Point>();
-        path.add(Utils.tile2Pixel(0,4, mode));
-        path.add(Utils.tile2Pixel(1,3, mode));
-        path.add(Utils.tile2Pixel(2,2, mode));
-        path.add(Utils.tile2Pixel(3,1, mode));
-        path.add(Utils.tile2Pixel(4,0, mode));
-        path.add(Utils.tile2Pixel(5,0, mode));
-        path.add(Utils.tile2Pixel(6,0, mode));
+        path.add(Utils.tile2Pixel(0, 4, mode));
+        path.add(Utils.tile2Pixel(1, 3, mode));
+        path.add(Utils.tile2Pixel(2, 2, mode));
+        path.add(Utils.tile2Pixel(3, 1, mode));
+        path.add(Utils.tile2Pixel(4, 0, mode));
+        path.add(Utils.tile2Pixel(5, 0, mode));
+        path.add(Utils.tile2Pixel(6, 0, mode));
         return path;
     }
 

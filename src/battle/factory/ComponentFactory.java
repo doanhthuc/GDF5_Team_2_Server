@@ -20,7 +20,7 @@ public class ComponentFactory {
         return _instance;
     }
 
-    public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, int type, double radius) throws Exception {
+    public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, String type, double radius) throws Exception {
         BulletInfoComponent bulletInfoComponent = (BulletInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.BULLET_INFO);
         if (bulletInfoComponent != null) {
             bulletInfoComponent.reset(effects, type, radius);
@@ -42,15 +42,48 @@ public class ComponentFactory {
         return positionComponent;
     }
 
-    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent targetPosition) throws Exception {
+    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition) throws Exception {
         VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
         if (velocityComponent != null) {
-            velocityComponent.reset(speedX, speedY, targetPosition);
+            velocityComponent.reset(speedX, speedY, dynamicPosition);
         } else {
-            velocityComponent = new VelocityComponent(speedX, speedY, targetPosition);
+            velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition);
             ComponentManager.getInstance().add(velocityComponent);
         }
         return velocityComponent;
+    }
+
+    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition , Point staticPostion) throws Exception {
+        VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
+        if (velocityComponent != null) {
+            velocityComponent.reset(speedX, speedY, dynamicPosition , staticPostion);
+        } else {
+            velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition , staticPostion);
+            ComponentManager.getInstance().add(velocityComponent);
+        }
+        return velocityComponent;
+    }
+
+    public VelocityComponent createVelocityComponent(double speedX, double speedY) throws Exception {
+        VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
+        if (velocityComponent != null) {
+            velocityComponent.reset(speedX, speedY);
+        } else {
+            velocityComponent = new VelocityComponent(speedX, speedY);
+            ComponentManager.getInstance().add(velocityComponent);
+        }
+        return velocityComponent;
+    }
+
+    public CollisionComponent createCollisionComponent(double width, double height, double originWidth, double originHeight) throws Exception {
+        CollisionComponent collisionComponent = (CollisionComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.COLLISION);
+        if (collisionComponent != null) {
+            collisionComponent.reset(width, height, originWidth, originHeight);
+        } else {
+            collisionComponent = new CollisionComponent(width, height, originWidth, originHeight);
+            ComponentManager.getInstance().add(collisionComponent);
+        }
+        return collisionComponent;
     }
 
     public CollisionComponent createCollisionComponent(double width, double height) throws Exception {
