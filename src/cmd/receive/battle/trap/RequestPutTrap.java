@@ -12,6 +12,7 @@ public class RequestPutTrap extends BaseCmd {
     private Point tilePos;
     public RequestPutTrap(DataCmd dataCmd) {
         super(dataCmd);
+        unpackData();
     }
 
     @Override
