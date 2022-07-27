@@ -15,10 +15,8 @@ import cmd.receive.battle.spell.RequestDropSpell;
 import cmd.receive.battle.tower.RequestChangeTowerStrategy;
 import cmd.receive.battle.tower.RequestPutTower;
 import cmd.receive.battle.tower.RequestUpgradeTower;
-import cmd.send.battle.opponent.ResponseOppentPutTower;
-import cmd.send.battle.opponent.ResponseOpponentChangeTowerTargetStrategy;
-import cmd.send.battle.opponent.ResponseOpponentDropSpell;
-import cmd.send.battle.opponent.ResponseOpponentUpgradeTower;
+import cmd.receive.battle.trap.RequestPutTrap;
+import cmd.send.battle.opponent.*;
 import cmd.send.battle.player.*;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
@@ -85,6 +83,11 @@ public class BattleHandler extends BaseClientRequestHandler {
                     System.out.println("[BattleHandler.java line 58] cmd Change tower strategy: " + CmdDefine.CHANGE_TOWER_STRATEGY);
                     RequestChangeTowerStrategy requestChangeTowerStrategy = new RequestChangeTowerStrategy(dataCmd);
                     processChangeTowerStrategy(user, requestChangeTowerStrategy);
+                    break;
+                case CmdDefine.PUT_TRAP:
+                    System.out.println("[BattleHandler.java line 59] cmd Put trap: " + CmdDefine.PUT_TRAP);
+                    RequestPutTrap requestPutTrap = new RequestPutTrap(dataCmd);
+                    processPutTrap(user, requestPutTrap);
                     break;
                 default:
                     break;
@@ -198,6 +201,29 @@ public class BattleHandler extends BaseClientRequestHandler {
                     req.getStrategyId(), req.getTilePos()), opponent);
         } catch (Exception e) {
             logger.info("BattleMap processChangeTowerStrategy exception");
+        }
+    }
+
+    private void processPutTrap(User user, RequestPutTrap req) {
+        System.out.println("BattleMap processPutTrap");
+        try {
+            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+//            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+//            BattleMapObject battleMapObject = battleMap.battleMapObject;
+//            Trap trap = battleMapObject.putTrapIntoMap(req.getTilePos(), req.getTrapId());
+//            if (trap == null) {
+//                System.out.println("[BattleHandler.java line 103 processPutTrap]  trap null");
+//                return;
+//            }
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            System.out.println(" fdsfdsfsddsf: " + user.getId());
+            send(new ResponseRequestPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos()), user);
+            System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
+            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+            send(new ResponseOpponentPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos()), opponent);
+        } catch (Exception e) {
+            logger.info("processGetName exception");
         }
     }
 
