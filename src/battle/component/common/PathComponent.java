@@ -2,6 +2,7 @@ package battle.component.common;
 
 import battle.common.EntityMode;
 import battle.common.Point;
+import battle.common.Utils;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
@@ -22,8 +23,10 @@ public class PathComponent extends Component {
     public void reset(List<Point> pathTile, EntityMode mode, boolean isConvert) {
         if (isConvert == true) {
             // FIX ME: Code TileArray2PixelArray
-            //  List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
-            this.path = pathTile;
+            List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
+            for(Point i : pathTile2)
+                System.out.println(i.x+ " "+ i.y);
+            this.path = pathTile2;
         } else {
             this.path = pathTile;
         }

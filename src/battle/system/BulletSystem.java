@@ -41,7 +41,7 @@ public class BulletSystem extends SystemECS implements Runnable {
 
             if (bulletVelocity.getDynamicPosition() == null) continue;
 
-            if (!bulletVelocity.getDynamicPosition().getActive()) {
+            if (bulletVelocity.getDynamicPosition().getActive()==false) {
                 bulletVelocity.setDynamicPosition(null);
                 EntityManager.destroy(bullet);
                 continue;

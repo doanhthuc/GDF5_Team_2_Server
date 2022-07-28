@@ -51,7 +51,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
     LifeSystem lifeSystem;
     AbilitySystem abilitySystem;
     BulletSystem bulletSystem;
-    ResetSystem resetSystem;
+    ResetSystem resetSystem = new ResetSystem();
     public static void main(String[] args) throws Exception {
         new BattleVisualization();
     }
@@ -101,7 +101,8 @@ public class BattleVisualization extends JFrame implements MouseListener {
             LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
             G.setColor(colorMap.get(monster.getTypeID()));
             Point p = this.getMonsterPos(positionComponent, collisionComponent);
-            G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() * scale, (int) collisionComponent.getHeight() * scale);
+            //G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() * scale, (int) collisionComponent.getHeight() * scale);
+            G.fillRect((int) p.x, (int) p.y, (int) 5 * scale, (int)5 * scale);
             G.setFont(new Font("Arial Black", Font.BOLD, 30));
             G.drawString(Double.toString(lifeComponent.getHp()), (int) p.x, (int) p.y);
 
@@ -150,7 +151,6 @@ public class BattleVisualization extends JFrame implements MouseListener {
         collisionSystem.run();
         effectSystem.run();
         lifeSystem.run();
-
         movementSystem.run();
     }
 
@@ -163,7 +163,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
     }
 
     public void initTower() throws Exception {
-        EntityFactory.getInstance().createGoatAttackDamageTower(new Point(3,3), EntityMode.PLAYER);
+       // EntityFactory.getInstance().createGoatAttackDamageTower(new Point(3,3), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createSnakeAttackSpeedTower(new Point(3, 3), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createWizardTower(new Point(3, 3), EntityMode.PLAYER);
 //         EntityFactory.getInstance().createBunnyOilGunTower(new Point(3, 3), EntityMode.PLAYER);

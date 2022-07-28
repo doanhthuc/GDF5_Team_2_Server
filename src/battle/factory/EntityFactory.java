@@ -156,7 +156,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPixelPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -185,7 +185,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPixelPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -243,7 +243,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPixelPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -272,7 +272,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPixelPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -302,7 +302,7 @@ public class EntityFactory {
         SpawnMinionComponent spawnMinionComponent = ComponentFactory.getInstance().createSpawnMinionComponent(2);
 
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPixelPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -330,7 +330,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPixelPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -352,11 +352,11 @@ public class EntityFactory {
 
         VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(0.4 * GameConfig.TILE_WIDTH, 0, null);
         CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(40, 40);
-        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(800);
+        LifeComponent lifeComponent = ComponentFactory.getInstance().createLifeComponent(10000);
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -384,7 +384,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPixelPath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -513,7 +513,7 @@ public class EntityFactory {
 
         TowerInfoComponent towerInfoComponent = ComponentFactory.getInstance().createTowerInfoComponent(10, "bulletTargetType", "support", "aura", "none");
         PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(pixelPos.x, pixelPos.y);
-        BuffAttackDamageEffect buffAttackDamageEffect = ComponentFactory.getInstance().createBuffAttackDamageEffect(15);
+        BuffAttackDamageEffect buffAttackDamageEffect = ComponentFactory.getInstance().createBuffAttackDamageEffect(1.5);
         TowerAbilityComponent towerAbilityComponent = ComponentFactory.getInstance().createTowerAbilityComponent(1.5 * GameConfig.TILE_WIDTH, buffAttackDamageEffect);
         entity.addComponent(towerInfoComponent)
                 .addComponent(positionComponent)
@@ -528,7 +528,7 @@ public class EntityFactory {
         return _instance;
     }
 
-    public ArrayList<Point> fakeGroundMonsterPath(EntityMode mode) {
+    public ArrayList<Point> fakeGroundMonsterPixelPath(EntityMode mode) {
         ArrayList<Point> path = new ArrayList<Point>();
         path.add(Utils.tile2Pixel(0, 4, mode));
         path.add(Utils.tile2Pixel(1, 4, mode));
@@ -539,8 +539,49 @@ public class EntityFactory {
         path.add(Utils.tile2Pixel(6, 4, mode));
         path.add(Utils.tile2Pixel(6, 3, mode));
         path.add(Utils.tile2Pixel(6, 2, mode));
-        path.add(Utils.tile2Pixel(6, 1, mode));
+        path.add(Utils.tile2Pixel(5, 2, mode));
+        path.add(Utils.tile2Pixel(4, 2, mode));
+        path.add(Utils.tile2Pixel(3, 2, mode));
+        path.add(Utils.tile2Pixel(2, 2, mode));
+        path.add(Utils.tile2Pixel(1, 2, mode));
+        path.add(Utils.tile2Pixel(0, 2, mode));
+        path.add(Utils.tile2Pixel(0, 1, mode));
+        path.add(Utils.tile2Pixel(0, 0, mode));
+        path.add(Utils.tile2Pixel(1, 0, mode));
+        path.add(Utils.tile2Pixel(2, 0, mode));
+        path.add(Utils.tile2Pixel(3, 0, mode));
+        path.add(Utils.tile2Pixel(4, 0, mode));
+        path.add(Utils.tile2Pixel(5, 0, mode));
         path.add(Utils.tile2Pixel(6, 0, mode));
+
+        return path;
+    }
+
+    public ArrayList<Point> fakeGroundMonsterTilePath(EntityMode mode) {
+        ArrayList<Point> path = new ArrayList<Point>();
+        path.add(new Point(0, 4));
+        path.add(new Point(1, 4));
+        path.add(new Point(2, 4));
+        path.add(new Point(3, 4));
+        path.add(new Point(4, 4));
+        path.add(new Point(5, 4));
+        path.add(new Point(6, 4));
+        path.add(new Point(6, 3));
+        path.add(new Point(6, 2));
+        path.add(new Point(5, 2));
+        path.add(new Point(4, 2));
+        path.add(new Point(3, 2));
+        path.add(new Point(2, 2));
+        path.add(new Point(1, 2));
+        path.add(new Point(0, 2));
+        path.add(new Point(0, 1));
+        path.add(new Point(0, 0));
+        path.add(new Point(1, 0));
+        path.add(new Point(2, 0));
+        path.add(new Point(3, 0));
+        path.add(new Point(4, 0));
+        path.add(new Point(5, 0));
+        path.add(new Point(6, 0));
 
         return path;
     }

@@ -40,10 +40,10 @@ public class QuadTree {
         double x = this.boundingBox.x;
         double y = this.boundingBox.y;
 
-        this.nodes[Direction.BOTTOM_LEFT.value] = new QuadTree(this.currentLevel + 1, new Rect(x, y, halfW, halfH));
-        this.nodes[Direction.BOTTOM_RIGHT.value] = new QuadTree(this.currentLevel + 1, new Rect(x + halfW, y, halfW, halfH));
-        this.nodes[Direction.TOP_LEFT.value] = new QuadTree(this.currentLevel + 1, new Rect(x, y + halfH, halfW, halfH));
-        this.nodes[Direction.TOP_RIGHT.value] = new QuadTree(this.currentLevel + 1, new Rect(x + halfW, y + halfH, halfW, halfH));
+        this.nodes[QuadTreeDirection.BOTTOM_LEFT.value] = new QuadTree(this.currentLevel + 1, new Rect(x, y, halfW, halfH));
+        this.nodes[QuadTreeDirection.BOTTOM_RIGHT.value] = new QuadTree(this.currentLevel + 1, new Rect(x + halfW, y, halfW, halfH));
+        this.nodes[QuadTreeDirection.TOP_LEFT.value] = new QuadTree(this.currentLevel + 1, new Rect(x, y + halfH, halfW, halfH));
+        this.nodes[QuadTreeDirection.TOP_RIGHT.value] = new QuadTree(this.currentLevel + 1, new Rect(x + halfW, y + halfH, halfW, halfH));
         //FIXME
 //        this.nodes[QuadTree.BOTTOM_LEFT] = new QuadTree(this.level + 1, cc.rect(x, y, halfW, halfH));
 //        this.nodes[QuadTree.BOTTOM_RIGHT]  = new QuadTree(this.level + 1, cc.rect(x + halfW, y, halfW, halfH));
@@ -63,15 +63,15 @@ public class QuadTree {
 
         if (isLeft) {
             if (isTop) {
-                index = Direction.TOP_LEFT.value;
+                index = QuadTreeDirection.TOP_LEFT.value;
             } else if (isBottom) {
-                index = Direction.BOTTOM_LEFT.value;
+                index = QuadTreeDirection.BOTTOM_LEFT.value;
             }
         } else if (isRight) {
             if (isTop) {
-                index = Direction.TOP_RIGHT.value;
+                index = QuadTreeDirection.TOP_RIGHT.value;
             } else if (isBottom) {
-                index = Direction.BOTTOM_RIGHT.value;
+                index = QuadTreeDirection.BOTTOM_RIGHT.value;
             }
         }
         return index;
