@@ -1,6 +1,7 @@
 package battle.component.effect;
 
 import battle.config.GameConfig;
+import battle.factory.ComponentFactory;
 
 public class BuffAttackSpeedEffect extends EffectComponent {
     private String name = "BuffAttackSpeedEffect";
@@ -13,7 +14,12 @@ public class BuffAttackSpeedEffect extends EffectComponent {
     }
 
     public BuffAttackSpeedEffect clone() {
-        return new BuffAttackSpeedEffect(this.percent);
+        try {
+            return ComponentFactory.getInstance().createBuffAttackSpeedEffect(percent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void reset(double percent) {

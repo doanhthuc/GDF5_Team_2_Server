@@ -28,8 +28,7 @@ public class SlowEffect extends EffectComponent {
 
     public SlowEffect(double duration, double percent) {
         super(GameConfig.COMPONENT_ID.SLOW_EFFECT);
-        this.duration = duration;
-        this.percent = percent;
+        this.reset(duration,percent);
     }
 
     public SlowEffect clone() {

@@ -32,11 +32,12 @@ public class AttackComponent extends Component {
         this.targetStrategy = targetStrategy;
         this.range = range;
         this.speed = speed;
+        this.originSpeed = speed;
         this.countdown = countdown;
-        if (effects != null)
-        {
-            for(EffectComponent effect: effects)
-            this.effects.add(effect);
+        this.effects.clear();
+        if (effects != null) {
+            for (EffectComponent effect : effects)
+                this.effects.add(effect);
         }
         //  System.out.println("countdown "+this.countdown);
         this.effects.add(new DamageEffect(this.damage));

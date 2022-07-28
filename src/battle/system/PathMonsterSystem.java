@@ -26,7 +26,7 @@ public class PathMonsterSystem extends SystemECS {
     @Override
     public void run() {
         this.tick = this.getElapseTime();
-        List<Integer> pathComponentIds = Arrays.asList(PathComponent.typeID);
+        List<Integer> pathComponentIds = Arrays.asList(PathComponent.typeID, PositionComponent.typeID);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(pathComponentIds);
 
         for (EntityECS entity : entityList) {
@@ -37,13 +37,15 @@ public class PathMonsterSystem extends SystemECS {
             int currentPathIdx = pathComponent.getCurrentPathIDx();
 
             int nextPosIdx = this._findNextPath(path, positionComponent, currentPathIdx);
-            if (nextPosIdx != 0) pathComponent.setCurrentPathIDx(nextPosIdx - 1);
+            if (nextPosIdx > 1) pathComponent.setCurrentPathIDx(nextPosIdx - 1);
 
             Point nextPos = path.get(nextPosIdx);
+
             double speed = velocityComponent.calculateSpeed(velocityComponent.getSpeedX(), velocityComponent.getSpeedY());
             Point newVelocity = Utils.getInstance().calculateVelocityVector(positionComponent.getPos(), nextPos, speed);
             velocityComponent.setSpeedX(newVelocity.getX());
             velocityComponent.setSpeedY(newVelocity.getY());
+
         }
     }
 

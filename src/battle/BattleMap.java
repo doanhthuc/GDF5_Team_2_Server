@@ -30,7 +30,7 @@ public class BattleMap {
             this.reset();
             this.genEverything();
         }
-        this.show();
+        //this.show();
     }
 
     public boolean checkOK() {
@@ -52,7 +52,7 @@ public class BattleMap {
         this.genTree();
         this.genPitCell();
         this.removePath();
-        this.show();
+        //this.show();
 
         this.battleMapObject = new BattleMapObject(this.map);
 //        this.battleMapObject.showConsole();
