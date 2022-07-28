@@ -30,7 +30,7 @@ public class MonsterSystem extends SystemECS {
         for(EntityECS monster : monsterList){
             PositionComponent monsterPos =(PositionComponent) monster.getComponent(PositionComponent.typeID);
             Point posTile = Utils.pixel2Tile(monsterPos.getX(),monsterPos.getY(),monster.getMode());
-            if (posTile.x == GameConfig.HOUSE_POSITION.x && posTile.y==GameConfig.HOUSE_POSITION.y)
+            if (posTile.x == GameConfig.HOUSE_POSITION.x && posTile.y == GameConfig.HOUSE_POSITION.y)
             {
                 MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
                 // TODO: Minus House Energy and Add Energy for player

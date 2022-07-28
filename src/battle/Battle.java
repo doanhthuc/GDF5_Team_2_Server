@@ -22,7 +22,8 @@ public class Battle {
     public LifeSystem lifeSystem;
     public AbilitySystem abilitySystem;
     public BulletSystem bulletSystem;
-    public  ResetSystem resetSystem = new ResetSystem();
+    public ResetSystem resetSystem;
+    public MonsterSystem monsterSystem;
     List<Point>[][] playerShortestPath;
     public Battle() throws Exception {
         this.entityManager = EntityManager.getInstance();
@@ -36,6 +37,7 @@ public class Battle {
         this.abilitySystem = new AbilitySystem();
         this.bulletSystem = new BulletSystem();
         this.resetSystem = new ResetSystem();
+        this.monsterSystem = new MonsterSystem();
         this.initMap();
     }
 
@@ -64,6 +66,7 @@ public class Battle {
         effectSystem.run();
         lifeSystem.run();
         movementSystem.run();
+        monsterSystem.run();
     }
 
     public void initMap() {
