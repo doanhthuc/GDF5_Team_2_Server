@@ -1,2 +1,4 @@
-package battle;public class BattleData {
+package battle;
+
+public class BattleData {
 }

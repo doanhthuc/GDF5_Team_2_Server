@@ -13,6 +13,16 @@ public class GameConfig {
     public static int MAP_HEIGHT = 5;
     public static int RIVER_MAP_HEIGHT = 100;
 
+    public static class MAP{
+        public static  int NONE = 0;
+        public static  int ATTACK_SPEED = 1;
+        public static  int ATTACK_RANGE = 2;
+        public static  int ATTACK_DAMAGE = 3;
+        public static  int TREE = 5;
+        public static  int HOLE = 6;
+        public static  int TOWER = 7;
+
+    }
     public static class COMPONENT_ID {
         public static int MONSTER_INFO = 1;
         public static int TOWER_INFO = 2;

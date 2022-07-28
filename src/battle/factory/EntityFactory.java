@@ -356,6 +356,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
+        Point tilePos = Utils.pixel2Tile(pixelPos.getX(),pixelPos.getY(), mode);
         PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);

@@ -47,10 +47,6 @@ public class Utils {
         return new Point(xx, yy);
     }
 
-    public static Point Tile2Pixel() {
-        return null;
-    }
-
     public static double euclidDistance(Point pointA, Point pointB) {
         double distance = Math.sqrt(Math.pow(pointA.getX() - pointB.getX(), 2) + Math.pow(pointA.getY() - pointB.getY(), 2));
         return distance;
@@ -123,7 +119,7 @@ public class Utils {
         }
 
         if (pointA.y != pointB.y) {
-            direction2 = (int) ((pointB.y - pointA.y) / Math.abs(pointB.y - pointA.y));
+            direction2 = (int) ((pointB.y - pointA.y) / Math.abs(pointB.y - pointA.y))*3;
         }
         return direction1 + direction2;
     }
@@ -135,9 +131,10 @@ public class Utils {
         int magicNumber = 27;
         int moduleCellRange = 4;
         int cellBound = 4;
-        int divideAmount = 3;
+        int divideAmount = 5;
         for (int i = 0; i < tileArr.size() - 1; i++) {
             int direction = Utils.getDirectionOf2Tile(tileArr.get(i), tileArr.get(i + 1));
+
             if (i == 0) {
                 beforeCellX = Math.floor(Math.random() * moduleCellRange) + cellBound;
                 beforeCellY = Math.floor(Math.random() * moduleCellRange) + cellBound;
@@ -162,16 +159,15 @@ public class Utils {
                             cellArr.addAll(divideGapCellPath);
                         }
                     }
-
                     cellArr.add(Utils.cell2Pixel(cellX, cellY, mode));
                     beforeCellY = cellsEachTile - 1;
                     break;
                 case Direction.RIGHT:
                     if (beforeCellY >= cellBound && beforeCellY < cellBound + moduleCellRange) {
-                        cellX = (tileArr.get(i).getX()+1) * cellsEachTile;
+                        cellX = (tileArr.get(i).getX() + 1) * cellsEachTile;
                         cellY = tileArr.get(i).getY() * cellsEachTile + beforeCellY;
                     } else {
-                        cellX = (tileArr.get(i).getX()+1) * cellsEachTile;
+                        cellX = (tileArr.get(i).getX() + 1) * cellsEachTile;
                         cellY = tileArr.get(i).getY() * cellsEachTile + (beforeCellX + magicNumber) % moduleCellRange + cellBound;
                         beforeCellY = (beforeCellX + magicNumber) % moduleCellRange + cellBound;
 

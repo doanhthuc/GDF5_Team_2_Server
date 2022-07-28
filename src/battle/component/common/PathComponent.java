@@ -24,8 +24,6 @@ public class PathComponent extends Component {
         if (isConvert == true) {
             // FIX ME: Code TileArray2PixelArray
             List<Point> pathTile2 = Utils.tileArray2PixelCellArray(pathTile, mode);
-            for(Point i : pathTile2)
-                System.out.println(i.x+ " "+ i.y);
             this.path = pathTile2;
         } else {
             this.path = pathTile;
