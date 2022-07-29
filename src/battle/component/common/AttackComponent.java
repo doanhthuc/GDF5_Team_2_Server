@@ -50,9 +50,9 @@ public class AttackComponent extends Component {
     public void setDamage(double damage) {
         this.damage = damage;
         for (int i = 0; i < this.effects.size(); i++) {
-            DamageEffect effect = (DamageEffect) this.effects.get(i);
-            if (effect.getTypeID() == GameConfig.COMPONENT_ID.DAMAGE_EFFECT) {
-                effect.setDamage(this.damage);
+            if (effects.get(i).getTypeID() == GameConfig.COMPONENT_ID.DAMAGE_EFFECT) {
+                DamageEffect damageEffect = (DamageEffect) effects.get(i);
+                damageEffect.setDamage(this.damage);
             }
         }
     }

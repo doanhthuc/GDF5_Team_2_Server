@@ -31,9 +31,7 @@ public class BulletSystem extends SystemECS implements Runnable {
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
 
             if (pathComponent != null) {
-                System.out.println(pathComponent.getCurrentPathIDx() + " " + pathComponent.getPath().size());
                 if (pathComponent.getCurrentPathIDx() == pathComponent.getPath().size() - 2) {
-                    System.out.println("destroy bullet");
                     EntityManager.destroy(bullet);
                 }
                 continue;
@@ -41,7 +39,7 @@ public class BulletSystem extends SystemECS implements Runnable {
 
             if (bulletVelocity.getDynamicPosition() == null) continue;
 
-            if (bulletVelocity.getDynamicPosition().getActive()==false) {
+            if (!bulletVelocity.getDynamicPosition().getActive()) {
                 bulletVelocity.setDynamicPosition(null);
                 EntityManager.destroy(bullet);
                 continue;

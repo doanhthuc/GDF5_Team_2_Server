@@ -37,7 +37,7 @@ public class BattleMap {
         int countPitTile = 0;
         int countTreeTile = 0;
         int requirePitTile = 1;
-        int requireTreeTile = 1;
+        int requireTreeTile = 2;
         for (int i = 0; i < this.mapW; i++)
             for (int j = 0; j < this.mapH; j++) {
                 if (this.map[i][j] == pitTile) countPitTile++;

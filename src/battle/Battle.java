@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Battle {
-    public BattleMap playerBattleMap;
-    private HashMap<Integer, BattleMap> battleMapListByPlayerId;
+    private HashMap<Integer, BattleMap> battleMapListByPlayerId = new HashMap<>();
     public AttackSystem attackSystem;
     public EntityManager entityManager;
     public MovementSystem movementSystem;
@@ -24,11 +23,17 @@ public class Battle {
     public BulletSystem bulletSystem;
     public ResetSystem resetSystem;
     public MonsterSystem monsterSystem;
-    List<Point>[][] playerShortestPath;
-    public Battle() throws Exception {
+
+    public BattleMap player1BattleMap;
+    List<Point>[][] player1ShortestPath;
+
+    public BattleMap player2BattleMap;
+    List<Point>[][] player2ShortestPath;
+    public Battle(int userId1, int userId2)  {
         this.entityManager = EntityManager.getInstance();
-        this.attackSystem = new AttackSystem();
-        this.attackSystem = new AttackSystem();
+        //InitSystem
+        {
+            this.attackSystem = new AttackSystem();
         this.pathMonsterSystem = new PathMonsterSystem();
         this.movementSystem = new MovementSystem();
         this.collisionSystem = new CollisionSystem();
@@ -38,23 +43,22 @@ public class Battle {
         this.bulletSystem = new BulletSystem();
         this.resetSystem = new ResetSystem();
         this.monsterSystem = new MonsterSystem();
-        this.initMap();
+        }
+
+        //initMap
+        this.initMap(userId1,userId2);
     }
 
-    public Battle(int userId1, int userId2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
-        this.battleMapListByPlayerId = new HashMap<>();
-        this.battleMapListByPlayerId.put(userId1, battleMap1);
-        this.battleMapListByPlayerId.put(userId2, battleMap2);
-        this.entityManager = EntityManager.getInstance();
-        //this._initTower();
-        this.attackSystem = new AttackSystem();
-    }
+//    public Battle(int userId1, int userId2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
+//        this.battleMapListByPlayerId = new HashMap<>();
+//        this.battleMapListByPlayerId.put(userId1, battleMap1);
+//        this.battleMapListByPlayerId.put(userId2, battleMap2);
+//
+//        this.entityManager = EntityManager.getInstance();
+//        //this._initTower();
+//        this.attackSystem = new AttackSystem();
+//    }
 
-
-    public void _initTower() throws Exception {
-        EntityFactory.getInstance().createCannonOwlTower(new Point(1, 3), EntityMode.PLAYER);
-        EntityFactory.getInstance().createSwordManMonster(new Point(35, 77*3),EntityMode.PLAYER);
-    }
 
     public void updateSystem() {
         resetSystem.run();
@@ -69,10 +73,17 @@ public class Battle {
         monsterSystem.run();
     }
 
-    public void initMap() {
-        this.playerBattleMap = new BattleMap();
-        this.playerBattleMap.show();
-        this.playerShortestPath = FindPathUtils.findShortestPathForEachTile(playerBattleMap.map);
+    public void initMap(int userId1, int userId2) {
+        this.player1BattleMap = new BattleMap();
+        //this.player1BattleMap.show();
+        this.player1ShortestPath = FindPathUtils.findShortestPathForEachTile(player1BattleMap.map);
+
+        this.player2BattleMap = new BattleMap();
+        //this.player2BattleMap.show();
+        this.player2ShortestPath = FindPathUtils.findShortestPathForEachTile(player2BattleMap.map);
+
+        this.battleMapListByPlayerId.put(userId1, this.player1BattleMap);
+        this.battleMapListByPlayerId.put(userId2, this.player2BattleMap);
         // DEBUG
 //        for (int j = BattleMap.mapH-1; j >= 0; j--)
 //        {

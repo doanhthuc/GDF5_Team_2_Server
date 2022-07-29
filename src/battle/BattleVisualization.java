@@ -23,7 +23,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class BattleVisualization extends JFrame implements MouseListener {
 
@@ -38,9 +38,10 @@ public class BattleVisualization extends JFrame implements MouseListener {
     static int centerX = paddingX + screenWidth / 2;
     static int centerY = paddingY + screenHeight / 2;
     static int scale = 2;
-    Battle battle = new Battle();
+    Battle battle = new Battle(1,2);
     BufferedImage B;
     Graphics G;
+    JComboBox entityChoosen;
 
     //    EntityManager entityManager;
 //    AttackSystem attackSystem;
@@ -61,21 +62,29 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
     public BattleVisualization() throws Exception {
         this.setTitle("BattleVisualization");
-        this.setSize((width * tileWidth + paddingX * 5) * scale, (height * tileHeight + paddingY * 5) * scale);
+        this.setSize((width * tileWidth + paddingX * 10) * scale, (height * tileHeight + paddingY * 5) * scale);
         this.setDefaultCloseOperation(3);
         this.addMouseListener(this);
         this.initColor();
         B = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
         G = B.getGraphics();
         this.setVisible(true);
-
+        String s1[] = {"OWL", "FROG", "WIZARD", "BEAR", "BUNNY", "GOAT", "SNAKE", "FIRE", "FROZEN", "TRAP"};
+        entityChoosen = new JComboBox(s1);
+        JFrame jFrame = new JFrame();
+        jFrame.add(entityChoosen);
+//        entityChoosen.setBounds(100,100,20,20);
+        jFrame.setSize(100, 100);
+        jFrame.setVisible(true);
         this.initTower();
-
-
+        this.initMonster();
     }
 
     public void paint(Graphics G1) {
         //redraw the Graphic
+
+        // create checkbox
+
         G.setColor(Color.LIGHT_GRAY);
         G.fillRect(0, 0, this.getWidth(), this.getHeight());
         G.setColor(Color.BLUE);
@@ -92,6 +101,16 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
         List<EntityECS> monsterList = this.battle.entityManager.getEntitiesHasComponents
                 (Collections.singletonList(MonsterInfoComponent.typeID));
+
+        for (int i = 0; i < BattleMap.mapW; i++)
+            for (int j = 0; j < BattleMap.mapH; j++) {
+                if (!FindPathUtils.findPathAble(this.battle.player1BattleMap.map[i][j])) {
+                    Point tilePos = Utils.tile2Pixel(i, j, EntityMode.PLAYER);
+                    G.setColor(Color.BLUE);
+                    Point p = this.getTowerPos(new PositionComponent(tilePos.getX(), tilePos.getY()));
+                    G.fillRect((int) p.x, (int) p.y, tileWidth * scale, tileHeight * scale);
+                }
+            }
         if (monsterList.size() > 0) {
             PathComponent path = (PathComponent) monsterList.get(0).getComponent(PathComponent.typeID);
             List<Point> monsterPath = path.getPath();
@@ -123,15 +142,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             G.fillRect((int) p.x, (int) p.y, tileWidth * scale, tileHeight * scale);
         }
 
-        for (int i = 0; i < BattleMap.mapW; i++)
-            for (int j = 0; j < BattleMap.mapH; j++) {
-                if (!FindPathUtils.findPathAble(this.battle.playerBattleMap.map[i][j])) {
-                    Point tilePos= Utils.tile2Pixel(i,j,EntityMode.PLAYER);
-                    G.setColor(Color.BLUE);
-                    Point p = this.getTowerPos(new PositionComponent(tilePos.getX(),tilePos.getY()));
-                    G.fillRect((int) p.x, (int) p.y, tileWidth * scale, tileHeight * scale);
-                }
-            }
+
 
 
         List<EntityECS> bulletList = this.battle.entityManager.getEntitiesHasComponents(Collections.singletonList(BulletInfoComponent.typeID));
@@ -145,6 +156,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() * scale, (int) collisionComponent.getHeight() * scale);
         }
         G1.drawImage(B, 0, 0, this.getWidth(), this.getHeight(), null);
+
         this.repaint();
     }
 
@@ -163,7 +175,11 @@ public class BattleVisualization extends JFrame implements MouseListener {
 //         EntityFactory.getInstance().createBunnyOilGunTower(new Point(3, 3), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createIceGunPolarBearTower(new Point(3, 3), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createFrogTower(new Point(1, 3), EntityMode.PLAYER);
-//        EntityFactory.getInstance().createSwordManMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
+
+    }
+
+    public void initMonster() throws Exception {
+        //        EntityFactory.getInstance().createSwordManMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createAssassinMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createBatMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
 //        EntityFactory.getInstance().createGiantMonster(Utils.tile2Pixel(0, 4, EntityMode.PLAYER), EntityMode.PLAYER);
@@ -173,10 +189,9 @@ public class BattleVisualization extends JFrame implements MouseListener {
 //        EntityFactory.getInstance().createDemonTreeBoss(Utils.tile2Pixel(0,4,EntityMode.PLAYER),EntityMode.PLAYER);
     }
 
-
     public void handlerPutTower(EntityMode mode) {
         if (mode == EntityMode.PLAYER)
-            this.battle.playerShortestPath = FindPathUtils.findShortestPathForEachTile(battle.playerBattleMap.map);
+            this.battle.player1ShortestPath = FindPathUtils.findShortestPathForEachTile(battle.player1BattleMap.map);
         List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PathComponent.typeID));
         for (EntityECS monster : monsterList) {
             if (monster.getMode() == mode) {
@@ -184,7 +199,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
                 PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
                 if (positionComponent != null) {
                     Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), mode);
-                    List<Point> path = this.battle.playerShortestPath[(int) tilePos.getX()][(int) tilePos.getY()];
+                    List<Point> path = this.battle.player1ShortestPath[(int) tilePos.getX()][(int) tilePos.getY()];
                     if (path != null) {
                         List<Point> newPath = Utils.tileArray2PixelCellArray(path, mode);
                         pathComponent.setPath(newPath);
@@ -221,12 +236,56 @@ public class BattleVisualization extends JFrame implements MouseListener {
         int tilePosY = (e.getY() - paddingY * scale) / (tileHeight * scale);
         tilePosY = height - 1 - tilePosY;
         try {
-            EntityFactory.getInstance().createCannonOwlTower(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
-            battle.playerBattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-            this.handlerPutTower(EntityMode.PLAYER);
+            switch ((String) this.entityChoosen.getSelectedItem()) {
+                case "OWL":
+                    EntityFactory.getInstance().createCannonOwlTower(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
+                    battle.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+                    this.handlerPutTower(EntityMode.PLAYER);
+                    break;
+                case "FROG":
+                    EntityFactory.getInstance().createFrogTower(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
+                    battle.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+                    this.handlerPutTower(EntityMode.PLAYER);
+                    System.out.println("FROG");
+                    break;
+                case "WIZARD":
+                    EntityFactory.getInstance().createWizardTower(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
+                    battle.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+                    this.handlerPutTower(EntityMode.PLAYER);
+                    break;
+                case "BEAR":
+                    EntityFactory.getInstance().createIceGunPolarBearTower(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
+                    battle.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+                    this.handlerPutTower(EntityMode.PLAYER);
+                    break;
+                case "BUNNY":
+                    EntityFactory.getInstance().createBunnyOilGunTower(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
+                    battle.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+                    this.handlerPutTower(EntityMode.PLAYER);
+                    break;
+                case "SNAKE":
+                    EntityFactory.getInstance().createSnakeAttackSpeedTower(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
+                    battle.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+                    this.handlerPutTower(EntityMode.PLAYER);
+                    break;
+                case "GOAT":
+                    EntityFactory.getInstance().createGoatAttackDamageTower(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
+                    battle.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+                    this.handlerPutTower(EntityMode.PLAYER);
+                    break;
+//                case "FIRE":
+//                    EntityFactory.getInstance().createGoatAttackDamageTower(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
+//                    battle.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+//                    this.handlerPutTower(EntityMode.PLAYER);
+//                    break;
+
+
+
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
 
     }
 

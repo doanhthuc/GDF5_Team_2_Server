@@ -9,6 +9,7 @@ public class PlayerInfo extends DataModel {
     private int trophy;
     private int gold;
     private int gem;
+    private int isBot;
 
     public PlayerInfo(int _id, String username, int gold, int gem, int trophy) {
         super();
@@ -17,6 +18,7 @@ public class PlayerInfo extends DataModel {
         this.gold = gold;
         this.gem = gem;
         this.trophy = trophy;
+        this.isBot = 0;
     }
 
     public String toString() {
@@ -70,5 +72,9 @@ public class PlayerInfo extends DataModel {
         System.out.print(" gold=" + this.gold);
         System.out.print(" gem=" + this.gem);
         System.out.println(" trophy=" + this.trophy);
+    }
+
+    public void setIsBot(int isBot) {
+        this.isBot = isBot;
     }
 }
