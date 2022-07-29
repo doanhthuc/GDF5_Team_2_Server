@@ -60,7 +60,7 @@ public class MatchMaking implements Runnable {
                 }
                 System.out.println(matchingInfo1.getTime());
             }
-            if (matchingInfo1.getTime() >= 8000) {
+            if (matchingInfo1.getTime() >= 20000) {
                 processMatchingWithBot(matchingInfo1);
             }
         }
@@ -99,16 +99,20 @@ public class MatchMaking implements Runnable {
 
             OpponentInfo opponentInfoOfUser1 = new OpponentInfo(userInfo2.getId(), userInfo2.getUserName(), userInfo2.getTrophy());
             OpponentInfo opponentInfoOfUser2 = new OpponentInfo(userInfo1.getId(), userInfo1.getUserName(), userInfo1.getTrophy());
-            BattleMap user1Map = new BattleMap();
-            BattleMap user2Map = new BattleMap();
             Room room = new Room(userInfo1, userInfo2);
             RoomManager.getInstance().addRoom(room);
             new Thread(room).start();
             // add opponent's username, trophy and 8 card
+            ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(), room.getRoomId(),
+                    room.getBattle().getBattleMapByPlayerId(user1.getId()),
+                    room.getBattle().getBattleMapByPlayerId(user2.getId()),
+                    opponentInfoOfUser1), user1);
+
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getRoomId(), user1Map, user2Map, opponentInfoOfUser1), user1);
-            ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getRoomId(), user2Map, user1Map, opponentInfoOfUser2), user2);
+                    room.getRoomId(),
+                    room.getBattle().getBattleMapByPlayerId(user2.getId()),
+                    room.getBattle().getBattleMapByPlayerId(user1.getId()),
+                    opponentInfoOfUser2), user2);
 
 
             waitingQueue.remove(matchingInfo1);
@@ -116,9 +120,11 @@ public class MatchMaking implements Runnable {
             waitingMap.remove(matchingInfo1.getPlayerId());
             waitingMap.remove(matchingInfo2.getPlayerId());
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    user1Map.battleMapObject, user2Map.battleMapObject), user1);
+                    room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject,
+                    room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user1);
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    user2Map.battleMapObject, user1Map.battleMapObject), user2);
+                    room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject,
+                    room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user2);
 //            for (int i = 0; i < user1Map.battleMapObject.getHeight(); i++) {
 //                for (int j = 0; j < user1Map.battleMapObject.getWidth(); j++) {
 //                    CellObject cellObject = user1Map.battleMapObject.getCellObject(i, j);
