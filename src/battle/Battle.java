@@ -23,6 +23,7 @@ public class Battle {
     public BulletSystem bulletSystem;
     public ResetSystem resetSystem;
     public MonsterSystem monsterSystem;
+    public SpellSystem spellSystem;
 
     public BattleMap player1BattleMap;
     List<Point>[][] player1ShortestPath;
@@ -43,6 +44,7 @@ public class Battle {
         this.bulletSystem = new BulletSystem();
         this.resetSystem = new ResetSystem();
         this.monsterSystem = new MonsterSystem();
+        this.spellSystem = new SpellSystem();
         }
 
         //initMap
@@ -71,6 +73,7 @@ public class Battle {
         lifeSystem.run();
         movementSystem.run();
         monsterSystem.run();
+        spellSystem.run();
     }
 
     public void initMap(int userId1, int userId2) {

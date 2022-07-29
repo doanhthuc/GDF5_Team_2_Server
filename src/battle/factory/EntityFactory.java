@@ -156,7 +156,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPixelPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -185,7 +185,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPixelPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -214,7 +214,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.airMonsterPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.airMonsterPath(mode), mode, false);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -243,7 +243,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPixelPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -272,7 +272,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterPixelPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(this.fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -302,7 +302,7 @@ public class EntityFactory {
         SpawnMinionComponent spawnMinionComponent = ComponentFactory.getInstance().createSpawnMinionComponent(2);
 
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPixelPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -330,7 +330,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPixelPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -356,7 +356,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        Point tilePos = Utils.pixel2Tile(pixelPos.getX(),pixelPos.getY(), mode);
+        Point tilePos = Utils.pixel2Tile(pixelPos.getX(), pixelPos.getY(), mode);
         PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
@@ -385,7 +385,7 @@ public class EntityFactory {
         // FrozenEffect frozenEffect= ComponentFactory.getInstance().createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
-        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterPixelPath(mode), mode, true);
+        PathComponent pathComponent = ComponentFactory.getInstance().createPathComponent(fakeGroundMonsterTilePath(mode), mode, true);
 
         entity.addComponent(monsterInfoComponent);
         entity.addComponent(positionComponent);
@@ -522,6 +522,53 @@ public class EntityFactory {
         return entity;
     }
 
+    // Create Spell
+
+    public EntityECS createFireSpell(Point pixelPos, EntityMode mode) throws Exception {
+        int typeID = GameConfig.ENTITY_ID.FIRE_SPELL;
+        EntityECS entity = this._createEntity(typeID, mode);
+
+        double S = 300;
+        double V = 1000;
+        double T = S / V;
+
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(pixelPos.getX(), pixelPos.getY() + S);
+
+        Point speed = Utils.calculateVelocityVector(new Point(pixelPos.getX(), pixelPos.getY() + S), pixelPos, V);
+        VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.getX(), speed.getY());
+
+        DamageEffect damageEffect = ComponentFactory.getInstance().createDamageEffect(100);
+        SpellInfoComponent spellInfoComponent = ComponentFactory.getInstance().createSpellInfoComponent(pixelPos, Arrays.asList(damageEffect), 1.2 * GameConfig.TILE_WIDTH, T);
+
+        entity.addComponent(positionComponent);
+        entity.addComponent(velocityComponent);
+        entity.addComponent(spellInfoComponent);
+
+        return entity;
+    }
+
+    public EntityECS createFrozenSpell(Point pixelPos, EntityMode mode) throws Exception {
+        int typeID = GameConfig.ENTITY_ID.FROZEN_SPELL;
+        EntityECS entity = this._createEntity(typeID, mode);
+
+        double S = 300;
+        double V = 1000;
+        double T = S / V;
+
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(pixelPos.getX(), pixelPos.getY() + S);
+        Point speed = Utils.calculateVelocityVector(new Point(pixelPos.getX(), pixelPos.getY() + S), pixelPos, V);
+        VelocityComponent velocityComponent = ComponentFactory.getInstance().createVelocityComponent(speed.getX(), speed.getY());
+
+        DamageEffect damageEffect = ComponentFactory.getInstance().createDamageEffect(10);
+        FrozenEffect frozenEffect = ComponentFactory.getInstance().createFrozenEffect(5);
+        SpellInfoComponent spellInfoComponent = ComponentFactory.getInstance().createSpellInfoComponent(pixelPos, Arrays.asList(damageEffect, frozenEffect), 1.2 * GameConfig.TILE_WIDTH, T);
+
+        entity.addComponent(positionComponent);
+        entity.addComponent(velocityComponent);
+        entity.addComponent(spellInfoComponent);
+        return entity;
+    }
+
 
     // Other Function
     public static EntityFactory getInstance() {
@@ -594,6 +641,7 @@ public class EntityFactory {
         path.add(Utils.tile2Pixel(2, 2, mode));
         path.add(Utils.tile2Pixel(3, 1, mode));
         path.add(Utils.tile2Pixel(4, 0, mode));
+        path.add(Utils.tile2Pixel(4.01, 0, mode));
         path.add(Utils.tile2Pixel(5, 0, mode));
         path.add(Utils.tile2Pixel(6, 0, mode));
         return path;

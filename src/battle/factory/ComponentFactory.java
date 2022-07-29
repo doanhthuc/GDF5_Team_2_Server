@@ -187,7 +187,7 @@ public class ComponentFactory {
         return spawnMinionComponent;
     }
 
-    public SpellInfoComponent createSpellInfoComponent(PositionComponent position, List<EffectComponent> effects, double range, double countdown) throws Exception {
+    public SpellInfoComponent createSpellInfoComponent(Point position, List<EffectComponent> effects, double range, double countdown) throws Exception {
         SpellInfoComponent spellInfoComponent = (SpellInfoComponent) this.pool.checkOut(SpellInfoComponent.typeID);
         if (spellInfoComponent != null) {
             spellInfoComponent.reset(position, effects, range, countdown);
@@ -208,6 +208,18 @@ public class ComponentFactory {
         }
         return towerAbilityComponent;
     }
+
+    public DamageEffect createDamageEffect(double damage) throws Exception {
+        DamageEffect damageEffect = (DamageEffect) this.pool.checkOut(DamageEffect.typeID);
+        if (damageEffect != null) {
+            damageEffect.reset(damage);
+        } else {
+            damageEffect = new DamageEffect(damage);
+            ComponentManager.getInstance().add(damageEffect);
+        }
+        return damageEffect;
+    }
+
 
     public SlowEffect createSlowEffect(double duration, double percent) throws Exception {
         SlowEffect slowEffect = (SlowEffect) this.pool.checkOut(SlowEffect.typeID);

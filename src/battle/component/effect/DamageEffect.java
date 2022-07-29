@@ -9,7 +9,7 @@ public class DamageEffect extends EffectComponent {
 
     public DamageEffect(double damage) {
         super(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-        this.damage = damage;
+        this.reset(damage);
     }
 
     public DamageEffect clone() {

@@ -75,7 +75,7 @@ public class Utils {
     }
 
 
-    public Point calculateVelocityVector(Point startPos, Point targetPos, double speed) {
+    public static Point calculateVelocityVector(Point startPos, Point targetPos, double speed) {
         double Xa = startPos.getX(), Ya = startPos.getY(), Xb = targetPos.getX(), Yb = targetPos.getY();
         if (Xa - Xb == 0)
             return new Point(0, Math.signum(Yb - Ya) * speed);

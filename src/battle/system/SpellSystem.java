@@ -31,11 +31,10 @@ public class SpellSystem extends SystemECS {
         this.tick = this.getElapseTime();
         List<EntityECS> spellList = EntityManager.getInstance().getEntitiesHasComponents
                 (Collections.singletonList(SpellInfoComponent.typeID));
-
         for (EntityECS spellEntity : spellList) {
             SpellInfoComponent spellInfoComponent = (SpellInfoComponent) spellEntity.getComponent(SpellInfoComponent.typeID);
-            spellInfoComponent.setCountdown(spellInfoComponent.getCountdown() - tick);
-
+            spellInfoComponent.setCountdown(spellInfoComponent.getCountdown() - tick / 1000);
+            System.out.println(spellInfoComponent.getCountdown());
             if (spellInfoComponent.getCountdown() <= 0) {
                 List<Integer> monsterIds = Arrays.asList(MonsterInfoComponent.typeID);
                 List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(monsterIds);
@@ -53,6 +52,7 @@ public class SpellSystem extends SystemECS {
                         }
                     }
                 }
+                EntityManager.getInstance().remove(spellEntity);
             }
         }
     }
