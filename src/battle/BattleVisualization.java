@@ -284,6 +284,9 @@ public class BattleVisualization extends JFrame implements MouseListener {
                     //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
                     EntityFactory.getInstance().createFrozenSpell(pixelPos, EntityMode.PLAYER);
                     break;
+                case "TRAP":
+                    EntityFactory.getInstance().createTrapSpell(new Point(tilePosX,tilePosY), EntityMode.PLAYER);
+                    break;
 
             }
         } catch (Exception exception) {

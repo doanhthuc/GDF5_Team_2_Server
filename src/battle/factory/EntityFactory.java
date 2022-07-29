@@ -569,6 +569,20 @@ public class EntityFactory {
         return entity;
     }
 
+    public EntityECS createTrapSpell(Point tilePos, EntityMode mode) throws Exception {
+        int typeID = GameConfig.ENTITY_ID.TRAP_SPELL;
+        EntityECS entity = this._createEntity(typeID, mode);
+
+        Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
+        PositionComponent positionComponent = ComponentFactory.getInstance().createPositionComponent(pixelPos.getX(), pixelPos.getY());
+        CollisionComponent collisionComponent = ComponentFactory.getInstance().createCollisionComponent(GameConfig.TILE_WIDTH, GameConfig.TILE_HEIGHT);
+        TrapInfoComponent trapInfoComponent = ComponentFactory.getInstance().createTrapInfoComponent(0.3);
+        entity.addComponent(positionComponent);
+        entity.addComponent(trapInfoComponent);
+        entity.addComponent(collisionComponent);
+        return entity;
+    }
+
 
     // Other Function
     public static EntityFactory getInstance() {

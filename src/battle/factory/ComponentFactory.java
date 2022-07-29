@@ -220,6 +220,28 @@ public class ComponentFactory {
         return damageEffect;
     }
 
+    public TrapInfoComponent createTrapInfoComponent(double delayTrigger) throws Exception {
+        TrapInfoComponent trapInfoComponent = (TrapInfoComponent) this.pool.checkOut(TrapInfoComponent.typeID);
+        if (trapInfoComponent != null) {
+            trapInfoComponent.reset(delayTrigger);
+        } else {
+            trapInfoComponent = new TrapInfoComponent(delayTrigger);
+            ComponentManager.getInstance().add(trapInfoComponent);
+        }
+        return trapInfoComponent;
+    }
+
+    public TrapEffect createTrapEffect() throws Exception {
+        TrapEffect trapEffect = (TrapEffect) this.pool.checkOut(TrapEffect.typeID);
+        if (trapEffect != null) {
+            trapEffect.reset();
+        } else {
+            trapEffect = new TrapEffect();
+            ComponentManager.getInstance().add(trapEffect);
+        }
+        return trapEffect;
+    }
+
 
     public SlowEffect createSlowEffect(double duration, double percent) throws Exception {
         SlowEffect slowEffect = (SlowEffect) this.pool.checkOut(SlowEffect.typeID);

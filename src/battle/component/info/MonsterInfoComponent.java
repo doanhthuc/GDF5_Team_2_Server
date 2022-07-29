@@ -41,4 +41,20 @@ public class MonsterInfoComponent extends InfoComponent {
         }
         return null;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getClasss() {
+        return classs;
+    }
+
+    public void setClasss(String classs) {
+        this.classs = classs;
+    }
 }

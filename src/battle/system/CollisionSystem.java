@@ -10,8 +10,10 @@ import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.component.info.BulletInfoComponent;
 import battle.component.info.MonsterInfoComponent;
+import battle.component.info.TrapInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
+import battle.factory.ComponentFactory;
 import battle.manager.EntityManager;
 import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
 
@@ -59,12 +61,15 @@ public class CollisionSystem extends SystemECS implements Runnable {
                 BulletInfoComponent bulletInfo = (BulletInfoComponent) bullet.getComponent(BulletInfoComponent.typeID);
                 if (bulletInfo.getRadius() > 0) {
                     this.handleRadiusBullet(bullet);
-                }
-                else {
+                } else {
                     this.handleCollisionBullet(bullet);
                 }
             } else if (ValidatorECS.isEntityIdEqualTypeId(entityList.get(i), GameConfig.ENTITY_ID.TRAP_SPELL)) {
-                this.handleCollisionTrap(entityList.get(i), this.tick);
+                try {
+                    this.handleCollisionTrap(entityList.get(i), this.tick);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -144,8 +149,7 @@ public class CollisionSystem extends SystemECS implements Runnable {
             List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
             for (EntityECS monster : monsterList) {
                 if (monster.getMode() == bulletEntity.getMode()) {
-                    if (Utils.euclidDistance((PositionComponent) monster.getComponent(PositionComponent.typeID), bulletPos) <= bulletInfo.getRadius())
-                    {
+                    if (Utils.euclidDistance((PositionComponent) monster.getComponent(PositionComponent.typeID), bulletPos) <= bulletInfo.getRadius()) {
                         for (EffectComponent effect : bulletInfo.getEffects())
                             monster.addComponent(effect.clone());
                     }
@@ -155,8 +159,41 @@ public class CollisionSystem extends SystemECS implements Runnable {
         }
     }
 
-    public void handleCollisionTrap(EntityECS trapEntity, double tick) {
+    public void handleCollisionTrap(EntityECS trapEntity, double tick) throws Exception {
+        TrapInfoComponent trapInfoComponent = (TrapInfoComponent) trapEntity.getComponent(TrapInfoComponent.typeID);
+        if (trapInfoComponent.isTriggered() == false) {
+            double delayTrigger = trapInfoComponent.getDelayTrigger();
+            if (delayTrigger > 0) {
+                trapInfoComponent.setDelayTrigger(delayTrigger - tick / 1000);
+            } else {
+                PositionComponent positionComponent = (PositionComponent) trapEntity.getComponent(PositionComponent.typeID);
+                CollisionComponent collisionComponent = (CollisionComponent) trapEntity.getComponent(CollisionComponent.typeID);
+                double w = collisionComponent.getWidth();
+                double h = collisionComponent.getHeight();
 
+                List<QuadTreeData> returnObjects = null;
+                if (trapEntity.getMode() == EntityMode.PLAYER) {
+                    returnObjects = quadTreePlayer.retrieve(new Rect(positionComponent.getX() - w / 2, positionComponent.getY() - h / 2, w, h));
+                } else {
+                    returnObjects = quadTreeOpponent.retrieve(new Rect(positionComponent.getX() - w / 2, positionComponent.getY() - h / 2, w, h));
+                }
+
+                for (int j = 0; j < returnObjects.size(); j++) {
+                    EntityECS entity1 = trapEntity;
+                    EntityECS entity2 = returnObjects.get(j).getEntity();
+
+                    if ((entity1 != entity2)
+                            && (entity1.getMode() == entity2.getMode())
+                            && ValidatorECS.isEntityInGroupId(entity2, GameConfig.GROUP_ID.MONSTER_ENTITY)
+                            && this.isCollide(entity1, entity2)) {
+                        MonsterInfoComponent monsterInfo = (MonsterInfoComponent) entity2.getComponent(MonsterInfoComponent.typeID);
+                        if (monsterInfo.getClasss() == GameConfig.MONSTER.CLASS.AIR) continue;
+                        if (monsterInfo.getCategory()== GameConfig.MONSTER.CATEGORY.BOSS) continue;
+                        entity2.addComponent(ComponentFactory.getInstance().createTrapEffect());
+                    }
+                }
+            }
+        }
     }
 
     private boolean isCollide(EntityECS entity1, EntityECS entity2) {
