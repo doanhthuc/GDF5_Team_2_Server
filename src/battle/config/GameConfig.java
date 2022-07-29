@@ -13,6 +13,16 @@ public class GameConfig {
     public static int MAP_HEIGHT = 5;
     public static int RIVER_MAP_HEIGHT = 100;
 
+    public static class MAP{
+        public static  int NONE = 0;
+        public static  int ATTACK_SPEED = 1;
+        public static  int ATTACK_RANGE = 2;
+        public static  int ATTACK_DAMAGE = 3;
+        public static  int TREE = 5;
+        public static  int HOLE = 6;
+        public static  int TOWER = 7;
+
+    }
     public static class COMPONENT_ID {
         public static int MONSTER_INFO = 1;
         public static int TOWER_INFO = 2;
@@ -90,7 +100,7 @@ public class GameConfig {
         public static final int MONSTER = 11;
         public static final int ABILITY = 12;
         public static final int COLLISION = 13;
-
+        public static final int RESET_SYSTEM = 14;
     }
 
     public static class GROUP_ID {
@@ -105,6 +115,13 @@ public class GameConfig {
     public static class COMPONENT_NAME {
         public static List<String> NAME = Arrays.asList("", "MONSTER_INFO", "TOWER_INFO", "BULLET_INFO", "LIFE", "POSITION", "VELOCITY", "APPEARANCE", "PATH", "COLLISION", "DAMAGE_EFFECT", "SLOW_EFFECT",
                 "FROZEN_EFFECT", "ATTACK", "BUFF_ATTACK_SPEED", "BUFF_ATTACK_DAMAGE");
+    }
+
+    public static class FROG_BULLET {
+        public static int HIT_FIRST_TIME = 1;
+        public static int HIT_SECOND_TIME = 2;
+        public static int HIT_BOTH_TIME = 3;
+
     }
 }
 

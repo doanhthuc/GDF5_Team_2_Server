@@ -2,17 +2,20 @@ package battle.system;
 
 import battle.common.*;
 import battle.component.common.CollisionComponent;
+import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
 import battle.common.QuadTreeData;
+import battle.component.common.VelocityComponent;
+import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.component.info.BulletInfoComponent;
+import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CollisionSystem extends SystemECS implements Runnable {
     public static int typeID = GameConfig.SYSTEM_ID.COLLISION;
@@ -52,14 +55,21 @@ public class CollisionSystem extends SystemECS implements Runnable {
 
         for (int i = 0; i < entityList.size(); i++) {
             if (ValidatorECS.isEntityInGroupId(entityList.get(i), GameConfig.GROUP_ID.BULLET_ENTITY)) {
-                this.hanleCollisionBullet(entityList.get(i));
+                EntityECS bullet = entityList.get(i);
+                BulletInfoComponent bulletInfo = (BulletInfoComponent) bullet.getComponent(BulletInfoComponent.typeID);
+                if (bulletInfo.getRadius() > 0) {
+                    this.handleRadiusBullet(bullet);
+                }
+                else {
+                    this.handleCollisionBullet(bullet);
+                }
             } else if (ValidatorECS.isEntityIdEqualTypeId(entityList.get(i), GameConfig.ENTITY_ID.TRAP_SPELL)) {
                 this.handleCollisionTrap(entityList.get(i), this.tick);
             }
         }
     }
 
-    private void hanleCollisionBullet(EntityECS bulletEntity) {
+    private void handleCollisionBullet(EntityECS bulletEntity) {
         PositionComponent pos = (PositionComponent) bulletEntity.getComponent(GameConfig.COMPONENT_ID.POSITION);
         CollisionComponent collision = (CollisionComponent) bulletEntity.getComponent(GameConfig.COMPONENT_ID.COLLISION);
         double w = collision.getWidth(), h = collision.getHeight();
@@ -80,32 +90,68 @@ public class CollisionSystem extends SystemECS implements Runnable {
                     EntityECS bullet = data.getBullet();
                     BulletInfoComponent bulletInfo = (BulletInfoComponent) bullet.getComponent(GameConfig.COMPONENT_ID.BULLET_INFO);
                     // FIXME: Define bulletInfo type for Frog Tower
-                    if (bulletInfo.getType() == 1000) {
-
-                    } else {
-                        if (bulletInfo.getRadius() > 0) {
-                            List<EntityECS> monsterList = EntityManager.getInstance()
-                                    .getEntitiesHasComponents(
-                                            Collections.singletonList(GameConfig.COMPONENT_ID.MONSTER_INFO));
-                            for (EntityECS monsterEntity : monsterList) {
-                                PositionComponent monsterPos = (PositionComponent) monsterEntity.getComponent(GameConfig.COMPONENT_ID.POSITION);
-                                if (Utils.euclidDistance(monsterPos, pos) <= bulletInfo.getRadius()) {
-                                    for (EffectComponent effect : bulletInfo.getEffects()) {
-                                        monsterEntity.addComponent(effect.clone());
+                    if (bulletInfo.getType() == "frog") {
+                        Map<Long, Integer> hitMonster;
+                        PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
+                        // check the bullet is in the first Path
+                        hitMonster = bulletInfo.getHitMonster();
+                        if (pathComponent.getCurrentPathIDx() <= pathComponent.getPath().size() / 2) {
+                            if (!hitMonster.containsKey(monster.getId())) {
+                                for (EffectComponent effectComponent : bulletInfo.getEffects()) {
+                                    monster.addComponent(effectComponent.clone());
+                                    bulletInfo.getHitMonster().put(monster.getId(), GameConfig.FROG_BULLET.HIT_FIRST_TIME);
+                                }
+                            }
+                        } // check the bullet is in the second Path
+                        else {
+                            //check the monster was not hit in the first Path
+                            hitMonster = bulletInfo.getHitMonster();
+                            if (!hitMonster.containsKey(monster.getId())) {
+                                for (EffectComponent effectComponent : bulletInfo.getEffects()) {
+                                    monster.addComponent(effectComponent.clone());
+                                    bulletInfo.getHitMonster().put(monster.getId(), GameConfig.FROG_BULLET.HIT_SECOND_TIME);
+                                }
+                            } else if (hitMonster.get(monster.getId()) == GameConfig.FROG_BULLET.HIT_FIRST_TIME) {
+                                for (EffectComponent effect : bulletInfo.getEffects()) {
+                                    if (effect.getTypeID() == DamageEffect.typeID) {
+                                        DamageEffect newDamageEffect = (DamageEffect) effect.clone();
+                                        newDamageEffect.setDamage(newDamageEffect.getDamage() * 1.5);
+                                        monster.addComponent(newDamageEffect);
+                                        bulletInfo.setHitMonster(monster.getId(), GameConfig.FROG_BULLET.HIT_BOTH_TIME);
                                     }
                                 }
                             }
-
-                        } else {
-                            for (EffectComponent effect : bulletInfo.getEffects()) {
-                                monster.addComponent(effect.clone());
-                            }
+                        }
+                    } else {
+                        for (EffectComponent effect : bulletInfo.getEffects()) {
+                            monster.addComponent(effect.clone());
                         }
                         EntityManager.destroy(bullet);
-                        break;
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
+
+    private void handleRadiusBullet(EntityECS bulletEntity) {
+        PositionComponent bulletPos = (PositionComponent) bulletEntity.getComponent(PositionComponent.typeID);
+        VelocityComponent bulletVelocity = (VelocityComponent) bulletEntity.getComponent(VelocityComponent.typeID);
+        BulletInfoComponent bulletInfo = (BulletInfoComponent) bulletEntity.getComponent(BulletInfoComponent.typeID);
+        Point staticPosition = bulletVelocity.getStaticPosition();
+        if ((Math.abs(staticPosition.getX() - bulletPos.getX()) <= 5) && (Math.abs(staticPosition.getY() - bulletPos.getY()) <= 5)) {
+            List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
+            for (EntityECS monster : monsterList) {
+                if (monster.getMode() == bulletEntity.getMode()) {
+                    if (Utils.euclidDistance((PositionComponent) monster.getComponent(PositionComponent.typeID), bulletPos) <= bulletInfo.getRadius())
+                    {
+                        for (EffectComponent effect : bulletInfo.getEffects())
+                            monster.addComponent(effect.clone());
                     }
                 }
             }
+            EntityManager.destroy(bulletEntity);
         }
     }
 

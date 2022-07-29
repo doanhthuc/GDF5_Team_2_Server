@@ -4,9 +4,7 @@ package battle.common;
 import battle.component.common.PositionComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import bitzero.core.G;
 import bitzero.core.P;
-import com.sun.org.apache.bcel.internal.generic.DCONST;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,10 +45,6 @@ public class Utils {
             yy = GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2 - x * GameConfig.TILE_HEIGHT - GameConfig.TILE_HEIGHT / 2;
         }
         return new Point(xx, yy);
-    }
-
-    public static Point Tile2Pixel() {
-        return null;
     }
 
     public static double euclidDistance(Point pointA, Point pointB) {
@@ -97,18 +91,19 @@ public class Utils {
         );
     }
 
-    public Point pixel2Cell(double x, double y, EntityMode mode) {
+    public static Point pixel2Cell(double x, double y, EntityMode mode) {
         Point tilePos = pixel2Tile(x, y, EntityMode.PLAYER);
         int cellX, cellY;
         double paddingLeftX = cell2Pixel(0, 0, mode).getX();
         return null;
     }
 
-    public Point cell2Pixel(int cellX, int cellY, EntityMode mode) {
+
+    public static Point cell2Pixel(double cellX, double cellY, EntityMode mode) {
         double x = 0, y = 0;
         if (mode == EntityMode.PLAYER) {
             x = (cellX + 1) * cellWidth - mapWidthPixel / 2 - cellWidth / 2;
-            y = (cellY + 1) * cellHeight - mapWidthPixel / 2 - cellHeight / 2;
+            y = (cellY + 1) * cellHeight - mapHeightPixel / 2 - cellHeight / 2;
         } else if (mode == EntityMode.OPPONENT) {
             x = mapWidthPixel / 2 - (cellX + 1) * cellWidth + cellWidth / 2;
             y = mapHeightPixel / 2 - (cellX + 1) * cellHeight + cellHeight / 2;
@@ -116,22 +111,143 @@ public class Utils {
         return new Point(x, y);
     }
 
-    public List<Point> tileArray2PixelCellArray(List<Point> tileArr, EntityMode mode) {
+    public static int getDirectionOf2Tile(Point pointA, Point pointB) {
+        int direction1 = 0;
+        int direction2 = 0;
+        if (pointA.x != pointB.x) {
+            direction1 = (int) ((pointB.x - pointA.x) / Math.abs(pointB.x - pointA.x));
+        }
+
+        if (pointA.y != pointB.y) {
+            direction2 = (int) ((pointB.y - pointA.y) / Math.abs(pointB.y - pointA.y))*3;
+        }
+        return direction1 + direction2;
+    }
+
+    public static List<Point> tileArray2PixelCellArray(List<Point> tileArr, EntityMode mode) {
         if (tileArr.size() < 2) return null;
         List<Point> cellArr = new ArrayList<>();
-        int cellX, cellY, beforeCellX, beforeCellY;
+        double cellX, cellY, beforeCellX = 0, beforeCellY = 0;
         int magicNumber = 27;
         int moduleCellRange = 4;
         int cellBound = 4;
-        int divideAmount = 3;
+        int divideAmount = 5;
         for (int i = 0; i < tileArr.size() - 1; i++) {
-            
+            int direction = Utils.getDirectionOf2Tile(tileArr.get(i), tileArr.get(i + 1));
+
+            if (i == 0) {
+                beforeCellX = Math.floor(Math.random() * moduleCellRange) + cellBound;
+                beforeCellY = Math.floor(Math.random() * moduleCellRange) + cellBound;
+            }
+
+            if (cellArr.size() == 0) cellArr.add(Utils.cell2Pixel(tileArr.get(i).getX() * cellsEachTile + beforeCellX,
+                    tileArr.get(i).getY() * cellsEachTile + beforeCellY, mode));
+            switch (direction) {
+                case Direction.BOTTOM:
+                    if (beforeCellX >= cellBound && beforeCellX < cellBound + moduleCellRange) {
+                        cellX = tileArr.get(i).getX() * cellsEachTile + beforeCellX;
+                        cellY = (tileArr.get(i).getY() - 1) * cellsEachTile + beforeCellY;
+                    } else {
+                        cellX = tileArr.get(i).getX() * cellsEachTile + (beforeCellY + magicNumber) % moduleCellRange + cellBound;
+                        cellY = (tileArr.get(i).getY() - 1) * cellsEachTile + cellsEachTile - 1;
+                        beforeCellX = (beforeCellY + magicNumber) % moduleCellRange + cellBound;
+
+                        if (cellArr.size() != 0) {
+                            Point lastCell = cellArr.get(cellArr.size() - 1);
+                            Point nextCell = Utils.cell2Pixel(cellX, cellY, mode);
+                            List<Point> divideGapCellPath = Utils.divideCellPath(lastCell, nextCell, divideAmount);
+                            cellArr.addAll(divideGapCellPath);
+                        }
+                    }
+                    cellArr.add(Utils.cell2Pixel(cellX, cellY, mode));
+                    beforeCellY = cellsEachTile - 1;
+                    break;
+                case Direction.RIGHT:
+                    if (beforeCellY >= cellBound && beforeCellY < cellBound + moduleCellRange) {
+                        cellX = (tileArr.get(i).getX() + 1) * cellsEachTile;
+                        cellY = tileArr.get(i).getY() * cellsEachTile + beforeCellY;
+                    } else {
+                        cellX = (tileArr.get(i).getX() + 1) * cellsEachTile;
+                        cellY = tileArr.get(i).getY() * cellsEachTile + (beforeCellX + magicNumber) % moduleCellRange + cellBound;
+                        beforeCellY = (beforeCellX + magicNumber) % moduleCellRange + cellBound;
+
+                        if (cellArr.size() != 0) {
+                            Point lastCell = cellArr.get(cellArr.size() - 1);
+                            Point nextCell = Utils.cell2Pixel(cellX, cellY, mode);
+                            List<Point> divideGapCellPath = Utils.divideCellPath(lastCell, nextCell, divideAmount);
+                            cellArr.addAll(divideGapCellPath);
+                        }
+                    }
+
+                    cellArr.add(Utils.cell2Pixel(cellX, cellY, mode));
+                    beforeCellX = 0;
+                    break;
+                case Direction.LEFT:
+                    if (beforeCellY >= cellBound && beforeCellY < cellBound + moduleCellRange) {
+                        cellX = (tileArr.get(i).getX() - 1) * cellsEachTile + cellsEachTile - 1;
+                        cellY = (tileArr.get(i).getY()) * cellsEachTile + beforeCellY;
+                    } else {
+                        cellX = (tileArr.get(i).getX() - 1) * cellsEachTile + cellsEachTile - 1;
+                        cellY = tileArr.get(i).y * cellsEachTile + (beforeCellX + magicNumber) % moduleCellRange + cellBound;
+                        beforeCellY = (beforeCellX + magicNumber) % moduleCellRange + cellBound;
+
+                        Point lastCell = cellArr.get(cellArr.size() - 1);
+                        Point nextCell = Utils.cell2Pixel(cellX, cellY, mode);
+
+                        List<Point> divideGapCellPath = Utils.divideCellPath(lastCell, nextCell, divideAmount);
+                        cellArr.addAll(divideGapCellPath);
+                    }
+                    cellArr.add(Utils.cell2Pixel(cellX, cellY, mode));
+                    beforeCellX = cellsEachTile - 1;
+                    break;
+                case Direction.TOP:
+                    if (beforeCellX >= cellBound && beforeCellX < cellBound + moduleCellRange) {
+                        cellX = tileArr.get(i).getX() * cellsEachTile + beforeCellX;
+                        cellY = (tileArr.get(i).getY() + 1) * cellsEachTile;
+                    } else {
+                        cellX = tileArr.get(i).getX() * cellsEachTile + (beforeCellY + magicNumber) % moduleCellRange + cellBound;
+                        cellY = (tileArr.get(i).getY() + 1) * cellsEachTile;
+                        beforeCellX = (beforeCellY + magicNumber) % moduleCellRange + cellBound;
+
+                        Point lastCell = cellArr.get(cellArr.size() - 1);
+                        Point nextCell = Utils.cell2Pixel(cellX, cellY, mode);
+
+                        List<Point> divideGapCellPath = Utils.divideCellPath(lastCell, nextCell, divideAmount);
+                        cellArr.addAll(divideGapCellPath);
+                    }
+                    cellArr.add(Utils.cell2Pixel(cellX, cellY, mode));
+
+                    beforeCellY = 0;
+
+                    break;
+            }
         }
-        return null;
+        return cellArr;
+    }
+
+    public static List<Point> divideCellPath(Point pointA, Point pointB, int divideAmount) {
+        List cellArr = new ArrayList();
+        for (int i = 1; i < divideAmount; i++) {
+            double cellX = pointA.getX() + ((pointB.getX() - pointA.getX()) * i) / divideAmount;
+            double cellY = pointA.getY() + ((pointB.getY() - pointA.getY()) * i) / divideAmount;
+            cellArr.add(new Point(cellX, cellY));
+        }
+        return cellArr;
     }
 
     public static Utils getInstance() {
         if (_instance == null) _instance = new Utils();
         return _instance;
+    }
+
+    public static class Direction {
+        public static final int RIGHT = 1;
+        public static final int LEFT = -1;
+        public static final int TOP = 3;
+        public static final int BOTTOM = -3;
+        public static final int RIGHT_TOP = 4;
+        public static final int RIGHT_BOTTOM = -2;
+        public static final int LEFT_TOP = 4;
+        public static final int LEFT_BOTTOM = -4;
     }
 }

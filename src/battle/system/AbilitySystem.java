@@ -120,22 +120,20 @@ public class AbilitySystem extends SystemECS implements Runnable {
                         .singletonList(GameConfig.COMPONENT_ID.TOWER_ABILITY));
         List<EntityECS> damageTowerList = null;
         if (buffTowerList.size() > 0) {
-            damageTowerList = EntityManager.getInstance()
-                    .getEntitiesHasComponents(
-                            Collections.singletonList(GameConfig.COMPONENT_ID.TOWER_ABILITY));
+            damageTowerList = EntityManager.getInstance().getEntitiesHasComponents(Collections.singletonList(AttackComponent.typeID));
         }
         for (EntityECS buffTower : buffTowerList) {
-            TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(GameConfig.COMPONENT_ID.TOWER_ABILITY);
+            TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(TowerAbilityComponent.typeId);
             for (EntityECS damageTower : damageTowerList) {
                 if (this.distanceFrom(buffTower, damageTower) < towerAbilityComponent.getRange()) {
                     int typeId = towerAbilityComponent.getEffect().getTypeID();
-                    if (typeId == GameConfig.COMPONENT_ID.BUFF_ATTACK_DAMAGE) {
+                    if (typeId == BuffAttackDamageEffect.typeID) {
                         BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) towerAbilityComponent.getEffect();
-                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
+                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(AttackComponent.typeID);
                         attackComponent.setDamage(attackComponent.getDamage() + attackComponent.getOriginDamage() * buffAttackDamageEffect.getPercent());
-                    } else if (typeId == GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED) {
+                    } else if (typeId == BuffAttackSpeedEffect.typeID) {
                         BuffAttackSpeedEffect buffAttackSpeedEffect = (BuffAttackSpeedEffect) towerAbilityComponent.getEffect();
-                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
+                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(AttackComponent.typeID);
                         attackComponent.setSpeed(attackComponent.getSpeed() - (attackComponent.getOriginSpeed() * buffAttackSpeedEffect.getPercent()));
                     }
                 }

@@ -12,16 +12,46 @@ public class VelocityComponent extends Component {
     private double originSpeedY;
     private PositionComponent dynamicPosition;
     private double originSpeed;
+    private Point staticPosition;
 
     public VelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition) {
         super(GameConfig.COMPONENT_ID.VELOCITY);
         this.reset(speedX,speedY,dynamicPosition);
     }
 
+    public VelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition, Point staticPosition) {
+        super(GameConfig.COMPONENT_ID.VELOCITY);
+        this.reset(speedX,speedY,dynamicPosition,staticPosition);
+    }
+
+    public VelocityComponent(double speedX, double speedY) {
+        super(GameConfig.COMPONENT_ID.VELOCITY);
+        this.reset(speedX,speedY);
+    }
+
     public void reset(double speedX, double speedY, PositionComponent dynamicPosition) {
         this.speedX = speedX;
         this.speedY = speedY;
         this.dynamicPosition = dynamicPosition;
+        this.originSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
+        this.originSpeedX = this.speedX;
+        this.originSpeedY = this.speedY;
+    }
+
+    public void reset(double speedX, double speedY, PositionComponent dynamicPosition, Point staticPosition) {
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.dynamicPosition = dynamicPosition;
+        this.staticPosition = staticPosition;
+        this.originSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
+        this.originSpeedX = this.speedX;
+        this.originSpeedY = this.speedY;
+    }
+
+    public void reset(double speedX, double speedY) {
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.dynamicPosition = null;
         this.originSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
         this.originSpeedX = this.speedX;
         this.originSpeedY = this.speedY;
@@ -77,5 +107,9 @@ public class VelocityComponent extends Component {
 
     public void setOriginSpeed(double originSpeed) {
         this.originSpeed = originSpeed;
+    }
+
+    public Point getStaticPosition() {
+        return staticPosition;
     }
 }

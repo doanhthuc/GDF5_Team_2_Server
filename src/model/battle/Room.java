@@ -17,29 +17,23 @@ public class Room implements Runnable {
         this.roomId = RoomManager.getInstance().getRoomCount();
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
-        this.battle = new Battle();
+        this.battle = new Battle(player1.getId(),player2.getId());
     }
 
-    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
-        this.roomId = RoomManager.getInstance().getRoomCount();
-        this.player1 = new PlayerInBattle(player1);
-        this.player2 = new PlayerInBattle(player2);
-        this.battle = new Battle(player1.getId(), player2.getId(), battleMap1, battleMap2);
-    }
+//    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
+//        this.roomId = RoomManager.getInstance().getRoomCount();
+//        this.player1 = new PlayerInBattle(player1);
+//        this.player2 = new PlayerInBattle(player2);
+//        this.battle = new Battle(player1.getId(), player2.getId(), battleMap1, battleMap2);
+//    }
 
     @Override
     public void run() {
-//        this.battle.attackSystem2.run();
 
+         BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
+            this.battle.updateSystem();
+         },0,100, TimeUnit.MILLISECONDS);
 
-        System.out.println("Hello AAAA");
-//        System.out.println("Room java line 31 " + this.battle.attackSystem);
-//         BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
-//             this.battle.attackSystem.run();
-//
-//         },0,100, TimeUnit.MILLISECONDS);
-
-//        this.battle.attackSystem.run();
     }
 
     public PlayerInfo getOpponentPlayer(int playerId) {
@@ -92,5 +86,9 @@ public class Room implements Runnable {
 
     public void setBattle(Battle battle) {
         this.battle = battle;
+    }
+
+    public BattleMap getPlayerBattleMap(int id){
+        return this.battle.getBattleMapByPlayerId(id);
     }
 }

@@ -22,7 +22,7 @@ public class SpellSystem extends SystemECS {
     public int id = GameConfig.SYSTEM_ID.SPELL;
 
     public SpellSystem() {
-        super(GameConfig.SYSTEM_ID.LIFE);
+        super(GameConfig.SYSTEM_ID.SPELL);
         java.lang.System.out.println("new SpellSystem");
     }
 

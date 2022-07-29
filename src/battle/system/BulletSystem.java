@@ -1,6 +1,7 @@
 package battle.system;
 
 import battle.component.common.CollisionComponent;
+import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
 import battle.component.common.VelocityComponent;
 import battle.config.GameConfig;
@@ -25,12 +26,18 @@ public class BulletSystem extends SystemECS implements Runnable {
         List<EntityECS> bulletList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
 
         for (EntityECS bullet : bulletList) {
-            PositionComponent bulletPos = (PositionComponent) bullet.getComponent(GameConfig.COMPONENT_ID.POSITION);
-            VelocityComponent bulletVelocity = (VelocityComponent) bullet.getComponent(GameConfig.COMPONENT_ID.VELOCITY);
+            PositionComponent bulletPos = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
+            VelocityComponent bulletVelocity = (VelocityComponent) bullet.getComponent(VelocityComponent.typeID);
+            PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
 
-            if (bulletVelocity.getDynamicPosition() == null) {
+            if (pathComponent != null) {
+                if (pathComponent.getCurrentPathIDx() == pathComponent.getPath().size() - 2) {
+                    EntityManager.destroy(bullet);
+                }
                 continue;
             }
+
+            if (bulletVelocity.getDynamicPosition() == null) continue;
 
             if (!bulletVelocity.getDynamicPosition().getActive()) {
                 bulletVelocity.setDynamicPosition(null);
@@ -39,14 +46,11 @@ public class BulletSystem extends SystemECS implements Runnable {
             }
 
             if (Math.abs(bulletVelocity.getDynamicPosition().getX() - bulletPos.getX()) <= 3
-                    && Math.abs(bulletVelocity.getDynamicPosition().getY() - bulletPos.getY()) <= 3
-            ) {
-                CollisionComponent collisionComponent =
-                        (CollisionComponent) bullet
-                                .getComponent(GameConfig.COMPONENT_ID.COLLISION);
+                    && Math.abs(bulletVelocity.getDynamicPosition().getY() - bulletPos.getY()) <= 3) {
+                CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(GameConfig.COMPONENT_ID.COLLISION);
                 if (collisionComponent != null) {
-                    collisionComponent.setWidth(1);
-                    collisionComponent.setHeight(1);
+                    collisionComponent.setWidth(collisionComponent.getOriginWidth());
+                    collisionComponent.setHeight(collisionComponent.getOriginHeight());
                 }
             }
         }

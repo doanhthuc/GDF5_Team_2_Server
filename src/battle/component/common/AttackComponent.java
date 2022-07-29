@@ -32,11 +32,12 @@ public class AttackComponent extends Component {
         this.targetStrategy = targetStrategy;
         this.range = range;
         this.speed = speed;
+        this.originSpeed = speed;
         this.countdown = countdown;
-        if (effects != null)
-        {
-            for(EffectComponent effect: effects)
-            this.effects.add(effect);
+        this.effects.clear();
+        if (effects != null) {
+            for (EffectComponent effect : effects)
+                this.effects.add(effect);
         }
         //  System.out.println("countdown "+this.countdown);
         this.effects.add(new DamageEffect(this.damage));
@@ -49,9 +50,9 @@ public class AttackComponent extends Component {
     public void setDamage(double damage) {
         this.damage = damage;
         for (int i = 0; i < this.effects.size(); i++) {
-            DamageEffect effect = (DamageEffect) this.effects.get(i);
-            if (effect.getTypeID() == GameConfig.COMPONENT_ID.DAMAGE_EFFECT) {
-                effect.setDamage(this.damage);
+            if (effects.get(i).getTypeID() == GameConfig.COMPONENT_ID.DAMAGE_EFFECT) {
+                DamageEffect damageEffect = (DamageEffect) effects.get(i);
+                damageEffect.setDamage(this.damage);
             }
         }
     }

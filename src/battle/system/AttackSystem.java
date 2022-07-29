@@ -65,10 +65,18 @@ public class AttackSystem extends SystemECS implements Runnable {
                     if (targetMonster != null) {
                         PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                         PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
+
                         try {
-                            EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(), tower.getMode());
+                            if (tower.getTypeID() == GameConfig.ENTITY_ID.FROG_TOWER) {
+                                double distance = this._distanceFrom(tower, targetMonster);
+                                double k = attackComponent.getRange() / distance;
+                                PositionComponent destination = new PositionComponent(k * (monsterPos.getX() - towerPos.getX()) + towerPos.getX(), k * (monsterPos.getY() - towerPos.getY()) + towerPos.getY());
+                                EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, destination, attackComponent.getEffects(), tower.getMode());
+                            } else {
+                                EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(), tower.getMode());
+                            }
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }
                         attackComponent.setCountdown(attackComponent.getSpeed());
                     }

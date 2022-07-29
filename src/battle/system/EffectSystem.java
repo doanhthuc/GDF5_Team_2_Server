@@ -74,12 +74,11 @@ public class EffectSystem extends SystemECS implements Runnable {
     }
 
     private void handleFrozenEffect(double tick) {
-        List<Integer> componentIdList = Arrays.asList(
-                GameConfig.COMPONENT_ID.FROZEN_EFFECT);
+        List<Integer> componentIdList = Arrays.asList(FrozenEffect.typeID);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
         for (EntityECS entity : entityList) {
-            VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(GameConfig.COMPONENT_ID.VELOCITY);
-            FrozenEffect frozenComponent = (FrozenEffect) entity.getComponent(GameConfig.COMPONENT_ID.FROZEN_EFFECT);
+            VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
+            FrozenEffect frozenComponent = (FrozenEffect) entity.getComponent(FrozenEffect.typeID);
 
             frozenComponent.setCountdown(frozenComponent.getCountdown() - tick / 1000);
             if (frozenComponent.getCountdown() <= 0) {
@@ -93,17 +92,15 @@ public class EffectSystem extends SystemECS implements Runnable {
     }
 
     private void handleSlowEffect(double tick) {
-        List<Integer> componentIdList = Arrays.asList(
-                GameConfig.COMPONENT_ID.SLOW_EFFECT, GameConfig.COMPONENT_ID.ATTACK);
+        List<Integer> componentIdList = Arrays.asList(SlowEffect.typeID);
         List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
         for (EntityECS entity : entityList) {
-            VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(GameConfig.COMPONENT_ID.VELOCITY);
-            SlowEffect slowComponent = (SlowEffect) entity.getComponent(GameConfig.COMPONENT_ID.SLOW_EFFECT);
-
-            slowComponent.setCountdown(slowComponent.getCountdown() - tick);
+            VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
+            SlowEffect slowComponent = (SlowEffect) entity.getComponent(SlowEffect.typeID);
+            slowComponent.setCountdown(slowComponent.getCountdown() - tick / 1000);
             if (slowComponent.getCountdown() <= 0) {
-                entity.removeComponent(slowComponent);
                 this.updateOriginVelocity(velocityComponent);
+                entity.removeComponent(slowComponent);
             } else {
                 velocityComponent.setSpeedX(velocityComponent.getOriginSpeedX() * slowComponent.getPercent());
                 velocityComponent.setSpeedY(velocityComponent.getOriginSpeedY() * slowComponent.getPercent());
