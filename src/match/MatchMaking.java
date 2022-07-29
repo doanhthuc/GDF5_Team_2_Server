@@ -58,9 +58,8 @@ public class MatchMaking implements Runnable {
                     processMatching(matchingInfo1, matchingInfo2);
                     break;
                 }
-                System.out.println(matchingInfo1.getTime());
             }
-            if (matchingInfo1.getTime() >= 20000) {
+            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 10000) {
                 processMatchingWithBot(matchingInfo1);
             }
         }
