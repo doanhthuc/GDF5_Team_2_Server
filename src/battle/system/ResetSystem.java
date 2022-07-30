@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
@@ -28,12 +29,12 @@ public class ResetSystem extends SystemECS {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) {
         this.tick = this.getElapseTime();
-        this.handleResetDamageEffect();
+        this.handleResetDamageEffect(battle);
     }
-    public void handleResetDamageEffect(){
-        List<EntityECS> towerList = EntityManager.getInstance().getEntitiesHasComponents(Arrays.asList(AttackComponent.typeID));
+    public void handleResetDamageEffect(Battle battle) {
+        List<EntityECS> towerList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(AttackComponent.typeID));
         for(EntityECS tower: towerList)
         {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(AttackComponent.typeID);

@@ -12,12 +12,12 @@ import battle.pool.ComponentPool;
 import java.util.List;
 
 public class ComponentFactory {
-    private static ComponentFactory _instance = null;
-    ComponentPool pool = new ComponentPool();
+    private  ComponentManager componentManager;
+    private ComponentPool pool;
 
-    public static ComponentFactory getInstance() {
-        if (_instance == null) _instance = new ComponentFactory();
-        return _instance;
+    public ComponentFactory(ComponentManager componentManager, ComponentPool pool) {
+        this.componentManager = componentManager;
+        this.pool = pool;
     }
 
     public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, String type, double radius) throws Exception {
@@ -26,7 +26,7 @@ public class ComponentFactory {
             bulletInfoComponent.reset(effects, type, radius);
         } else {
             bulletInfoComponent = new BulletInfoComponent(effects, type, radius);
-            ComponentManager.getInstance().add(bulletInfoComponent);
+            this.componentManager.add(bulletInfoComponent);
         }
         return bulletInfoComponent;
     }
@@ -37,7 +37,7 @@ public class ComponentFactory {
             positionComponent.reset(x, y);
         } else {
             positionComponent = new PositionComponent(x, y);
-            ComponentManager.getInstance().add(positionComponent);
+            this.componentManager.add(positionComponent);
         }
         return positionComponent;
     }
@@ -48,7 +48,7 @@ public class ComponentFactory {
             velocityComponent.reset(speedX, speedY, dynamicPosition);
         } else {
             velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition);
-            ComponentManager.getInstance().add(velocityComponent);
+            this.componentManager.add(velocityComponent);
         }
         return velocityComponent;
     }
@@ -59,7 +59,7 @@ public class ComponentFactory {
             velocityComponent.reset(speedX, speedY, dynamicPosition , staticPostion);
         } else {
             velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition , staticPostion);
-            ComponentManager.getInstance().add(velocityComponent);
+            this.componentManager.add(velocityComponent);
         }
         return velocityComponent;
     }
@@ -70,7 +70,7 @@ public class ComponentFactory {
             velocityComponent.reset(speedX, speedY);
         } else {
             velocityComponent = new VelocityComponent(speedX, speedY);
-            ComponentManager.getInstance().add(velocityComponent);
+            this.componentManager.add(velocityComponent);
         }
         return velocityComponent;
     }
@@ -81,7 +81,7 @@ public class ComponentFactory {
             collisionComponent.reset(width, height, originWidth, originHeight);
         } else {
             collisionComponent = new CollisionComponent(width, height, originWidth, originHeight);
-            ComponentManager.getInstance().add(collisionComponent);
+            this.componentManager.add(collisionComponent);
         }
         return collisionComponent;
     }
@@ -92,7 +92,7 @@ public class ComponentFactory {
             collisionComponent.reset(width, height);
         } else {
             collisionComponent = new CollisionComponent(width, height);
-            ComponentManager.getInstance().add(collisionComponent);
+            this.componentManager.add(collisionComponent);
         }
         return collisionComponent;
     }
@@ -103,7 +103,7 @@ public class ComponentFactory {
             pathComponent.reset(path, mode, isConvert);
         } else {
             pathComponent = new PathComponent(path, mode, isConvert);
-            ComponentManager.getInstance().add(pathComponent);
+            this.componentManager.add(pathComponent);
         }
         return pathComponent;
     }
@@ -114,7 +114,7 @@ public class ComponentFactory {
             monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
         } else {
             monsterInfoComponent = new MonsterInfoComponent(category, classs, weight, energy, gainEnergy, ability, effect);
-            ComponentManager.getInstance().add(monsterInfoComponent);
+            this.componentManager.add(monsterInfoComponent);
         }
         return monsterInfoComponent;
     }
@@ -125,7 +125,7 @@ public class ComponentFactory {
             lifeComponent.reset(hp);
         } else {
             lifeComponent = new LifeComponent(hp);
-            ComponentManager.getInstance().add(lifeComponent);
+            this.componentManager.add(lifeComponent);
         }
         return lifeComponent;
     }
@@ -137,7 +137,7 @@ public class ComponentFactory {
             towerInfoComponent.reset(energy, bulletTargetType, archType, targetType, bulletType);
         } else {
             towerInfoComponent = new TowerInfoComponent(energy, bulletTargetType, archType, targetType, bulletType);
-            ComponentManager.getInstance().add(towerInfoComponent);
+            this.componentManager.add(towerInfoComponent);
            // this.pool.checkIn(towerInfoComponent);
         }
         return towerInfoComponent;
@@ -149,7 +149,7 @@ public class ComponentFactory {
             attackComponent.reset(damage, targetStrategy, range, speed, countdown, effects);
         } else {
             attackComponent = new AttackComponent(damage, targetStrategy, range, speed, countdown, effects);
-            ComponentManager.getInstance().add(attackComponent);
+            this.componentManager.add(attackComponent);
         }
         return attackComponent;
     }
@@ -160,7 +160,7 @@ public class ComponentFactory {
             healingAbilityComponent.reset(range, healingRate);
         } else {
             healingAbilityComponent = new HealingAbilityComponent(range, healingRate);
-            ComponentManager.getInstance().add(healingAbilityComponent);
+            this.componentManager.add(healingAbilityComponent);
         }
         return healingAbilityComponent;
     }
@@ -171,7 +171,7 @@ public class ComponentFactory {
             underGroundComponent.reset();
         } else {
             underGroundComponent = new UnderGroundComponent();
-            ComponentManager.getInstance().add(underGroundComponent);
+            this.componentManager.add(underGroundComponent);
         }
         return underGroundComponent;
     }
@@ -182,7 +182,7 @@ public class ComponentFactory {
             spawnMinionComponent.reset(period);
         } else {
             spawnMinionComponent = new SpawnMinionComponent(period);
-            ComponentManager.getInstance().add(spawnMinionComponent);
+            this.componentManager.add(spawnMinionComponent);
         }
         return spawnMinionComponent;
     }
@@ -193,7 +193,7 @@ public class ComponentFactory {
             spellInfoComponent.reset(position, effects, range, countdown);
         } else {
             spellInfoComponent = new SpellInfoComponent(position, effects, range, countdown);
-            ComponentManager.getInstance().add(spellInfoComponent);
+            this.componentManager.add(spellInfoComponent);
         }
         return spellInfoComponent;
     }
@@ -204,7 +204,7 @@ public class ComponentFactory {
             towerAbilityComponent.reset(range, effect);
         } else {
             towerAbilityComponent = new TowerAbilityComponent(range, effect);
-            ComponentManager.getInstance().add(towerAbilityComponent);
+            this.componentManager.add(towerAbilityComponent);
         }
         return towerAbilityComponent;
     }
@@ -215,7 +215,7 @@ public class ComponentFactory {
             damageEffect.reset(damage);
         } else {
             damageEffect = new DamageEffect(damage);
-            ComponentManager.getInstance().add(damageEffect);
+            this.componentManager.add(damageEffect);
         }
         return damageEffect;
     }
@@ -226,7 +226,7 @@ public class ComponentFactory {
             trapInfoComponent.reset(delayTrigger);
         } else {
             trapInfoComponent = new TrapInfoComponent(delayTrigger);
-            ComponentManager.getInstance().add(trapInfoComponent);
+            this.componentManager.add(trapInfoComponent);
         }
         return trapInfoComponent;
     }
@@ -237,7 +237,7 @@ public class ComponentFactory {
             trapEffect.reset();
         } else {
             trapEffect = new TrapEffect();
-            ComponentManager.getInstance().add(trapEffect);
+            this.componentManager.add(trapEffect);
         }
         return trapEffect;
     }
@@ -249,7 +249,7 @@ public class ComponentFactory {
             slowEffect.reset(duration, percent);
         } else {
             slowEffect = new SlowEffect(duration, percent);
-            ComponentManager.getInstance().add(slowEffect);
+            this.componentManager.add(slowEffect);
         }
         return slowEffect;
     }
@@ -260,7 +260,7 @@ public class ComponentFactory {
             frozenEffect.reset(duration);
         } else {
             frozenEffect = new FrozenEffect(duration);
-            ComponentManager.getInstance().add(frozenEffect);
+            this.componentManager.add(frozenEffect);
         }
         return frozenEffect;
     }
@@ -271,7 +271,7 @@ public class ComponentFactory {
             buffAttackRangeEffect.reset(percent);
         } else {
             buffAttackRangeEffect = new BuffAttackRangeEffect(percent);
-            ComponentManager.getInstance().add(buffAttackRangeEffect);
+            this.componentManager.add(buffAttackRangeEffect);
         }
         return buffAttackRangeEffect;
     }
@@ -282,7 +282,7 @@ public class ComponentFactory {
             buffAttackSpeedEffect.reset(percent);
         } else {
             buffAttackSpeedEffect = new BuffAttackSpeedEffect(percent);
-            ComponentManager.getInstance().add(buffAttackSpeedEffect);
+            this.componentManager.add(buffAttackSpeedEffect);
         }
         return buffAttackSpeedEffect;
     }
@@ -293,7 +293,7 @@ public class ComponentFactory {
             buffAttackDamageEffect.reset(percent);
         } else {
             buffAttackDamageEffect = new BuffAttackDamageEffect(percent);
-            ComponentManager.getInstance().add(buffAttackDamageEffect);
+            this.componentManager.add(buffAttackDamageEffect);
         }
         return buffAttackDamageEffect;
     }

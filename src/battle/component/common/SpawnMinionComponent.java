@@ -17,9 +17,9 @@ public class SpawnMinionComponent extends Component {
         this.period = period;
         this.spawnAmount = 0;
     }
-    public SpawnMinionComponent clone(){
+    public SpawnMinionComponent clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createSpawnMinionComponent(this.period);
+            return componentFactory.createSpawnMinionComponent(this.period);
         } catch (Exception e) {
             e.printStackTrace();
         }

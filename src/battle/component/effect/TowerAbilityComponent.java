@@ -16,9 +16,9 @@ public class TowerAbilityComponent extends Component {
         this.effect = effect;
     }
 
-    public TowerAbilityComponent clone ()  {
+    public TowerAbilityComponent clone (ComponentFactory componentFactory) throws Exception {
         try {
-            return ComponentFactory.getInstance().createTowerAbilityComponent(this.range, this.effect);
+            return componentFactory.createTowerAbilityComponent(this.range, this.effect);
         } catch (Exception e) {
             e.printStackTrace();
         }

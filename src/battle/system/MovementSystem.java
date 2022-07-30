@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.PositionComponent;
@@ -22,13 +23,13 @@ public class MovementSystem extends SystemECS {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) {
         this.tick = this.getElapseTime();
         //Get Movement Entity
         List<Integer> movementEntityListIds = new ArrayList<>();
         movementEntityListIds.add(VelocityComponent.typeID);
         movementEntityListIds.add(PositionComponent.typeID);
-        List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(movementEntityListIds);
+        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(movementEntityListIds);
 
         for (EntityECS monster : entityList) {
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);

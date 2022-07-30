@@ -23,10 +23,10 @@ public class UnderGroundComponent extends Component {
         this.isInGround = false;
         this.disableMoveDistance = 0;
     }
-    public UnderGroundComponent clone()
+    public UnderGroundComponent clone(ComponentFactory componentFactory)
     {
         try {
-            return ComponentFactory.getInstance().createUnderGroundComponent();
+            return componentFactory.createUnderGroundComponent();
         } catch (Exception e) {
             e.printStackTrace();
         }

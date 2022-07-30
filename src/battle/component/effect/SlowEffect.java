@@ -31,9 +31,9 @@ public class SlowEffect extends EffectComponent {
         this.reset(duration,percent);
     }
 
-    public SlowEffect clone() {
+    public SlowEffect clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createSlowEffect(duration, percent);
+            return componentFactory.createSlowEffect(duration, percent);
         } catch (Exception e) {
             e.printStackTrace();
         }

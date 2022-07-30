@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.component.common.CollisionComponent;
 import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
@@ -11,7 +12,7 @@ import battle.manager.EntityManager;
 import java.util.Arrays;
 import java.util.List;
 
-public class BulletSystem extends SystemECS implements Runnable {
+public class BulletSystem extends SystemECS {
     public int id = GameConfig.SYSTEM_ID.BULLET;
     public String name = "BulletSystem";
 
@@ -20,10 +21,10 @@ public class BulletSystem extends SystemECS implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) {
         this.tick = this.getElapseTime();
         List<Integer> componentIdList = Arrays.asList(GameConfig.COMPONENT_ID.VELOCITY, GameConfig.COMPONENT_ID.POSITION, GameConfig.COMPONENT_ID.BULLET_INFO);
-        List<EntityECS> bulletList = EntityManager.getInstance().getEntitiesHasComponents(componentIdList);
+        List<EntityECS> bulletList = battle.getEntityManager().getEntitiesHasComponents(componentIdList);
 
         for (EntityECS bullet : bulletList) {
             PositionComponent bulletPos = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
@@ -32,7 +33,7 @@ public class BulletSystem extends SystemECS implements Runnable {
 
             if (pathComponent != null) {
                 if (pathComponent.getCurrentPathIDx() == pathComponent.getPath().size() - 2) {
-                    EntityManager.destroy(bullet);
+                    battle.getEntityManager().destroy(bullet);
                 }
                 continue;
             }
@@ -41,7 +42,7 @@ public class BulletSystem extends SystemECS implements Runnable {
 
             if (!bulletVelocity.getDynamicPosition().getActive()) {
                 bulletVelocity.setDynamicPosition(null);
-                EntityManager.destroy(bullet);
+                battle.getEntityManager().destroy(bullet);
                 continue;
             }
 

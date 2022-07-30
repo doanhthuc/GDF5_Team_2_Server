@@ -57,9 +57,9 @@ public class AttackComponent extends Component {
         }
     }
 
-    public AttackComponent clone() {
+    public AttackComponent clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createAttackComponent(this.damage, this.targetStrategy, this.range, this.speed, this.countdown, this.effects);
+            return componentFactory.createAttackComponent(this.damage, this.targetStrategy, this.range, this.speed, this.countdown, this.effects);
         } catch (Exception e) {
             e.printStackTrace();
         }

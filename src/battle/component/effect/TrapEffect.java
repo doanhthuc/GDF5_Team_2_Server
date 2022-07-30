@@ -18,9 +18,9 @@ public class TrapEffect extends EffectComponent {
         this.isExecuted = false;
         this.countdown = 0;
     }
-    public TrapEffect clone() {
+    public TrapEffect clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createTrapEffect();
+            return componentFactory.createTrapEffect();
         } catch (Exception e) {
             e.printStackTrace();
         }

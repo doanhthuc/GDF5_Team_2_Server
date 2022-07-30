@@ -5,6 +5,9 @@ import battle.Battle;
 import battle.BattleMap;
 import battle.BattleVisualization;
 import battle.Bida;
+import battle.common.EntityMode;
+import battle.common.Utils;
+import battle.component.info.MonsterInfoComponent;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -39,6 +42,7 @@ import util.server.ServerConstant;
 import util.server.ServerLoop;
 
 import javax.management.BadAttributeValueExpException;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -60,8 +64,10 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
-            BattleVisualization xh = new BattleVisualization();
-            //Bida bida= new Bida();
+            //BattleVisualization battle1 = new BattleVisualization(1);
+            BattleVisualization battle2 = new BattleVisualization(2);
+
+                 //Bida bida= new Bida();
         } catch (Exception e) {
             e.printStackTrace();
         }

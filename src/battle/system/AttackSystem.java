@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.AttackComponent;
@@ -15,7 +16,7 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttackSystem extends SystemECS implements Runnable {
+public class AttackSystem extends SystemECS {
     public int id = GameConfig.SYSTEM_ID.ATTACK;
     public String name = "AttackSystem";
 
@@ -25,20 +26,20 @@ public class AttackSystem extends SystemECS implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) {
         this.tick = this.getElapseTime();
         //Create List of Component TypeIDs
         List<Integer> typeIDTower = new ArrayList<>();
         typeIDTower.add(GameConfig.COMPONENT_ID.ATTACK);
-        List<EntityECS> towerList = EntityManager.getInstance().getEntitiesHasComponents(typeIDTower);
+        List<EntityECS> towerList = battle.getEntityManager().getEntitiesHasComponents(typeIDTower);
 
         List<Integer> typeIDMonster = new ArrayList<>();
         typeIDMonster.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
-        List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(typeIDMonster);
+        List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(typeIDMonster);
 //        Debug Bullet
 //        List<Integer> typeIDBullet = new ArrayList<>();
 //        typeIDBullet.add(GameConfig.COMPONENT_ID.BULLET_INFO);
-//        List<EntityECS> bulletList = EntityManager.getInstance().getEntitiesHasComponents(typeIDBullet);
+//        List<EntityECS> bulletList = battle.getEntityManager().getEntitiesHasComponents(typeIDBullet);
 //        for (EntityECS bullet : bulletList) {
 //            bullet.toString();
 //        }
@@ -71,9 +72,9 @@ public class AttackSystem extends SystemECS implements Runnable {
                                 double distance = this._distanceFrom(tower, targetMonster);
                                 double k = attackComponent.getRange() / distance;
                                 PositionComponent destination = new PositionComponent(k * (monsterPos.getX() - towerPos.getX()) + towerPos.getX(), k * (monsterPos.getY() - towerPos.getY()) + towerPos.getY());
-                                EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, destination, attackComponent.getEffects(), tower.getMode());
+                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, destination, attackComponent.getEffects(), tower.getMode());
                             } else {
-                                EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(), tower.getMode());
+                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(), tower.getMode());
                             }
                         } catch (Exception e) {
 

@@ -31,10 +31,10 @@ public class FrozenEffect extends EffectComponent {
         this.duration=duration;
         this.countdown=this.duration;
     }
-    public FrozenEffect clone()
+    public FrozenEffect clone(ComponentFactory componentFactory)
     {
         try {
-            return ComponentFactory.getInstance().createFrozenEffect(this.duration);
+            return componentFactory.createFrozenEffect(this.duration);
         } catch (Exception e) {
             e.printStackTrace();
         }

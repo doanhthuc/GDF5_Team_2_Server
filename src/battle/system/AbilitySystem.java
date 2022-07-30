@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.*;
@@ -15,7 +16,7 @@ import battle.manager.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
-public class AbilitySystem extends SystemECS implements Runnable {
+public class AbilitySystem extends SystemECS {
     public int id = GameConfig.SYSTEM_ID.ABILITY;
     public String name = "AbilitySystem";
 
@@ -24,20 +25,20 @@ public class AbilitySystem extends SystemECS implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) {
         this.tick = this.getElapseTime();
-        this.handleUnderGroundComponent(tick);
+        this.handleUnderGroundComponent(tick, battle);
         try {
-            this.handleSpawnMinionComponent(tick);
+            this.handleSpawnMinionComponent(tick, battle);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.handleHealingAbility(tick);
-        this.handleBuffAbility(tick);
+        this.handleHealingAbility(tick, battle);
+        this.handleBuffAbility(tick, battle);
     }
 
-    private void handleUnderGroundComponent(double tick) {
-        List<EntityECS> underGroundList = EntityManager.getInstance()
+    private void handleUnderGroundComponent(double tick, Battle battle) {
+        List<EntityECS> underGroundList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.UNDER_GROUND));
         for (EntityECS underGround : underGroundList) {
@@ -59,8 +60,8 @@ public class AbilitySystem extends SystemECS implements Runnable {
     }
 
     //TODO: continue Implementing when have entity Factory
-    private void handleSpawnMinionComponent(double tick) throws Exception {
-        List<EntityECS> entityList = EntityManager.getInstance()
+    private void handleSpawnMinionComponent(double tick, Battle battle) throws Exception {
+        List<EntityECS> entityList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.SPAWN_MINION));
         for (EntityECS entity : entityList) {
@@ -72,7 +73,7 @@ public class AbilitySystem extends SystemECS implements Runnable {
                 PositionComponent positionComponent = (PositionComponent) entity.getComponent(GameConfig.COMPONENT_ID.POSITION);
                 int spawnAmount = spawnMinionComponent.getSpawnAmount();
                 if (spawnAmount < 5) {
-                    EntityFactory.getInstance().createDemonTreeMinion(
+                    battle.getEntityFactory().createDemonTreeMinion(
                             new Point(positionComponent.getX(), positionComponent.getY()), entity.getMode());
                     spawnMinionComponent.setSpawnAmount(spawnAmount + 1);
                 }
@@ -80,13 +81,13 @@ public class AbilitySystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleHealingAbility(double tick) {
-        List<EntityECS> entityList = EntityManager.getInstance()
+    private void handleHealingAbility(double tick, Battle battle) {
+        List<EntityECS> entityList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.HEALING_ABILITY));
         List<EntityECS> monsterList = null;
         if (entityList.size() > 0) {
-            monsterList = EntityManager.getInstance()
+            monsterList = battle.getEntityManager()
                     .getEntitiesHasComponents(Collections
                             .singletonList(GameConfig.COMPONENT_ID.MONSTER_INFO));
         }
@@ -114,13 +115,13 @@ public class AbilitySystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleBuffAbility(double tick) {
-        List<EntityECS> buffTowerList = EntityManager.getInstance()
+    private void handleBuffAbility(double tick, Battle battle) {
+        List<EntityECS> buffTowerList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.TOWER_ABILITY));
         List<EntityECS> damageTowerList = null;
         if (buffTowerList.size() > 0) {
-            damageTowerList = EntityManager.getInstance().getEntitiesHasComponents(Collections.singletonList(AttackComponent.typeID));
+            damageTowerList = battle.getEntityManager().getEntitiesHasComponents(Collections.singletonList(AttackComponent.typeID));
         }
         for (EntityECS buffTower : buffTowerList) {
             TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(TowerAbilityComponent.typeId);

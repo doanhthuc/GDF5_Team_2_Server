@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.PositionComponent;
@@ -21,11 +22,11 @@ public class MonsterSystem extends SystemECS {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) {
         //Get MonsterList
         List <Integer> monsterInfoIds = new ArrayList<>();
         monsterInfoIds.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
-        List <EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(monsterInfoIds);
+        List <EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(monsterInfoIds);
 
         for(EntityECS monster : monsterList){
             PositionComponent monsterPos =(PositionComponent) monster.getComponent(PositionComponent.typeID);
@@ -34,7 +35,7 @@ public class MonsterSystem extends SystemECS {
             {
                 MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
                 // TODO: Minus House Energy and Add Energy for player
-                EntityManager.destroy(monster);
+                battle.getEntityManager().destroy(monster);
             }
         }
     }

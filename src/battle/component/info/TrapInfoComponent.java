@@ -36,11 +36,11 @@ public class TrapInfoComponent extends Component {
         this.delayTrigger = delayTrigger;
     }
 
-    public TrapInfoComponent clone() {
-        try {
-            return ComponentFactory.getInstance().createTrapInfoComponent(this.delayTrigger);
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//    public TrapInfoComponent clone() {
+//        try {
+//            return ComponentFactory.getInstance().createTrapInfoComponent(this.delayTrigger);
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 }

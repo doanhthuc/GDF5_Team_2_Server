@@ -13,9 +13,9 @@ public class BuffAttackDamageEffect extends EffectComponent {
         this.percent = percent;
     }
 
-    public BuffAttackDamageEffect clone() {
+    public BuffAttackDamageEffect clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createBuffAttackDamageEffect(percent);
+            return componentFactory.createBuffAttackDamageEffect(percent);
         } catch (Exception e) {
             e.printStackTrace();
         }

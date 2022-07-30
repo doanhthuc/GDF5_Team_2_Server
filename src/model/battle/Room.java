@@ -31,7 +31,11 @@ public class Room implements Runnable {
     public void run() {
 
          BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
-            this.battle.updateSystem();
+             try {
+                 this.battle.updateSystem();
+             } catch (Exception e) {
+                 e.printStackTrace();
+             }
          },0,100, TimeUnit.MILLISECONDS);
 
     }
