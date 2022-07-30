@@ -143,12 +143,12 @@ public class ComponentFactory {
         return towerInfoComponent;
     }
 
-    public AttackComponent createAttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) throws Exception {
+    public AttackComponent createAttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects, double bulletSpeed, double bulletRadius) throws Exception {
         AttackComponent attackComponent = (AttackComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.ATTACK);
         if (attackComponent != null) {
-            attackComponent.reset(damage, targetStrategy, range, speed, countdown, effects);
+            attackComponent.reset(damage, targetStrategy, range, speed, countdown, effects, bulletSpeed, bulletRadius);
         } else {
-            attackComponent = new AttackComponent(damage, targetStrategy, range, speed, countdown, effects);
+            attackComponent = new AttackComponent(damage, targetStrategy, range, speed, countdown, effects, bulletSpeed, bulletRadius);
             this.componentManager.add(attackComponent);
         }
         return attackComponent;

@@ -54,10 +54,10 @@ public class Battle {
     public SpellSystem spellSystem;
 
     public BattleMap player1BattleMap;
-    List<Point>[][] player1ShortestPath;
+    public List<Point>[][] player1ShortestPath;
 
     public BattleMap player2BattleMap;
-    List<Point>[][] player2ShortestPath;
+    public List<Point>[][] player2ShortestPath;
 
     public Battle(int userId1, int userId2) {
         this.entityPool = new EntityPool();

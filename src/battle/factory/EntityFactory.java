@@ -39,20 +39,19 @@ public class EntityFactory {
         return entity;
     }
 
-    public EntityECS createBullet(int towerType, PositionComponent startPosition, PositionComponent targetPosition, List<EffectComponent> effects, EntityMode mode) throws Exception {
+    public EntityECS createBullet(int towerType, PositionComponent startPosition, PositionComponent targetPosition, List<EffectComponent> effects, EntityMode mode, double bulletSpeed, double bulletRadius) throws Exception {
         int typeID;
         EntityECS entity;
         BulletInfoComponent infoComponent;
         PositionComponent positionComponent;
         CollisionComponent collisionComponent;
-        double bulletSpeed;
+
         switch (towerType) {
             case GameConfig.ENTITY_ID.CANNON_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "cannon", 0);
-                collisionComponent = this.componentFactory.createCollisionComponent(3, 3, 15, 15);
-                bulletSpeed = 5 * GameConfig.TILE_WIDTH;
+                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "cannon", bulletRadius);
+                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 1, 1);
                 Point speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
                 VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, targetPosition);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
@@ -66,11 +65,11 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.BEAR_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-                bulletSpeed = 4 * GameConfig.TILE_WIDTH;
+
                 speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
 
-                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "bear", 0);
-                collisionComponent = this.componentFactory.createCollisionComponent(5, 5, 5, 5);
+                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "bear", bulletRadius);
+                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 1, 1);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
                 velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, targetPosition);
 
@@ -96,12 +95,11 @@ public class EntityFactory {
                 PathComponent pathComponent = this.componentFactory.createPathComponent(path, mode, false);
 
                 //create velocityComponent
-                bulletSpeed = 4 * GameConfig.TILE_WIDTH;
                 speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
                 velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y);
 
                 //OtherComponent
-                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "frog", 0);
+                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "frog", bulletRadius);
                 collisionComponent = this.componentFactory.createCollisionComponent(20, 20, 20, 20);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
 
@@ -115,11 +113,11 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.BUNNY_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-                bulletSpeed = 4 * GameConfig.TILE_WIDTH;
+
                 speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
 
-                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "bunny", GameConfig.TILE_WIDTH);
-                collisionComponent = this.componentFactory.createCollisionComponent(5, 5, 5, 5);
+                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "bunny", bulletRadius);
+                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 1, 1);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
                 velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, null, new Point(targetPosition.getX(), targetPosition.getY()));
                 entity.addComponent(infoComponent);
@@ -130,11 +128,11 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.WIZARD_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-                bulletSpeed = 3 * GameConfig.TILE_WIDTH;
+
                 speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
 
-                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "wizard", GameConfig.TILE_WIDTH);
-                collisionComponent = this.componentFactory.createCollisionComponent(5, 5, 5, 5);
+                infoComponent = this.componentFactory.createBulletInfoComponent(effects, "wizard", bulletRadius);
+                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 20, 20);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
                 velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, null, new Point(targetPosition.getX(), targetPosition.getY()));
                 entity.addComponent(infoComponent);
@@ -414,10 +412,12 @@ public class EntityFactory {
 
         double attackRange = 1.5 * GameConfig.TILE_WIDTH;
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
+        double bulletSpeed = 50 * GameConfig.TILE_WIDTH / 10.0;
+        double bulletRadius = 0;
 
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(10, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 0.6, 0, null);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(10, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 0.6, 0, null, bulletSpeed, bulletRadius);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -429,14 +429,16 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.BEAR_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
 
-        double attackRange = 1.5 * GameConfig.TILE_WIDTH;
+        double attackRange = 1.8 * GameConfig.TILE_WIDTH;
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
+        double bulletSpeed = 60 * GameConfig.TILE_WIDTH / 10.0;
+        double bulletRadius = 0;
 
         FrozenEffect frozenEffect = this.componentFactory.createFrozenEffect(1.5);
         List<EffectComponent> effectList = Arrays.asList(frozenEffect);
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(10, "bulletTargetType", "support", "monster", "bulletType");
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(8, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 3.4, 0, effectList);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(0, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 3.4, 0, effectList, bulletSpeed, bulletRadius);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -450,10 +452,12 @@ public class EntityFactory {
 
         double attackRange = 2 * GameConfig.TILE_WIDTH;
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
+        double bulletSpeed = 30 * GameConfig.TILE_WIDTH / 10.0;
+        double bulletRadius = 0;
 
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(10, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 1.5, 0, null);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(3, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 1.5, 0, null, bulletSpeed, bulletRadius);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -467,13 +471,15 @@ public class EntityFactory {
 
         double attackRange = 1.5 * GameConfig.TILE_WIDTH;
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
+        double bulletSpeed = 40 * GameConfig.TILE_WIDTH / 10.0;
+        double bulletRadius = 0.6 * GameConfig.TILE_WIDTH;
 
-        SlowEffect slowEffect = this.componentFactory.createSlowEffect(5, 0.3);
+        SlowEffect slowEffect = this.componentFactory.createSlowEffect(1, 0.5);
         List<EffectComponent> effectList = Collections.singletonList(slowEffect);
 
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(5, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 2.5, 0, effectList);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(0, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 2.0, 0, effectList, bulletSpeed, bulletRadius);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -487,10 +493,12 @@ public class EntityFactory {
 
         double attackRange = 1.5 * GameConfig.TILE_WIDTH;
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
+        double bulletSpeed = 30 * GameConfig.TILE_WIDTH / 10.0;
+        double bulletRadius = 1 * GameConfig.TILE_WIDTH * 1.0;
 
-        TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(10, "bulletTargetType", "attack", "monster", "bulletType");
+        TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(12, "bulletTargetType", "attack", "monster", "bulletType");
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(30, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 1.2, 0, null);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(5, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, 2.2, 0, null, bulletSpeed, bulletRadius);
 
         entity.addComponent(towerInfoComponent)
                 .addComponent(positionComponent)
@@ -504,10 +512,10 @@ public class EntityFactory {
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
-        TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(10, "bulletTargetType", "support", "aura", "none");
+        TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(12, "bulletTargetType", "support", "aura", "none");
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        BuffAttackSpeedEffect buffAttackSpeedEffect = this.componentFactory.createBuffAttackSpeedEffect(0.5);
-        TowerAbilityComponent towerAbilityComponent = this.componentFactory.createTowerAbilityComponent(1.5 * GameConfig.TILE_WIDTH, buffAttackSpeedEffect);
+        BuffAttackSpeedEffect buffAttackSpeedEffect = this.componentFactory.createBuffAttackSpeedEffect(0.2);
+        TowerAbilityComponent towerAbilityComponent = this.componentFactory.createTowerAbilityComponent(1.2 * GameConfig.TILE_WIDTH, buffAttackSpeedEffect);
         entity.addComponent(towerInfoComponent)
                 .addComponent(positionComponent)
                 .addComponent(towerAbilityComponent);
@@ -520,10 +528,10 @@ public class EntityFactory {
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
-        TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(10, "bulletTargetType", "support", "aura", "none");
+        TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(12, "bulletTargetType", "support", "aura", "none");
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        BuffAttackDamageEffect buffAttackDamageEffect = this.componentFactory.createBuffAttackDamageEffect(1.5);
-        TowerAbilityComponent towerAbilityComponent = this.componentFactory.createTowerAbilityComponent(1.5 * GameConfig.TILE_WIDTH, buffAttackDamageEffect);
+        BuffAttackDamageEffect buffAttackDamageEffect = this.componentFactory.createBuffAttackDamageEffect(0.2);
+        TowerAbilityComponent towerAbilityComponent = this.componentFactory.createTowerAbilityComponent(1.2 * GameConfig.TILE_WIDTH, buffAttackDamageEffect);
         entity.addComponent(towerInfoComponent)
                 .addComponent(positionComponent)
                 .addComponent(towerAbilityComponent);
