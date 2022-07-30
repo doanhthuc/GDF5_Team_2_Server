@@ -11,6 +11,7 @@ public class Room implements Runnable {
     private final int roomId;
     private PlayerInBattle player1;
     private PlayerInBattle player2;
+    //Create MonsterWave
     private Battle battle;
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
@@ -18,6 +19,7 @@ public class Room implements Runnable {
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
         this.battle = new Battle(player1.getId(),player2.getId());
+
     }
 
 //    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
@@ -33,12 +35,18 @@ public class Room implements Runnable {
          BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
              try {
                  this.battle.updateSystem();
+                 //Check heets thoif gian -> tao wave quai
+                 
              } catch (Exception e) {
                  e.printStackTrace();
              }
+
+             //Check HP
          },0,100, TimeUnit.MILLISECONDS);
 
     }
+
+    //Function Handler Dat tru, tha spell
 
     public PlayerInfo getOpponentPlayer(int playerId) {
         if (playerId == player1.getId()) {

@@ -17,14 +17,12 @@ import java.util.List;
 
 public class Battle {
     private HashMap<Integer, BattleMap> battleMapListByPlayerId = new HashMap<>();
-    public AttackSystem attackSystem;
     private ComponentPool componentPool;
     private EntityPool entityPool;
     private EntityManager entityManager;
     private ComponentManager componentManager;
     private ComponentFactory componentFactory;
     private EntityFactory entityFactory;
-    private UUIDGeneratorECS uuidGeneratorECS;
 
     public EntityManager getEntityManager() {
         return this.entityManager;
@@ -43,6 +41,7 @@ public class Battle {
         return this.componentManager;
     }
 
+    public AttackSystem attackSystem;
     public MovementSystem movementSystem;
     public PathMonsterSystem pathMonsterSystem;
     public CollisionSystem collisionSystem;
