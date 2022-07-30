@@ -2,7 +2,6 @@ package battle.common;
 
 import battle.BattleMap;
 import battle.config.GameConfig;
-import javafx.util.Pair;
 
 import java.util.*;
 
@@ -12,7 +11,7 @@ public class FindPathUtils {
 
     public static List<Point> findShortestPath(int[][] map, Point start, Point dest) {
         //for BFS
-        HashMap<Pair<Integer, Integer>, Boolean> visited = new HashMap();
+        HashMap<Integer, Boolean> visited = new HashMap();
         visited.clear();
         Deque<Point> deque = new ArrayDeque<>();
         deque.clear();
@@ -24,7 +23,7 @@ public class FindPathUtils {
         List<Point> storePath = new ArrayList<>();
         storePath.clear();
         deque.add(start);
-        visited.put(new Pair<>((int) start.getX(), (int) start.getY()), true);
+        visited.put((int)(start.getX()*1000+start.getY()), true);
 
         Point top = null;
         boolean find = false;
@@ -41,15 +40,14 @@ public class FindPathUtils {
                 //Check children in Map
                 if ((childrenX < 0) || (childrenX >= mapWidth) || (childrenY < 0) || (childrenY >= mapHeight)) continue;
                 //Check Visited
-                Pair<Integer, Integer> visitedChildren = new Pair<>(childrenX, childrenY);
-                if (visited.containsKey(visitedChildren)) continue;
+                if (visited.containsKey(childrenX*1000+childrenY)) continue;
                 //Check Movable
                 if ((map[childrenX][childrenY] != GameConfig.MAP.NONE)
                         && (map[childrenX][childrenY] != GameConfig.MAP.ATTACK_SPEED)
                         && (map[childrenX][childrenY] != GameConfig.MAP.ATTACK_RANGE)
                         && (map[childrenX][childrenY] != GameConfig.MAP.ATTACK_DAMAGE)) continue;
 
-                visited.put(visitedChildren, true);
+                visited.put(childrenX*1000+childrenY, true);
                 Point children = new Point(childrenX, childrenY);
                 deque.add(children);
                 children.setFather(top);

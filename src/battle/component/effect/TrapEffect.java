@@ -24,6 +24,7 @@ public class TrapEffect extends EffectComponent {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 }
