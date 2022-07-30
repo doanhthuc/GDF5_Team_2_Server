@@ -192,14 +192,22 @@ public class BattleVisualization extends JFrame implements MouseListener {
     public void handlerPutTower(EntityMode mode) {
         if (mode == EntityMode.PLAYER)
             this.battle.player1ShortestPath = FindPathUtils.findShortestPathForEachTile(battle.player1BattleMap.map);
+        else
+            this.battle.player2ShortestPath = FindPathUtils.findShortestPathForEachTile(battle.player2BattleMap.map);
+
         List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PathComponent.typeID));
         for (EntityECS monster : monsterList) {
             if (monster.getMode() == mode) {
                 PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
                 PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
                 if (positionComponent != null) {
+                    List<Point> path;
                     Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), mode);
-                    List<Point> path = this.battle.player1ShortestPath[(int) tilePos.getX()][(int) tilePos.getY()];
+                    if (monster.getMode() == EntityMode.PLAYER) {
+                        path = this.battle.player1ShortestPath[(int) tilePos.getX()][(int) tilePos.getY()];
+                    } else {
+                        path = this.battle.player2ShortestPath[(int) tilePos.getX()][(int) tilePos.getY()];
+                    }
                     if (path != null) {
                         List<Point> newPath = Utils.tileArray2PixelCellArray(path, mode);
                         pathComponent.setPath(newPath);
@@ -285,7 +293,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
                     EntityFactory.getInstance().createFrozenSpell(pixelPos, EntityMode.PLAYER);
                     break;
                 case "TRAP":
-                    EntityFactory.getInstance().createTrapSpell(new Point(tilePosX,tilePosY), EntityMode.PLAYER);
+                    EntityFactory.getInstance().createTrapSpell(new Point(tilePosX, tilePosY), EntityMode.PLAYER);
                     break;
 
             }

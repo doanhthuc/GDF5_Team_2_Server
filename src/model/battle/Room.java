@@ -29,7 +29,6 @@ public class Room implements Runnable {
 
     @Override
     public void run() {
-
          BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
             this.battle.updateSystem();
          },0,100, TimeUnit.MILLISECONDS);
