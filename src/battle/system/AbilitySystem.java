@@ -9,6 +9,7 @@ import battle.component.effect.TowerAbilityComponent;
 import battle.component.info.LifeComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
+import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
 
 import java.util.Collections;
@@ -26,7 +27,11 @@ public class AbilitySystem extends SystemECS implements Runnable {
     public void run() {
         this.tick = this.getElapseTime();
         this.handleUnderGroundComponent(tick);
-//        this.handleSpawnMinionComponent(tick);
+        try {
+            this.handleSpawnMinionComponent(tick);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.handleHealingAbility(tick);
         this.handleBuffAbility(tick);
     }
@@ -54,19 +59,22 @@ public class AbilitySystem extends SystemECS implements Runnable {
     }
 
     //TODO: continue Implementing when have entity Factory
-    private void handleSpawnMinionComponent(double tick) {
+    private void handleSpawnMinionComponent(double tick) throws Exception {
         List<EntityECS> entityList = EntityManager.getInstance()
                 .getEntitiesHasComponents(Collections
                         .singletonList(GameConfig.COMPONENT_ID.SPAWN_MINION));
         for (EntityECS entity : entityList) {
             SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(GameConfig.COMPONENT_ID.SPAWN_MINION);
             if (spawnMinionComponent.getPeriod() >= 0) {
-                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick);
+                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick / 1000);
             } else {
                 spawnMinionComponent.setPeriod(2);
                 PositionComponent positionComponent = (PositionComponent) entity.getComponent(GameConfig.COMPONENT_ID.POSITION);
-                if (spawnMinionComponent.getSpawnAmount() < 5) {
-
+                int spawnAmount = spawnMinionComponent.getSpawnAmount();
+                if (spawnAmount < 5) {
+                    EntityFactory.getInstance().createDemonTreeMinion(
+                            new Point(positionComponent.getX(), positionComponent.getY()), entity.getMode());
+                    spawnMinionComponent.setSpawnAmount(spawnAmount + 1);
                 }
             }
         }
@@ -85,8 +93,12 @@ public class AbilitySystem extends SystemECS implements Runnable {
         for (EntityECS satyr : entityList) {
             HealingAbilityComponent healingAbilityComponent = (HealingAbilityComponent) satyr
                     .getComponent(GameConfig.COMPONENT_ID.HEALING_ABILITY);
-            if (healingAbilityComponent.getCountdown() > 0) {
+            double countdown = healingAbilityComponent.getCountdown();
+            if (countdown > 0) {
+                healingAbilityComponent.setCountdown(countdown - tick / 1000);
+            } else {
                 for (EntityECS monster : monsterList) {
+                    healingAbilityComponent.setCountdown(1);
                     if (monster.getActive() && monster.getMode() == satyr.getMode()) {
                         double distance = distanceFrom(satyr, monster);
                         if (distance <= healingAbilityComponent.getRange()) {
@@ -108,22 +120,20 @@ public class AbilitySystem extends SystemECS implements Runnable {
                         .singletonList(GameConfig.COMPONENT_ID.TOWER_ABILITY));
         List<EntityECS> damageTowerList = null;
         if (buffTowerList.size() > 0) {
-            damageTowerList = EntityManager.getInstance()
-                    .getEntitiesHasComponents(
-                            Collections.singletonList(GameConfig.COMPONENT_ID.TOWER_ABILITY));
+            damageTowerList = EntityManager.getInstance().getEntitiesHasComponents(Collections.singletonList(AttackComponent.typeID));
         }
         for (EntityECS buffTower : buffTowerList) {
-            TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(GameConfig.COMPONENT_ID.TOWER_ABILITY);
+            TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(TowerAbilityComponent.typeId);
             for (EntityECS damageTower : damageTowerList) {
                 if (this.distanceFrom(buffTower, damageTower) < towerAbilityComponent.getRange()) {
                     int typeId = towerAbilityComponent.getEffect().getTypeID();
-                    if (typeId == GameConfig.COMPONENT_ID.BUFF_ATTACK_DAMAGE) {
+                    if (typeId == BuffAttackDamageEffect.typeID) {
                         BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) towerAbilityComponent.getEffect();
-                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
+                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(AttackComponent.typeID);
                         attackComponent.setDamage(attackComponent.getDamage() + attackComponent.getOriginDamage() * buffAttackDamageEffect.getPercent());
-                    } else if (typeId == GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED) {
+                    } else if (typeId == BuffAttackSpeedEffect.typeID) {
                         BuffAttackSpeedEffect buffAttackSpeedEffect = (BuffAttackSpeedEffect) towerAbilityComponent.getEffect();
-                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
+                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(AttackComponent.typeID);
                         attackComponent.setSpeed(attackComponent.getSpeed() - (attackComponent.getOriginSpeed() * buffAttackSpeedEffect.getPercent()));
                     }
                 }

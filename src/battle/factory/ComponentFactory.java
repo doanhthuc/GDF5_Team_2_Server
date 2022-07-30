@@ -20,7 +20,7 @@ public class ComponentFactory {
         return _instance;
     }
 
-    public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, int type, double radius) throws Exception {
+    public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, String type, double radius) throws Exception {
         BulletInfoComponent bulletInfoComponent = (BulletInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.BULLET_INFO);
         if (bulletInfoComponent != null) {
             bulletInfoComponent.reset(effects, type, radius);
@@ -42,15 +42,48 @@ public class ComponentFactory {
         return positionComponent;
     }
 
-    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent targetPosition) throws Exception {
+    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition) throws Exception {
         VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
         if (velocityComponent != null) {
-            velocityComponent.reset(speedX, speedY, targetPosition);
+            velocityComponent.reset(speedX, speedY, dynamicPosition);
         } else {
-            velocityComponent = new VelocityComponent(speedX, speedY, targetPosition);
+            velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition);
             ComponentManager.getInstance().add(velocityComponent);
         }
         return velocityComponent;
+    }
+
+    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition , Point staticPostion) throws Exception {
+        VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
+        if (velocityComponent != null) {
+            velocityComponent.reset(speedX, speedY, dynamicPosition , staticPostion);
+        } else {
+            velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition , staticPostion);
+            ComponentManager.getInstance().add(velocityComponent);
+        }
+        return velocityComponent;
+    }
+
+    public VelocityComponent createVelocityComponent(double speedX, double speedY) throws Exception {
+        VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
+        if (velocityComponent != null) {
+            velocityComponent.reset(speedX, speedY);
+        } else {
+            velocityComponent = new VelocityComponent(speedX, speedY);
+            ComponentManager.getInstance().add(velocityComponent);
+        }
+        return velocityComponent;
+    }
+
+    public CollisionComponent createCollisionComponent(double width, double height, double originWidth, double originHeight) throws Exception {
+        CollisionComponent collisionComponent = (CollisionComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.COLLISION);
+        if (collisionComponent != null) {
+            collisionComponent.reset(width, height, originWidth, originHeight);
+        } else {
+            collisionComponent = new CollisionComponent(width, height, originWidth, originHeight);
+            ComponentManager.getInstance().add(collisionComponent);
+        }
+        return collisionComponent;
     }
 
     public CollisionComponent createCollisionComponent(double width, double height) throws Exception {
@@ -154,7 +187,7 @@ public class ComponentFactory {
         return spawnMinionComponent;
     }
 
-    public SpellInfoComponent createSpellInfoComponent(PositionComponent position, List<EffectComponent> effects, double range, double countdown) throws Exception {
+    public SpellInfoComponent createSpellInfoComponent(Point position, List<EffectComponent> effects, double range, double countdown) throws Exception {
         SpellInfoComponent spellInfoComponent = (SpellInfoComponent) this.pool.checkOut(SpellInfoComponent.typeID);
         if (spellInfoComponent != null) {
             spellInfoComponent.reset(position, effects, range, countdown);
@@ -175,6 +208,40 @@ public class ComponentFactory {
         }
         return towerAbilityComponent;
     }
+
+    public DamageEffect createDamageEffect(double damage) throws Exception {
+        DamageEffect damageEffect = (DamageEffect) this.pool.checkOut(DamageEffect.typeID);
+        if (damageEffect != null) {
+            damageEffect.reset(damage);
+        } else {
+            damageEffect = new DamageEffect(damage);
+            ComponentManager.getInstance().add(damageEffect);
+        }
+        return damageEffect;
+    }
+
+    public TrapInfoComponent createTrapInfoComponent(double delayTrigger) throws Exception {
+        TrapInfoComponent trapInfoComponent = (TrapInfoComponent) this.pool.checkOut(TrapInfoComponent.typeID);
+        if (trapInfoComponent != null) {
+            trapInfoComponent.reset(delayTrigger);
+        } else {
+            trapInfoComponent = new TrapInfoComponent(delayTrigger);
+            ComponentManager.getInstance().add(trapInfoComponent);
+        }
+        return trapInfoComponent;
+    }
+
+    public TrapEffect createTrapEffect() throws Exception {
+        TrapEffect trapEffect = (TrapEffect) this.pool.checkOut(TrapEffect.typeID);
+        if (trapEffect != null) {
+            trapEffect.reset();
+        } else {
+            trapEffect = new TrapEffect();
+            ComponentManager.getInstance().add(trapEffect);
+        }
+        return trapEffect;
+    }
+
 
     public SlowEffect createSlowEffect(double duration, double percent) throws Exception {
         SlowEffect slowEffect = (SlowEffect) this.pool.checkOut(SlowEffect.typeID);
@@ -207,5 +274,27 @@ public class ComponentFactory {
             ComponentManager.getInstance().add(buffAttackRangeEffect);
         }
         return buffAttackRangeEffect;
+    }
+
+    public BuffAttackSpeedEffect createBuffAttackSpeedEffect(double percent) throws Exception {
+        BuffAttackSpeedEffect buffAttackSpeedEffect = (BuffAttackSpeedEffect) this.pool.checkOut(BuffAttackSpeedEffect.typeID);
+        if (buffAttackSpeedEffect != null) {
+            buffAttackSpeedEffect.reset(percent);
+        } else {
+            buffAttackSpeedEffect = new BuffAttackSpeedEffect(percent);
+            ComponentManager.getInstance().add(buffAttackSpeedEffect);
+        }
+        return buffAttackSpeedEffect;
+    }
+
+    public BuffAttackDamageEffect createBuffAttackDamageEffect(double percent) throws Exception {
+        BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) this.pool.checkOut(BuffAttackDamageEffect.typeID);
+        if (buffAttackDamageEffect != null) {
+            buffAttackDamageEffect.reset(percent);
+        } else {
+            buffAttackDamageEffect = new BuffAttackDamageEffect(percent);
+            ComponentManager.getInstance().add(buffAttackDamageEffect);
+        }
+        return buffAttackDamageEffect;
     }
 }

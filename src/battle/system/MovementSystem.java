@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovementSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.MONSTER;
+    public int id = GameConfig.SYSTEM_ID.MOVEMENT;
 
     public MovementSystem() {
-        super(GameConfig.SYSTEM_ID.LIFE);
+        super(GameConfig.SYSTEM_ID.MOVEMENT);
         java.lang.System.out.println("new LifeSystem");
     }
 
@@ -33,6 +33,7 @@ public class MovementSystem extends SystemECS {
         for (EntityECS monster : entityList) {
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) monster.getComponent(VelocityComponent.typeID);
+
             if ((velocityComponent.getDynamicPosition() != null) && velocityComponent.getDynamicPosition().getActive() == true) {
                 Point newVelocity = Utils.getInstance().calculateVelocityVector(positionComponent.getPos(), velocityComponent.getDynamicPosition().getPos(), velocityComponent.getOriginSpeed());
                 velocityComponent.setSpeedX(newVelocity.x);
@@ -40,8 +41,8 @@ public class MovementSystem extends SystemECS {
             }
 
             if (velocityComponent.getActive()) {
-                double moveDistanceX = velocityComponent.getSpeedX() * (tick * 1.0 / 1000);
-                double moveDistanceY = velocityComponent.getSpeedY() * (tick * 1.0 / 1000);
+                double moveDistanceX = velocityComponent.getSpeedX() * (tick / 1000);
+                double moveDistanceY = velocityComponent.getSpeedY() * (tick / 1000);
                 positionComponent.setX(positionComponent.getX() + moveDistanceX);
                 positionComponent.setY(positionComponent.getY() + moveDistanceY);
                 double moveDistance = Math.sqrt(Math.pow(moveDistanceX, 2) + Math.pow(moveDistanceY, 2));

@@ -46,19 +46,17 @@ public class AttackSystem extends SystemECS implements Runnable {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             double countDown = attackComponent.getCountdown();
             if (countDown > 0) {
-                attackComponent.setCountdown(countDown - tick*1.0/1000);
+                attackComponent.setCountdown(countDown - tick * 1.0 / 1000);
             }
             if (countDown <= 0) {
                 List<EntityECS> monsterInRange = new ArrayList<>();
 
                 for (EntityECS monster : monsterList) {
-                    if (monster.getActive() && monster.getMode() == tower.getMode()) {
-                        double distance = this._distanceFrom(tower, monster);
-                        if (distance <= attackComponent.getRange()) {
-                            UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(GameConfig.COMPONENT_ID.UNDER_GROUND);
-                            if (underGroundComponent != null && underGroundComponent.isInGround()) {
-                                monsterInRange.add(monster);
-                            }
+                    UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(GameConfig.COMPONENT_ID.UNDER_GROUND);
+                    if (underGroundComponent == null || (underGroundComponent.isInGround() == false)) {
+                        if (monster.getActive() && monster.getMode() == tower.getMode()) {
+                            double distance = this._distanceFrom(tower, monster);
+                            if (distance <= attackComponent.getRange()) monsterInRange.add(monster);
                         }
                     }
                 }
@@ -67,10 +65,18 @@ public class AttackSystem extends SystemECS implements Runnable {
                     if (targetMonster != null) {
                         PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                         PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
+
                         try {
-                            EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(), tower.getMode());
+                            if (tower.getTypeID() == GameConfig.ENTITY_ID.FROG_TOWER) {
+                                double distance = this._distanceFrom(tower, targetMonster);
+                                double k = attackComponent.getRange() / distance;
+                                PositionComponent destination = new PositionComponent(k * (monsterPos.getX() - towerPos.getX()) + towerPos.getX(), k * (monsterPos.getY() - towerPos.getY()) + towerPos.getY());
+                                EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, destination, attackComponent.getEffects(), tower.getMode());
+                            } else {
+                                EntityFactory.getInstance().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(), tower.getMode());
+                            }
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }
                         attackComponent.setCountdown(attackComponent.getSpeed());
                     }
@@ -84,7 +90,7 @@ public class AttackSystem extends SystemECS implements Runnable {
     public double _distanceFrom(EntityECS tower, EntityECS monster) {
         PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
         PositionComponent monsterPos = (PositionComponent) monster.getComponent(GameConfig.COMPONENT_ID.POSITION);
-       // System.out.println("AttackSystem Position "+towerPos.getX()+" "+towerPos.getY()+" "+monsterPos.getX()+" "+monsterPos.getY());
+        // System.out.println("AttackSystem Position "+towerPos.getX()+" "+towerPos.getY()+" "+monsterPos.getX()+" "+monsterPos.getY());
         return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
     }
 

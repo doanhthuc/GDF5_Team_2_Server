@@ -60,7 +60,8 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
-//            BattleVisualization xh = new BattleVisualization();
+            BattleVisualization xh = new BattleVisualization();
+            //Bida bida= new Bida();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,13 +103,8 @@ public class FresherExtension extends BZExtension {
         }
     }
 
-    public void initBattle() {
-        BattleMap btm = new BattleMap();
-        btm.show();
-//        Battle battle = new Battle();
-    }
 
-    public void initUserData(long userID) {
+    public static void initUserData(long userID) {
         System.out.println("initUserdata");
         ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
         DailyShop dailyShop = new DailyShop(userID);

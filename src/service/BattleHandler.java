@@ -129,6 +129,7 @@ public class BattleHandler extends BaseClientRequestHandler {
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+
             BattleMapObject battleMapObject = battleMap.battleMapObject;
             Tower tower = battleMapObject.putTowerIntoMap(req.getTilePos(), req.getTowerId());
             if (tower == null) {

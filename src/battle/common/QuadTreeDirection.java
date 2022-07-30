@@ -1,6 +1,7 @@
 package battle.common;
 
-enum Direction {
+enum QuadTreeDirection {
+
     TOP_RIGHT(0),
     TOP_LEFT(1),
     BOTTOM_LEFT(2),
@@ -8,7 +9,7 @@ enum Direction {
 
     public int value;
 
-    Direction(int value) {
+    QuadTreeDirection(int value) {
         this.value = value;
     }
 }

@@ -7,14 +7,12 @@ import java.awt.*;
 import java.nio.ByteBuffer;
 
 public class ResponseOppentPutTower extends BaseMsg {
-    private short _error;
     private int towerId;
     private int towerLevel;
     private Point tilePos;
 
     public ResponseOppentPutTower(short _error, int towerId, int towerLevel, Point tilePos) {
-        super(CmdDefine.OPPONENT_PUT_TOWER);
-        this._error = _error;
+        super(CmdDefine.OPPONENT_PUT_TOWER, _error);
         this.towerId = towerId;
         this.towerLevel = towerLevel;
         this.tilePos = tilePos;

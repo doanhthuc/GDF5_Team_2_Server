@@ -13,6 +13,16 @@ public class GameConfig {
     public static int MAP_HEIGHT = 5;
     public static int RIVER_MAP_HEIGHT = 100;
 
+    public static class MAP{
+        public static  int NONE = 0;
+        public static  int ATTACK_SPEED = 1;
+        public static  int ATTACK_RANGE = 2;
+        public static  int ATTACK_DAMAGE = 3;
+        public static  int TREE = 5;
+        public static  int HOLE = 6;
+        public static  int TOWER = 7;
+
+    }
     public static class COMPONENT_ID {
         public static int MONSTER_INFO = 1;
         public static int TOWER_INFO = 2;
@@ -35,13 +45,19 @@ public class GameConfig {
         public static int SPAWN_MINION = 19;
         public static int HEALING_ABILITY = 20;
         public static int SPRITE_SHEET = 21;
-        public static int TOWER_ABILITY = 22;
-        public static int BUFF_ATTACK_RANGE = 23;
+        public static int TRAP_INFO = 22;
+        public static int TRAP_EFFECT = 23;
+        public static int TOWER_ABILITY = 24;
+        public static int BUFF_ATTACK_RANGE = 25;
+        public static int ACCELERATION = 26;
+
     }
+
     public static class HOUSE_POSITION {
         public static double x = 6;
         public static double y = 0;
     }
+
     public static class ENTITY_ID {
         public static final int CANNON_TOWER = 0;
         public static final int WIZARD_TOWER = 1;
@@ -88,12 +104,13 @@ public class GameConfig {
         public static final int MONSTER = 11;
         public static final int ABILITY = 12;
         public static final int COLLISION = 13;
-
+        public static final int RESET_SYSTEM = 14;
     }
 
     public static class GROUP_ID {
         public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.BEAR_TOWER, ENTITY_ID.BEAR_TOWER, ENTITY_ID.CANNON_TOWER);
-        public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN);
+        public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.DEMON_TREE, ENTITY_ID.DEMON_TREE_MINION, ENTITY_ID.ASSASSIN,
+                ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
         public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET);
         public static List<Integer> EFFECT_COMPONENT = Arrays.asList(COMPONENT_ID.DAMAGE_EFFECT, COMPONENT_ID.FROZEN_EFFECT, COMPONENT_ID.SLOW_EFFECT);
         public static List<Integer> INFO_COMPONENT = Arrays.asList(COMPONENT_ID.BULLET_INFO, COMPONENT_ID.TOWER_INFO, COMPONENT_ID.MONSTER_INFO);
@@ -102,6 +119,23 @@ public class GameConfig {
     public static class COMPONENT_NAME {
         public static List<String> NAME = Arrays.asList("", "MONSTER_INFO", "TOWER_INFO", "BULLET_INFO", "LIFE", "POSITION", "VELOCITY", "APPEARANCE", "PATH", "COLLISION", "DAMAGE_EFFECT", "SLOW_EFFECT",
                 "FROZEN_EFFECT", "ATTACK", "BUFF_ATTACK_SPEED", "BUFF_ATTACK_DAMAGE");
+    }
+
+    public static class MONSTER {
+        public static class CATEGORY {
+            public static String NORMAL ="normal";
+            public static String BOSS ="boss";
+        }
+        public static class CLASS {
+            public static String LAND ="land";
+            public static String AIR ="air";
+        }
+    }
+    public static class FROG_BULLET {
+        public static int HIT_FIRST_TIME = 1;
+        public static int HIT_SECOND_TIME = 2;
+        public static int HIT_BOTH_TIME = 3;
+
     }
 }
 
