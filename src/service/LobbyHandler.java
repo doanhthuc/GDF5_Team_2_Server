@@ -4,6 +4,7 @@ import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
+import bitzero.server.extensions.data.BaseMsg;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.HandlerId;

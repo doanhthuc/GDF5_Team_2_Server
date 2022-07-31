@@ -18,9 +18,9 @@ public class CollisionComponent extends Component {
         this.reset(width, height);
     }
 
-    public CollisionComponent clone() {
+    public CollisionComponent clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createCollisionComponent(this.width, this.height);
+            return componentFactory.createCollisionComponent(this.width, this.height);
         } catch (Exception e) {
             e.printStackTrace();
         }

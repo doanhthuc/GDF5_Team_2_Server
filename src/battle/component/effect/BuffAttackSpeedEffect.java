@@ -13,9 +13,9 @@ public class BuffAttackSpeedEffect extends EffectComponent {
         this.percent = percent;
     }
 
-    public BuffAttackSpeedEffect clone() {
+    public BuffAttackSpeedEffect clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createBuffAttackSpeedEffect(percent);
+            return componentFactory.createBuffAttackSpeedEffect(percent);
         } catch (Exception e) {
             e.printStackTrace();
         }

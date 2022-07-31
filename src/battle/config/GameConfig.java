@@ -45,8 +45,12 @@ public class GameConfig {
         public static int SPAWN_MINION = 19;
         public static int HEALING_ABILITY = 20;
         public static int SPRITE_SHEET = 21;
-        public static int TOWER_ABILITY = 22;
-        public static int BUFF_ATTACK_RANGE = 23;
+        public static int TRAP_INFO = 22;
+        public static int TRAP_EFFECT = 23;
+        public static int TOWER_ABILITY = 24;
+        public static int BUFF_ATTACK_RANGE = 25;
+        public static int ACCELERATION = 26;
+
     }
 
     public static class HOUSE_POSITION {
@@ -117,6 +121,16 @@ public class GameConfig {
                 "FROZEN_EFFECT", "ATTACK", "BUFF_ATTACK_SPEED", "BUFF_ATTACK_DAMAGE");
     }
 
+    public static class MONSTER {
+        public static class CATEGORY {
+            public static String NORMAL ="normal";
+            public static String BOSS ="boss";
+        }
+        public static class CLASS {
+            public static String LAND ="land";
+            public static String AIR ="air";
+        }
+    }
     public static class FROG_BULLET {
         public static int HIT_FIRST_TIME = 1;
         public static int HIT_SECOND_TIME = 2;

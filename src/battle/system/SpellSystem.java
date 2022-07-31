@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
@@ -27,18 +28,17 @@ public class SpellSystem extends SystemECS {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) throws Exception {
         this.tick = this.getElapseTime();
-        List<EntityECS> spellList = EntityManager.getInstance().getEntitiesHasComponents
+        List<EntityECS> spellList = battle.getEntityManager().getEntitiesHasComponents
                 (Collections.singletonList(SpellInfoComponent.typeID));
-
         for (EntityECS spellEntity : spellList) {
             SpellInfoComponent spellInfoComponent = (SpellInfoComponent) spellEntity.getComponent(SpellInfoComponent.typeID);
-            spellInfoComponent.setCountdown(spellInfoComponent.getCountdown() - tick);
-
+            spellInfoComponent.setCountdown(spellInfoComponent.getCountdown() - tick / 1000);
+            System.out.println(spellInfoComponent.getCountdown());
             if (spellInfoComponent.getCountdown() <= 0) {
                 List<Integer> monsterIds = Arrays.asList(MonsterInfoComponent.typeID);
-                List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(monsterIds);
+                List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(monsterIds);
 
                 for (EntityECS monster : monsterList) {
                     if (monster.getMode() == spellEntity.getMode()) {
@@ -48,11 +48,12 @@ public class SpellSystem extends SystemECS {
 
                         if (distance <= spellInfoComponent.getRange()) {
                             for (EffectComponent effect : spellInfoComponent.getEffects()) {
-                                monster.addComponent(effect.clone());
+                                monster.addComponent(effect.clone(battle.getComponentFactory()));
                             }
                         }
                     }
                 }
+                battle.getEntityManager().remove(spellEntity);
             }
         }
     }

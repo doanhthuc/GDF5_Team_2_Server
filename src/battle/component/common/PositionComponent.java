@@ -24,9 +24,9 @@ public class PositionComponent extends Component {
         this.moveDistance = 0;
     }
 
-    public PositionComponent clone(){
+    public PositionComponent clone(ComponentFactory componentFactory){
         try {
-            return ComponentFactory.getInstance().createPositionComponent(this.x,this.y);
+            return componentFactory.createPositionComponent(this.x,this.y);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package battle.component.effect;
 
 import battle.config.GameConfig;
+import battle.factory.ComponentFactory;
 
 public class DamageEffect extends EffectComponent {
     private String name = "DamageEffect";
@@ -9,11 +10,11 @@ public class DamageEffect extends EffectComponent {
 
     public DamageEffect(double damage) {
         super(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-        this.damage = damage;
+        this.reset(damage);
     }
 
-    public DamageEffect clone() {
-        return new DamageEffect(this.damage);
+    public DamageEffect clone(ComponentFactory componentFactory) throws Exception {
+        return componentFactory.createDamageEffect(damage);
     }
 
     public double getDamage() {

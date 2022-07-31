@@ -18,13 +18,6 @@ public class ComponentManager extends battle.manager.ManagerECS {
         this.storeInstance = new HashMap<>();
     }
 
-    public static ComponentManager getInstance() {
-        if (instance == null) {
-            instance = new ComponentManager();
-        }
-        return instance;
-    }
-
     public void registerClass(Component cpn) {
         // TODO: implement here
         //throw new NotImplementedException();
