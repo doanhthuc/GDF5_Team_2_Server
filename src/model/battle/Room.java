@@ -27,6 +27,7 @@ public class Room implements Runnable {
     private Battle battle;
     private int waveAmount = 20;
     private long startTime;
+
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
         this.player1 = new PlayerInBattle(player1);
@@ -69,14 +70,18 @@ public class Room implements Runnable {
             batAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount));
             ninjaAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount));
             assassinAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount - ninjaAmount));
-            for (int i = 1; i <= swordManAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.SWORD_MAN);
             for (int i = 1; i <= batAmount; i++)
                 wave.add(GameConfig.ENTITY_ID.BAT);
+
             for (int i = 1; i <= ninjaAmount; i++)
                 wave.add(GameConfig.ENTITY_ID.NINJA);
+
             for (int i = 1; i <= assassinAmount; i++)
                 wave.add(GameConfig.ENTITY_ID.ASSASSIN);
+
+            for (int i = 1; i <= swordManAmount; i++)
+                wave.add(GameConfig.ENTITY_ID.SWORD_MAN);
+            
             if (waveIdx == 5) {
                 wave.add(GameConfig.ENTITY_ID.SATYR);
             }

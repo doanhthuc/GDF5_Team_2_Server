@@ -161,6 +161,9 @@ public class MatchMaking implements Runnable {
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getRoomId(), room.getPlayerBattleMap(userInfo1.getId()), room.getPlayerBattleMap(dummyBot.getId()), opponentInfoOfUser1), user1);
 
+            ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
+
             waitingQueue.remove(matchingInfo1);
             waitingMap.remove(matchingInfo1.getPlayerId());
 
