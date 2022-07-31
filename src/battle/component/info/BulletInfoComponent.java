@@ -46,14 +46,14 @@ public class BulletInfoComponent extends InfoComponent {
         this.effects = effects;
     }
 
-    public BulletInfoComponent clone() {
-        try {
-            return ComponentFactory.getInstance().createBulletInfoComponent(this.effects, this.type, this.radius);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    public BulletInfoComponent clone() {
+//        try {
+//            return ComponentFactory.getInstance().createBulletInfoComponent(this.effects, this.type, this.radius);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     public String getType() {
         return type;

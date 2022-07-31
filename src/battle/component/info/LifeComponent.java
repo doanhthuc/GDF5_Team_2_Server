@@ -25,13 +25,13 @@ public class LifeComponent extends InfoComponent {
         this.hp = hp;
     }
 
-    public LifeComponent clone(double hp) {
-        try {
-            return ComponentFactory.getInstance().createLifeComponent(hp);
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//    public LifeComponent clone(double hp) {
+//        try {
+//            return ComponentFactory.getInstance().createLifeComponent(hp);
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 
     public double getHp() {
         return hp;

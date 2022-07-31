@@ -7,7 +7,7 @@ import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.obj.matching.MatchingInfo;
 import cmd.obj.matching.OpponentInfo;
-import cmd.send.battle.ResponseRequestBattleMapObject;
+import cmd.send.battle.player.ResponseRequestBattleMapObject;
 import cmd.send.matching.ResponseCancelMatching;
 import cmd.send.matching.ResponseMatching;
 import extension.FresherExtension;

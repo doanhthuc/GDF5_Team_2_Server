@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.component.info.LifeComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
@@ -17,13 +18,13 @@ public class LifeSystem extends SystemECS {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) {
         List<Integer> lifeComponentIDs = new ArrayList<>();
         lifeComponentIDs.add(LifeComponent.typeID);
-        List<EntityECS> lifeEntity = EntityManager.getInstance().getEntitiesHasComponents(lifeComponentIDs);
+        List<EntityECS> lifeEntity = battle.getEntityManager().getEntitiesHasComponents(lifeComponentIDs);
         for (EntityECS entity : lifeEntity) {
             LifeComponent lifeComponent = (LifeComponent) entity.getComponent(LifeComponent.typeID);
-            if (lifeComponent.getHp() <= 0) EntityManager.getInstance().remove(entity);
+            if (lifeComponent.getHp() <= 0) battle.getEntityManager().remove(entity);
         }
     }
 }

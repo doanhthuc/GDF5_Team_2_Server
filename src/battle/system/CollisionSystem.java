@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.common.*;
 import battle.component.common.CollisionComponent;
 import battle.component.common.PathComponent;
@@ -15,11 +16,10 @@ import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.ComponentFactory;
 import battle.manager.EntityManager;
-import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
 
 import java.util.*;
 
-public class CollisionSystem extends SystemECS implements Runnable {
+public class CollisionSystem extends SystemECS {
     public static int typeID = GameConfig.SYSTEM_ID.COLLISION;
     private String name = "CollisionSystem";
     private final double mapWidth = GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH;
@@ -33,11 +33,11 @@ public class CollisionSystem extends SystemECS implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) throws Exception {
         this.tick = this.getElapseTime();
         List<Integer> typeIDs = new ArrayList<>();
         typeIDs.add(GameConfig.COMPONENT_ID.COLLISION);
-        List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(typeIDs);
+        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(typeIDs);
 
         // construct quadtree
         quadTreePlayer.clear();
@@ -60,13 +60,13 @@ public class CollisionSystem extends SystemECS implements Runnable {
                 EntityECS bullet = entityList.get(i);
                 BulletInfoComponent bulletInfo = (BulletInfoComponent) bullet.getComponent(BulletInfoComponent.typeID);
                 if (bulletInfo.getRadius() > 0) {
-                    this.handleRadiusBullet(bullet);
+                    this.handleRadiusBullet(bullet, battle);
                 } else {
-                    this.handleCollisionBullet(bullet);
+                    this.handleCollisionBullet(bullet, battle);
                 }
             } else if (ValidatorECS.isEntityIdEqualTypeId(entityList.get(i), GameConfig.ENTITY_ID.TRAP_SPELL)) {
                 try {
-                    this.handleCollisionTrap(entityList.get(i), this.tick);
+                    this.handleCollisionTrap(entityList.get(i), this.tick, battle);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -74,7 +74,7 @@ public class CollisionSystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleCollisionBullet(EntityECS bulletEntity) {
+    private void handleCollisionBullet(EntityECS bulletEntity, Battle battle) throws Exception {
         PositionComponent pos = (PositionComponent) bulletEntity.getComponent(GameConfig.COMPONENT_ID.POSITION);
         CollisionComponent collision = (CollisionComponent) bulletEntity.getComponent(GameConfig.COMPONENT_ID.COLLISION);
         double w = collision.getWidth(), h = collision.getHeight();
@@ -103,7 +103,7 @@ public class CollisionSystem extends SystemECS implements Runnable {
                         if (pathComponent.getCurrentPathIDx() <= pathComponent.getPath().size() / 2) {
                             if (!hitMonster.containsKey(monster.getId())) {
                                 for (EffectComponent effectComponent : bulletInfo.getEffects()) {
-                                    monster.addComponent(effectComponent.clone());
+                                    monster.addComponent(effectComponent.clone(battle.getComponentFactory()));
                                     bulletInfo.getHitMonster().put(monster.getId(), GameConfig.FROG_BULLET.HIT_FIRST_TIME);
                                 }
                             }
@@ -113,13 +113,13 @@ public class CollisionSystem extends SystemECS implements Runnable {
                             hitMonster = bulletInfo.getHitMonster();
                             if (!hitMonster.containsKey(monster.getId())) {
                                 for (EffectComponent effectComponent : bulletInfo.getEffects()) {
-                                    monster.addComponent(effectComponent.clone());
+                                    monster.addComponent(effectComponent.clone(battle.getComponentFactory()));
                                     bulletInfo.getHitMonster().put(monster.getId(), GameConfig.FROG_BULLET.HIT_SECOND_TIME);
                                 }
                             } else if (hitMonster.get(monster.getId()) == GameConfig.FROG_BULLET.HIT_FIRST_TIME) {
                                 for (EffectComponent effect : bulletInfo.getEffects()) {
                                     if (effect.getTypeID() == DamageEffect.typeID) {
-                                        DamageEffect newDamageEffect = (DamageEffect) effect.clone();
+                                        DamageEffect newDamageEffect = (DamageEffect) effect.clone(battle.getComponentFactory());
                                         newDamageEffect.setDamage(newDamageEffect.getDamage() * 1.5);
                                         monster.addComponent(newDamageEffect);
                                         bulletInfo.setHitMonster(monster.getId(), GameConfig.FROG_BULLET.HIT_BOTH_TIME);
@@ -129,9 +129,9 @@ public class CollisionSystem extends SystemECS implements Runnable {
                         }
                     } else {
                         for (EffectComponent effect : bulletInfo.getEffects()) {
-                            monster.addComponent(effect.clone());
+                            monster.addComponent(effect.clone(battle.getComponentFactory()));
                         }
-                        EntityManager.destroy(bullet);
+                        battle.getEntityManager().destroy(bullet);
                     }
 
                     break;
@@ -140,26 +140,26 @@ public class CollisionSystem extends SystemECS implements Runnable {
         }
     }
 
-    private void handleRadiusBullet(EntityECS bulletEntity) {
+    private void handleRadiusBullet(EntityECS bulletEntity, Battle battle) throws Exception {
         PositionComponent bulletPos = (PositionComponent) bulletEntity.getComponent(PositionComponent.typeID);
         VelocityComponent bulletVelocity = (VelocityComponent) bulletEntity.getComponent(VelocityComponent.typeID);
         BulletInfoComponent bulletInfo = (BulletInfoComponent) bulletEntity.getComponent(BulletInfoComponent.typeID);
         Point staticPosition = bulletVelocity.getStaticPosition();
         if ((Math.abs(staticPosition.getX() - bulletPos.getX()) <= 5) && (Math.abs(staticPosition.getY() - bulletPos.getY()) <= 5)) {
-            List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
+            List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
             for (EntityECS monster : monsterList) {
                 if (monster.getMode() == bulletEntity.getMode()) {
                     if (Utils.euclidDistance((PositionComponent) monster.getComponent(PositionComponent.typeID), bulletPos) <= bulletInfo.getRadius()) {
                         for (EffectComponent effect : bulletInfo.getEffects())
-                            monster.addComponent(effect.clone());
+                            monster.addComponent(effect.clone(battle.getComponentFactory()));
                     }
                 }
             }
-            EntityManager.destroy(bulletEntity);
+            battle.getEntityManager().destroy(bulletEntity);
         }
     }
 
-    public void handleCollisionTrap(EntityECS trapEntity, double tick) throws Exception {
+    public void handleCollisionTrap(EntityECS trapEntity, double tick, Battle battle) throws Exception {
         TrapInfoComponent trapInfoComponent = (TrapInfoComponent) trapEntity.getComponent(TrapInfoComponent.typeID);
         if (trapInfoComponent.isTriggered() == false) {
             double delayTrigger = trapInfoComponent.getDelayTrigger();
@@ -189,7 +189,7 @@ public class CollisionSystem extends SystemECS implements Runnable {
                         MonsterInfoComponent monsterInfo = (MonsterInfoComponent) entity2.getComponent(MonsterInfoComponent.typeID);
                         if (monsterInfo.getClasss() == GameConfig.MONSTER.CLASS.AIR) continue;
                         if (monsterInfo.getCategory()== GameConfig.MONSTER.CATEGORY.BOSS) continue;
-                        entity2.addComponent(ComponentFactory.getInstance().createTrapEffect());
+                        entity2.addComponent(battle.getComponentFactory().createTrapEffect());
                     }
                 }
             }

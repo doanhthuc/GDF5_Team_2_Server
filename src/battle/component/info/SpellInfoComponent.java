@@ -54,9 +54,9 @@ public class SpellInfoComponent extends Component {
         this.countdown = countdown;
     }
 
-    public SpellInfoComponent clone(){
+    public SpellInfoComponent clone(ComponentFactory componentFactory) throws Exception {
         try {
-            return ComponentFactory.getInstance().createSpellInfoComponent(this.position,this.effects,this.range,this.countdown);
+            return componentFactory.createSpellInfoComponent(this.position,this.effects,this.range,this.countdown);
         } catch (Exception e) {
             e.printStackTrace();
         }

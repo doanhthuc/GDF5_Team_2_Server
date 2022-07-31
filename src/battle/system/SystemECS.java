@@ -1,8 +1,9 @@
 package battle.system;
 
+import battle.Battle;
 import battle.common.UUIDGeneratorECS;
 
-public class SystemECS implements Runnable {
+public class SystemECS {
     private final static String name = "SystemECS";
     private static int typeID;
     long currentMillis;
@@ -15,8 +16,7 @@ public class SystemECS implements Runnable {
         id = UUIDGeneratorECS.genSystemID();
     }
 
-    @Override
-    public void run() {
+    public void run(Battle battle) throws Exception {
 
     }
 

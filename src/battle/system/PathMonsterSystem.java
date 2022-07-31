@@ -1,5 +1,6 @@
 package battle.system;
 
+import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.PathComponent;
@@ -24,10 +25,10 @@ public class PathMonsterSystem extends SystemECS {
     }
 
     @Override
-    public void run() {
+    public void run(Battle battle) {
         this.tick = this.getElapseTime();
         List<Integer> pathComponentIds = Arrays.asList(PathComponent.typeID, PositionComponent.typeID);
-        List<EntityECS> entityList = EntityManager.getInstance().getEntitiesHasComponents(pathComponentIds);
+        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(pathComponentIds);
 
         for (EntityECS entity : entityList) {
             PathComponent pathComponent = (PathComponent) entity.getComponent(PathComponent.typeID);

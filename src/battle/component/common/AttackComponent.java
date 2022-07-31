@@ -19,14 +19,17 @@ public class AttackComponent extends Component {
     private double originSpeed;
     private double speed;
     private double countdown;
+    private double bulletSpeed;
+    private double bulletRadius;
+
     private List<EffectComponent> effects = new ArrayList<>();
 
-    public AttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
+    public AttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects, double bulletSpeed, double bulletRadius) {
         super(GameConfig.COMPONENT_ID.ATTACK);
-        this.reset(damage, targetStrategy, range, speed, countdown, effects);
+        this.reset(damage, targetStrategy, range, speed, countdown, effects, bulletSpeed, bulletRadius);
     }
 
-    public void reset(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects) {
+    public void reset(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects, double bulletSpeed, double bulletRadius) {
         this.originDamage = damage;
         this.damage = damage;
         this.targetStrategy = targetStrategy;
@@ -41,6 +44,8 @@ public class AttackComponent extends Component {
         }
         //  System.out.println("countdown "+this.countdown);
         this.effects.add(new DamageEffect(this.damage));
+        this.bulletSpeed = bulletSpeed;
+        this.bulletRadius = bulletRadius;
     }
 
     public double getDamage() {
@@ -57,9 +62,9 @@ public class AttackComponent extends Component {
         }
     }
 
-    public AttackComponent clone() {
+    public AttackComponent clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createAttackComponent(this.damage, this.targetStrategy, this.range, this.speed, this.countdown, this.effects);
+            return componentFactory.createAttackComponent(this.damage, this.targetStrategy, this.range, this.speed, this.countdown, this.effects, this.bulletSpeed, this.bulletRadius);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,5 +133,21 @@ public class AttackComponent extends Component {
 
     public void setOriginRange(double originRange) {
         this.originRange = originRange;
+    }
+
+    public double getBulletSpeed() {
+        return bulletSpeed;
+    }
+
+    public void setBulletSpeed(double bulletSpeed) {
+        this.bulletSpeed = bulletSpeed;
+    }
+
+    public double getBulletRadius() {
+        return bulletRadius;
+    }
+
+    public void setBulletRadius(double bulletRadius) {
+        this.bulletRadius = bulletRadius;
     }
 }

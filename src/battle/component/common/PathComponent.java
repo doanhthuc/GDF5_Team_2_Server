@@ -32,14 +32,14 @@ public class PathComponent extends Component {
         this.currentPathIDx = 0;
     }
 
-    public PathComponent clone() {
-        try {
-            return ComponentFactory.getInstance().createPathComponent(this.path, this.mode, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    public PathComponent clone() {
+//        try {
+//            return ComponentFactory.getInstance().createPathComponent(this.path, this.mode, true);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     public List<Point> getPath() {
         return path;

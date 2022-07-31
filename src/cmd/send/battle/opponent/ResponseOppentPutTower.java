@@ -1,4 +1,4 @@
-package cmd.send.battle;
+package cmd.send.battle.opponent;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;

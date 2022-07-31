@@ -17,7 +17,6 @@ public class EntityECS {
     private long id;
     private boolean active;
     private EntityMode mode;
-
     public EntityECS(int typeID, EntityMode mode) {
         this.typeID = typeID;
         this.components = new HashMap<>();
@@ -27,7 +26,6 @@ public class EntityECS {
     }
 
     public EntityECS addComponent(Component component) {
-        //System.out.println(component.getTypeID());
         if (this.components.get(component.getTypeID()) != null) {
             //TODO: check override or not
         }
@@ -36,10 +34,10 @@ public class EntityECS {
         return this;
     }
 
-    public void removeComponent(Component cpn) {
+    public void removeComponent(Component cpn, ComponentManager componentManager) {
         Component component = this.components.get(cpn.getTypeID());
         if (component != null) {
-            ComponentManager.getInstance().remove(component);
+            componentManager.remove(component);
             this.components.remove(component.typeID);
         }
     }

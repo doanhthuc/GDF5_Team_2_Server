@@ -17,9 +17,9 @@ public class BuffAttackRangeEffect extends EffectComponent {
         this.percent = percent;
     }
 
-    public BuffAttackRangeEffect clone() {
+    public BuffAttackRangeEffect clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createBuffAttackRangeEffect(percent);
+            return componentFactory.createBuffAttackRangeEffect(percent);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,15 +1,15 @@
 package battle.manager;
 
 
+import battle.common.UUIDGeneratorECS;
 import battle.component.common.Component;
 import battle.entity.EntityECS;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 
 public class EntityManager extends ManagerECS {
-    private static Map<Long, EntityECS> entities = null;
-    private static EntityManager instance = null;
+    private Map<Long, EntityECS> entities;
     private final String name = "EntityManager";
 
     public EntityManager() {
@@ -17,7 +17,7 @@ public class EntityManager extends ManagerECS {
         entities = new HashMap<>();
     }
 
-    public static void destroy(EntityECS entityECS) {
+    public void destroy(EntityECS entityECS) {
         EntityECS entity = entities.get(entityECS.getId());
         for (Map.Entry<Integer, Component> entry : entities.get(entity.getId()).getComponents().entrySet()) {
             entry.getValue().setActive(false);
@@ -25,15 +25,9 @@ public class EntityManager extends ManagerECS {
         entities.remove(entity.getId());
     }
 
-    public static EntityManager getInstance() {
-        if (instance == null) {
-            instance = new EntityManager();
-        }
-        return instance;
-    }
 
     public void createEntity() {
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
     }
 
     public EntityECS getEntity(int entityID) {

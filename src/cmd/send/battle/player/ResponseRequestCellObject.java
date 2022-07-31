@@ -1,4 +1,4 @@
-package cmd.send.battle;
+package cmd.send.battle.player;
 
 import battle.newMap.*;
 import bitzero.server.extensions.data.BaseMsg;

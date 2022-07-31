@@ -1,4 +1,4 @@
-package cmd.send.battle;
+package cmd.send.battle.opponent;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
@@ -6,14 +6,14 @@ import cmd.CmdDefine;
 import java.awt.*;
 import java.nio.ByteBuffer;
 
-public class ResponseRequestUpgradeTower extends BaseMsg {
+public class ResponseOpponentUpgradeTower extends BaseMsg {
     private final short _error;
     private final int towerId;
     private final int towerLevel;
     private final Point tilePos;
 
-    public ResponseRequestUpgradeTower(short _error, int towerId, int towerLevel, Point tilePos) {
-        super(CmdDefine.UPGRADE_TOWER);
+    public ResponseOpponentUpgradeTower(short _error, int towerId, int towerLevel, Point tilePos) {
+        super(CmdDefine.OPPONENT_UPGRADE_TOWER);
         this._error = _error;
         this.towerId = towerId;
         this.towerLevel = towerLevel;

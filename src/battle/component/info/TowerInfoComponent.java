@@ -24,9 +24,9 @@ public class TowerInfoComponent extends InfoComponent {
         this.bulletType = bulletType;
     }
 
-    public TowerInfoComponent clone() {
+    public TowerInfoComponent clone(ComponentFactory componentFactory) throws Exception {
         try {
-            return ComponentFactory.getInstance().createTowerInfoComponent(energy, bulletTargetType, archType, targetType, bulletType);
+            return componentFactory.createTowerInfoComponent(energy, bulletTargetType, archType, targetType, bulletType);
         } catch (Exception e) {
             return null;
         }

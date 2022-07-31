@@ -21,9 +21,9 @@ public class HealingAbilityComponent extends Component{
         this.countdown = 1;
     }
 
-    public HealingAbilityComponent clone() {
+    public HealingAbilityComponent clone(ComponentFactory componentFactory) {
         try {
-            return ComponentFactory.getInstance().createHealingAbilityComponent(this.range, this.healingRate);
+            return componentFactory.createHealingAbilityComponent(this.range, this.healingRate);
         } catch (Exception e) {
             e.printStackTrace();
         }
