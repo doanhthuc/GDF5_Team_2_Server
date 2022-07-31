@@ -64,7 +64,7 @@ public class Room implements Runnable {
         for (int waveIdx = 1; waveIdx <= this.waveAmount; waveIdx++) {
             List<Integer> wave = new ArrayList<>();
             int swordManAmount, batAmount, ninjaAmount, assassinAmount;
-            int monsterAmountInWave = 5 + waveIdx;
+            int monsterAmountInWave = Math.min(5 + waveIdx, 15);
             swordManAmount = (int) Math.floor(Math.random() * monsterAmountInWave);
             batAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount));
             ninjaAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount));
