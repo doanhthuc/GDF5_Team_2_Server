@@ -28,8 +28,7 @@ public class Room implements Runnable {
         this.roomId = RoomManager.getInstance().getRoomCount();
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
-        this.battle = new Battle(player1.getId(),player2.getId());
-
+        this.battle = new Battle(player1.getId(), player2.getId());
     }
 
 //    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
