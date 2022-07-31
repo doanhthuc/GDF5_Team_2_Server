@@ -46,23 +46,25 @@ public class MatchMaking implements Runnable {
 
             Iterator<MatchingInfo> it = waitingQueue.iterator();
             it.next();
-            while (it.hasNext()) {
-                matchingInfo2 = it.next();
-
-                if (System.currentTimeMillis() - matchingInfo2.getTime() > limitTimeout) {
-                    matchingInfo2.increaseRank();
-                    matchingInfo2.setTime(System.currentTimeMillis());
-                }
-
-                if ((matchingInfo1.getTrophy() >= matchingInfo2.getStartRank() && matchingInfo1.getTrophy() <= matchingInfo2.getEndRank())
-                        || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
-                    processMatching(matchingInfo1, matchingInfo2);
-                    break;
-                }
-            }
             if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 10000) {
                 processMatchingWithBot(matchingInfo1);
+            } else {
+                while (it.hasNext()) {
+                    matchingInfo2 = it.next();
+
+                    if (System.currentTimeMillis() - matchingInfo2.getTime() > limitTimeout) {
+                        matchingInfo2.increaseRank();
+                        matchingInfo2.setTime(System.currentTimeMillis());
+                    }
+
+                    if ((matchingInfo1.getTrophy() >= matchingInfo2.getStartRank() && matchingInfo1.getTrophy() <= matchingInfo2.getEndRank())
+                            || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
+                        processMatching(matchingInfo1, matchingInfo2);
+                        break;
+                    }
+                }
             }
+
         }
 
     }
