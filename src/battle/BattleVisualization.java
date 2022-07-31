@@ -197,7 +197,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         else
             this.battle.player2ShortestPath = FindPathUtils.findShortestPathForEachTile(battle.player2BattleMap.map);
 
-        List<EntityECS> monsterList = EntityManager.getInstance().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PathComponent.typeID));
+        List<EntityECS> monsterList = this.battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PathComponent.typeID));
         for (EntityECS monster : monsterList) {
             if (monster.getMode() == mode) {
                 PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
