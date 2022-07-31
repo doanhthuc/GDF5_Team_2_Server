@@ -8,6 +8,7 @@ import bitzero.util.ExtensionUtility;
 import cmd.obj.matching.MatchingInfo;
 import cmd.obj.matching.OpponentInfo;
 import cmd.send.battle.player.ResponseRequestBattleMapObject;
+import cmd.send.battle.player.ResponseRequestGetBattleInfo;
 import cmd.send.matching.ResponseCancelMatching;
 import cmd.send.matching.ResponseMatching;
 import extension.FresherExtension;
@@ -45,23 +46,25 @@ public class MatchMaking implements Runnable {
 
             Iterator<MatchingInfo> it = waitingQueue.iterator();
             it.next();
-            while (it.hasNext()) {
-                matchingInfo2 = it.next();
-
-                if (System.currentTimeMillis() - matchingInfo2.getTime() > limitTimeout) {
-                    matchingInfo2.increaseRank();
-                    matchingInfo2.setTime(System.currentTimeMillis());
-                }
-
-                if ((matchingInfo1.getTrophy() >= matchingInfo2.getStartRank() && matchingInfo1.getTrophy() <= matchingInfo2.getEndRank())
-                        || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
-                    processMatching(matchingInfo1, matchingInfo2);
-                    break;
-                }
-            }
             if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 10000) {
                 processMatchingWithBot(matchingInfo1);
+            } else {
+                while (it.hasNext()) {
+                    matchingInfo2 = it.next();
+
+                    if (System.currentTimeMillis() - matchingInfo2.getTime() > limitTimeout) {
+                        matchingInfo2.increaseRank();
+                        matchingInfo2.setTime(System.currentTimeMillis());
+                    }
+
+                    if ((matchingInfo1.getTrophy() >= matchingInfo2.getStartRank() && matchingInfo1.getTrophy() <= matchingInfo2.getEndRank())
+                            || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
+                        processMatching(matchingInfo1, matchingInfo2);
+                        break;
+                    }
+                }
             }
+
         }
 
     }
@@ -124,6 +127,13 @@ public class MatchMaking implements Runnable {
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject,
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user2);
+
+            ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
+
+            ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user2);
+
 //            for (int i = 0; i < user1Map.battleMapObject.getHeight(); i++) {
 //                for (int j = 0; j < user1Map.battleMapObject.getWidth(); j++) {
 //                    CellObject cellObject = user1Map.battleMapObject.getCellObject(i, j);
@@ -153,13 +163,16 @@ public class MatchMaking implements Runnable {
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getRoomId(), room.getPlayerBattleMap(userInfo1.getId()), room.getPlayerBattleMap(dummyBot.getId()), opponentInfoOfUser1), user1);
 
+            ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
+
             waitingQueue.remove(matchingInfo1);
             waitingMap.remove(matchingInfo1.getPlayerId());
 
             ExtensionUtility.getExtension().send(
                     new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject,
-                    room.getBattle().getBattleMapByPlayerId(dummyBot.getId()).battleMapObject), user1);
+                            room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject,
+                            room.getBattle().getBattleMapByPlayerId(dummyBot.getId()).battleMapObject), user1);
 //            for (int i = 0; i < userMap.battleMapObject.getHeight(); i++) {
 //                for (int j = 0; j < userMap.battleMapObject.getWidth(); j++) {
 //                    CellObject cellObject = userMap.battleMapObject.getCellObject(i, j);
