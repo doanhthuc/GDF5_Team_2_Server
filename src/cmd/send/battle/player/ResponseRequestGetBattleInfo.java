@@ -14,7 +14,7 @@ public class ResponseRequestGetBattleInfo extends BaseMsg {
     private final List<List<Integer>> monsterWave;
 
     public ResponseRequestGetBattleInfo(short _error, long startTime, int waveAmount, List<List<Integer>> monsterWave) {
-        super(CmdDefine.DROP_SPELL);
+        super(CmdDefine.GET_BATTLE_INFO);
         this._error = _error;
         this.startTime = startTime;
         this.waveAmount = waveAmount;
@@ -23,13 +23,18 @@ public class ResponseRequestGetBattleInfo extends BaseMsg {
 
     @Override
     public byte[] createData() {
+        System.out.println("SendMonsterWave");
         ByteBuffer bf = makeBuffer();
         bf.putLong(startTime);
+        System.out.println(startTime);
         bf.putInt(waveAmount);
         for (int i = 0; i < waveAmount; i++) {
-            bf.putInt(monsterWave.size());
-            for(int j=0;j<waveAmount;j++)
+            bf.putInt(monsterWave.get(i).size());
+            for (int j = 0; j < monsterWave.get(i).size(); j++) {
                 bf.putInt(monsterWave.get(i).get(j));
+         //       System.out.print(monsterWave.get(i).get(j)+" ");
+            }
+          //  System.out.println();
         }
         return packBuffer(bf);
     }

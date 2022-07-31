@@ -33,7 +33,7 @@ public class Room implements Runnable {
         this.player2 = new PlayerInBattle(player2);
         this.battle = new Battle(player1.getId(), player2.getId());
         this.monsterWave = this.createNewMonsterWave();
-        this.startTime = System.currentTimeMillis() + 5000;
+        this.startTime = System.currentTimeMillis() + 15000;
     }
 
 //    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
