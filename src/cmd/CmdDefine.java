@@ -15,6 +15,7 @@ public class CmdDefine {
 
     public static final short GET_USER_INVENTORY = 3001;
     public static final short UPGRADE_CARD = 3002;
+    public static final short SWAP_CARD = 3003;
 
     public static final short GET_USER_LOBBY_CHEST = 4001;
     public static final short UNLOCK_LOBBY_CHEST = 4002;

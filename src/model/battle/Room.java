@@ -23,9 +23,7 @@ public class Room implements Runnable {
     private final int roomId;
     private PlayerInBattle player1;
     private PlayerInBattle player2;
-    private List<List<Integer>> monsterWave;
     private Battle battle;
-    private int waveAmount = 20;
     private long startTime;
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
@@ -33,7 +31,6 @@ public class Room implements Runnable {
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
         this.battle = new Battle(player1.getId(), player2.getId());
-        this.monsterWave = this.createNewMonsterWave();
         this.startTime = System.currentTimeMillis() + 15000;
     }
 
@@ -48,6 +45,7 @@ public class Room implements Runnable {
     public void run() {
         BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
             try {
+                this.battle.updateMonsterWave();
                 this.battle.updateSystem();
                 //Check heets thoif gian -> tao wave quai
 
@@ -55,50 +53,11 @@ public class Room implements Runnable {
                 e.printStackTrace();
             }
 
-            //Check HP
         }, 0, 100, TimeUnit.MILLISECONDS);
 
     }
 
-    public List<List<Integer>> createNewMonsterWave() {
-        List<List<Integer>> monsterWave = new ArrayList<>(this.waveAmount);
-        for (int waveIdx = 1; waveIdx <= this.waveAmount; waveIdx++) {
-            List<Integer> wave = new ArrayList<>();
-            int swordManAmount, batAmount, ninjaAmount, assassinAmount;
-            int monsterAmountInWave = Math.min(5 + waveIdx, 15);
-            swordManAmount = (int) Math.floor(Math.random() * monsterAmountInWave);
-            batAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount));
-            ninjaAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount));
-            assassinAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount - ninjaAmount));
-            for (int i = 1; i <= batAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.BAT);
 
-            for (int i = 1; i <= ninjaAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.NINJA);
-
-            for (int i = 1; i <= assassinAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.ASSASSIN);
-
-            for (int i = 1; i <= swordManAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.SWORD_MAN);
-            
-            if (waveIdx == 5) {
-                wave.add(GameConfig.ENTITY_ID.SATYR);
-            }
-            if (waveIdx == 10) {
-                wave.add(GameConfig.ENTITY_ID.DARK_GIANT);
-            }
-            if (waveIdx == 15) {
-                wave.add(GameConfig.ENTITY_ID.DEMON_TREE);
-            }
-            if (waveIdx == 20) {
-                wave.add(GameConfig.ENTITY_ID.DEMON_TREE);
-                wave.add(GameConfig.ENTITY_ID.DARK_GIANT);
-            }
-            monsterWave.add(wave);
-        }
-        return monsterWave;
-    }
 
     public void handlerPutTower(EntityMode mode) {
         if (mode == EntityMode.PLAYER)
@@ -187,11 +146,11 @@ public class Room implements Runnable {
     }
 
     public List<List<Integer>> getMonsterWave() {
-        return monsterWave;
+        return this.battle.getMonsterWave();
     }
 
     public int getWaveAmount() {
-        return waveAmount;
+        return this.battle.getWaveAmount();
     }
 
     public long getStartTime() {
