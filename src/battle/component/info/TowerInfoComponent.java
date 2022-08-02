@@ -1,4 +1,5 @@
 package battle.component.info;
+
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
@@ -30,5 +31,9 @@ public class TowerInfoComponent extends InfoComponent {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public int getEnergy() {
+        return this.energy;
     }
 }

@@ -38,6 +38,7 @@ public class CmdDefine {
     public static final short DESTROY_TOWER = 5014;
     public static final short OPPONENT_DESTROY_TOWER = 5015;
     public static final short GET_BATTLE_INFO = 5016;
+    public static final short END_BATTLE = 5017;
 
     public static final short ENTER_ROOM = 6001;
 

@@ -8,4 +8,5 @@ public class LobbyChestDefine {
 
     public static final int unlockTime = 3 * 3600 * 1000;
     public static final int MILLISECOND_PER_GEM = 600 * 1000;
+    public static final int LOBBY_CHEST_AMOUNT = 4;
 }

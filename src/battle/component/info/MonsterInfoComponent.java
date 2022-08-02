@@ -17,7 +17,15 @@ public class MonsterInfoComponent extends InfoComponent {
     private List<Component> ability;
     private List<EffectComponent> effects;
 
-    public MonsterInfoComponent(String category, String classs,int weight, int energy,
+    public int getGainEnergy() {
+        return gainEnergy;
+    }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public MonsterInfoComponent(String category, String classs, int weight, int energy,
                                 int gainEnergy, List<Component> ability, List<EffectComponent> effects) {
         super(GameConfig.COMPONENT_ID.MONSTER_INFO);
         this.reset(category, classs, weight, energy, gainEnergy, ability, effects);
