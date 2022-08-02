@@ -63,7 +63,7 @@ public class PlayerInfo extends DataModel {
     }
 
     public void setTrophy(int trophy) {
-        this.trophy = trophy;
+        this.trophy = Math.max(trophy, 0);
     }
 
     public void show() {
