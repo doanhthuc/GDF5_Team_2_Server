@@ -16,6 +16,10 @@ import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.send.battle.ResponseEndBattle;
 import cmd.send.battle.player.ResponseRequestBattleMapObject;
+import jdk.internal.org.objectweb.asm.tree.LocalVariableAnnotationNode;
+import model.Inventory.Inventory;
+import model.Lobby.LobbyChestContainer;
+import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
 import service.MatchingHandler;
 import service.RoomHandler;
@@ -56,6 +60,7 @@ public class Room implements Runnable {
             try {
                 this.battle.updateMonsterWave();
                 this.battle.updateSystem();
+                if (this.player2.getBotType() != 0) this.handleBotAction();
                 this.checkEndBattle();
                 if (this.endBattle) RoomManager.getInstance().removeRoom(this.roomId);
             } catch (Exception e) {
@@ -65,48 +70,66 @@ public class Room implements Runnable {
 
     }
 
-    public void checkEndBattle() {
+    public void checkEndBattle() throws Exception {
         int player1HP = this.battle.getPlayer1HP();
         int player2HP = this.battle.getPlayer2HP();
+        int winUserID = -1;
+        int loseUserID = -1;
         if (player1HP == 0 && player2HP == 0) {
-            this.sendDraw();
             this.endBattle = true;
         } else if (player2HP == 0) {
-            this.sendPlayer1Win();
+            winUserID = this.player1.getId();
+            loseUserID = this.player2.getId();
             this.endBattle = true;
         } else if (player1HP == 0) {
-            this.sendPlayer2Win();
+            winUserID = this.player2.getId();
+            loseUserID = this.player1.getId();
             this.endBattle = true;
         } else if (this.battle.getCurrentWave() > this.battle.getWaveAmount()) {
-            if (player1HP == player2HP) this.sendDraw();
-            if (player1HP > player2HP) this.sendPlayer1Win();
-            if (player1HP < player2HP) this.sendPlayer2Win();
+            if (player1HP > player2HP) {
+                winUserID = this.player1.getId();
+                loseUserID = this.player2.getId();
+            } else {
+                winUserID = this.player2.getId();
+                loseUserID = this.player1.getId();
+            }
             this.endBattle = true;
         }
+
+        if (winUserID != -1)
+            this.sendWinUser(winUserID, loseUserID, player1HP > player2HP ? player1HP : player2HP, player1HP > player2HP ? player1HP : player2HP);
+        else this.sendDraw();
 
     }
 
     // sendBattleResult
-
-    public void sendDraw() {
-        User user1 = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-        User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2.getId());
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "DRAW"), user1);
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "DRAW"), user2);
+    public void handleBotAction() {
+//        List<Point> monsterPath
     }
 
-    public void sendPlayer1Win() {
+    public void sendDraw() throws Exception {
         User user1 = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
         User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2.getId());
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "WIN"), user1);
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "LOSE"), user2);
+        PlayerInfo userInfo1 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
+        PlayerInfo userInfo2 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer1HP(), battle.getPlayer2HP(), userInfo1.getTrophy(), 0, false), user1);
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer2HP(), battle.getPlayer1HP(), userInfo2.getTrophy(), 0, false), user2);
     }
 
-    public void sendPlayer2Win() {
-        User user1 = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-        User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2.getId());
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "LOSE"), user1);
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "WIN"), user2);
+    public void sendWinUser(int winUserID, int loseUserID, int winnerHP, int loserHP) throws Exception {
+        User user1 = BitZeroServer.getInstance().getUserManager().getUserById(winUserID);
+        User user2 = BitZeroServer.getInstance().getUserManager().getUserById(loseUserID);
+        PlayerInfo userInfo1 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
+        PlayerInfo userInfo2 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
+        LobbyChestContainer user1LobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(player1.getId(), LobbyChestContainer.class);
+        if (user1LobbyChest.lobbyChestContainer.size() <= LobbyChestDefine.LOBBY_CHEST_AMOUNT) {
+            user1LobbyChest.addLobbyChest();
+            user1LobbyChest.saveModel(user1.getId());
+            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, userInfo1.getTrophy(), 10, true), user1);
+        } else
+            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, userInfo1.getTrophy(), 10, false), user1);
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, userInfo2.getTrophy(), -10, false), user2);
+
     }
 
     public void handlerPutTower(EntityMode mode) {

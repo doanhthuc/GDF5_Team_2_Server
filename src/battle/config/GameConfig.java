@@ -141,8 +141,14 @@ public class GameConfig {
 
     }
 
+    public static class BATTLE_RESULT {
+        public static int WIN = 0;
+        public static int LOSE = 0;
+        public static int DRAW = 0;
+    }
+
     public static int WAVE_AMOUNT = 20;
-    public static int PLAYER_HP = 20;
+    public static int PLAYER_HP = 5;
     public static int PLAYER_ENERGY = 30;
 }
 
