@@ -103,6 +103,12 @@ public class ShopHandler extends BaseClientRequestHandler {
                 send(new ResponseRequestBuyDailyShop(ShopError.ITEM_TO_BUY_NULL.getValue()), user);
                 return;
             }
+
+            // check current time of request with reset time
+            if (!dailyShop.isBeforeResetTime()) {
+                send(new ResponseRequestBuyDailyShop(ShopError.INVALID_RESET_TIME.getValue()), user);
+            }
+
             //Verify Gold
             int goldchange = -itemToBuy.getPrice();
             if ((verifyPurchase(userInfo.getGold(), itemToBuy.getPrice()) == false)) {
@@ -199,6 +205,12 @@ public class ShopHandler extends BaseClientRequestHandler {
                 return;
             }
 
+            if (!dailyShop.isBeforeResetTime()) {
+                dailyShop = new DailyShop(userInfo.getId());
+                dailyShop.saveModel(userInfo.getId());
+                logger.error("XXXXXXXXXXXXXXXXXXXXXXX");
+            }
+
             send(new ResponseRequestGetUserDailyShop(ShopHandler.ShopError.SUCCESS.getValue(), dailyShop), user);
         } catch (Exception e) {
             logger.info("processGetUserDailyShop exception");
@@ -244,6 +256,7 @@ public class ShopHandler extends BaseClientRequestHandler {
         ITEM_ALREADY_BUY((short) 5),
         DALY_SHOP_NULL((short) 6),
         GOLD_SHOP_NULL((short)7),
+        INVALID_RESET_TIME((short) 8),
         ;
 
 

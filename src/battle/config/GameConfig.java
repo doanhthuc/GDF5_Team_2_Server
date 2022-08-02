@@ -140,15 +140,16 @@ public class GameConfig {
         public static int HIT_BOTH_TIME = 3;
 
     }
-
     public static class BATTLE_RESULT {
         public static int WIN = 0;
-        public static int LOSE = 0;
-        public static int DRAW = 0;
+        public static int LOSE = 1;
+        public static int DRAW = 2;
     }
 
     public static int WAVE_AMOUNT = 20;
     public static int PLAYER_HP = 1;
     public static int PLAYER_ENERGY = 30;
+
+    public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
 }
 

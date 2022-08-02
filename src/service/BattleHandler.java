@@ -156,20 +156,26 @@ public class BattleHandler extends BaseClientRequestHandler {
         System.out.println("BattleMap processUpgradeTower");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+            int towerId = req.getTowerId();
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
             BattleMapObject battleMapObject = battleMap.battleMapObject;
             Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
             Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
             Card towerCard = inventory.getCardById(req.getTowerId());
-            if (towerCard.getCardRankNumber() > tower.getLevel()) {
-                tower = tower.upgradeTower();
-            } else {
-                return;
-            }
+//            if (towerCard.getCardRankNumber() < tower.getLevel()) {
+//                tower = tower.upgradeTower();
+//            } else {
+//                return;
+//            }
             if (tower == null) {
                 System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
                 return;
             }
+            if (tower.getId() != towerId) {
+                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
+                return;
+            }
+            tower = tower.upgradeTower();
             System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
             send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
                     req.getTowerId(), tower.getLevel(), tower.getTilePos()), user);
