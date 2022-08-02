@@ -100,7 +100,7 @@ public class Room implements Runnable {
 
         if (this.endBattle == true) {
             if (winUserID != -1)
-                this.sendWinUser(winUserID, loseUserID, player1HP > player2HP ? player1HP : player2HP, player1HP > player2HP ? player1HP : player2HP);
+                this.sendWinUser(winUserID, loseUserID, player1HP > player2HP ? player1HP : player2HP, player1HP > player2HP ? player2HP : player1HP);
             else this.sendDraw();
         }
 
@@ -108,7 +108,8 @@ public class Room implements Runnable {
 
     // sendBattleResult
     public void handleBotAction() {
-//        List<Point> monsterPath = this.battle.player2ShortestPath
+       List<Point> monsterPath = this.battle.player2ShortestPath[0][4];
+
     }
 
     public void sendDraw() throws Exception {
@@ -130,14 +131,13 @@ public class Room implements Runnable {
         if (winUserLobbyChest.lobbyChestContainer.size() < LobbyChestDefine.LOBBY_CHEST_AMOUNT) {
             winUserLobbyChest.addLobbyChest();
             winUserLobbyChest.saveModel(winUser.getId());
-            winUser.setTrophy(winUser.getTrophy() + 10);
-            winUser.saveModel(winUser.getId());
+
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 1), user1);
         } else
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 0), user1);
-
-
-        loseUser.setTrophy(loseUser.getTrophy() + 10);
+        winUser.setTrophy(winUser.getTrophy() + 10);
+        winUser.saveModel(winUser.getId());
+        loseUser.setTrophy(loseUser.getTrophy() - 10);
         loseUser.saveModel(loseUser.getId());
         ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
 
