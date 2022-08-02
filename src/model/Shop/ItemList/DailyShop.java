@@ -31,7 +31,9 @@ public class DailyShop extends ShopItemList {
         }
 
         long currentTime = (new Date()).getTime();
-        this.futureResetTime = currentTime + 1000 * GameConfig.DAILY_SHOP_RESET_TIME_SECOND;
+        long currentMinute = (long) currentTime / (60 * 1000);
+        long nextMinute = currentMinute + 1;
+        this.futureResetTime = nextMinute * 60 * 1000;
     }
 
     public boolean isBeforeResetTime () {
