@@ -10,12 +10,12 @@ public class ResponseEndBattle extends BaseMsg {
     private final short _error;
     private int battleResult;
     private int currentTrophy;
-    private boolean haveChest;
+    private int haveChest;
     private int delaTrophy;
     private int userHP;
     private int opponentHP;
 
-    public ResponseEndBattle(short _error, int battleResult, int userHP, int opponentHP, int currentTrophy, int deltaTrophy, boolean haveChest) {
+    public ResponseEndBattle(short _error, int battleResult, int userHP, int opponentHP, int currentTrophy, int deltaTrophy, int haveChest) {
         super(CmdDefine.END_BATTLE, _error);
         this.battleResult = battleResult;
         this.currentTrophy = currentTrophy;
@@ -30,7 +30,12 @@ public class ResponseEndBattle extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        putStr(bf, this.battleResult);
+        bf.putInt(this.battleResult);
+        bf.putInt(this.userHP);
+        bf.putInt(this.opponentHP);
+        bf.putInt(this.currentTrophy);
+        bf.putInt(this.delaTrophy);
+        bf.putInt(this.haveChest);
         return packBuffer(bf);
     }
 }

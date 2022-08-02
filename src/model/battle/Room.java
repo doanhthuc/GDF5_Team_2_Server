@@ -112,23 +112,30 @@ public class Room implements Runnable {
         User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2.getId());
         PlayerInfo userInfo1 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
         PlayerInfo userInfo2 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer1HP(), battle.getPlayer2HP(), userInfo1.getTrophy(), 0, false), user1);
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer2HP(), battle.getPlayer1HP(), userInfo2.getTrophy(), 0, false), user2);
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer1HP(), battle.getPlayer2HP(), userInfo1.getTrophy(), 0, 0), user1);
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer2HP(), battle.getPlayer1HP(), userInfo2.getTrophy(), 0, 0), user2);
     }
 
     public void sendWinUser(int winUserID, int loseUserID, int winnerHP, int loserHP) throws Exception {
         User user1 = BitZeroServer.getInstance().getUserManager().getUserById(winUserID);
         User user2 = BitZeroServer.getInstance().getUserManager().getUserById(loseUserID);
-        PlayerInfo userInfo1 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
-        PlayerInfo userInfo2 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
-        LobbyChestContainer user1LobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(player1.getId(), LobbyChestContainer.class);
-        if (user1LobbyChest.lobbyChestContainer.size() <= LobbyChestDefine.LOBBY_CHEST_AMOUNT) {
-            user1LobbyChest.addLobbyChest();
-            user1LobbyChest.saveModel(user1.getId());
-            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, userInfo1.getTrophy(), 10, true), user1);
+
+        PlayerInfo winUser = (PlayerInfo) PlayerInfo.getModel(winUserID, PlayerInfo.class);
+        PlayerInfo loseUser = (PlayerInfo) PlayerInfo.getModel(loseUserID, PlayerInfo.class);
+        LobbyChestContainer winUserLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(winUser.getId(), LobbyChestContainer.class);
+        if (winUserLobbyChest.lobbyChestContainer.size() < LobbyChestDefine.LOBBY_CHEST_AMOUNT) {
+            winUserLobbyChest.addLobbyChest();
+            winUserLobbyChest.saveModel(winUser.getId());
+            winUser.setTrophy(winUser.getTrophy() + 10);
+            winUser.saveModel(winUser.getId());
+            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 1), user1);
         } else
-            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, userInfo1.getTrophy(), 10, false), user1);
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, userInfo2.getTrophy(), -10, false), user2);
+            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 0), user2);
+
+
+        winUser.setTrophy(loseUser.getTrophy() + 10);
+        winUser.saveModel(loseUser.getId());
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
 
     }
 
