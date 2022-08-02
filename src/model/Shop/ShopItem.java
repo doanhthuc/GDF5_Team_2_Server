@@ -45,10 +45,10 @@ public class ShopItem extends Item {
         else System.out.println("Cannot Buy");
     }
 
-    public void randomCardItem(int itemId) {
+    public void randomCardItem(int itemId, int cardType) {
         Random random = new Random();
         this.itemId = itemId;
-        this.itemType = random.nextInt(ItemDefine.CARDAMOUNT);
+        this.itemType = cardType;
         this.quantity = (random.nextInt(ShopItemDefine.MAX_CARD - ShopItemDefine.MIN_CARD + 1) + ShopItemDefine.MIN_CARD) * ShopItemDefine.MULTI;
         this.price = this.quantity * ShopItemDefine.PRICE_PER_CARD;
         this.state = ShopItemDefine.CAN_BUY;
