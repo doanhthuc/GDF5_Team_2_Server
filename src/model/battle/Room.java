@@ -21,6 +21,8 @@ import model.Inventory.Inventory;
 import model.Lobby.LobbyChestContainer;
 import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import service.MatchingHandler;
 import service.RoomHandler;
 
@@ -36,6 +38,7 @@ public class Room implements Runnable {
     private Battle battle;
     private long startTime;
     private boolean endBattle;
+    private final Logger logger = LoggerFactory.getLogger("Room");
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
@@ -61,6 +64,7 @@ public class Room implements Runnable {
                 this.battle.updateMonsterWave();
                 this.battle.updateSystem();
                 if (this.player2.getBotType() != 0) this.handleBotAction();
+                System.out.println("UUUUUUU");
                 this.checkEndBattle();
                 if (this.endBattle) RoomManager.getInstance().removeRoom(this.roomId);
             } catch (Exception e) {
@@ -97,9 +101,9 @@ public class Room implements Runnable {
         }
 
         if (winUserID != -1)
-            this.sendWinUser(winUserID, loseUserID, player1HP > player2HP ? player1HP : player2HP, player1HP > player2HP ? player1HP : player2HP);
+            this.sendWinUser(winUserID, loseUserID, player1HP > player2HP ? player1HP : player2HP, player1HP > player2HP ? player2HP : player1HP);
         else this.sendDraw();
-
+        System.out.println("AAAAAAAAA");
     }
 
     // sendBattleResult
