@@ -58,11 +58,13 @@ public class Room implements Runnable {
     public void run() {
         BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
             try {
-                this.battle.updateMonsterWave();
-                this.battle.updateSystem();
-                if (this.player2.getBotType() != 0) this.handleBotAction();
-                this.checkEndBattle();
-                if (this.endBattle) RoomManager.getInstance().removeRoom(this.roomId);
+                if (this.endBattle == false) {
+                    this.battle.updateMonsterWave();
+                    this.battle.updateSystem();
+                    if (this.player2.getBotType() != 0) this.handleBotAction();
+                    this.checkEndBattle();
+                    if (this.endBattle) RoomManager.getInstance().removeRoom(this.roomId);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -96,22 +98,24 @@ public class Room implements Runnable {
             this.endBattle = true;
         }
 
-        if (winUserID != -1)
-            this.sendWinUser(winUserID, loseUserID, player1HP > player2HP ? player1HP : player2HP, player1HP > player2HP ? player1HP : player2HP);
-        else this.sendDraw();
+        if (this.endBattle == true) {
+            if (winUserID != -1)
+                this.sendWinUser(winUserID, loseUserID, player1HP > player2HP ? player1HP : player2HP, player1HP > player2HP ? player1HP : player2HP);
+            else this.sendDraw();
+        }
 
     }
 
     // sendBattleResult
     public void handleBotAction() {
-//        List<Point> monsterPath
+//        List<Point> monsterPath = this.battle.player2ShortestPath
     }
 
     public void sendDraw() throws Exception {
         User user1 = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
         User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2.getId());
         PlayerInfo userInfo1 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
-        PlayerInfo userInfo2 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
+        PlayerInfo userInfo2 = (PlayerInfo) PlayerInfo.getModel(player2.getId(), PlayerInfo.class);
         ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer1HP(), battle.getPlayer2HP(), userInfo1.getTrophy(), 0, 0), user1);
         ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer2HP(), battle.getPlayer1HP(), userInfo2.getTrophy(), 0, 0), user2);
     }
@@ -130,11 +134,11 @@ public class Room implements Runnable {
             winUser.saveModel(winUser.getId());
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 1), user1);
         } else
-            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 0), user2);
+            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 0), user1);
 
 
-        winUser.setTrophy(loseUser.getTrophy() + 10);
-        winUser.saveModel(loseUser.getId());
+        loseUser.setTrophy(loseUser.getTrophy() + 10);
+        loseUser.saveModel(loseUser.getId());
         ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
 
     }

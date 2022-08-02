@@ -143,8 +143,8 @@ public class GameConfig {
 
     public static class BATTLE_RESULT {
         public static int WIN = 0;
-        public static int LOSE = 0;
-        public static int DRAW = 0;
+        public static int LOSE = 1;
+        public static int DRAW = 2;
     }
 
     public static int WAVE_AMOUNT = 20;
