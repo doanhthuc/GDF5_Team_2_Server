@@ -88,6 +88,12 @@ public class Room implements Runnable {
         }
     }
 
+    public PlayerInBattle getPlayerByID(int playerID) {
+        if (player1.getId() == playerID)
+            return player1;
+        else
+            return player2;
+    }
 
     public PlayerInfo getOpponentPlayer(int playerId) {
         if (playerId == player1.getId()) {
