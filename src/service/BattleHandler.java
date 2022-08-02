@@ -1,6 +1,7 @@
 package service;
 
 import battle.BattleMap;
+import battle.common.EntityMode;
 import battle.newMap.BattleMapObject;
 import battle.newMap.TileObject;
 import battle.newMap.Tower;
@@ -128,18 +129,24 @@ public class BattleHandler extends BaseClientRequestHandler {
         System.out.println("BattleMap processPutTower");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+//            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+//
+//            BattleMapObject battleMapObject = battleMap.battleMapObject;
+//            Tower tower = battleMapObject.putTowerIntoMap(req.getTilePos(), req.getTowerId());
+//            if (tower == null) {
+//                System.out.println("[BattleHandler.java line 103 processPutTower]  tower null");
+//                return;
+//            }
+            //FIXME: validate the position of Tower
 
-            BattleMapObject battleMapObject = battleMap.battleMapObject;
-            Tower tower = battleMapObject.putTowerIntoMap(req.getTilePos(), req.getTowerId());
-            if (tower == null) {
-                System.out.println("[BattleHandler.java line 103 processPutTower]  tower null");
-                return;
-            }
-            send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos()), user);
+            //PutTower In To SERVER MAP
+            EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
+            room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
+
+            send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos()), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), tower.getLevel(), tower.getTilePos()), opponent);
+            send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos()), opponent);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }

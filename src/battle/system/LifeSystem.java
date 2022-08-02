@@ -2,6 +2,7 @@ package battle.system;
 
 import battle.Battle;
 import battle.component.info.LifeComponent;
+import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
@@ -24,7 +25,11 @@ public class LifeSystem extends SystemECS {
         List<EntityECS> lifeEntity = battle.getEntityManager().getEntitiesHasComponents(lifeComponentIDs);
         for (EntityECS entity : lifeEntity) {
             LifeComponent lifeComponent = (LifeComponent) entity.getComponent(LifeComponent.typeID);
-            if (lifeComponent.getHp() <= 0) battle.getEntityManager().remove(entity);
+            MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) entity.getComponent(MonsterInfoComponent.typeID);
+            if (lifeComponent.getHp() <= 0) {
+                battle.addPlayerEnergy(monsterInfoComponent.getGainEnergy(), entity.getMode());
+                battle.getEntityManager().remove(entity);
+            }
         }
     }
 }

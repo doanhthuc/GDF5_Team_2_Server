@@ -12,7 +12,13 @@ import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import bitzero.server.BitZeroServer;
+import bitzero.server.entities.User;
+import bitzero.util.ExtensionUtility;
+import cmd.send.battle.ResponseEndBattle;
+import cmd.send.battle.player.ResponseRequestBattleMapObject;
 import model.PlayerInfo;
+import service.MatchingHandler;
+import service.RoomHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,13 +31,16 @@ public class Room implements Runnable {
     private PlayerInBattle player2;
     private Battle battle;
     private long startTime;
+    private boolean endBattle;
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
         this.battle = new Battle(player1.getId(), player2.getId());
+        this.endBattle = false;
         this.startTime = System.currentTimeMillis() + 15000;
+        this.battle.setNextWaveTime(this.startTime);
     }
 
 //    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
@@ -47,17 +56,58 @@ public class Room implements Runnable {
             try {
                 this.battle.updateMonsterWave();
                 this.battle.updateSystem();
-                //Check heets thoif gian -> tao wave quai
-
+                this.checkEndBattle();
+                if (this.endBattle) RoomManager.getInstance().removeRoom(this.roomId);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }, 0, 100, TimeUnit.MILLISECONDS);
 
     }
 
+    public void checkEndBattle() {
+        int player1HP = this.battle.getPlayer1HP();
+        int player2HP = this.battle.getPlayer2HP();
+        if (player1HP == 0 && player2HP == 0) {
+            this.sendDraw();
+            this.endBattle = true;
+        } else if (player2HP == 0) {
+            this.sendPlayer1Win();
+            this.endBattle = true;
+        } else if (player1HP == 0) {
+            this.sendPlayer2Win();
+            this.endBattle = true;
+        } else if (this.battle.getCurrentWave() > this.battle.getWaveAmount()) {
+            if (player1HP == player2HP) this.sendDraw();
+            if (player1HP > player2HP) this.sendPlayer1Win();
+            if (player1HP < player2HP) this.sendPlayer2Win();
+            this.endBattle = true;
+        }
 
+    }
+
+    // sendBattleResult
+
+    public void sendDraw() {
+        User user1 = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
+        User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2.getId());
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "DRAW"), user1);
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "DRAW"), user2);
+    }
+
+    public void sendPlayer1Win() {
+        User user1 = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
+        User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2.getId());
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "WIN"), user1);
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "LOSE"), user2);
+    }
+
+    public void sendPlayer2Win() {
+        User user1 = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
+        User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2.getId());
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "LOSE"), user1);
+        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), "WIN"), user2);
+    }
 
     public void handlerPutTower(EntityMode mode) {
         if (mode == EntityMode.PLAYER)

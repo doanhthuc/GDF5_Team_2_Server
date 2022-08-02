@@ -1,6 +1,7 @@
 package battle.system;
 
 import battle.Battle;
+import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.PositionComponent;
@@ -24,17 +25,17 @@ public class MonsterSystem extends SystemECS {
     @Override
     public void run(Battle battle) {
         //Get MonsterList
-        List <Integer> monsterInfoIds = new ArrayList<>();
+        List<Integer> monsterInfoIds = new ArrayList<>();
         monsterInfoIds.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
-        List <EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(monsterInfoIds);
+        List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(monsterInfoIds);
 
-        for(EntityECS monster : monsterList){
-            PositionComponent monsterPos =(PositionComponent) monster.getComponent(PositionComponent.typeID);
-            Point posTile = Utils.pixel2Tile(monsterPos.getX(),monsterPos.getY(),monster.getMode());
-            if (posTile.x == GameConfig.HOUSE_POSITION.x && posTile.y == GameConfig.HOUSE_POSITION.y)
-            {
+        for (EntityECS monster : monsterList) {
+            PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
+            Point posTile = Utils.pixel2Tile(monsterPos.getX(), monsterPos.getY(), monster.getMode());
+            if (posTile.x == GameConfig.HOUSE_POSITION.x && posTile.y == GameConfig.HOUSE_POSITION.y) {
                 MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
-                // TODO: Minus House Energy and Add Energy for player
+                battle.minusPlayerHP(monsterInfoComponent.getEnergy(), monster.getMode());
+                battle.addPlayerEnergy(monsterInfoComponent.getGainEnergy(), monster.getMode());
                 battle.getEntityManager().destroy(monster);
             }
         }
