@@ -193,6 +193,10 @@ public class FresherExtension extends BZExtension {
                     send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()), user);
                 }
                 userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
+
+//                DailyShop dailyShop = (DailyShop) DailyShop.getModel(userInfo.getId(), DailyShop.class);
+//                DailyShop dailyShop = new DailyShop(pID.userID);
+//                dailyShop.saveModel(pID.userID);
             }
             UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
             User u = ExtensionUtility.instance().canLogin(uInfo, "", session);

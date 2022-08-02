@@ -137,5 +137,7 @@ public class GameConfig {
         public static int HIT_BOTH_TIME = 3;
 
     }
+
+    public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
 }
 
