@@ -66,11 +66,11 @@ public class Inventory extends DataModel {
         return null;
     }
 
-    public void setCard(int cardType, int cardLevel, int cardAmount)
-    {
+    public void setCard(int cardType, int cardLevel, int cardAmount) {
         this.cardCollection.get(cardType).setLevel(cardLevel);
         this.cardCollection.get(cardType).setAmount(cardAmount);
     }
+
     public int getSize() {
         return this.cardCollection.size();
     }
@@ -97,5 +97,11 @@ public class Inventory extends DataModel {
 
     public void setBattleDeck(ArrayList<Integer> battleDeck) {
         this.battleDeck = battleDeck;
+    }
+
+    public void swapBattleDeck(int cardInId, int cardOutID) {
+        for (int i = 0; i <= this.battleDeck.size(); i++) {
+            if (battleDeck.get(i) == cardOutID) this.battleDeck.set(i, cardInId);
+        }
     }
 }
