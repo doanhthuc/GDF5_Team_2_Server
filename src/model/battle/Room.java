@@ -2,6 +2,7 @@ package model.battle;
 
 import battle.Battle;
 import battle.BattleMap;
+import battle.BattleVisualization;
 import battle.common.EntityMode;
 import battle.common.FindPathUtils;
 import battle.common.Point;
@@ -47,7 +48,8 @@ public class Room implements Runnable {
         this.endBattle = false;
         this.startTime = System.currentTimeMillis() + 15000;
         this.battle.setNextWaveTime(this.startTime);
-
+        if (GameConfig.DEBUG == true)
+            new BattleVisualization(this.battle, EntityMode.OPPONENT);
         roomRun = () -> {
             try {
                 System.out.println("Runnnnnnnnnnnn"
@@ -114,9 +116,10 @@ public class Room implements Runnable {
 
     }
 
-    public void killRoom(){
+    public void killRoom() {
         BitZeroServer.getInstance().getTaskScheduler();
     }
+
     // sendBattleResult
     public void handleBotAction() {
         List<Point> monsterPath = this.battle.player2ShortestPath[0][4];

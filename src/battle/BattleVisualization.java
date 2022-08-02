@@ -38,18 +38,20 @@ public class BattleVisualization extends JFrame implements MouseListener {
     static int centerX = paddingX + screenWidth / 2;
     static int centerY = paddingY + screenHeight / 2;
     static int scale = 2;
-    private Battle battle = new Battle(1, 2);
+    private Battle battle;
     BufferedImage B;
     Graphics G;
     JComboBox entityChoosen;
-
+    EntityMode entityMode;
 //    public static void main(String[] args) throws Exception {
 //        new BattleVisualization(1);
 //    }
 
     Map<Integer, Color> colorMap = new HashMap<>();
 
-    public BattleVisualization(int x) throws Exception {
+    public BattleVisualization(Battle battle, EntityMode entityMode) throws Exception {
+        this.battle = battle;
+        this.entityMode = entityMode;
         this.setTitle("BattleVisualization");
         this.setSize((width * tileWidth + paddingX * 10) * scale, (height * tileHeight + paddingY * 5) * scale);
         this.setDefaultCloseOperation(3);
@@ -68,7 +70,6 @@ public class BattleVisualization extends JFrame implements MouseListener {
         jFrame.setSize(100, 100);
         jFrame.setVisible(true);
         this.initTower();
-        this.battle.setNextWaveTime(System.currentTimeMillis() + 2000);
     }
 
     public void paint(Graphics G1) {
@@ -81,8 +82,8 @@ public class BattleVisualization extends JFrame implements MouseListener {
         G.setColor(Color.BLUE);
         G.drawRect(0, 0, this.getWidth(), this.getHeight());
         try {
-            this.battle.updateMonsterWave();
-            this.battle.updateSystem();
+//            this.battle.updateMonsterWave();
+//            this.battle.updateSystem();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,6 +119,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         }
         //System.out.println(" monsterSize" + monsterList.size());
         for (EntityECS monster : monsterList) {
+            if (monster.getMode()!=this.entityMode) continue;
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) monster.getComponent(CollisionComponent.typeID);
             LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
@@ -132,6 +134,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
         List<EntityECS> towerList = this.battle.getEntityManager().getEntitiesHasComponents(Collections.singletonList(TowerInfoComponent.typeID));
         for (EntityECS tower : towerList) {
+            if (tower.getMode()!=this.entityMode) continue;
             PositionComponent positionComponent = (PositionComponent) tower.getComponent(PositionComponent.typeID);
             G.setColor(colorMap.get(tower.getTypeID()));
             Point p = this.getTowerPos(positionComponent);
@@ -142,6 +145,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         List<EntityECS> bulletList = this.battle.getEntityManager().getEntitiesHasComponents(Collections.singletonList(BulletInfoComponent.typeID));
         //System.out.println(bulletList.size());
         for (EntityECS bullet : bulletList) {
+            if (bullet.getMode()!=this.entityMode) continue;
             PositionComponent positionComponent = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(CollisionComponent.typeID);
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
