@@ -34,6 +34,7 @@ public class ResponseRequestGetUserDailyShop extends BaseMsg {
             bf.putInt(shopItem.getPrice());
             bf.putInt(shopItem.getState());
         }
+        bf.putLong(this.dailyShop.getFutureResetTime());
         return packBuffer(bf);
     }
 }

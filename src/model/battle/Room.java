@@ -21,6 +21,8 @@ import model.Inventory.Inventory;
 import model.Lobby.LobbyChestContainer;
 import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import service.MatchingHandler;
 import service.RoomHandler;
 
@@ -36,6 +38,7 @@ public class Room implements Runnable {
     private Battle battle;
     private long startTime;
     private boolean endBattle;
+    private final Logger logger = LoggerFactory.getLogger("Room");
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
@@ -131,7 +134,7 @@ public class Room implements Runnable {
         if (winUserLobbyChest.lobbyChestContainer.size() < LobbyChestDefine.LOBBY_CHEST_AMOUNT) {
             winUserLobbyChest.addLobbyChest();
             winUserLobbyChest.saveModel(winUser.getId());
-
+         
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 1), user1);
         } else
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 0), user1);
