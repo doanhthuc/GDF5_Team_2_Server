@@ -46,7 +46,7 @@ public class MatchMaking implements Runnable {
 
             Iterator<MatchingInfo> it = waitingQueue.iterator();
             it.next();
-            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 10000) {
+            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 2000) {
                 processMatchingWithBot(matchingInfo1);
             } else {
                 while (it.hasNext()) {
