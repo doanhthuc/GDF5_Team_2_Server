@@ -80,13 +80,13 @@ public class Room implements Runnable {
         int player2HP = this.battle.getPlayer2HP();
         int winUserID = -1;
         int loseUserID = -1;
-        if (player1HP == 0 && player2HP == 0) {
+        if (player1HP <= 0 && player2HP <= 0) {
             this.endBattle = true;
-        } else if (player2HP == 0) {
+        } else if (player2HP <= 0) {
             winUserID = this.player1.getId();
             loseUserID = this.player2.getId();
             this.endBattle = true;
-        } else if (player1HP == 0) {
+        } else if (player1HP <= 0) {
             winUserID = this.player2.getId();
             loseUserID = this.player1.getId();
             this.endBattle = true;
@@ -134,7 +134,6 @@ public class Room implements Runnable {
         if (winUserLobbyChest.lobbyChestContainer.size() < LobbyChestDefine.LOBBY_CHEST_AMOUNT) {
             winUserLobbyChest.addLobbyChest();
             winUserLobbyChest.saveModel(winUser.getId());
-         
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 1), user1);
         } else
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 0), user1);
