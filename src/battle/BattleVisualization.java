@@ -43,6 +43,8 @@ public class BattleVisualization extends JFrame implements MouseListener {
     Graphics G;
     JComboBox entityChoosen;
     EntityMode entityMode;
+    String userName, opponentUserName;
+    int userHP, opponentHP;
 //    public static void main(String[] args) throws Exception {
 //        new BattleVisualization(1);
 //    }
@@ -56,6 +58,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.setSize((width * tileWidth + paddingX * 10) * scale, (height * tileHeight + paddingY * 5) * scale);
         this.setDefaultCloseOperation(3);
         this.addMouseListener(this);
+
 
         this.initColor();
         B = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
@@ -76,18 +79,28 @@ public class BattleVisualization extends JFrame implements MouseListener {
         //redraw the Graphic
 
         // create checkbox
-
+        if (this.entityMode == EntityMode.PLAYER) {
+            this.userName = this.battle.user1.getUserName();
+            this.userHP = this.battle.getPlayer1HP();
+            this.opponentUserName = this.battle.user2.getUserName();
+            this.opponentHP = this.battle.getPlayer2HP();
+        }
+        if (this.entityMode == EntityMode.OPPONENT) {
+            this.userName = this.battle.user2.getUserName();
+            this.userHP = this.battle.getPlayer2HP();
+            this.opponentUserName = this.battle.user1.getUserName();
+            this.opponentHP = this.battle.getPlayer1HP();
+        }
         G.setColor(Color.LIGHT_GRAY);
         G.fillRect(0, 0, this.getWidth(), this.getHeight());
         G.setColor(Color.BLUE);
         G.drawRect(0, 0, this.getWidth(), this.getHeight());
-        try {
-//            this.battle.updateMonsterWave();
-//            this.battle.updateSystem();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+        G.setFont(new Font("Arial Black", Font.BOLD, 20));
+        G.drawString("User =" + userName, 600, 300);
+        G.drawString("UserHP =" + userHP, 600, 350);
+        G.drawString("Opponent =" + opponentUserName, 600, 100);
+        G.drawString("OpponentHP =" + opponentHP, 600, 150);
 
         for (int i = 0; i <= height; i++)
             G.drawLine(paddingY * scale, (paddingY + i * tileHeight) * scale,
@@ -103,7 +116,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             for (int j = 0; j < BattleMap.mapH; j++) {
                 BattleMap battleMap;
                 if (this.entityMode == EntityMode.OPPONENT)
-                     battleMap = this.battle.player2BattleMap;
+                    battleMap = this.battle.player2BattleMap;
                 else battleMap = this.battle.player1BattleMap;
                 if (!FindPathUtils.findPathAble(battleMap.map[i][j])) {
                     Point tilePos = Utils.tile2Pixel(i, j, this.entityMode);
@@ -112,15 +125,23 @@ public class BattleVisualization extends JFrame implements MouseListener {
                     G.fillRect((int) p.x, (int) p.y, tileWidth * scale, tileHeight * scale);
                 }
             }
-        if (monsterList.size() > 0) {
-            PathComponent path = (PathComponent) monsterList.get(0).getComponent(PathComponent.typeID);
-            List<Point> monsterPath = path.getPath();
-            for (Point i : monsterPath) {
-                G.setColor(Color.BLUE);
-                Point p = getMonsterPos(new PositionComponent(i.x, i.y), new CollisionComponent(5, 5));
-                G.fillRect((int) p.x, (int) p.y, 5, 5);
-            }
-        }
+//        if (monsterList.size() > 0) {
+//            PathComponent path = null;
+//            for (EntityECS monster : monsterList) {
+//                if (monster.getMode() == this.entityMode) {
+//                    path = (PathComponent) monster.getComponent(PathComponent.typeID);
+//                    break;
+//                    }
+//                }
+//            List<Point> monsterPath = path.getPath();
+//            for (Point i : monsterPath) {
+//                G.setColor(Color.BLUE);
+//                Point p = getMonsterPos(new PositionComponent(i.x, i.y), new CollisionComponent(5, 5));
+//                G.fillRect((int) p.x, (int) p.y, 5, 5);
+//                break;
+//            }
+//
+//        }
         //System.out.println(" monsterSize" + monsterList.size());
         for (EntityECS monster : monsterList) {
             if (monster.getMode() != this.entityMode) continue;
@@ -155,7 +176,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
             G.setColor(Color.GREEN);
             Point p = this.getMonsterPos(positionComponent, collisionComponent);
-            G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() * scale, (int) collisionComponent.getHeight() * scale);
+            G.fillRect((int) p.x, (int) p.y, (int) 5 * scale, (int) 5* scale);
         }
         G1.drawImage(B, 0, 0, this.getWidth(), this.getHeight(), null);
 
@@ -211,7 +232,6 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.colorMap.put(GameConfig.ENTITY_ID.SATYR, Color.GREEN);
         this.colorMap.put(GameConfig.ENTITY_ID.DEMON_TREE, Color.ORANGE);
 
-
         this.colorMap.put(GameConfig.ENTITY_ID.CANNON_TOWER, Color.BLACK);
         this.colorMap.put(GameConfig.ENTITY_ID.BEAR_TOWER, Color.CYAN);
         this.colorMap.put(GameConfig.ENTITY_ID.FROG_TOWER, Color.RED);
@@ -223,57 +243,57 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int tilePosX = (e.getX() - paddingX * scale) / (tileWidth * scale);
-        int tilePosY = (e.getY() - paddingY * scale) / (tileHeight * scale);
-        tilePosY = height - 1 - tilePosY;
-        Point pixelPos;
-        try {
-            switch ((String) Objects.requireNonNull(this.entityChoosen.getSelectedItem())) {
-                case "OWL":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.CANNON_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
-                    break;
-                case "FROG":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.FROG_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
-                    break;
-                case "WIZARD":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.WIZARD_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
-                    break;
-                case "BEAR":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.BEAR_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
-                    break;
-                case "BUNNY":
-                    battle.getEntityFactory().createBunnyOilGunTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
-                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-                    this.battle.handlerPutTower(EntityMode.OPPONENT);
-                    break;
-                case "SNAKE":
-                    battle.getEntityFactory().createSnakeAttackSpeedTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
-                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-                    this.battle.handlerPutTower(EntityMode.OPPONENT);
-                    break;
-                case "GOAT":
-                    battle.getEntityFactory().createGoatAttackDamageTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
-                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-                    this.battle.handlerPutTower(EntityMode.OPPONENT);
-                    break;
-                case "FIRE":
-                    pixelPos = Utils.tile2Pixel(tilePosX, tilePosY, EntityMode.OPPONENT);
-                    //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
-                    battle.getEntityFactory().createFireSpell(pixelPos, EntityMode.OPPONENT);
-                    break;
-                case "FROZEN":
-                    pixelPos = Utils.tile2Pixel(tilePosX, tilePosY, EntityMode.OPPONENT);
-                    //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
-                    battle.getEntityFactory().createFrozenSpell(pixelPos, EntityMode.OPPONENT);
-                    break;
-                case "TRAP":
-                    battle.getEntityFactory().createTrapSpell(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
-                    break;
-
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+//        int tilePosX = (e.getX() - paddingX * scale) / (tileWidth * scale);
+//        int tilePosY = (e.getY() - paddingY * scale) / (tileHeight * scale);
+//        tilePosY = height - 1 - tilePosY;
+//        Point pixelPos;
+//        try {
+//            switch ((String) Objects.requireNonNull(this.entityChoosen.getSelectedItem())) {
+//                case "OWL":
+//                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.CANNON_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    break;
+//                case "FROG":
+//                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.FROG_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    break;
+//                case "WIZARD":
+//                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.WIZARD_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    break;
+//                case "BEAR":
+//                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.BEAR_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    break;
+//                case "BUNNY":
+//                    battle.getEntityFactory().createBunnyOilGunTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
+//                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+//                    this.battle.handlerPutTower(EntityMode.OPPONENT);
+//                    break;
+//                case "SNAKE":
+//                    battle.getEntityFactory().createSnakeAttackSpeedTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
+//                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+//                    this.battle.handlerPutTower(EntityMode.OPPONENT);
+//                    break;
+//                case "GOAT":
+//                    battle.getEntityFactory().createGoatAttackDamageTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
+//                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+//                    this.battle.handlerPutTower(EntityMode.OPPONENT);
+//                    break;
+//                case "FIRE":
+//                    pixelPos = Utils.tile2Pixel(tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
+//                    battle.getEntityFactory().createFireSpell(pixelPos, EntityMode.OPPONENT);
+//                    break;
+//                case "FROZEN":
+//                    pixelPos = Utils.tile2Pixel(tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
+//                    battle.getEntityFactory().createFrozenSpell(pixelPos, EntityMode.OPPONENT);
+//                    break;
+//                case "TRAP":
+//                    battle.getEntityFactory().createTrapSpell(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
+//                    break;
+//
+//            }
+//        } catch (Exception exception) {
+//            exception.printStackTrace();
+//        }
 
 
     }
