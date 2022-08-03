@@ -3,6 +3,7 @@ package model.battle;
 import battle.Battle;
 import battle.BattleMap;
 import battle.BattleVisualization;
+import battle.TileNode;
 import battle.common.EntityMode;
 import battle.common.FindPathUtils;
 import battle.common.Point;
@@ -14,7 +15,12 @@ import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
+import bitzero.server.extensions.data.BaseCmd;
+import bitzero.server.extensions.data.BaseCmd;
+import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.ExtensionUtility;
+import cmd.CmdDefine;
+import cmd.receive.battle.tower.RequestPutTower;
 import cmd.send.battle.ResponseEndBattle;
 
 import match.UserType;
@@ -23,12 +29,9 @@ import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.MatchingHandler;
 import service.RoomHandler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -41,6 +44,13 @@ public class Room implements Runnable {
     private boolean endBattle;
     private ScheduledFuture roomRun;
     private final Logger logger = LoggerFactory.getLogger("Room");
+    private PriorityQueue<ClientCommand> clientCommands = new PriorityQueue(new Comparator<ClientCommand>() {
+        @Override
+        public int compare(ClientCommand a, ClientCommand b) {
+            return (int) (a.executeTime - b.executeTime);
+        }
+    });
+
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
@@ -69,6 +79,7 @@ public class Room implements Runnable {
                 if (this.endBattle == false) {
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
+                    this.handlerClientCommand();
                     if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
                     this.checkEndBattle();
                     if (this.endBattle == true) {
@@ -80,6 +91,20 @@ public class Room implements Runnable {
                 e.printStackTrace();
             }
         }, 0, 10, TimeUnit.MILLISECONDS);
+    }
+
+    private void handlerClientCommand() throws Exception {
+        if (this.clientCommands.size() == 0) return;
+        ClientCommand cmd = this.clientCommands.peek();
+        if (cmd.executeTime <= System.currentTimeMillis()) {
+            switch (cmd.cmdID) {
+                case CmdDefine.PUT_TOWER:
+                    RequestPutTower req = (RequestPutTower) cmd.getBaseCmd();
+                    this.battle.buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, cmd.getMode());
+                    break;
+            }
+            this.clientCommands.remove();
+        }
     }
 
     public void checkEndBattle() throws Exception {
@@ -258,5 +283,35 @@ public class Room implements Runnable {
 
     public long getStartTime() {
         return startTime;
+    }
+
+    public void addClientCommand(long executeTime, BaseCmd baseCmd, int cmdID, EntityMode mode) {
+        this.clientCommands.add(new ClientCommand(executeTime, baseCmd, cmdID, mode));
+    }
+}
+
+class ClientCommand {
+    long executeTime;
+    BaseCmd baseCmd;
+    int cmdID;
+    EntityMode mode;
+
+    public ClientCommand(long executeTime, BaseCmd baseCmd, int cmdID, EntityMode mode) {
+        this.executeTime = executeTime;
+        this.baseCmd = baseCmd;
+        this.cmdID = cmdID;
+        this.mode = mode;
+    }
+
+    public long getExecuteTime() {
+        return this.executeTime;
+    }
+
+    public BaseCmd getBaseCmd() {
+        return this.baseCmd;
+    }
+
+    public EntityMode getMode() {
+        return this.mode;
     }
 }
