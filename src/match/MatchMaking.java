@@ -137,7 +137,7 @@ public class MatchMaking implements Runnable {
 
             ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getPlayerByID(user1.getId()).getBattleDeck()), user1);
-
+            System.out.println("");
             ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getPlayerByID(user2.getId()).getBattleDeck()), user2);
 
@@ -180,6 +180,9 @@ public class MatchMaking implements Runnable {
                     new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                             room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject,
                             room.getBattle().getBattleMapByPlayerId(dummyBot.getId()).battleMapObject), user1);
+
+            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getPlayerByID(user1.getId()).getBattleDeck()), user1);
 //            for (int i = 0; i < userMap.battleMapObject.getHeight(); i++) {
 //                for (int j = 0; j < userMap.battleMapObject.getWidth(); j++) {
 //                    CellObject cellObject = userMap.battleMapObject.getCellObject(i, j);

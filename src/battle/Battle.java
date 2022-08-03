@@ -138,7 +138,6 @@ public class Battle {
 
     public void updateSystem() throws Exception {
         if (GameConfig.DEBUG) this.debug();
-        System.out.println();
         resetSystem.run(this);
         abilitySystem.run(this);
         attackSystem.run(this);

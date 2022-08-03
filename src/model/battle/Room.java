@@ -52,8 +52,7 @@ public class Room implements Runnable {
             new BattleVisualization(this.battle, EntityMode.OPPONENT);
         roomRun = () -> {
             try {
-                System.out.println("Runnnnnnnnnnnn"
-                );
+//                System.out.println("Runnnnnnnnnnnn");
                 if (this.endBattle == false) {
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();

@@ -5,6 +5,7 @@ import model.Inventory.Card;
 import model.Inventory.Inventory;
 import model.PlayerInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerInBattle extends PlayerInfo {
@@ -20,6 +21,7 @@ public class PlayerInBattle extends PlayerInfo {
     }
 
     public void setBattleDeck() {
+        this.battleDeck = new ArrayList<>();
         try {
             Inventory inventory = (Inventory) Inventory.getModel(this.getId(), Inventory.class);
             List<Card> cardListInCollection = inventory.getCardCollection();
