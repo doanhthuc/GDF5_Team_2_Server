@@ -54,12 +54,12 @@ public class Room implements Runnable {
         roomRun = () -> {
             try {
                 //System.out.println("Runnnnnnnnnnnn");
-                if (this.endBattle == false) {
+                if (!this.endBattle) {
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
                     if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
                     this.checkEndBattle();
-                    if (this.endBattle == true) {
+                    if (this.endBattle) {
                         RoomManager.getInstance().removeRoom(this.roomId);
                         this.killRoom();
                     }

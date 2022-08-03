@@ -131,7 +131,6 @@ public class Battle {
     public void initMonsterWave() {
         this.monsterWave = this.createNewMonsterWave();
         this.currentWave = -1;
-        this.nextWaveTime = System.currentTimeMillis() + 5000;
     }
 
 //Update
