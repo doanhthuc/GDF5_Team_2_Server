@@ -155,12 +155,13 @@ public class Battle {
         long currentTime = System.currentTimeMillis();
         if (currentTime >= this.nextWaveTime) {
             this.currentWave += 1;
-            this.nextWaveTime += 20000;
+            this.nextWaveTime += GameConfig.BATTLE.WAVE_TIME;
         }
         if (this.currentWave < 0) return;
         List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
         //System.out.println(this.nextBornMonsterTime - currentTime);
         if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
+            System.out.println("===>currentwave: " + this.currentWave);
             this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.PLAYER);
             this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.OPPONENT);
             this.monsterWave.get(currentWave).remove(currentWaveList.size() - 1);
@@ -191,11 +192,17 @@ public class Battle {
         for (int waveIdx = 1; waveIdx <= this.waveAmount; waveIdx++) {
             List<Integer> wave = new ArrayList<>();
             int swordManAmount, batAmount, ninjaAmount, assassinAmount;
-            int monsterAmountInWave = Math.min(5 + waveIdx, 15);
+//            int monsterAmountInWave = Math.min(5 + waveIdx, 15);
+//            swordManAmount = (int) Math.floor(Math.random() * monsterAmountInWave);
+//            batAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount));
+//            ninjaAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount));
+//            assassinAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount - ninjaAmount));
+            int monsterAmountInWave = GameConfig.BATTLE.AMOUNT_MONSTER_EACH_WAVE;
             swordManAmount = (int) Math.floor(Math.random() * monsterAmountInWave);
             batAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount));
             ninjaAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount));
-            assassinAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount - ninjaAmount));
+            assassinAmount = (monsterAmountInWave - swordManAmount - batAmount - ninjaAmount);
+
             for (int i = 1; i <= batAmount; i++)
                 wave.add(GameConfig.ENTITY_ID.BAT);
 

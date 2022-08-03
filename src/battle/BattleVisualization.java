@@ -112,23 +112,23 @@ public class BattleVisualization extends JFrame implements MouseListener {
                     G.fillRect((int) p.x, (int) p.y, tileWidth * scale, tileHeight * scale);
                 }
             }
-        if (monsterList.size() > 0) {
-            PathComponent path = null;
-            for (EntityECS monster : monsterList) {
-                if (monster.getMode() == this.entityMode) {
-                    path = (PathComponent) monster.getComponent(PathComponent.typeID);
-                    break;
-                    }
-                }
-            List<Point> monsterPath = path.getPath();
-            for (Point i : monsterPath) {
-                G.setColor(Color.BLUE);
-                Point p = getMonsterPos(new PositionComponent(i.x, i.y), new CollisionComponent(5, 5));
-                G.fillRect((int) p.x, (int) p.y, 5, 5);
-                break;
-            }
-
-        }
+//        if (monsterList.size() > 0) {
+//            PathComponent path = null;
+//            for (EntityECS monster : monsterList) {
+//                if (monster.getMode() == this.entityMode) {
+//                    path = (PathComponent) monster.getComponent(PathComponent.typeID);
+//                    break;
+//                    }
+//                }
+//            List<Point> monsterPath = path.getPath();
+//            for (Point i : monsterPath) {
+//                G.setColor(Color.BLUE);
+//                Point p = getMonsterPos(new PositionComponent(i.x, i.y), new CollisionComponent(5, 5));
+//                G.fillRect((int) p.x, (int) p.y, 5, 5);
+//                break;
+//            }
+//
+//        }
         //System.out.println(" monsterSize" + monsterList.size());
         for (EntityECS monster : monsterList) {
             if (monster.getMode() != this.entityMode) continue;

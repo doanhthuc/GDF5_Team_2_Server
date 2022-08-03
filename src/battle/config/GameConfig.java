@@ -151,5 +151,10 @@ public class GameConfig {
     public static int PLAYER_ENERGY = 30;
 
     public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
+    public static class BATTLE {
+        public static long START_GAME_AFTER = 5 * 1000;
+        public static long WAVE_TIME = 5 * 1000;
+        public static int AMOUNT_MONSTER_EACH_WAVE = 1;
+    }
 }
 
