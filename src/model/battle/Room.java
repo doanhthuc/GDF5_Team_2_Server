@@ -79,7 +79,7 @@ public class Room implements Runnable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 0, 100, TimeUnit.MILLISECONDS);
+        }, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     public void checkEndBattle() throws Exception {

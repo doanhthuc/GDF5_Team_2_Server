@@ -176,7 +176,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
             G.setColor(Color.GREEN);
             Point p = this.getMonsterPos(positionComponent, collisionComponent);
-            G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() * scale, (int) collisionComponent.getHeight() * scale);
+            G.fillRect((int) p.x, (int) p.y, (int) 5 * scale, (int) 5* scale);
         }
         G1.drawImage(B, 0, 0, this.getWidth(), this.getHeight(), null);
 
