@@ -160,7 +160,7 @@ public class EntityFactory {
 
         VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.8 * GameConfig.TILE_WIDTH, 0, null);
         CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(20, 30);
-        LifeComponent lifeComponent = this.componentFactory.createLifeComponent(500);
+        LifeComponent lifeComponent = this.componentFactory.createLifeComponent(30);
 
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
@@ -191,7 +191,7 @@ public class EntityFactory {
 
         VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(1.4 * GameConfig.TILE_WIDTH, 0, null);
         CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(20, 30);
-        LifeComponent lifeComponent = this.componentFactory.createLifeComponent(120);
+        LifeComponent lifeComponent = this.componentFactory.createLifeComponent(15);
 
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
@@ -248,9 +248,9 @@ public class EntityFactory {
         MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("normal", "ground", 200, 1, 10, null, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(1 * GameConfig.TILE_WIDTH, 0, null);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.4 * GameConfig.TILE_WIDTH, 0, null);
         CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(30, 30);
-        LifeComponent lifeComponent = this.componentFactory.createLifeComponent(820);
+        LifeComponent lifeComponent = this.componentFactory.createLifeComponent(200);
 
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
