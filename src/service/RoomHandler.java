@@ -83,6 +83,7 @@ public class RoomHandler extends BaseClientRequestHandler {
     public enum RoomError {
         SUCCESS((short) 0),
         FAIL((short) 1),
+        END_BATTLE((short) 2),
         ;
 
 

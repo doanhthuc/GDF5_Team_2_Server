@@ -21,7 +21,7 @@ public class Utils {
 
 
     public static Point pixel2Tile(double xx, double yy, EntityMode mode) {
-        if (mode.getValue() == EntityMode.PLAYER.getValue()) {
+        if (mode == EntityMode.PLAYER) {
             xx = xx + GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2;
             yy = yy + GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2;
         } // FIXME add mode== GameConfig.OPPONENT
@@ -42,7 +42,7 @@ public class Utils {
         } // FIXME add mode== GameConfig.OPPONENT
         else {
             xx = GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2 - x * GameConfig.TILE_WIDTH - GameConfig.TILE_WIDTH / 2;
-            yy = GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2 - x * GameConfig.TILE_HEIGHT - GameConfig.TILE_HEIGHT / 2;
+            yy = GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2 - y * GameConfig.TILE_HEIGHT - GameConfig.TILE_HEIGHT / 2;
         }
         return new Point(xx, yy);
     }
@@ -106,7 +106,7 @@ public class Utils {
             y = (cellY + 1) * cellHeight - mapHeightPixel / 2 - cellHeight / 2;
         } else if (mode == EntityMode.OPPONENT) {
             x = mapWidthPixel / 2 - (cellX + 1) * cellWidth + cellWidth / 2;
-            y = mapHeightPixel / 2 - (cellX + 1) * cellHeight + cellHeight / 2;
+            y = mapHeightPixel / 2 - (cellY + 1) * cellHeight + cellHeight / 2;
         }
         return new Point(x, y);
     }

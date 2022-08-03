@@ -6,23 +6,24 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-
+    public static boolean DEBUG = false;
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;
     public static int MAP_HEIGHT = 5;
     public static int RIVER_MAP_HEIGHT = 100;
 
-    public static class MAP{
-        public static  int NONE = 0;
-        public static  int ATTACK_SPEED = 1;
-        public static  int ATTACK_RANGE = 2;
-        public static  int ATTACK_DAMAGE = 3;
-        public static  int TREE = 5;
-        public static  int HOLE = 6;
-        public static  int TOWER = 7;
+    public static class MAP {
+        public static int NONE = 0;
+        public static int ATTACK_SPEED = 1;
+        public static int ATTACK_RANGE = 2;
+        public static int ATTACK_DAMAGE = 3;
+        public static int TREE = 5;
+        public static int HOLE = 6;
+        public static int TOWER = 7;
 
     }
+
     public static class COMPONENT_ID {
         public static int MONSTER_INFO = 1;
         public static int TOWER_INFO = 2;
@@ -123,20 +124,31 @@ public class GameConfig {
 
     public static class MONSTER {
         public static class CATEGORY {
-            public static String NORMAL ="normal";
-            public static String BOSS ="boss";
+            public static String NORMAL = "normal";
+            public static String BOSS = "boss";
         }
+
         public static class CLASS {
-            public static String LAND ="land";
-            public static String AIR ="air";
+            public static String LAND = "land";
+            public static String AIR = "air";
         }
     }
+
     public static class FROG_BULLET {
         public static int HIT_FIRST_TIME = 1;
         public static int HIT_SECOND_TIME = 2;
         public static int HIT_BOTH_TIME = 3;
 
     }
+    public static class BATTLE_RESULT {
+        public static int WIN = 0;
+        public static int LOSE = 1;
+        public static int DRAW = 2;
+    }
+
+    public static int WAVE_AMOUNT = 20;
+    public static int PLAYER_HP = 20;
+    public static int PLAYER_ENERGY = 30;
 
     public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
 }
