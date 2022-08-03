@@ -37,7 +37,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
     static int screenHeight = tileHeight * height;
     static int centerX = paddingX + screenWidth / 2;
     static int centerY = paddingY + screenHeight / 2;
-    static int scale = 2;
+    static int scale = 1;
     private Battle battle;
     BufferedImage B;
     Graphics G;
