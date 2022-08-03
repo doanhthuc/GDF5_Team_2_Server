@@ -50,7 +50,7 @@ public class Room implements Runnable {
         this.startTime = System.currentTimeMillis() + 15000;
         this.battle.setNextWaveTime(this.startTime);
         if (GameConfig.DEBUG == true)
-            new BattleVisualization(this.battle, EntityMode.OPPONENT);
+            new BattleVisualization(this.battle, EntityMode.PLAYER);
         roomRun = () -> {
             try {
                 //System.out.println("Runnnnnnnnnnnn");

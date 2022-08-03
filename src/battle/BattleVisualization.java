@@ -101,8 +101,12 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
         for (int i = 0; i < BattleMap.mapW; i++)
             for (int j = 0; j < BattleMap.mapH; j++) {
-                if (!FindPathUtils.findPathAble(this.battle.player2BattleMap.map[i][j])) {
-                    Point tilePos = Utils.tile2Pixel(i, j, EntityMode.OPPONENT);
+                BattleMap battleMap;
+                if (this.entityMode == EntityMode.OPPONENT)
+                     battleMap = this.battle.player2BattleMap;
+                else battleMap = this.battle.player1BattleMap;
+                if (!FindPathUtils.findPathAble(battleMap.map[i][j])) {
+                    Point tilePos = Utils.tile2Pixel(i, j, this.entityMode);
                     G.setColor(Color.BLUE);
                     Point p = this.getTowerPos(new PositionComponent(tilePos.getX(), tilePos.getY()));
                     G.fillRect((int) p.x, (int) p.y, tileWidth * scale, tileHeight * scale);
@@ -119,7 +123,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         }
         //System.out.println(" monsterSize" + monsterList.size());
         for (EntityECS monster : monsterList) {
-            if (monster.getMode()!=this.entityMode) continue;
+            if (monster.getMode() != this.entityMode) continue;
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) monster.getComponent(CollisionComponent.typeID);
             LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
@@ -134,7 +138,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
         List<EntityECS> towerList = this.battle.getEntityManager().getEntitiesHasComponents(Collections.singletonList(TowerInfoComponent.typeID));
         for (EntityECS tower : towerList) {
-            if (tower.getMode()!=this.entityMode) continue;
+            if (tower.getMode() != this.entityMode) continue;
             PositionComponent positionComponent = (PositionComponent) tower.getComponent(PositionComponent.typeID);
             G.setColor(colorMap.get(tower.getTypeID()));
             Point p = this.getTowerPos(positionComponent);
@@ -145,7 +149,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         List<EntityECS> bulletList = this.battle.getEntityManager().getEntitiesHasComponents(Collections.singletonList(BulletInfoComponent.typeID));
         //System.out.println(bulletList.size());
         for (EntityECS bullet : bulletList) {
-            if (bullet.getMode()!=this.entityMode) continue;
+            if (bullet.getMode() != this.entityMode) continue;
             PositionComponent positionComponent = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(CollisionComponent.typeID);
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
@@ -197,7 +201,6 @@ public class BattleVisualization extends JFrame implements MouseListener {
     }
 
 
-
     public void initColor() {
         this.colorMap.put(GameConfig.ENTITY_ID.SWORD_MAN, Color.YELLOW);
         this.colorMap.put(GameConfig.ENTITY_ID.ASSASSIN, Color.RED);
@@ -227,16 +230,16 @@ public class BattleVisualization extends JFrame implements MouseListener {
         try {
             switch ((String) Objects.requireNonNull(this.entityChoosen.getSelectedItem())) {
                 case "OWL":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.CANNON_TOWER,tilePosX,tilePosY,EntityMode.OPPONENT);
+                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.CANNON_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
                     break;
                 case "FROG":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.FROG_TOWER,tilePosX,tilePosY,EntityMode.OPPONENT);
+                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.FROG_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
                     break;
                 case "WIZARD":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.WIZARD_TOWER,tilePosX,tilePosY,EntityMode.OPPONENT);
+                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.WIZARD_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
                     break;
                 case "BEAR":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.BEAR_TOWER,tilePosX,tilePosY,EntityMode.OPPONENT);
+                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.BEAR_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
                     break;
                 case "BUNNY":
                     battle.getEntityFactory().createBunnyOilGunTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
