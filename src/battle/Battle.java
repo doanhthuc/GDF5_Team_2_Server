@@ -58,6 +58,7 @@ public class Battle {
     private int player2HP = GameConfig.PLAYER_HP;
     private int player1energy = GameConfig.PLAYER_ENERGY;
     private int player2energy = GameConfig.PLAYER_ENERGY;
+    //DDojc va luu
 
 
     public Battle(int userId1, int userId2) {
@@ -131,7 +132,6 @@ public class Battle {
     public void initMonsterWave() {
         this.monsterWave = this.createNewMonsterWave();
         this.currentWave = -1;
-        this.nextWaveTime = System.currentTimeMillis() + 5000;
     }
 
 //Update

@@ -103,7 +103,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             for (int j = 0; j < BattleMap.mapH; j++) {
                 BattleMap battleMap;
                 if (this.entityMode == EntityMode.OPPONENT)
-                     battleMap = this.battle.player2BattleMap;
+                    battleMap = this.battle.player2BattleMap;
                 else battleMap = this.battle.player1BattleMap;
                 if (!FindPathUtils.findPathAble(battleMap.map[i][j])) {
                     Point tilePos = Utils.tile2Pixel(i, j, this.entityMode);
@@ -113,13 +113,21 @@ public class BattleVisualization extends JFrame implements MouseListener {
                 }
             }
         if (monsterList.size() > 0) {
-            PathComponent path = (PathComponent) monsterList.get(0).getComponent(PathComponent.typeID);
+            PathComponent path = null;
+            for (EntityECS monster : monsterList) {
+                if (monster.getMode() == this.entityMode) {
+                    path = (PathComponent) monster.getComponent(PathComponent.typeID);
+                    break;
+                    }
+                }
             List<Point> monsterPath = path.getPath();
             for (Point i : monsterPath) {
                 G.setColor(Color.BLUE);
                 Point p = getMonsterPos(new PositionComponent(i.x, i.y), new CollisionComponent(5, 5));
                 G.fillRect((int) p.x, (int) p.y, 5, 5);
+                break;
             }
+
         }
         //System.out.println(" monsterSize" + monsterList.size());
         for (EntityECS monster : monsterList) {
@@ -211,7 +219,6 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.colorMap.put(GameConfig.ENTITY_ID.SATYR, Color.GREEN);
         this.colorMap.put(GameConfig.ENTITY_ID.DEMON_TREE, Color.ORANGE);
 
-
         this.colorMap.put(GameConfig.ENTITY_ID.CANNON_TOWER, Color.BLACK);
         this.colorMap.put(GameConfig.ENTITY_ID.BEAR_TOWER, Color.CYAN);
         this.colorMap.put(GameConfig.ENTITY_ID.FROG_TOWER, Color.RED);
@@ -223,57 +230,57 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int tilePosX = (e.getX() - paddingX * scale) / (tileWidth * scale);
-        int tilePosY = (e.getY() - paddingY * scale) / (tileHeight * scale);
-        tilePosY = height - 1 - tilePosY;
-        Point pixelPos;
-        try {
-            switch ((String) Objects.requireNonNull(this.entityChoosen.getSelectedItem())) {
-                case "OWL":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.CANNON_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
-                    break;
-                case "FROG":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.FROG_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
-                    break;
-                case "WIZARD":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.WIZARD_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
-                    break;
-                case "BEAR":
-                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.BEAR_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
-                    break;
-                case "BUNNY":
-                    battle.getEntityFactory().createBunnyOilGunTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
-                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-                    this.battle.handlerPutTower(EntityMode.OPPONENT);
-                    break;
-                case "SNAKE":
-                    battle.getEntityFactory().createSnakeAttackSpeedTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
-                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-                    this.battle.handlerPutTower(EntityMode.OPPONENT);
-                    break;
-                case "GOAT":
-                    battle.getEntityFactory().createGoatAttackDamageTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
-                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-                    this.battle.handlerPutTower(EntityMode.OPPONENT);
-                    break;
-                case "FIRE":
-                    pixelPos = Utils.tile2Pixel(tilePosX, tilePosY, EntityMode.OPPONENT);
-                    //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
-                    battle.getEntityFactory().createFireSpell(pixelPos, EntityMode.OPPONENT);
-                    break;
-                case "FROZEN":
-                    pixelPos = Utils.tile2Pixel(tilePosX, tilePosY, EntityMode.OPPONENT);
-                    //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
-                    battle.getEntityFactory().createFrozenSpell(pixelPos, EntityMode.OPPONENT);
-                    break;
-                case "TRAP":
-                    battle.getEntityFactory().createTrapSpell(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
-                    break;
-
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+//        int tilePosX = (e.getX() - paddingX * scale) / (tileWidth * scale);
+//        int tilePosY = (e.getY() - paddingY * scale) / (tileHeight * scale);
+//        tilePosY = height - 1 - tilePosY;
+//        Point pixelPos;
+//        try {
+//            switch ((String) Objects.requireNonNull(this.entityChoosen.getSelectedItem())) {
+//                case "OWL":
+//                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.CANNON_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    break;
+//                case "FROG":
+//                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.FROG_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    break;
+//                case "WIZARD":
+//                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.WIZARD_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    break;
+//                case "BEAR":
+//                    this.battle.buildTowerByTowerID(GameConfig.ENTITY_ID.BEAR_TOWER, tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    break;
+//                case "BUNNY":
+//                    battle.getEntityFactory().createBunnyOilGunTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
+//                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+//                    this.battle.handlerPutTower(EntityMode.OPPONENT);
+//                    break;
+//                case "SNAKE":
+//                    battle.getEntityFactory().createSnakeAttackSpeedTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
+//                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+//                    this.battle.handlerPutTower(EntityMode.OPPONENT);
+//                    break;
+//                case "GOAT":
+//                    battle.getEntityFactory().createGoatAttackDamageTower(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
+//                    battle.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
+//                    this.battle.handlerPutTower(EntityMode.OPPONENT);
+//                    break;
+//                case "FIRE":
+//                    pixelPos = Utils.tile2Pixel(tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
+//                    battle.getEntityFactory().createFireSpell(pixelPos, EntityMode.OPPONENT);
+//                    break;
+//                case "FROZEN":
+//                    pixelPos = Utils.tile2Pixel(tilePosX, tilePosY, EntityMode.OPPONENT);
+//                    //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
+//                    battle.getEntityFactory().createFrozenSpell(pixelPos, EntityMode.OPPONENT);
+//                    break;
+//                case "TRAP":
+//                    battle.getEntityFactory().createTrapSpell(new Point(tilePosX, tilePosY), EntityMode.OPPONENT);
+//                    break;
+//
+//            }
+//        } catch (Exception exception) {
+//            exception.printStackTrace();
+//        }
 
 
     }

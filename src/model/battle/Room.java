@@ -29,6 +29,7 @@ import service.RoomHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class Room implements Runnable {
@@ -38,7 +39,7 @@ public class Room implements Runnable {
     private Battle battle;
     private long startTime;
     private boolean endBattle;
-    private Runnable roomRun;
+    private ScheduledFuture roomRun;
     private final Logger logger = LoggerFactory.getLogger("Room");
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
@@ -51,23 +52,6 @@ public class Room implements Runnable {
         this.battle.setNextWaveTime(this.startTime);
         if (GameConfig.DEBUG == true)
             new BattleVisualization(this.battle, EntityMode.PLAYER);
-        roomRun = () -> {
-            try {
-                //System.out.println("Runnnnnnnnnnnn");
-                if (this.endBattle == false) {
-                    this.battle.updateMonsterWave();
-                    this.battle.updateSystem();
-                    if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
-                    this.checkEndBattle();
-                    if (this.endBattle == true) {
-                        RoomManager.getInstance().removeRoom(this.roomId);
-                        this.killRoom();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        };
     }
 
 //    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
@@ -79,7 +63,23 @@ public class Room implements Runnable {
 
     @Override
     public void run() {
-        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(roomRun, 0, 100, TimeUnit.MILLISECONDS);
+        this.roomRun = BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
+            try {
+                //System.out.println("Runnnnnnnnnnnn");
+                if (this.endBattle == false) {
+                    this.battle.updateMonsterWave();
+                    this.battle.updateSystem();
+                    if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
+                    this.checkEndBattle();
+                    if (this.endBattle == true) {
+                        RoomManager.getInstance().removeRoom(this.roomId);
+                        this.endRoom();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, 0, 100, TimeUnit.MILLISECONDS);
     }
 
     public void checkEndBattle() throws Exception {
@@ -116,8 +116,8 @@ public class Room implements Runnable {
 
     }
 
-    public void killRoom() {
-        BitZeroServer.getInstance().getTaskScheduler();
+    public void endRoom() {
+        this.roomRun.cancel(true);
     }
 
     // sendBattleResult
