@@ -51,12 +51,18 @@ public class GameConfig {
         public static int TOWER_ABILITY = 24;
         public static int BUFF_ATTACK_RANGE = 25;
         public static int ACCELERATION = 26;
+        public static int FIRE_BALL_EFFECT = 27;
 
     }
 
     public static class HOUSE_POSITION {
         public static double x = 6;
         public static double y = 0;
+    }
+
+    public static class MONSTER_BORN_POSITION {
+        public static double x = 0;
+        public static double y = 4;
     }
 
     public static class ENTITY_ID {

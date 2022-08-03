@@ -18,6 +18,24 @@ public class TrapEffect extends EffectComponent {
         this.isExecuted = false;
         this.countdown = 0;
     }
+
+    public void setCountdown(double countdown) {
+        this.countdown = countdown;
+        this.isExecuted = true;
+    }
+
+    public boolean isExecuted() {
+        return isExecuted;
+    }
+
+    public double getCountdown() {
+        return countdown;
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
     public TrapEffect clone(ComponentFactory componentFactory) {
         try {
             return componentFactory.createTrapEffect();

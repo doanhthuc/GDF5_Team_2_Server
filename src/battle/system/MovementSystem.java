@@ -41,6 +41,9 @@ public class MovementSystem extends SystemECS {
                 velocityComponent.setSpeedY(newVelocity.y);
             }
 
+            // start handle fireball effect
+
+
             if (velocityComponent.getActive()) {
                 double moveDistanceX = velocityComponent.getSpeedX() * (tick / 1000);
                 double moveDistanceY = velocityComponent.getSpeedY() * (tick / 1000);
