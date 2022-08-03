@@ -21,8 +21,16 @@ public class PlayerInBattle extends PlayerInfo {
 
     public void setBattleDeck() {
         try {
-            Inventory battleDeckList = (Inventory) Inventory.getModel(this.getId(), Inventory.class);
-            this.battleDeck = battleDeckList.getCardCollection().subList(0, 5);
+            Inventory inventory = (Inventory) Inventory.getModel(this.getId(), Inventory.class);
+            List<Card> cardListInCollection = inventory.getCardCollection();
+            List<Integer> cardIdListInBattleDeck = inventory.getBattleDeck();
+            cardIdListInBattleDeck.forEach(cardId -> {
+                cardListInCollection.forEach(card -> {
+                    if (card.getCardType() == cardId) {
+                        this.battleDeck.add(card);
+                    }
+                });
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

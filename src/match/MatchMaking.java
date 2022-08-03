@@ -7,6 +7,7 @@ import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.obj.matching.MatchingInfo;
 import cmd.obj.matching.OpponentInfo;
+import cmd.send.battle.player.ResponseBattleDeckInBattle;
 import cmd.send.battle.player.ResponseRequestBattleMapObject;
 import cmd.send.battle.player.ResponseRequestGetBattleInfo;
 import cmd.send.matching.ResponseCancelMatching;
@@ -134,6 +135,12 @@ public class MatchMaking implements Runnable {
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user2);
 
+            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getPlayerByID(user1.getId()).getBattleDeck()), user1);
+
+            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getPlayerByID(user2.getId()).getBattleDeck()), user2);
+
 //            for (int i = 0; i < user1Map.battleMapObject.getHeight(); i++) {
 //                for (int j = 0; j < user1Map.battleMapObject.getWidth(); j++) {
 //                    CellObject cellObject = user1Map.battleMapObject.getCellObject(i, j);
@@ -208,4 +215,6 @@ public class MatchMaking implements Runnable {
         }
         return botInfo;
     }
+
+
 }
