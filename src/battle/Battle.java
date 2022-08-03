@@ -138,7 +138,6 @@ public class Battle {
 
     public void updateSystem() throws Exception {
         if (GameConfig.DEBUG) this.debug();
-        System.out.println();
         resetSystem.run(this);
         abilitySystem.run(this);
         attackSystem.run(this);
@@ -162,7 +161,7 @@ public class Battle {
         List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
         //System.out.println(this.nextBornMonsterTime - currentTime);
         if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
-            //this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.PLAYER);
+            this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.PLAYER);
             this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.OPPONENT);
             this.monsterWave.get(currentWave).remove(currentWaveList.size() - 1);
             this.nextBornMonsterTime = currentTime + 1000;

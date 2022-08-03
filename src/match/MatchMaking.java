@@ -194,7 +194,7 @@ public class MatchMaking implements Runnable {
             newID.saveModel(0);
 
             botInfo = new PlayerInfo(newUserID, botName, 0, 0, 0);
-            botInfo.setIsBot(BotConfig.BOT_TYPE_1);
+            botInfo.setIsBot(UserType.BOT_TYPE_1);
             botInfo.saveModel(botInfo.getId());
 
             PlayerID newPID = new PlayerID(newUserID, botName);

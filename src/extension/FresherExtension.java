@@ -64,7 +64,7 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
-        //    BattleVisualization battle1 = new BattleVisualization(1);
+           // BattleVisualization battle1 = new BattleVisualization(1);
 //            BattleVisualization battle2 = new BattleVisualization(2);
 
                  //Bida bida= new Bida();

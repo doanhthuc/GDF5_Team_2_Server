@@ -2,6 +2,7 @@ package model.battle;
 
 import battle.Battle;
 import battle.BattleMap;
+import battle.BattleVisualization;
 import battle.common.EntityMode;
 import battle.common.FindPathUtils;
 import battle.common.Point;
@@ -15,9 +16,8 @@ import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.send.battle.ResponseEndBattle;
-import cmd.send.battle.player.ResponseRequestBattleMapObject;
-import jdk.internal.org.objectweb.asm.tree.LocalVariableAnnotationNode;
-import model.Inventory.Inventory;
+
+import match.UserType;
 import model.Lobby.LobbyChestContainer;
 import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
@@ -49,15 +49,15 @@ public class Room implements Runnable {
         this.endBattle = false;
         this.startTime = System.currentTimeMillis() + 15000;
         this.battle.setNextWaveTime(this.startTime);
-
+        if (GameConfig.DEBUG == true)
+            new BattleVisualization(this.battle, EntityMode.PLAYER);
         roomRun = () -> {
             try {
-                System.out.println("Runnnnnnnnnnnn"
-                );
+                //System.out.println("Runnnnnnnnnnnn");
                 if (this.endBattle == false) {
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
-                    if (this.player2.getBotType() != 0) this.handleBotAction();
+                    if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
                     this.checkEndBattle();
                     if (this.endBattle == true) {
                         RoomManager.getInstance().removeRoom(this.roomId);
@@ -116,9 +116,10 @@ public class Room implements Runnable {
 
     }
 
-    public void killRoom(){
+    public void killRoom() {
         BitZeroServer.getInstance().getTaskScheduler();
     }
+
     // sendBattleResult
     public void handleBotAction() {
         List<Point> monsterPath = this.battle.player2ShortestPath[0][4];
@@ -146,7 +147,7 @@ public class Room implements Runnable {
         PlayerInfo winUser = (PlayerInfo) PlayerInfo.getModel(winUserID, PlayerInfo.class);
         PlayerInfo loseUser = (PlayerInfo) PlayerInfo.getModel(loseUserID, PlayerInfo.class);
         LobbyChestContainer winUserLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(winUser.getId(), LobbyChestContainer.class);
-        if (winUserLobbyChest.lobbyChestContainer.size() < LobbyChestDefine.LOBBY_CHEST_AMOUNT) {
+        if (winUserLobbyChest.lobbyChestContainer.size() < LobbyChestDefine.LOBBY_CHEST_AMOUNT && winUser.getUserType() == UserType.PLAYER) {
             winUserLobbyChest.addLobbyChest();
             winUserLobbyChest.saveModel(winUser.getId());
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 1), user1);
@@ -156,7 +157,8 @@ public class Room implements Runnable {
         winUser.saveModel(winUser.getId());
         loseUser.setTrophy(loseUser.getTrophy() - 10);
         loseUser.saveModel(loseUser.getId());
-        ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
+        if (loseUser.getUserType() == UserType.PLAYER)
+            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
 
     }
 
