@@ -22,6 +22,15 @@ public class TileObject {
         return (Tower) this.objectInTile;
     }
 
+    public ObjectInTile destroyTower() {
+        if (this.objectInTile.getObjectInCellType() == ObjectInTileType.TOWER) {
+            this.objectInTile = new ObjectInTile(ObjectInTileType.NONE);
+        } else {
+            throw new IllegalStateException("TileObject does not have a tower");
+        }
+        return this.objectInTile;
+    }
+
     public Point getTilePos() {
         return tilePos;
     }

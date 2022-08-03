@@ -7,9 +7,10 @@ public class TileNode {
     public int h;
     public int g;
     public Point pos;
-    public TileNode(int h,int g, Point p){
-        this.h=h;
-        this.g=g;
-        this.pos= p;
+
+    public TileNode(int h, int g, Point p) {
+        this.h = h;
+        this.g = g;
+        this.pos = p;
     }
 }

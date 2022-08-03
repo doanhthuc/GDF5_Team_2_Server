@@ -1,6 +1,7 @@
 package battle.newMap;
 
 public class ObjectInTile {
+    private long entityId;
     private ObjectInTileType objectInTileType;
 
     public ObjectInTile(ObjectInTileType objectInTileType) {
@@ -13,5 +14,13 @@ public class ObjectInTile {
 
     public void setObjectInCellType(ObjectInTileType objectInTileType) {
         this.objectInTileType = objectInTileType;
+    }
+
+    public long getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(long entityId) {
+        this.entityId = entityId;
     }
 }

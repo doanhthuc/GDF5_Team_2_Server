@@ -1,6 +1,6 @@
 package cmd.receive.battle.spell;
 
-import battle.Common.Point;
+import battle.common.Point;
 import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.common.business.CommonHandle;

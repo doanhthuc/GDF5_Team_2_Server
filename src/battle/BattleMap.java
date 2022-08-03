@@ -30,14 +30,14 @@ public class BattleMap {
             this.reset();
             this.genEverything();
         }
-        this.show();
+        //this.show();
     }
 
     public boolean checkOK() {
         int countPitTile = 0;
         int countTreeTile = 0;
         int requirePitTile = 1;
-        int requireTreeTile = 1;
+        int requireTreeTile = 2;
         for (int i = 0; i < this.mapW; i++)
             for (int j = 0; j < this.mapH; j++) {
                 if (this.map[i][j] == pitTile) countPitTile++;
@@ -52,10 +52,10 @@ public class BattleMap {
         this.genTree();
         this.genPitCell();
         this.removePath();
-        this.show();
+        //this.show();
 
         this.battleMapObject = new BattleMapObject(this.map);
-        this.battleMapObject.showConsole();
+//        this.battleMapObject.showConsole();
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
     public BattleMap(int X)

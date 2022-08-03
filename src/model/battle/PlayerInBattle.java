@@ -9,6 +9,9 @@ import java.util.List;
 
 public class PlayerInBattle extends PlayerInfo {
 
+    private int energyHouse;
+    private int currentEnergy;
+    private int maxEnergy = 30;
     private List<Card> battleDeck;
 
     public PlayerInBattle(PlayerInfo player) {

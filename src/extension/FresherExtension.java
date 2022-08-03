@@ -3,6 +3,11 @@ package extension;
 
 import battle.Battle;
 import battle.BattleMap;
+import battle.BattleVisualization;
+import battle.Bida;
+import battle.common.EntityMode;
+import battle.common.Utils;
+import battle.component.info.MonsterInfoComponent;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -37,6 +42,7 @@ import util.server.ServerConstant;
 import util.server.ServerLoop;
 
 import javax.management.BadAttributeValueExpException;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -57,7 +63,14 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
+        try {
+           // BattleVisualization battle1 = new BattleVisualization(1);
+//            BattleVisualization battle2 = new BattleVisualization(2);
 
+                 //Bida bida= new Bida();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        initBattle();
 
         trace("  Register Handler ");
@@ -96,13 +109,8 @@ public class FresherExtension extends BZExtension {
         }
     }
 
-    public void initBattle() {
-        BattleMap btm = new BattleMap();
-        btm.show();
-//        Battle battle = new Battle();
-    }
 
-    public void initUserData(long userID) {
+    public static void initUserData(long userID) {
         System.out.println("initUserdata");
         ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
         DailyShop dailyShop = new DailyShop(userID);
@@ -185,6 +193,10 @@ public class FresherExtension extends BZExtension {
                     send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()), user);
                 }
                 userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
+
+//                DailyShop dailyShop = (DailyShop) DailyShop.getModel(userInfo.getId(), DailyShop.class);
+//                DailyShop dailyShop = new DailyShop(pID.userID);
+//                dailyShop.saveModel(pID.userID);
             }
             UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
             User u = ExtensionUtility.instance().canLogin(uInfo, "", session);
