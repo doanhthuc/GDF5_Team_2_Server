@@ -126,12 +126,21 @@ public class InventoryHandler extends BaseClientRequestHandler {
             Inventory userInventory = (Inventory) Inventory.getModel(userInfo.getId(), Inventory.class);
             int cardInID = rq.getCardInID();
             int cardOutID = rq.getCardOutID();
-            //Verify battleDeck
-            if (!userInventory.getBattleDeck().contains(cardInID)) {
-                send(new ResponseRequestSwapCard(InventoryError.ERROR.getValue()), user);
+            for(int i=0; i<userInventory.battleDeck.size();i++)
+            {
+                System.out.print(userInventory.battleDeck.get(i));
             }
-
+            System.out.println(cardInID+ " "+cardOutID);
+            //Verify battleDeck
+//            if (!userInventory.getBattleDeck().contains(cardOutID)) {
+//                send(new ResponseRequestSwapCard(InventoryError.ERROR.getValue()), user);
+//            }
+            System.out.println("Inventory Handle ProcessSwap Card 111111111111111111111111111" + cardInID + " " + cardOutID);
             userInventory.swapBattleDeck(cardInID, cardOutID);
+            for(int i=0; i<userInventory.battleDeck.size();i++)
+            {
+                System.out.print(userInventory.battleDeck.get(i));
+            }
             send(new ResponseRequestSwapCard(InventoryError.ERROR.getValue(), cardInID, cardOutID), user);
             userInventory.saveModel(userInfo.getId());
         } catch (Exception e) {

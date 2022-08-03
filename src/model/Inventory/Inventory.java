@@ -100,7 +100,7 @@ public class Inventory extends DataModel {
     }
 
     public void swapBattleDeck(int cardInId, int cardOutID) {
-        for (int i = 0; i <= this.battleDeck.size(); i++) {
+        for (int i = 0; i < this.battleDeck.size(); i++) {
             if (battleDeck.get(i) == cardOutID) this.battleDeck.set(i, cardInId);
         }
     }

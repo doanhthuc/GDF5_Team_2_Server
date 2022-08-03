@@ -147,7 +147,7 @@ public class GameConfig {
     }
 
     public static int WAVE_AMOUNT = 20;
-    public static int PLAYER_HP = 1;
+    public static int PLAYER_HP = 20;
     public static int PLAYER_ENERGY = 30;
 
     public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
