@@ -48,9 +48,9 @@ public class Room implements Runnable {
         this.player2 = new PlayerInBattle(player2);
         this.battle = new Battle(player1, player2);
         this.endBattle = false;
-        this.startTime = System.currentTimeMillis() + 15000;
-        this.battle.setNextWaveTime(this.startTime);
-        if (GameConfig.DEBUG == true)
+        this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
+        this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
+        if (GameConfig.DEBUG)
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
     }
 
