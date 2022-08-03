@@ -43,6 +43,8 @@ public class BattleVisualization extends JFrame implements MouseListener {
     Graphics G;
     JComboBox entityChoosen;
     EntityMode entityMode;
+    String userName, opponentUserName;
+    int userHP, opponentHP;
 //    public static void main(String[] args) throws Exception {
 //        new BattleVisualization(1);
 //    }
@@ -56,6 +58,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.setSize((width * tileWidth + paddingX * 10) * scale, (height * tileHeight + paddingY * 5) * scale);
         this.setDefaultCloseOperation(3);
         this.addMouseListener(this);
+
 
         this.initColor();
         B = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
@@ -76,18 +79,28 @@ public class BattleVisualization extends JFrame implements MouseListener {
         //redraw the Graphic
 
         // create checkbox
-
+        if (this.entityMode == EntityMode.PLAYER) {
+            this.userName = this.battle.user1.getUserName();
+            this.userHP = this.battle.getPlayer1HP();
+            this.opponentUserName = this.battle.user2.getUserName();
+            this.opponentHP = this.battle.getPlayer2HP();
+        }
+        if (this.entityMode == EntityMode.OPPONENT) {
+            this.userName = this.battle.user2.getUserName();
+            this.userHP = this.battle.getPlayer2HP();
+            this.opponentUserName = this.battle.user1.getUserName();
+            this.opponentHP = this.battle.getPlayer1HP();
+        }
         G.setColor(Color.LIGHT_GRAY);
         G.fillRect(0, 0, this.getWidth(), this.getHeight());
         G.setColor(Color.BLUE);
         G.drawRect(0, 0, this.getWidth(), this.getHeight());
-        try {
-//            this.battle.updateMonsterWave();
-//            this.battle.updateSystem();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+        G.setFont(new Font("Arial Black", Font.BOLD, 20));
+        G.drawString("User =" + userName, 600, 300);
+        G.drawString("UserHP =" + userHP, 600, 350);
+        G.drawString("Opponent =" + opponentUserName, 600, 100);
+        G.drawString("OpponentHP =" + opponentHP, 600, 150);
 
         for (int i = 0; i <= height; i++)
             G.drawLine(paddingY * scale, (paddingY + i * tileHeight) * scale,
@@ -112,23 +125,23 @@ public class BattleVisualization extends JFrame implements MouseListener {
                     G.fillRect((int) p.x, (int) p.y, tileWidth * scale, tileHeight * scale);
                 }
             }
-        if (monsterList.size() > 0) {
-            PathComponent path = null;
-            for (EntityECS monster : monsterList) {
-                if (monster.getMode() == this.entityMode) {
-                    path = (PathComponent) monster.getComponent(PathComponent.typeID);
-                    break;
-                    }
-                }
-            List<Point> monsterPath = path.getPath();
-            for (Point i : monsterPath) {
-                G.setColor(Color.BLUE);
-                Point p = getMonsterPos(new PositionComponent(i.x, i.y), new CollisionComponent(5, 5));
-                G.fillRect((int) p.x, (int) p.y, 5, 5);
-                break;
-            }
-
-        }
+//        if (monsterList.size() > 0) {
+//            PathComponent path = null;
+//            for (EntityECS monster : monsterList) {
+//                if (monster.getMode() == this.entityMode) {
+//                    path = (PathComponent) monster.getComponent(PathComponent.typeID);
+//                    break;
+//                    }
+//                }
+//            List<Point> monsterPath = path.getPath();
+//            for (Point i : monsterPath) {
+//                G.setColor(Color.BLUE);
+//                Point p = getMonsterPos(new PositionComponent(i.x, i.y), new CollisionComponent(5, 5));
+//                G.fillRect((int) p.x, (int) p.y, 5, 5);
+//                break;
+//            }
+//
+//        }
         //System.out.println(" monsterSize" + monsterList.size());
         for (EntityECS monster : monsterList) {
             if (monster.getMode() != this.entityMode) continue;

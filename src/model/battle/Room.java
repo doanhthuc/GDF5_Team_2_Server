@@ -46,12 +46,12 @@ public class Room implements Runnable {
         this.roomId = RoomManager.getInstance().getRoomCount();
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
-        this.battle = new Battle(player1.getId(), player2.getId());
+        this.battle = new Battle(player1, player2);
         this.endBattle = false;
         this.startTime = System.currentTimeMillis() + 15000;
         this.battle.setNextWaveTime(this.startTime);
         if (GameConfig.DEBUG == true)
-            new BattleVisualization(this.battle, EntityMode.PLAYER);
+            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
     }
 
 //    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
