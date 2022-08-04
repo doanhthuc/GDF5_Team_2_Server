@@ -145,15 +145,15 @@ public class Battle {
         if (GameConfig.DEBUG) this.debug();
         resetSystem.run(this);
         abilitySystem.run(this);
-        attackSystem.run(this);
-        bulletSystem.run(this);
-        pathMonsterSystem.run(this);
-        collisionSystem.run(this);
         effectSystem.run(this);
+        attackSystem.run(this);
         lifeSystem.run(this);
-        movementSystem.run(this);
-        monsterSystem.run(this);
+        collisionSystem.run(this);
+        pathMonsterSystem.run(this);
         spellSystem.run(this);
+        monsterSystem.run(this);
+        bulletSystem.run(this);
+        movementSystem.run(this);
     }
 
     public void updateMonsterWave() throws Exception {
@@ -277,7 +277,6 @@ public class Battle {
                 break;
             case GameConfig.ENTITY_ID.FROG_TOWER:
                 this.entityFactory.createFrogTower(new Point(tilePosX, tilePosY), mode);
-                System.out.println("FROG");
                 break;
             case GameConfig.ENTITY_ID.WIZARD_TOWER:
                 this.entityFactory.createWizardTower(new Point(tilePosX, tilePosY), mode);
@@ -357,14 +356,14 @@ public class Battle {
     }
 
     public void debug() {
-        List<EntityECS> monsterList = this.entityManager.getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID));
-        if (GameConfig.DEBUG) System.out.println("MonsterSize=" + monsterList.size());
-
-        List<EntityECS> towerList = this.entityManager.getEntitiesHasComponents(Arrays.asList(TowerInfoComponent.typeID));
-        if (GameConfig.DEBUG) System.out.println("TowerSize=" + towerList.size());
-
-        System.out.println("Player1 Hp= " + this.player1HP + " Player1 Energy=" + this.player1energy);
-        System.out.println("Player2 Hp= " + this.player2HP + " Player2 Energy=" + this.player2energy);
+//        List<EntityECS> monsterList = this.entityManager.getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID));
+//        if (GameConfig.DEBUG) System.out.println("MonsterSize=" + monsterList.size());
+//
+//        List<EntityECS> towerList = this.entityManager.getEntitiesHasComponents(Arrays.asList(TowerInfoComponent.typeID));
+//        if (GameConfig.DEBUG) System.out.println("TowerSize=" + towerList.size());
+//
+//        System.out.println("Player1 Hp= " + this.player1HP + " Player1 Energy=" + this.player1energy);
+//        System.out.println("Player2 Hp= " + this.player2HP + " Player2 Energy=" + this.player2energy);
     }
 
     public EntityManager getEntityManager() {

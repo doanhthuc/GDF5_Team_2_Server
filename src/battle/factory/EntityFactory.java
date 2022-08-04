@@ -178,7 +178,6 @@ public class EntityFactory {
         entity.addComponent(collisionComponent);
         entity.addComponent(lifeComponent);
         entity.addComponent(pathComponent);
-        System.out.println("CreateSwordManMonster");
 
         return entity;
     }
@@ -435,7 +434,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius();
+        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -469,7 +468,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius();
+        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
 
@@ -507,7 +506,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius();
+        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -541,7 +540,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius();
+        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -578,7 +577,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius();
+        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -610,7 +609,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius();
+        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);

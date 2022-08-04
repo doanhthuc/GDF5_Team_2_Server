@@ -79,8 +79,8 @@ public class Room implements Runnable {
                 if (this.endBattle == false) {
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
-                    this.handlerClientCommand();
                     if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
+                    this.handlerClientCommand();
                     this.checkEndBattle();
                     this.checkAllUserDisconnect();
                 }
