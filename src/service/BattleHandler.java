@@ -10,6 +10,7 @@ import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
+import bitzero.server.extensions.data.BaseMsg;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.HandlerId;
@@ -32,6 +33,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.server.ServerConstant;
+
+import javax.xml.crypto.Data;
 
 public class BattleHandler extends BaseClientRequestHandler {
     public static short HANDLER_ID = HandlerId.BATTLE.getValue();
@@ -140,8 +143,9 @@ public class BattleHandler extends BaseClientRequestHandler {
             //FIXME: validate the position of Tower
 
             //PutTower In To SERVER MAP
-            EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
-            room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
+            EntityMode mode = room.getBattle().getEntityModeByPlayerID(user.getId());
+            room.addClientCommand(System.currentTimeMillis() + 1000, req , CmdDefine.PUT_TOWER , mode);
+            //room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
 
             send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos()), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();

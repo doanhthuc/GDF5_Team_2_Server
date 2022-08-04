@@ -7,6 +7,7 @@ import battle.entity.EntityECS;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityManager extends ManagerECS {
     private Map<Long, EntityECS> entities;
@@ -14,7 +15,7 @@ public class EntityManager extends ManagerECS {
 
     public EntityManager() {
         super();
-        entities = new HashMap<>();
+        entities = new ConcurrentHashMap<>();
     }
 
     public void destroy(EntityECS entityECS) {
@@ -36,14 +37,15 @@ public class EntityManager extends ManagerECS {
 
     public List<EntityECS> getEntitiesHasComponents(List<Integer> componentTypeIDS) {
         List<EntityECS> entityList = new ArrayList<>();
-
-        for (Map.Entry<Long, EntityECS> entry : this.entities.entrySet()) {
-            EntityECS entity = entry.getValue();
-            if (entity.getActive() && entity.hasAllComponent(componentTypeIDS)) {
-                entityList.add(entity);
-            } else if (!entry.getValue().getActive()) {
-                // remove entity
-                // delete this.entities[id];
+        if (this.entities.size() > 0) {
+            for (Map.Entry<Long, EntityECS> entry : this.entities.entrySet()) {
+                EntityECS entity = entry.getValue();
+                if (entity.getActive() && entity.hasAllComponent(componentTypeIDS)) {
+                    entityList.add(entity);
+                } else if (!entry.getValue().getActive()) {
+                    // remove entity
+                    // delete this.entities[id];
+                }
             }
         }
         return entityList;
@@ -61,8 +63,7 @@ public class EntityManager extends ManagerECS {
         this.entities.remove(entity.getId());
     }
 
-    public void showEntity()
-    {
+    public void showEntity() {
         for (Map.Entry<Long, EntityECS> entry : this.entities.entrySet()) {
             System.out.println(entry.getKey());
             entry.getValue().showComponent();

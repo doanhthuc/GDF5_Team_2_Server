@@ -101,6 +101,7 @@ public class AttackSystem extends SystemECS {
                 return monster;
             }
         }
+
 //        return monsterInRange.get(0);
         // TODO: Implement when have burrowed monster
         /*for (EntityECS monster: monsterInRange) {
@@ -111,7 +112,7 @@ public class AttackSystem extends SystemECS {
             }
         }*/
 
-        EntityECS targetMonster;
+        EntityECS targetMonster = null;
         switch (strategy) {
             case GameConfig.TOWER_TARGET_STRATEGY.MAX_HP: {
                 double maxHP = -1;
@@ -124,7 +125,7 @@ public class AttackSystem extends SystemECS {
                         maxHPIndex = i;
                     }
                 }
-                targetMonster = monsterInRange.get(maxHPIndex);
+                if (maxHPIndex!=-1) targetMonster = monsterInRange.get(maxHPIndex);
                 break;
             }
             case GameConfig.TOWER_TARGET_STRATEGY.MIN_HP:
@@ -138,7 +139,7 @@ public class AttackSystem extends SystemECS {
                         minHPIndex = i;
                     }
                 }
-                targetMonster = monsterInRange.get(minHPIndex);
+                if (minHPIndex!=-1) targetMonster = monsterInRange.get(minHPIndex);
                 break;
             case GameConfig.TOWER_TARGET_STRATEGY.MAX_DISTANCE:
                 double maxDistance = -1;
@@ -150,7 +151,7 @@ public class AttackSystem extends SystemECS {
                         maxDistanceIndex = i;
                     }
                 }
-                targetMonster = monsterInRange.get(maxDistanceIndex);
+                if (maxDistanceIndex!=-1) targetMonster = monsterInRange.get(maxDistanceIndex);
                 break;
             case GameConfig.TOWER_TARGET_STRATEGY.MIN_DISTANCE:
                 double minDistance = Double.MAX_VALUE;
@@ -162,7 +163,7 @@ public class AttackSystem extends SystemECS {
                         minDistanceIndex = i;
                     }
                 }
-                targetMonster = monsterInRange.get(minDistanceIndex);
+                if (minDistanceIndex!=-1) targetMonster = monsterInRange.get(minDistanceIndex);
                 break;
             default:
                 throw new Error("Invalid strategy");

@@ -28,6 +28,9 @@ public class Battle {
     private ComponentPool componentPool;
     private EntityPool entityPool;
     private EntityManager entityManager;
+
+
+
     private ComponentManager componentManager;
     private ComponentFactory componentFactory;
     private EntityFactory entityFactory;
@@ -58,7 +61,7 @@ public class Battle {
     public int player1HP = GameConfig.PLAYER_HP;
     public int player2HP = GameConfig.PLAYER_HP;
     private int player1energy = GameConfig.PLAYER_ENERGY;
-    private int player2energy = GameConfig.PLAYER_ENERGY;
+    private int player2energy = GameConfig.OPPONENT_ENERGY;
     //DDojc va luu
     public PlayerInfo user1;
     public PlayerInfo user2;
@@ -145,15 +148,15 @@ public class Battle {
         if (GameConfig.DEBUG) this.debug();
         resetSystem.run(this);
         abilitySystem.run(this);
-        attackSystem.run(this);
-        bulletSystem.run(this);
-        pathMonsterSystem.run(this);
-        collisionSystem.run(this);
         effectSystem.run(this);
+        attackSystem.run(this);
         lifeSystem.run(this);
-        movementSystem.run(this);
-        monsterSystem.run(this);
+        collisionSystem.run(this);
+        pathMonsterSystem.run(this);
         spellSystem.run(this);
+        monsterSystem.run(this);
+        bulletSystem.run(this);
+        movementSystem.run(this);
     }
 
     public void updateMonsterWave() throws Exception {
@@ -162,11 +165,10 @@ public class Battle {
             this.currentWave += 1;
             this.nextWaveTime += GameConfig.BATTLE.WAVE_TIME;
         }
-        if (this.currentWave < 0) return;
+        if ((this.currentWave < 0) || (this.currentWave > this.waveAmount)) return;
         List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
         //System.out.println(this.nextBornMonsterTime - currentTime);
         if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
-            System.out.println("===>currentwave: " + this.currentWave);
             this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.PLAYER);
             this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.OPPONENT);
             this.monsterWave.get(currentWave).remove(currentWaveList.size() - 1);
@@ -281,7 +283,6 @@ public class Battle {
                 break;
             case GameConfig.ENTITY_ID.FROG_TOWER:
                 this.entityFactory.createFrogTower(new Point(tilePosX, tilePosY), mode);
-                System.out.println("FROG");
                 break;
             case GameConfig.ENTITY_ID.WIZARD_TOWER:
                 this.entityFactory.createWizardTower(new Point(tilePosX, tilePosY), mode);
@@ -361,14 +362,14 @@ public class Battle {
     }
 
     public void debug() {
-        List<EntityECS> monsterList = this.entityManager.getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID));
-        if (GameConfig.DEBUG) System.out.println("MonsterSize=" + monsterList.size());
-
-        List<EntityECS> towerList = this.entityManager.getEntitiesHasComponents(Arrays.asList(TowerInfoComponent.typeID));
-        if (GameConfig.DEBUG) System.out.println("TowerSize=" + towerList.size());
-
-        System.out.println("Player1 Hp= " + this.player1HP + " Player1 Energy=" + this.player1energy);
-        System.out.println("Player2 Hp= " + this.player2HP + " Player2 Energy=" + this.player2energy);
+//        List<EntityECS> monsterList = this.entityManager.getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID));
+//        if (GameConfig.DEBUG) System.out.println("MonsterSize=" + monsterList.size());
+//
+//        List<EntityECS> towerList = this.entityManager.getEntitiesHasComponents(Arrays.asList(TowerInfoComponent.typeID));
+//        if (GameConfig.DEBUG) System.out.println("TowerSize=" + towerList.size());
+//
+//        System.out.println("Player1 Hp= " + this.player1HP + " Player1 Energy=" + this.player1energy);
+//        System.out.println("Player2 Hp= " + this.player2HP + " Player2 Energy=" + this.player2energy);
     }
 
     public EntityManager getEntityManager() {
@@ -421,6 +422,14 @@ public class Battle {
 
     public void setNextWaveTime(long nextWaveTime) {
         this.nextWaveTime = nextWaveTime;
+    }
+
+    public int getPlayer1energy() {
+        return player1energy;
+    }
+
+    public int getPlayer2energy() {
+        return player2energy;
     }
 
     public void setBattleMapListByPlayerId(HashMap<Integer, BattleMap> battleMapListByPlayerId) {

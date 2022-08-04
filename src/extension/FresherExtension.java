@@ -8,6 +8,8 @@ import battle.Bida;
 import battle.common.EntityMode;
 import battle.common.Utils;
 import battle.component.info.MonsterInfoComponent;
+import battle.config.ReadTowerConfigUtil;
+import battle.config.TowerConfigItem;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -65,13 +67,11 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
+            ReadTowerConfigUtil.readTowerConfig();
             PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
             PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
             Room room = new Room(playerInfo1, playerInfo2);
             new Thread(room).start();
-            //            BattleVisualization battle2 = new BattleVisualization(2);
-
-                 //Bida bida= new Bida();
         } catch (Exception e) {
             e.printStackTrace();
         }
