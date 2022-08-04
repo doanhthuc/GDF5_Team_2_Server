@@ -169,6 +169,10 @@ public class Battle {
     }
 
     //Other Function
+    public BattleMap getBattleMapByEntityMode(EntityMode mode) {
+        if (mode == EntityMode.PLAYER) return this.player1BattleMap;
+        else return this.player2BattleMap;
+    }
 
     public void minusPlayerHP(int hp, EntityMode mode) {
         if (mode == EntityMode.PLAYER) this.player1HP -= hp;

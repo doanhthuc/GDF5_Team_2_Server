@@ -51,7 +51,6 @@ public class GameConfig {
         public static int TOWER_ABILITY = 24;
         public static int BUFF_ATTACK_RANGE = 25;
         public static int ACCELERATION = 26;
-        public static int FIRE_BALL_EFFECT = 27;
 
     }
 
@@ -146,6 +145,7 @@ public class GameConfig {
         public static int HIT_BOTH_TIME = 3;
 
     }
+
     public static class BATTLE_RESULT {
         public static int WIN = 0;
         public static int LOSE = 1;

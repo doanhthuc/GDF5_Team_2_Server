@@ -28,7 +28,7 @@ public class EffectSystem extends SystemECS {
     }
 
     @Override
-    public void run(Battle battle) {
+    public void run(Battle battle) throws Exception {
         this.tick = this.getElapseTime();
         this.handleBuffAttackRangeEffect(battle);
         this.handleBuffAttackSpeedEffect(tick, battle);
@@ -36,6 +36,7 @@ public class EffectSystem extends SystemECS {
         this.handleDamageEffect(tick, battle);
         this.handleSlowEffect(tick, battle);
         this.handleFrozenEffect(tick, battle);
+        this.handleTrapEffect(tick, battle);
     }
 
     private void handleBuffAttackSpeedEffect(double tick, Battle battle) {
