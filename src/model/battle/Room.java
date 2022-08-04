@@ -1,22 +1,11 @@
 package model.battle;
 
-import battle.Battle;
-import battle.BattleMap;
-import battle.BattleVisualization;
-import battle.TileNode;
-import battle.common.EntityMode;
-import battle.common.FindPathUtils;
-import battle.common.Point;
-import battle.common.Utils;
-import battle.component.common.PathComponent;
-import battle.component.common.PositionComponent;
-import battle.component.info.MonsterInfoComponent;
+import battle.*;
+import battle.common.*;
 import battle.config.GameConfig;
 import battle.config.ReadTowerConfigUtil;
-import battle.entity.EntityECS;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
-import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.ExtensionUtility;
@@ -54,6 +43,8 @@ public class Room implements Runnable {
         }
     });
 
+    private final TickManager tickManager = new TickManager();
+    private final Queue<Pair<User, DataCmd>> waitingInputQueue = new LinkedList<>();
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
@@ -70,30 +61,39 @@ public class Room implements Runnable {
 
     }
 
-//    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
-//        this.roomId = RoomManager.getInstance().getRoomCount();
-//        this.player1 = new PlayerInBattle(player1);
-//        this.player2 = new PlayerInBattle(player2);
-//        this.battle = new Battle(player1.getId(), player2.getId(), battleMap1, battleMap2);
-//    }
+    public void addInput(User user, DataCmd dataCmd) {
+        this.waitingInputQueue.add(new Pair<>(user, dataCmd));
+    }
 
     @Override
     public void run() {
         this.roomRun = BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
             try {
-                //System.out.println("Runnnnnnnnnnnn");
                 if (!this.endBattle) {
+                    int currentTick = this.tickManager.getCurrentTick();
+
+                    // enqueue the waiting inputs
+                    while (!this.waitingInputQueue.isEmpty()) {
+                        Pair<User, DataCmd> data = this.waitingInputQueue.poll();
+                        this.tickManager.addInput(data);
+                    }
+
+                    // handle the inputs in the current tick
+                    this.tickManager.handleInternalInputTick(currentTick);
+
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
                     if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
                     this.handlerClientCommand();
                     this.checkEndBattle();
                     this.checkAllUserDisconnect();
+
+                    this.tickManager.increaseTick();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 0, 10, TimeUnit.MILLISECONDS);
+        }, 0, GameConfig.BATTLE.TICK_RATE, TimeUnit.MILLISECONDS);
     }
 
     private void handlerClientCommand() throws Exception {
@@ -161,6 +161,7 @@ public class Room implements Runnable {
 
     // sendBattleResult
     public void handleBotAction() throws Exception {
+        int currentTick = this.tickManager.getCurrentTick();
         if (this.battle.getCurrentWave() == -1) return;
         BattleMap botBattleMap = this.battle.player2BattleMap;
         ArrayList<java.awt.Point> monsterPath = botBattleMap.getPath();
@@ -181,7 +182,8 @@ public class Room implements Runnable {
                             && this.battle.getPlayer2energy() >= towerEnergy) {
                         this.battle.buildTowerByTowerID(towerID, tilePosX, tilePosY, EntityMode.OPPONENT);
                         User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-                        ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY)), player);
+                        // IMPORTANT: Handle bot action via Ticks
+                        ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), currentTick), player);
                         return;
                     }
             }

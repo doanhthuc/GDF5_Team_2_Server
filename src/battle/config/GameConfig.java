@@ -158,6 +158,8 @@ public class GameConfig {
         public static long START_GAME_AFTER = 5 * 1000;
         public static long WAVE_TIME = 5 * 1000;
         public static int AMOUNT_MONSTER_EACH_WAVE = 2;
+        public static int TICK_RATE = 50;
+        public static int DELAY_BUILD_TOWER = 1 * 1000;
     }
 }
 
