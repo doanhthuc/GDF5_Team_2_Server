@@ -82,10 +82,7 @@ public class Room implements Runnable {
                     this.handlerClientCommand();
                     if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
                     this.checkEndBattle();
-                    if (this.endBattle == true) {
-                        RoomManager.getInstance().removeRoom(this.roomId);
-                        this.endRoom();
-                    }
+                    this.checkAllUserDisconnect();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -133,12 +130,23 @@ public class Room implements Runnable {
             this.endBattle = true;
         }
 
-        if (this.endBattle == true) {
+        if (this.endBattle) {
             if (winUserID != -1)
-                this.sendWinUser(winUserID, loseUserID, player1HP > player2HP ? player1HP : player2HP, player1HP > player2HP ? player2HP : player1HP);
+                this.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP));
             else this.sendDraw();
+            RoomManager.getInstance().removeRoom(this.roomId);
+            this.endRoom();
         }
 
+    }
+
+    public void checkAllUserDisconnect() {
+        boolean user1Connection = BitZeroServer.getInstance().getUserManager().containsId(player1.getId());
+        boolean user2Connection = BitZeroServer.getInstance().getUserManager().containsId(player2.getId());
+        if (!user1Connection && !user2Connection) {
+            this.endRoom();
+            System.out.println("allUserDisconnect");
+        }
     }
 
     public void endRoom() {
