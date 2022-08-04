@@ -1,5 +1,6 @@
 package battle;
 
+import battle.config.GameConfig;
 import battle.newMap.BattleMapObject;
 import battle.newMap.Tower;
 
@@ -23,6 +24,7 @@ public class BattleMap {
     public ArrayList<Point> path = new ArrayList<>();
     public ArrayList<Tower> towerList = new ArrayList<>();
     public BattleMapObject battleMapObject;
+
 
     public BattleMap() {
         this.reset();
@@ -280,6 +282,11 @@ public class BattleMap {
         return false;
     }
 
+    public boolean isMovableTile(int value) {
+        if (value == GameConfig.MAP.NONE || value == GameConfig.MAP.ATTACK_SPEED || value == GameConfig.MAP.ATTACK_RANGE || value == GameConfig.MAP.ATTACK_DAMAGE) return true;
+        return false;
+    }
+
     public boolean compareNode(Point a, Point b) {
         return (a.x == b.x && a.y == b.y);
     }
@@ -288,4 +295,11 @@ public class BattleMap {
         return p.x < mapH && p.y < mapW && map[p.x][p.y] != 0;
     }
 
+    public ArrayList<Point> getPath() {
+        return path;
+    }
+
+    public void setPath(ArrayList<Point> path) {
+        this.path = path;
+    }
 }

@@ -44,7 +44,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
     JComboBox entityChoosen;
     EntityMode entityMode;
     String userName, opponentUserName;
-    int userHP, opponentHP;
+    int userHP, opponentHP,userEnergy,opponentEnergy;
 //    public static void main(String[] args) throws Exception {
 //        new BattleVisualization(1);
 //    }
@@ -55,7 +55,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
         this.battle = battle;
         this.entityMode = entityMode;
         this.setTitle("BattleVisualization");
-        this.setSize((width * tileWidth + paddingX * 10) * scale, (height * tileHeight + paddingY * 5) * scale);
+        this.setSize((width * tileWidth + paddingX * 15) * scale, (height * tileHeight + paddingY * 5) * scale);
         this.setDefaultCloseOperation(3);
         this.addMouseListener(this);
 
@@ -82,14 +82,18 @@ public class BattleVisualization extends JFrame implements MouseListener {
         if (this.entityMode == EntityMode.PLAYER) {
             this.userName = this.battle.user1.getUserName();
             this.userHP = this.battle.getPlayer1HP();
+            this.userEnergy = this.battle.getPlayer1energy();
             this.opponentUserName = this.battle.user2.getUserName();
             this.opponentHP = this.battle.getPlayer2HP();
+            this.opponentEnergy = this.battle.getPlayer1energy();
         }
         if (this.entityMode == EntityMode.OPPONENT) {
             this.userName = this.battle.user2.getUserName();
             this.userHP = this.battle.getPlayer2HP();
+            this.userEnergy = this.battle.getPlayer2energy();
             this.opponentUserName = this.battle.user1.getUserName();
             this.opponentHP = this.battle.getPlayer1HP();
+            this.opponentEnergy = this.battle.getPlayer1energy();
         }
         G.setColor(Color.LIGHT_GRAY);
         G.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -99,8 +103,11 @@ public class BattleVisualization extends JFrame implements MouseListener {
         G.setFont(new Font("Arial Black", Font.BOLD, 20));
         G.drawString("User =" + userName, 600, 300);
         G.drawString("UserHP =" + userHP, 600, 350);
+        G.drawString("UserEnergy =" + userEnergy, 600, 400);
+
         G.drawString("Opponent =" + opponentUserName, 600, 100);
         G.drawString("OpponentHP =" + opponentHP, 600, 150);
+        G.drawString("OpponentEnergy =" + opponentEnergy, 600, 200);
 
         for (int i = 0; i <= height; i++)
             G.drawLine(paddingY * scale, (paddingY + i * tileHeight) * scale,
@@ -176,7 +183,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
             G.setColor(Color.GREEN);
             Point p = this.getMonsterPos(positionComponent, collisionComponent);
-            G.fillRect((int) p.x, (int) p.y, (int) collisionComponent.getWidth() * scale, (int) collisionComponent.getHeight() * scale);
+            G.fillRect((int) p.x, (int) p.y, (int) 5 * scale, (int) 5* scale);
         }
         G1.drawImage(B, 0, 0, this.getWidth(), this.getHeight(), null);
 
