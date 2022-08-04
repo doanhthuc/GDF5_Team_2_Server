@@ -48,7 +48,7 @@ public class MatchMaking implements Runnable {
 
             Iterator<MatchingInfo> it = waitingQueue.iterator();
             it.next();
-            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 10000) {
+            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 2000) {
                 processMatchingWithBot(matchingInfo1);
             } else {
                 while (it.hasNext()) {
@@ -153,6 +153,7 @@ public class MatchMaking implements Runnable {
     }
 
     private void processMatchingWithBot(MatchingInfo matchingInfo1) {
+        System.out.println("ProcessMatchingWithBot");
         try {
 
             PlayerInfo userInfo1 = (PlayerInfo) PlayerInfo.getModel(matchingInfo1.getPlayerId(), PlayerInfo.class);
@@ -160,6 +161,7 @@ public class MatchMaking implements Runnable {
             User user1 = BitZeroServer.getInstance().getUserManager().getUserById(matchingInfo1.getPlayerId());
 
             PlayerInfo dummyBot = createNewBot();
+            dummyBot.setUserType(UserType.BOT_TYPE_1);
             Room room = new Room(userInfo1, dummyBot);
             RoomManager.getInstance().addRoom(room);
             new Thread(room).start();
@@ -200,7 +202,7 @@ public class MatchMaking implements Runnable {
             newID.saveModel(0);
 
             botInfo = new PlayerInfo(newUserID, botName, 0, 0, 0);
-            botInfo.setIsBot(UserType.BOT_TYPE_1);
+            botInfo.setUserType(UserType.BOT_TYPE_1);
             botInfo.saveModel(botInfo.getId());
 
             PlayerID newPID = new PlayerID(newUserID, botName);
@@ -211,6 +213,7 @@ public class MatchMaking implements Runnable {
         } else {
             PlayerID pID = (PlayerID) PlayerID.getModel(botName, PlayerID.class);
             botInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
+            botInfo.setUserType(UserType.BOT_TYPE_1);
         }
         return botInfo;
     }

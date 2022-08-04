@@ -7,6 +7,7 @@ import battle.entity.EntityECS;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityManager extends ManagerECS {
     private Map<Long, EntityECS> entities;
@@ -14,7 +15,7 @@ public class EntityManager extends ManagerECS {
 
     public EntityManager() {
         super();
-        entities = new HashMap<>();
+        entities = new ConcurrentHashMap<>();
     }
 
     public void destroy(EntityECS entityECS) {
