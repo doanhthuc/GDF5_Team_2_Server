@@ -16,6 +16,7 @@ import battle.newMap.Tower;
 import battle.pool.ComponentPool;
 import battle.pool.EntityPool;
 import battle.system.*;
+import model.PlayerInfo;
 
 import javax.swing.plaf.BorderUIResource;
 import java.util.*;
@@ -54,13 +55,15 @@ public class Battle {
     private long nextWaveTime;
     private long nextBornMonsterTime;
     //PlayerHp and Energy
-    private int player1HP = GameConfig.PLAYER_HP;
-    private int player2HP = GameConfig.PLAYER_HP;
+    public int player1HP = GameConfig.PLAYER_HP;
+    public int player2HP = GameConfig.PLAYER_HP;
     private int player1energy = GameConfig.PLAYER_ENERGY;
     private int player2energy = GameConfig.PLAYER_ENERGY;
+    //DDojc va luu
+    public PlayerInfo user1;
+    public PlayerInfo user2;
 
-
-    public Battle(int userId1, int userId2) {
+    public Battle(PlayerInfo userId1, PlayerInfo userId2) {
         this.initPoolAndManager();
         this.initSystem();
         this.initMap(userId1, userId2);
@@ -100,18 +103,21 @@ public class Battle {
         this.spellSystem = new SpellSystem();
     }
 
-    public void initMap(int userId1, int userId2) {
+    public void initMap(PlayerInfo user1, PlayerInfo user2) {
         this.player1BattleMap = new BattleMap();
         this.player1ShortestPath = FindPathUtils.findShortestPathForEachTile(player1BattleMap.map);
 
         this.player2BattleMap = new BattleMap();
         this.player2ShortestPath = FindPathUtils.findShortestPathForEachTile(player2BattleMap.map);
 
-        this.battleMapListByPlayerId.put(userId1, this.player1BattleMap);
-        this.battleMapListByPlayerId.put(userId2, this.player2BattleMap);
+        this.battleMapListByPlayerId.put(user1.getId(), this.player1BattleMap);
+        this.battleMapListByPlayerId.put(user2.getId(), this.player2BattleMap);
 
-        this.entityModeByPlayerID.put(userId1, EntityMode.PLAYER);
-        this.entityModeByPlayerID.put(userId2, EntityMode.OPPONENT);
+        this.entityModeByPlayerID.put(user1.getId(), EntityMode.PLAYER);
+        this.entityModeByPlayerID.put(user2.getId(), EntityMode.OPPONENT);
+
+        this.user1 = user1;
+        this.user2 = user2;
         // DEBUG
 //        for (int j = BattleMap.mapH-1; j >= 0; j--)
 //        {
@@ -131,7 +137,6 @@ public class Battle {
     public void initMonsterWave() {
         this.monsterWave = this.createNewMonsterWave();
         this.currentWave = -1;
-        this.nextWaveTime = System.currentTimeMillis() + 5000;
     }
 
 //Update
@@ -155,12 +160,13 @@ public class Battle {
         long currentTime = System.currentTimeMillis();
         if (currentTime >= this.nextWaveTime) {
             this.currentWave += 1;
-            this.nextWaveTime += 20000;
+            this.nextWaveTime += GameConfig.BATTLE.WAVE_TIME;
         }
         if (this.currentWave < 0) return;
         List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
         //System.out.println(this.nextBornMonsterTime - currentTime);
         if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
+            System.out.println("===>currentwave: " + this.currentWave);
             this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.PLAYER);
             this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.OPPONENT);
             this.monsterWave.get(currentWave).remove(currentWaveList.size() - 1);
@@ -195,11 +201,17 @@ public class Battle {
         for (int waveIdx = 1; waveIdx <= this.waveAmount; waveIdx++) {
             List<Integer> wave = new ArrayList<>();
             int swordManAmount, batAmount, ninjaAmount, assassinAmount;
-            int monsterAmountInWave = Math.min(5 + waveIdx, 15);
+//            int monsterAmountInWave = Math.min(5 + waveIdx, 15);
+//            swordManAmount = (int) Math.floor(Math.random() * monsterAmountInWave);
+//            batAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount));
+//            ninjaAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount));
+//            assassinAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount - ninjaAmount));
+            int monsterAmountInWave = GameConfig.BATTLE.AMOUNT_MONSTER_EACH_WAVE;
             swordManAmount = (int) Math.floor(Math.random() * monsterAmountInWave);
             batAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount));
             ninjaAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount));
-            assassinAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount - ninjaAmount));
+            assassinAmount = (monsterAmountInWave - swordManAmount - batAmount - ninjaAmount);
+
             for (int i = 1; i <= batAmount; i++)
                 wave.add(GameConfig.ENTITY_ID.BAT);
 

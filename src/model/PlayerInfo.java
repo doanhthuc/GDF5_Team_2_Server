@@ -78,7 +78,7 @@ public class PlayerInfo extends DataModel {
         this.botType = botType;
     }
 
-    public int getBotType() {
+    public int getUserType() {
         return this.botType;
     }
 }

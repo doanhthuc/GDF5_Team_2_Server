@@ -22,11 +22,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.MatchingHandler;
 
+import java.sql.Time;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class MatchMaking implements Runnable {
     private static final BlockingQueue<MatchingInfo> waitingQueue = new LinkedBlockingQueue<>();
@@ -104,7 +106,11 @@ public class MatchMaking implements Runnable {
             OpponentInfo opponentInfoOfUser2 = new OpponentInfo(userInfo1.getId(), userInfo1.getUserName(), userInfo1.getTrophy());
             Room room = new Room(userInfo1, userInfo2);
             RoomManager.getInstance().addRoom(room);
-            new Thread(room).start();
+//            new Thread(room).start();
+
+            long t = room.getStartTime() - System.currentTimeMillis();
+            BitZeroServer.getInstance().getTaskScheduler().schedule(room, (int) t, TimeUnit.MILLISECONDS);
+
             // add opponent's username, trophy and 8 card
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(), room.getRoomId(),
                     room.getBattle().getBattleMapByPlayerId(user1.getId()),
@@ -204,7 +210,7 @@ public class MatchMaking implements Runnable {
             newID.saveModel(0);
 
             botInfo = new PlayerInfo(newUserID, botName, 0, 0, 0);
-            botInfo.setIsBot(BotConfig.BOT_TYPE_1);
+            botInfo.setIsBot(UserType.BOT_TYPE_1);
             botInfo.saveModel(botInfo.getId());
 
             PlayerID newPID = new PlayerID(newUserID, botName);
