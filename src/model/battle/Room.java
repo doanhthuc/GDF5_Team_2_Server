@@ -43,11 +43,11 @@ public class Room implements Runnable {
     private PlayerInBattle player1;
     private PlayerInBattle player2;
     private Battle battle;
-    private long startTime;
+    private final long startTime;
     private boolean endBattle;
     private ScheduledFuture roomRun;
     private final Logger logger = LoggerFactory.getLogger("Room");
-    private PriorityQueue<ClientCommand> clientCommands = new PriorityQueue(new Comparator<ClientCommand>() {
+    private final PriorityQueue<ClientCommand> clientCommands = new PriorityQueue(new Comparator<ClientCommand>() {
         @Override
         public int compare(ClientCommand a, ClientCommand b) {
             return (int) (a.executeTime - b.executeTime);
@@ -63,8 +63,11 @@ public class Room implements Runnable {
         this.endBattle = false;
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
-        if (GameConfig.DEBUG)
+        if (GameConfig.DEBUG) {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
+            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
+        }
+
     }
 
 //    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
@@ -79,7 +82,7 @@ public class Room implements Runnable {
         this.roomRun = BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
             try {
                 //System.out.println("Runnnnnnnnnnnn");
-                if (this.endBattle == false) {
+                if (!this.endBattle) {
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
                     if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
@@ -166,7 +169,7 @@ public class Room implements Runnable {
             List<Integer> dY = Arrays.asList(0, 1, 0, -1);
             java.awt.Point currentPoint = monsterPath.get(i);
             List<Integer> towerListID = GameConfig.GROUP_ID.TOWER_ENTITY;
-            int towerID = towerListID.get((int) (Math.random() * (towerListID.size()-3)));
+            int towerID = towerListID.get((int) (Math.random() * (towerListID.size() - 3)));
             int towerEnergy = ReadTowerConfigUtil.towerInfo.get(towerID).getEnergy();
 
             for (int j = 0; j < dX.size(); j++) {
@@ -184,9 +187,6 @@ public class Room implements Runnable {
             }
         }
 
-//        if (this.battle.player2BattleMap.map[(int) putTowerPos.getX()][(int) putTowerPos.getY()] == GameConfig.MAP.NONE) {
-//
-//        }
     }
 
     public void sendDraw() throws Exception {
@@ -222,35 +222,6 @@ public class Room implements Runnable {
         if (loseUser.getUserType() == UserType.PLAYER)
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
 
-    }
-
-    public void handlerPutTower(EntityMode mode) {
-        if (mode == EntityMode.PLAYER)
-            this.battle.player1ShortestPath = FindPathUtils.findShortestPathForEachTile(battle.player1BattleMap.map);
-        else
-            this.battle.player2ShortestPath = FindPathUtils.findShortestPathForEachTile(battle.player2BattleMap.map);
-
-        List<EntityECS> monsterList = this.battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PathComponent.typeID));
-        for (EntityECS monster : monsterList) {
-            if (monster.getMode() == mode) {
-                PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
-                PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
-                if (positionComponent != null) {
-                    List<Point> path;
-                    Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), mode);
-                    if (monster.getMode() == EntityMode.PLAYER) {
-                        path = this.battle.player1ShortestPath[(int) tilePos.getX()][(int) tilePos.getY()];
-                    } else {
-                        path = this.battle.player2ShortestPath[(int) tilePos.getX()][(int) tilePos.getY()];
-                    }
-                    if (path != null) {
-                        List<Point> newPath = Utils.tileArray2PixelCellArray(path, mode);
-                        pathComponent.setPath(newPath);
-                        pathComponent.setCurrentPathIDx(0);
-                    }
-                }
-            }
-        }
     }
 
 
