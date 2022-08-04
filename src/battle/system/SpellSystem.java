@@ -83,7 +83,7 @@ public class SpellSystem extends SystemECS {
                                     FireBallEffect fireBallEffect = battle.getComponentFactory().createFireBallEffect(
                                             A, T, spellPos, monsterPos.getPos(), v0);
                                     monster.addComponent(fireBallEffect);
-                                    PathComponent pathComponent = (PathComponent) spellEntity.getComponent(PathComponent.typeID);
+                                    PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
                                     monster.removeComponent(pathComponent, battle.getComponentManager());
                                 }
                             }

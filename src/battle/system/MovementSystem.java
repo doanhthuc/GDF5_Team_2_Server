@@ -88,10 +88,32 @@ public class MovementSystem extends SystemECS {
             if (velocityComponent.getActive()) {
                 double moveDistanceX = velocityComponent.getSpeedX() * (tick / 1000);
                 double moveDistanceY = velocityComponent.getSpeedY() * (tick / 1000);
-                positionComponent.setX(positionComponent.getX() + moveDistanceX);
-                positionComponent.setY(positionComponent.getY() + moveDistanceY);
-                double moveDistance = Math.sqrt(Math.pow(moveDistanceX, 2) + Math.pow(moveDistanceY, 2));
-                positionComponent.setMoveDistance(positionComponent.getMoveDistance() + moveDistance);
+
+                Point tmpPos = new Point(
+                        positionComponent.getPos().x + moveDistanceX,
+                        positionComponent.getPos().y + moveDistanceY);
+                if (ValidatorECS.isEntityInGroupId(entity, GameConfig.GROUP_ID.MONSTER_ENTITY)
+                        && entity.getComponent(FireBallEffect.typeID) != null) {
+                    Point currentTilePos = Utils.pixel2Tile(positionComponent.getPos().x, positionComponent.getPos().y, entity.getMode());
+                    Point futureTilePos = Utils.pixel2Tile(tmpPos.x, tmpPos.y, entity.getMode());
+                    if (Utils.validateTilePos(currentTilePos)
+                        && (
+                                !Utils.validateTilePos(futureTilePos)
+                                || (battle.getBattleMapByEntityMode(entity.getMode()).map[(int) futureTilePos.x][(int) futureTilePos.y] == GameConfig.MAP.TOWER)
+                                || (battle.getBattleMapByEntityMode(entity.getMode()).map[(int) futureTilePos.x][(int) futureTilePos.y] == GameConfig.MAP.TREE)
+                            )
+                    ) {
+                        // Invalid Position
+                    } else {
+                        positionComponent.setX(tmpPos.x);
+                        positionComponent.setY(tmpPos.y);
+                    }
+                } else {
+                    positionComponent.setX(tmpPos.x);
+                    positionComponent.setY(tmpPos.y);
+                    double moveDistance = Math.sqrt(Math.pow(moveDistanceX, 2) + Math.pow(moveDistanceY, 2));
+                    positionComponent.setMoveDistance(positionComponent.getMoveDistance() + moveDistance);
+                }
             }
         }
     }

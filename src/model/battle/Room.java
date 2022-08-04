@@ -63,10 +63,10 @@ public class Room implements Runnable {
         this.endBattle = false;
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
-        if (GameConfig.DEBUG) {
-            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
+//        if (GameConfig.DEBUG) {
+//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
-        }
+//        }
 
     }
 
@@ -88,7 +88,7 @@ public class Room implements Runnable {
                     if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
                     this.handlerClientCommand();
                     this.checkEndBattle();
-                    this.checkAllUserDisconnect();
+//                    this.checkAllUserDisconnect();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -147,16 +147,16 @@ public class Battle {
     public void updateSystem() throws Exception {
         if (GameConfig.DEBUG) this.debug();
         resetSystem.run(this);
-        abilitySystem.run(this);
-        effectSystem.run(this);
-        attackSystem.run(this);
+        movementSystem.run(this);
         lifeSystem.run(this);
+        attackSystem.run(this);
         collisionSystem.run(this);
+        effectSystem.run(this);
         pathMonsterSystem.run(this);
         spellSystem.run(this);
         monsterSystem.run(this);
         bulletSystem.run(this);
-        movementSystem.run(this);
+        abilitySystem.run(this);
     }
 
     public void updateMonsterWave() throws Exception {

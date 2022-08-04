@@ -161,7 +161,7 @@ public class CollisionSystem extends SystemECS {
 
     public void handleCollisionTrap(EntityECS trapEntity, double tick, Battle battle) throws Exception {
         TrapInfoComponent trapInfoComponent = (TrapInfoComponent) trapEntity.getComponent(TrapInfoComponent.typeID);
-        if (trapInfoComponent.isTriggered() == false) {
+        if (trapInfoComponent.isTriggered()) {
             double delayTrigger = trapInfoComponent.getDelayTrigger();
             if (delayTrigger > 0) {
                 trapInfoComponent.setDelayTrigger(delayTrigger - tick / 1000);
@@ -191,6 +191,38 @@ public class CollisionSystem extends SystemECS {
                         if (monsterInfo.getCategory()== GameConfig.MONSTER.CATEGORY.BOSS) continue;
                         entity2.addComponent(battle.getComponentFactory().createTrapEffect());
                     }
+                }
+                battle.getEntityManager().destroy(trapEntity);
+            }
+        } else {
+            PositionComponent pos = (PositionComponent) trapEntity.getComponent(PositionComponent.typeID);
+            CollisionComponent collisionComponent = (CollisionComponent) trapEntity.getComponent(CollisionComponent.typeID);
+            double w = collisionComponent.getWidth();
+            double h = collisionComponent.getHeight();
+
+            List<QuadTreeData> returnObjects = null;
+            if (trapEntity.getMode() == EntityMode.PLAYER) {
+                returnObjects = quadTreePlayer.retrieve(new Rect(pos.getX() - w / 2, pos.getY() - h / 2, w, h));
+            } else {
+                returnObjects = quadTreeOpponent.retrieve(new Rect(pos.getX() - w / 2, pos.getY() - h / 2, w, h));
+            }
+
+            for (int j = 0; j < returnObjects.size(); j++) {
+                EntityECS entity1 = trapEntity;
+                EntityECS entity2 = returnObjects.get(j).getEntity();
+
+                if ((entity1 != entity2)
+                        && (entity1.getMode() == entity2.getMode())
+                        && ValidatorECS.isEntityInGroupId(entity2, GameConfig.GROUP_ID.MONSTER_ENTITY)
+                        && this.isCollide(entity1, entity2)) {
+                    MonsterInfoComponent monsterInfo = (MonsterInfoComponent) entity2.getComponent(MonsterInfoComponent.typeID);
+                    if (monsterInfo.getClasss() == GameConfig.MONSTER.CLASS.AIR) continue;
+                    if (monsterInfo.getCategory()== GameConfig.MONSTER.CATEGORY.BOSS) continue;
+
+                    trapInfoComponent.setTriggered(true);
+
+                    // only the first monster triggers this trap
+                    break;
                 }
             }
         }

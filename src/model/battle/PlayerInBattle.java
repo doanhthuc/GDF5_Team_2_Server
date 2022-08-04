@@ -19,7 +19,7 @@ public class PlayerInBattle extends PlayerInfo {
     public PlayerInBattle(PlayerInfo player) {
         super(player.getId(), player.getUserName(), player.getGold(), player.getGem(), player.getTrophy());
         this.setUserType(player.getUserType());
-        setBattleDeck();
+//        setBattleDeck();
     }
 
     public void setBattleDeck() {
