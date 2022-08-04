@@ -109,7 +109,7 @@ public class GameConfig {
     }
 
     public static class GROUP_ID {
-        public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.BEAR_TOWER, ENTITY_ID.BEAR_TOWER, ENTITY_ID.CANNON_TOWER);
+        public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.SNAKE_TOWER, ENTITY_ID.GOAT_TOWER);
         public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.DEMON_TREE, ENTITY_ID.DEMON_TREE_MINION, ENTITY_ID.ASSASSIN,
                 ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
         public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET);
@@ -140,6 +140,7 @@ public class GameConfig {
         public static int HIT_BOTH_TIME = 3;
 
     }
+
     public static class BATTLE_RESULT {
         public static int WIN = 0;
         public static int LOSE = 1;
@@ -149,8 +150,10 @@ public class GameConfig {
     public static int WAVE_AMOUNT = 20;
     public static int PLAYER_HP = 20;
     public static int PLAYER_ENERGY = 30;
+    public static int OPPONENT_ENERGY = 30;
 
     public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
+
     public static class BATTLE {
         public static long START_GAME_AFTER = 5 * 1000;
         public static long WAVE_TIME = 5 * 1000;

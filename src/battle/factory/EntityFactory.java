@@ -207,7 +207,6 @@ public class EntityFactory {
         entity.addComponent(collisionComponent);
         entity.addComponent(lifeComponent);
         entity.addComponent(pathComponent);
-        System.out.println("CreateSwordManMonster");
 
         return entity;
     }
@@ -236,7 +235,6 @@ public class EntityFactory {
         entity.addComponent(collisionComponent);
         entity.addComponent(lifeComponent);
         entity.addComponent(pathComponent);
-        System.out.println("CreateSwordManMonster");
 
         return entity;
     }
@@ -266,7 +264,6 @@ public class EntityFactory {
         entity.addComponent(collisionComponent);
         entity.addComponent(lifeComponent);
         entity.addComponent(pathComponent);
-        System.out.println("CreateSwordManMonster");
 
         return entity;
     }
@@ -297,7 +294,6 @@ public class EntityFactory {
         entity.addComponent(lifeComponent);
         entity.addComponent(pathComponent);
         entity.addComponent(underGroundComponent);
-        System.out.println("CreateSwordManMonster");
 
         return entity;
     }

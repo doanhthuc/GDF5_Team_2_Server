@@ -28,6 +28,9 @@ public class Battle {
     private ComponentPool componentPool;
     private EntityPool entityPool;
     private EntityManager entityManager;
+
+
+
     private ComponentManager componentManager;
     private ComponentFactory componentFactory;
     private EntityFactory entityFactory;
@@ -58,7 +61,7 @@ public class Battle {
     public int player1HP = GameConfig.PLAYER_HP;
     public int player2HP = GameConfig.PLAYER_HP;
     private int player1energy = GameConfig.PLAYER_ENERGY;
-    private int player2energy = GameConfig.PLAYER_ENERGY;
+    private int player2energy = GameConfig.OPPONENT_ENERGY;
     //DDojc va luu
     public PlayerInfo user1;
     public PlayerInfo user2;
@@ -166,7 +169,6 @@ public class Battle {
         List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
         //System.out.println(this.nextBornMonsterTime - currentTime);
         if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
-            System.out.println("===>currentwave: " + this.currentWave);
             this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.PLAYER);
             this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.OPPONENT);
             this.monsterWave.get(currentWave).remove(currentWaveList.size() - 1);
@@ -416,6 +418,14 @@ public class Battle {
 
     public void setNextWaveTime(long nextWaveTime) {
         this.nextWaveTime = nextWaveTime;
+    }
+
+    public int getPlayer1energy() {
+        return player1energy;
+    }
+
+    public int getPlayer2energy() {
+        return player2energy;
     }
 
     public void setBattleMapListByPlayerId(HashMap<Integer, BattleMap> battleMapListByPlayerId) {
