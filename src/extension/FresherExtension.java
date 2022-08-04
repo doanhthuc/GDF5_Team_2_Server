@@ -32,6 +32,7 @@ import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
+import model.battle.Room;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.*;
@@ -64,8 +65,11 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
-           // BattleVisualization battle1 = new BattleVisualization(1);
-//            BattleVisualization battle2 = new BattleVisualization(2);
+            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
+            PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
+            Room room = new Room(playerInfo1, playerInfo2);
+            new Thread(room).start();
+            //            BattleVisualization battle2 = new BattleVisualization(2);
 
                  //Bida bida= new Bida();
         } catch (Exception e) {

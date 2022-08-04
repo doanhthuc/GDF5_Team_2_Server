@@ -12,6 +12,7 @@ public class MonsterInfoComponent extends InfoComponent {
 
     private String category;
     private String classs;
+    private double weight;
     private int energy;
     private int gainEnergy;
     private List<Component> ability;
@@ -36,6 +37,7 @@ public class MonsterInfoComponent extends InfoComponent {
         this.name = name;
         this.category = category;
         this.classs = classs;
+        this.weight = weight;
         this.energy = energy;
         this.gainEnergy = gainEnergy;
         this.ability = ability;
@@ -64,5 +66,9 @@ public class MonsterInfoComponent extends InfoComponent {
 
     public void setClasss(String classs) {
         this.classs = classs;
+    }
+
+    public double getWeight() {
+        return weight;
     }
 }

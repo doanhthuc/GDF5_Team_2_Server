@@ -49,7 +49,7 @@ public class MovementSystem extends SystemECS {
             // start handle fireball effect
             if (fireballEffect != null) {
                 if (fireballEffect.getAccTime() < fireballEffect.getMaxDuration()) {
-                    fireballEffect.setAccTime(fireballEffect.getAccTime() + this.tick);
+                    fireballEffect.setAccTime(fireballEffect.getAccTime() + (this.tick / 1000));
                     double newSpeed = -1 * fireballEffect.getA() * fireballEffect.getAccTime() + fireballEffect.getV0();
                     Point newVelocity = Utils.calculateVelocityVector(fireballEffect.getStartPos(),
                             fireballEffect.getEndPos(), newSpeed);

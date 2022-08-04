@@ -135,7 +135,7 @@ public class EffectSystem extends SystemECS {
 
             if (trapEffect.isExecuted()) {
                 if (trapEffect.getCountdown() > 0) {
-                    trapEffect.setCountdown(trapEffect.getCountdown() - tick);
+                    trapEffect.setCountdown(trapEffect.getCountdown() - tick / 1000);
                 } else {
                     Point bornPos = Utils.tile2Pixel(GameConfig.MONSTER_BORN_POSITION.x, GameConfig.MONSTER_BORN_POSITION.y, entity.getMode());
                     PositionComponent newPos = battle.getComponentFactory().createPositionComponent(bornPos.x, bornPos.y);
