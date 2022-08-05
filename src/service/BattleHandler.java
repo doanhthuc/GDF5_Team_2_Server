@@ -70,17 +70,19 @@ public class BattleHandler extends BaseClientRequestHandler {
 //                    System.out.println("[BattleHandler.java line 54] GET_BATTLE_MAP cmdId: " + dataCmd.getId());
 //                    processGetBattleMap(user);
                     break;
-                case CmdDefine.PUT_TOWER:
+                case CmdDefine.PUT_TOWER: {
                     System.out.println("[BattleHandler.java line 55] cmd Put tower: " + CmdDefine.PUT_TOWER);
                     RequestPutTower requestPutTower = new RequestPutTower(dataCmd);
                     Room room = RoomManager.getInstance().getRoom(requestPutTower.getRoomId());
                     room.addInput(user, dataCmd);
                     break;
-                case CmdDefine.UPGRADE_TOWER:
-                    System.out.println("[BattleHandler.java line 56] cmd Upgrade tower: " + CmdDefine.UPGRADE_TOWER);
+                }
+                case CmdDefine.UPGRADE_TOWER: {
                     RequestUpgradeTower requestUpgradeTower = new RequestUpgradeTower(dataCmd);
-                    processUpgradeTower(user, requestUpgradeTower);
+                    Room room = RoomManager.getInstance().getRoom(requestUpgradeTower.getRoomId());
+                    room.addInput(user, dataCmd);
                     break;
+                }
                 case CmdDefine.DROP_SPELL:
                     System.out.println("[BattleHandler.java line 57] cmd Drop spell: " + CmdDefine.DROP_SPELL);
                     RequestDropSpell requestDropSpell = new RequestDropSpell(dataCmd);
@@ -129,42 +131,6 @@ public class BattleHandler extends BaseClientRequestHandler {
         }
     }
 
-
-    private void processUpgradeTower(User user, RequestUpgradeTower req) {
-        System.out.println("BattleMap processUpgradeTower");
-        try {
-            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            int towerId = req.getTowerId();
-            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
-            BattleMapObject battleMapObject = battleMap.battleMapObject;
-            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
-            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
-            Card towerCard = inventory.getCardById(req.getTowerId());
-//            if (towerCard.getCardRankNumber() < tower.getLevel()) {
-//                tower = tower.upgradeTower();
-//            } else {
-//                return;
-//            }
-            if (tower == null) {
-                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
-                return;
-            }
-            if (tower.getId() != towerId) {
-                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
-                return;
-            }
-            tower = tower.upgradeTower();
-            System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
-            send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getTowerId(), tower.getLevel(), tower.getTilePos()), user);
-            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
-            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            send(new ResponseOpponentUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getTowerId(), tower.getLevel(), tower.getTilePos()), opponent);
-        } catch (Exception e) {
-            logger.info("processGetName exception");
-        }
-    }
 
     private void processDropSpell(User user, RequestDropSpell req) {
         System.out.println("BattleMap processDropSpell");

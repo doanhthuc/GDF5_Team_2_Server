@@ -35,17 +35,31 @@ public class TickManager {
                 System.out.println("xx Latest Tick = " + currentTick);
                 System.out.println("xx Current Tick = " + currentTick2);
                 System.out.println("xx Future Tick put tower = " + futureTick);
+
                 Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(futureTick, new LinkedList<>());
                 queue.add(input);
                 this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
             }
-            case CmdDefine.DROP_SPELL: {
-                int futureTick = currentTick + 1;
-                Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(futureTick, new LinkedList<>());
+            case CmdDefine.UPGRADE_TOWER: {
+                int nextTick = currentTick + 1;
+
+                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
+                System.out.println("xx Latest Tick = " + currentTick);
+                System.out.println("xx Current Tick = " + currentTick2);
+                System.out.println("xx Future Tick upgrade tower = " + nextTick);
+
+                Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(nextTick, new LinkedList<>());
                 queue.add(input);
-                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+                this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
                 break;
+            }
+            case CmdDefine.DROP_SPELL: {
+//                int futureTick = currentTick + 1;
+//                Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(futureTick, new LinkedList<>());
+//                queue.add(input);
+//                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+//                break;
             }
         }
     }

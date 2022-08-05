@@ -160,6 +160,7 @@ public class GameConfig {
         public static int AMOUNT_MONSTER_EACH_WAVE = 2;
         public static int TICK_RATE = 50;
         public static int DELAY_BUILD_TOWER = 1 * 1000;
+        public static int TIME_MATCHING_BOT = 5 * 1000;
     }
 }
 
