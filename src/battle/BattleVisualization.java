@@ -117,7 +117,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
                     (paddingX + i * tileWidth) * scale, (paddingX + height * tileWidth) * scale);
 
         List<EntityECS> monsterList = this.battle.getEntityManager().getEntitiesHasComponents
-                (Collections.singletonList(MonsterInfoComponent.typeID));
+                (Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
 
         for (int i = 0; i < BattleMap.mapW; i++)
             for (int j = 0; j < BattleMap.mapH; j++) {

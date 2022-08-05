@@ -35,8 +35,7 @@ public class CollisionSystem extends SystemECS {
     @Override
     public void run(Battle battle) throws Exception {
         this.tick = this.getElapseTime();
-        List<Integer> typeIDs = new ArrayList<>();
-        typeIDs.add(GameConfig.COMPONENT_ID.COLLISION);
+        List<Integer> typeIDs = Arrays.asList(CollisionComponent.typeID, PositionComponent.typeID);
         List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(typeIDs);
 
         // construct quadtree
