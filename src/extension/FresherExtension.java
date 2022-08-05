@@ -1,6 +1,7 @@
 package extension;
 
 
+import battle.config.GameStat.MonsterConfigItem;
 import battle.config.ReadConfigUtil;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
@@ -37,6 +38,8 @@ import util.server.ServerLoop;
 
 import java.util.List;
 
+import static battle.config.ReadConfigUtil.monsterInfo;
+
 
 public class FresherExtension extends BZExtension {
     private static String SERVERS_INFO =
@@ -57,6 +60,7 @@ public class FresherExtension extends BZExtension {
          */
         try {
             ReadConfigUtil.readTowerConfig();
+            ReadConfigUtil.readMonsterConfig();
         } catch (Exception e) {
             e.printStackTrace();
         }

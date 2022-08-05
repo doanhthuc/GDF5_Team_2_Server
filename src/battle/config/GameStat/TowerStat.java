@@ -1,4 +1,4 @@
-package battle.config;
+package battle.config.GameStat;
 
 import java.util.HashMap;
 
