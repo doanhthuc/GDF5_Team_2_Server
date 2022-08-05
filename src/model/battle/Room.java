@@ -3,7 +3,7 @@ package model.battle;
 import battle.*;
 import battle.common.*;
 import battle.config.GameConfig;
-import battle.config.ReadTowerConfigUtil;
+import battle.config.ReadConfigUtil;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.data.BaseCmd;
@@ -24,6 +24,7 @@ import service.BattleHandler;
 import service.RoomHandler;
 
 import java.awt.*;
+import java.awt.Point;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
@@ -88,7 +89,7 @@ public class Room implements Runnable {
 
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
-                    this.handleBotAction();
+                    this.handleBotAction(this.tickManager.getCurrentTick());
                     this.handlerClientCommand();
                     this.checkEndBattle();
                     this.checkAllUserDisconnect();
@@ -164,7 +165,7 @@ public class Room implements Runnable {
         this.roomRun.cancel(true);
     }
 
-    public void handleBotAction() throws Exception {
+    public void handleBotAction(int tickNumber) throws Exception {
 
         int towerBuildingTime = 1000;
         long countDownBotCommandTime = 1500;
@@ -194,7 +195,7 @@ public class Room implements Runnable {
                             this.botCommandTime = System.currentTimeMillis() + countDownBotCommandTime;
                             //Send To User
                             User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-                            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY)), player);
+                            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber), player);
                             return;
                         }
                 }
