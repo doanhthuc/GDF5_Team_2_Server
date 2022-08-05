@@ -3,19 +3,17 @@ package battle.factory;
 import battle.Battle;
 import battle.common.EntityMode;
 import battle.common.Point;
-import battle.common.UUIDGeneratorECS;
 import battle.common.Utils;
 import battle.component.common.*;
 import battle.component.effect.*;
 import battle.component.info.*;
 import battle.config.GameConfig;
-import battle.config.ReadTowerConfigUtil;
+import battle.config.ReadConfigUtil;
 import battle.config.TowerConfigItem;
 import battle.config.TowerStat;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.pool.EntityPool;
-import bitzero.core.P;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -418,7 +416,7 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.CANNON);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.CANNON);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -453,7 +451,7 @@ public class EntityFactory {
 
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.BEAR);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.BEAR);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -491,7 +489,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.FROG);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.FROG);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -525,7 +523,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.BUNNY);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.BUNNY);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -562,7 +560,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.WIZARD);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.WIZARD);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -594,7 +592,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.SNAKE);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.SNAKE);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -628,7 +626,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.GOAT);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.GOAT);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();

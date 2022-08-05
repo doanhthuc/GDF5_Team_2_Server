@@ -158,6 +158,9 @@ public class GameConfig {
         public static long START_GAME_AFTER = 5 * 1000;
         public static long WAVE_TIME = 5 * 1000;
         public static int AMOUNT_MONSTER_EACH_WAVE = 5;
+
+        public static int WINNER_TROPHY = 10;
+        public static int LOSER_TROPHY = 10;
     }
 }
 

@@ -1,15 +1,7 @@
 package extension;
 
 
-import battle.Battle;
-import battle.BattleMap;
-import battle.BattleVisualization;
-import battle.Bida;
-import battle.common.EntityMode;
-import battle.common.Utils;
-import battle.component.info.MonsterInfoComponent;
-import battle.config.ReadTowerConfigUtil;
-import battle.config.TowerConfigItem;
+import battle.config.ReadConfigUtil;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -43,8 +35,6 @@ import util.metric.MetricLog;
 import util.server.ServerConstant;
 import util.server.ServerLoop;
 
-import javax.management.BadAttributeValueExpException;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -66,7 +56,7 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
-            ReadTowerConfigUtil.readTowerConfig();
+            ReadConfigUtil.readTowerConfig();
         } catch (Exception e) {
             e.printStackTrace();
         }

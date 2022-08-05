@@ -3,22 +3,12 @@ package model.battle;
 import battle.Battle;
 import battle.BattleMap;
 import battle.BattleVisualization;
-import battle.TileNode;
 import battle.common.EntityMode;
-import battle.common.FindPathUtils;
-import battle.common.Point;
-import battle.common.Utils;
-import battle.component.common.PathComponent;
-import battle.component.common.PositionComponent;
-import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
-import battle.config.ReadTowerConfigUtil;
-import battle.entity.EntityECS;
+import battle.config.ReadConfigUtil;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.data.BaseCmd;
-import bitzero.server.extensions.data.BaseCmd;
-import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
 import cmd.receive.battle.tower.RequestPutTower;
@@ -34,7 +24,9 @@ import org.slf4j.LoggerFactory;
 import service.BattleHandler;
 import service.RoomHandler;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -46,6 +38,9 @@ public class Room implements Runnable {
     private final long startTime;
     private boolean endBattle;
     private ScheduledFuture roomRun;
+    private int towerBuildingTime = 1000;
+    private long botCommandTime = 0;
+    private long countDownBotCommandTime = 1500;
     private final Logger logger = LoggerFactory.getLogger("Room");
     private final PriorityQueue<ClientCommand> clientCommands = new PriorityQueue(new Comparator<ClientCommand>() {
         @Override
@@ -62,6 +57,7 @@ public class Room implements Runnable {
         this.battle = new Battle(player1, player2);
         this.endBattle = false;
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
+        this.botCommandTime = this.startTime + GameConfig.BATTLE.START_GAME_AFTER + 1000;
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
         if (GameConfig.DEBUG) {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
@@ -125,7 +121,7 @@ public class Room implements Runnable {
             winUserID = this.player2.getId();
             loseUserID = this.player1.getId();
             this.endBattle = true;
-        } else if (this.battle.getCurrentWave() > this.battle.getWaveAmount()) {
+        } else if (this.battle.getCurrentWave() >= this.battle.getWaveAmount()) {
             if (player1HP > player2HP) {
                 winUserID = this.player1.getId();
                 loseUserID = this.player2.getId();
@@ -161,32 +157,36 @@ public class Room implements Runnable {
 
     // sendBattleResult
     public void handleBotAction() throws Exception {
-        if (this.battle.getCurrentWave() == -1) return;
-        BattleMap botBattleMap = this.battle.player2BattleMap;
-        ArrayList<java.awt.Point> monsterPath = botBattleMap.getPath();
-        for (int i = monsterPath.size() - 1; i >= 0; i--) {
-            List<Integer> dX = Arrays.asList(1, 0, -1, 0);
-            List<Integer> dY = Arrays.asList(0, 1, 0, -1);
-            java.awt.Point currentPoint = monsterPath.get(i);
-            List<Integer> towerListID = GameConfig.GROUP_ID.TOWER_ENTITY;
-            int towerID = towerListID.get((int) (Math.random() * (towerListID.size() - 3)));
-            int towerEnergy = ReadTowerConfigUtil.towerInfo.get(towerID).getEnergy();
+        if (System.currentTimeMillis() > this.botCommandTime) {
+            if (this.battle.getCurrentWave() == -1) return;
+            BattleMap botBattleMap = this.battle.player2BattleMap;
+            ArrayList<java.awt.Point> monsterPath = botBattleMap.getPath();
+            for (int i = monsterPath.size() - 1; i >= 0; i--) {
+                List<Integer> dX = Arrays.asList(1, 0, -1, 0, -1, 1, 1, -1);
+                List<Integer> dY = Arrays.asList(0, 1, 0, -1, 1, -1, 1, -1);
+                java.awt.Point currentPoint = monsterPath.get(i);
+                List<Integer> towerListID = GameConfig.GROUP_ID.TOWER_ENTITY;
+                int towerID = towerListID.get((int) (Math.random() * (towerListID.size() - 3)));
+                int towerEnergy = ReadConfigUtil.towerInfo.get(towerID).getEnergy();
 
-            for (int j = 0; j < dX.size(); j++) {
-                int tilePosX = currentPoint.x + dX.get(j);
-                int tilePosY = currentPoint.y + dY.get(j);
-                if (botBattleMap.isInBound(tilePosX, tilePosY))
-                    if (botBattleMap.isMovableTile(botBattleMap.map[tilePosX][tilePosY])
-                            && (!monsterPath.contains(new java.awt.Point(tilePosX, tilePosY)))
-                            && this.battle.getPlayer2energy() >= towerEnergy) {
-                        this.battle.buildTowerByTowerID(towerID, tilePosX, tilePosY, EntityMode.OPPONENT);
-                        User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-                        ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY)), player);
-                        return;
-                    }
+                for (int j = 0; j < dX.size(); j++) {
+                    int tilePosX = currentPoint.x + dX.get(j);
+                    int tilePosY = currentPoint.y + dY.get(j);
+                    if (botBattleMap.isInBound(tilePosX, tilePosY))
+                        if (botBattleMap.isMovableTile(botBattleMap.map[tilePosX][tilePosY])
+                                && (!monsterPath.contains(new java.awt.Point(tilePosX, tilePosY)))
+                                && this.battle.getPlayer2energy() >= towerEnergy) {
+                            RequestPutTower botReq = new RequestPutTower(this.roomId, towerID, new Point(tilePosX, tilePosY));
+                            this.clientCommands.add(new ClientCommand(System.currentTimeMillis() + towerBuildingTime, botReq, CmdDefine.PUT_TOWER, EntityMode.OPPONENT));
+                            this.botCommandTime = System.currentTimeMillis() + countDownBotCommandTime;
+                            //Send To User
+                            User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
+                            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY)), player);
+                            return;
+                        }
+                }
             }
         }
-
     }
 
     public void sendDraw() throws Exception {
@@ -215,10 +215,11 @@ public class Room implements Runnable {
             } else
                 ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 0), user1);
         }
-        winUser.setTrophy(winUser.getTrophy() + 10);
+        winUser.setTrophy(winUser.getTrophy() + GameConfig.BATTLE.WINNER_TROPHY);
         winUser.saveModel(winUser.getId());
-        loseUser.setTrophy(loseUser.getTrophy() - 10);
+        loseUser.setTrophy(loseUser.getTrophy() - GameConfig.BATTLE.LOSER_TROPHY);
         loseUser.saveModel(loseUser.getId());
+
         if (loseUser.getUserType() == UserType.PLAYER)
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
 

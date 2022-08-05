@@ -50,6 +50,8 @@ public class MatchMaking implements Runnable {
             it.next();
             if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 2000) {
                 processMatchingWithBot(matchingInfo1);
+                waitingQueue.remove(matchingInfo1);
+                waitingMap.remove(matchingInfo1.getPlayerId());
             } else {
                 while (it.hasNext()) {
                     matchingInfo2 = it.next();
@@ -62,6 +64,10 @@ public class MatchMaking implements Runnable {
                     if ((matchingInfo1.getTrophy() >= matchingInfo2.getStartRank() && matchingInfo1.getTrophy() <= matchingInfo2.getEndRank())
                             || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
                         processMatching(matchingInfo1, matchingInfo2);
+                        waitingMap.remove(matchingInfo1.getPlayerId());
+                        waitingMap.remove(matchingInfo2.getPlayerId());
+                        waitingQueue.remove(matchingInfo1);
+                        waitingQueue.remove(matchingInfo2);
                         break;
                     }
                 }
@@ -123,10 +129,6 @@ public class MatchMaking implements Runnable {
                     opponentInfoOfUser2), user2);
 
 
-            waitingQueue.remove(matchingInfo1);
-            waitingQueue.remove(matchingInfo2);
-            waitingMap.remove(matchingInfo1.getPlayerId());
-            waitingMap.remove(matchingInfo2.getPlayerId());
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject,
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user1);
@@ -174,8 +176,6 @@ public class MatchMaking implements Runnable {
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
 
-            waitingQueue.remove(matchingInfo1);
-            waitingMap.remove(matchingInfo1.getPlayerId());
 
             ExtensionUtility.getExtension().send(
                     new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),

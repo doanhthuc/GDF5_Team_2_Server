@@ -11,7 +11,7 @@ import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReadTowerConfigUtil {
+public class ReadConfigUtil {
     public final static HashMap<Integer, TowerConfigItem> towerInfo = new HashMap<>();
     public static class TOWER_IN_CONFIG {
         public static int CANNON = 0;
