@@ -57,7 +57,7 @@ public class Room implements Runnable {
         this.battle = new Battle(player1, player2);
         this.endBattle = false;
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
-        this.botCommandTime = this.startTime + GameConfig.BATTLE.START_GAME_AFTER + 1000;
+        this.botCommandTime = this.startTime + GameConfig.BATTLE.START_GAME_AFTER;
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
         if (GameConfig.DEBUG) {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
@@ -66,22 +66,15 @@ public class Room implements Runnable {
 
     }
 
-//    public Room(PlayerInfo player1, PlayerInfo player2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
-//        this.roomId = RoomManager.getInstance().getRoomCount();
-//        this.player1 = new PlayerInBattle(player1);
-//        this.player2 = new PlayerInBattle(player2);
-//        this.battle = new Battle(player1.getId(), player2.getId(), battleMap1, battleMap2);
-//    }
 
     @Override
     public void run() {
         this.roomRun = BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
             try {
-                //System.out.println("Runnnnnnnnnnnn");
                 if (!this.endBattle) {
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
-                    if (this.player2.getUserType() != UserType.PLAYER) this.handleBotAction();
+                    this.handleBotAction();
                     this.handlerClientCommand();
                     this.checkEndBattle();
                     this.checkAllUserDisconnect();
@@ -155,8 +148,8 @@ public class Room implements Runnable {
         this.roomRun.cancel(true);
     }
 
-    // sendBattleResult
     public void handleBotAction() throws Exception {
+        if (this.player2.getUserType() == UserType.PLAYER) return;
         if (System.currentTimeMillis() > this.botCommandTime) {
             if (this.battle.getCurrentWave() == -1) return;
             BattleMap botBattleMap = this.battle.player2BattleMap;

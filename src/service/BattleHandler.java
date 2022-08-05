@@ -198,6 +198,10 @@ public class BattleHandler extends BaseClientRequestHandler {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
             Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
             Card spellCard = inventory.getCardById(req.getSpellId());
+
+            EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
+
+            room.getBattle().castSpellBySpellID(req.getSpellId(), req.getPixelPos().x,req.getPixelPos().y,entityMode);
             send(new ResponseRequestDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
                     req.getSpellId(), spellCard.getLevel(), req.getPixelPos()), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();

@@ -60,6 +60,7 @@ public class BattleMapObject {
         return tileObject.buildTower(towerId, 1);
     }
 
+
     public int getWidth() {
         return width;
     }

@@ -474,7 +474,7 @@ public class EntityFactory {
         CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(30, 30);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(400);
 
-        HealingAbilityComponent healingAbilityComponent = this.componentFactory.createHealingAbilityComponent(2 * GameConfig.TILE_WIDTH, 100);
+        HealingAbilityComponent healingAbilityComponent = this.componentFactory.createHealingAbilityComponent(2 * GameConfig.TILE_WIDTH, 0.03);
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
