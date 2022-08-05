@@ -39,14 +39,6 @@ public class Room implements Runnable {
     private boolean endBattle;
     private ScheduledFuture roomRun;
     private long botCommandTime = 0;
-    private final Logger logger = LoggerFactory.getLogger("Room");
-    private final PriorityQueue<ClientCommand> clientCommands = new PriorityQueue(new Comparator<ClientCommand>() {
-        @Override
-        public int compare(ClientCommand a, ClientCommand b) {
-            return (int) (a.executeTime - b.executeTime);
-        }
-    });
-
     private final TickManager tickManager;
     private final Queue<Pair<User, DataCmd>> waitingInputQueue = new LinkedList<>();
 
@@ -154,7 +146,6 @@ public class Room implements Runnable {
 
     public void handleBotAction(int tickNumber) throws Exception {
 
-        int towerBuildingTime = 1000;
         long countDownBotCommandTime = 1500;
 
         if (this.player2.getUserType() == UserType.PLAYER) return;
@@ -180,6 +171,7 @@ public class Room implements Runnable {
                             RequestPutTower botReq = new RequestPutTower(this.roomId, towerID, new Point(tilePosX, tilePosY));
                             this.botCommandTime = System.currentTimeMillis() + countDownBotCommandTime;
                             //Send To User
+//                            this.tickManager.addInput();
                             User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
                             ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber + 20), player);
                             return;
@@ -265,30 +257,4 @@ public class Room implements Runnable {
         return startTime;
     }
 
-}
-
-class ClientCommand {
-    long executeTime;
-    BaseCmd baseCmd;
-    int cmdID;
-    EntityMode mode;
-
-    public ClientCommand(long executeTime, BaseCmd baseCmd, int cmdID, EntityMode mode) {
-        this.executeTime = executeTime;
-        this.baseCmd = baseCmd;
-        this.cmdID = cmdID;
-        this.mode = mode;
-    }
-
-    public long getExecuteTime() {
-        return this.executeTime;
-    }
-
-    public BaseCmd getBaseCmd() {
-        return this.baseCmd;
-    }
-
-    public EntityMode getMode() {
-        return this.mode;
-    }
 }

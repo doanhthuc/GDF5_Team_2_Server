@@ -41,10 +41,10 @@ public class TickManager {
             case CmdDefine.UPGRADE_TOWER: {
                 int nextTick = currentTick + 1;
 
-                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
-                System.out.println("xx Latest Tick = " + currentTick);
-                System.out.println("xx Current Tick = " + currentTick2);
-                System.out.println("xx Future Tick upgrade tower = " + nextTick);
+//                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
+//                System.out.println("xx Latest Tick = " + currentTick);
+//                System.out.println("xx Current Tick = " + currentTick2);
+//                System.out.println("xx Future Tick upgrade tower = " + nextTick);
 
                 Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
                 queue.add(input);
@@ -55,9 +55,9 @@ public class TickManager {
                 int futureTick = currentTick + 1;
 
                 int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
-                System.out.println("xx Latest Tick = " + currentTick);
-                System.out.println("xx Current Tick = " + currentTick2);
-                System.out.println("xx Future Tick put tower = " + futureTick);
+//                System.out.println("xx Latest Tick = " + currentTick);
+//                System.out.println("xx Current Tick = " + currentTick2);
+//                System.out.println("xx Future Tick put tower = " + futureTick);
 
                 Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
@@ -66,7 +66,20 @@ public class TickManager {
                 break;
             }
             case CmdDefine.CHANGE_TOWER_STRATEGY:
-            case CmdDefine.PUT_TRAP:
+            case CmdDefine.PUT_TRAP:{
+                int futureTick = currentTick + 1;
+
+//                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
+//                System.out.println("xx Latest Tick = " + currentTick);
+//                System.out.println("xx Current Tick = " + currentTick2);
+//                System.out.println("xx Future Tick put tower = " + futureTick);
+
+                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
+                queue.add(input);
+                this.inputTick.put(futureTick, queue);
+                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+                break;
+        }
             case CmdDefine.DESTROY_TOWER: {
                 int nextTick = currentTick + 1;
 
