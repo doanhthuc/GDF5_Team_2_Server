@@ -32,12 +32,6 @@ public class TickManager {
         switch (dataCmd.getId()) {
             case CmdDefine.PUT_TOWER: {
                 int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
-
-                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
-                System.out.println("xx Latest Tick = " + currentTick);
-                System.out.println("xx Current Tick = " + currentTick2);
-                System.out.println("xx Future Tick put tower = " + futureTick);
-
                 Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
                 this.inputTick.put(futureTick, queue);
@@ -75,6 +69,7 @@ public class TickManager {
             case CmdDefine.PUT_TRAP:
             case CmdDefine.DESTROY_TOWER: {
                 int nextTick = currentTick + 1;
+
                 Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
                 queue.add(input);
                 this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
