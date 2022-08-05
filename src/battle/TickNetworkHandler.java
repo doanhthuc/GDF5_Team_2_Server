@@ -18,8 +18,10 @@ import cmd.receive.battle.tower.RequestUpgradeTower;
 import cmd.receive.battle.trap.RequestPutTrap;
 import cmd.send.battle.opponent.*;
 import cmd.send.battle.player.*;
+import match.UserType;
 import model.Inventory.Card;
 import model.Inventory.Inventory;
+import model.PlayerInfo;
 import model.battle.Room;
 import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -84,11 +86,13 @@ public class TickNetworkHandler {
             EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
             ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
             // IMPORTANT: move this action to TickInternalHandler
-            room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
+            //room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
 
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), opponent);
+            PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
+            if (opponentInfo.getUserType() == UserType.PLAYER)
+                ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), opponent);
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
@@ -140,13 +144,13 @@ public class TickNetworkHandler {
 
             Card spellCard = inventory.getCardById(req.getSpellId());
             Point p = req.getPixelPos();
-            System.out.println("PointXX: " + p.x + ", y = " + p.y);
             ExtensionUtility.getExtension().send(new ResponseRequestDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
                     req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), user);
 
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
+            PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
+            if (opponentInfo.getUserType() == UserType.PLAYER) ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
                     req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));

@@ -64,7 +64,7 @@ public class Room implements Runnable {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
         }
 
-        this.tickManager= new TickManager(this.startTime);
+        this.tickManager = new TickManager(this.startTime);
     }
 
     public void addInput(User user, DataCmd dataCmd) {
@@ -77,7 +77,7 @@ public class Room implements Runnable {
             try {
                 if (!this.endBattle) {
                     int currentTick = this.tickManager.getCurrentTick();
-
+                    System.out.println(currentTick);
                     // enqueue the waiting inputs
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<User, DataCmd> data = this.waitingInputQueue.poll();
@@ -90,7 +90,7 @@ public class Room implements Runnable {
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
                     this.handleBotAction(this.tickManager.getCurrentTick());
-                    this.handlerClientCommand();
+                    //this.handlerClientCommand();
                     this.checkEndBattle();
                     this.checkAllUserDisconnect();
 
@@ -102,19 +102,6 @@ public class Room implements Runnable {
         }, 0, GameConfig.BATTLE.TICK_RATE, TimeUnit.MILLISECONDS);
     }
 
-    private void handlerClientCommand() throws Exception {
-        if (this.clientCommands.size() == 0) return;
-        ClientCommand cmd = this.clientCommands.peek();
-        if (cmd.executeTime <= System.currentTimeMillis()) {
-            switch (cmd.cmdID) {
-                case CmdDefine.PUT_TOWER:
-                    RequestPutTower req = (RequestPutTower) cmd.getBaseCmd();
-                    this.battle.buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, cmd.getMode());
-                    break;
-            }
-            this.clientCommands.remove();
-        }
-    }
 
     public void checkEndBattle() throws Exception {
         int player1HP = this.battle.getPlayer1HP();
@@ -145,7 +132,7 @@ public class Room implements Runnable {
         if (this.endBattle) {
             if (winUserID != -1)
                 SendResult.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP));
-            else SendResult.sendDrawBattle(player1.getId(),player2.getId(),this.battle.getPlayer1HP());
+            else SendResult.sendDrawBattle(player1.getId(), player2.getId(), this.battle.getPlayer1HP());
             RoomManager.getInstance().removeRoom(this.roomId);
             this.endRoom();
         }
@@ -191,11 +178,10 @@ public class Room implements Runnable {
                                 && (!monsterPath.contains(new java.awt.Point(tilePosX, tilePosY)))
                                 && this.battle.getPlayer2energy() >= towerEnergy) {
                             RequestPutTower botReq = new RequestPutTower(this.roomId, towerID, new Point(tilePosX, tilePosY));
-                            this.clientCommands.add(new ClientCommand(System.currentTimeMillis() + towerBuildingTime, botReq, CmdDefine.PUT_TOWER, EntityMode.OPPONENT));
                             this.botCommandTime = System.currentTimeMillis() + countDownBotCommandTime;
                             //Send To User
                             User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-                            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber), player);
+                            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber + 20), player);
                             return;
                         }
                 }
@@ -279,9 +265,6 @@ public class Room implements Runnable {
         return startTime;
     }
 
-    public void addClientCommand(long executeTime, BaseCmd baseCmd, int cmdID, EntityMode mode) {
-        this.clientCommands.add(new ClientCommand(executeTime, baseCmd, cmdID, mode));
-    }
 }
 
 class ClientCommand {
