@@ -1,5 +1,7 @@
 package battle.config;
 
+import battle.config.GameStat.TowerStat;
+
 import java.util.HashMap;
 
 public class TowerConfigItem {
