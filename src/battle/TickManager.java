@@ -58,6 +58,7 @@ public class TickManager {
             }
             case CmdDefine.DROP_SPELL:
             case CmdDefine.CHANGE_TOWER_STRATEGY:
+            case CmdDefine.PUT_TRAP:
             case CmdDefine.DESTROY_TOWER: {
                 int nextTick = currentTick + 1;
                 Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);

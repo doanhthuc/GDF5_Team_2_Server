@@ -15,6 +15,7 @@ import cmd.receive.battle.tower.RequestChangeTowerStrategy;
 import cmd.receive.battle.tower.RequestDestroyTower;
 import cmd.receive.battle.tower.RequestPutTower;
 import cmd.receive.battle.tower.RequestUpgradeTower;
+import cmd.receive.battle.trap.RequestPutTrap;
 import cmd.send.battle.opponent.*;
 import cmd.send.battle.player.*;
 import model.Inventory.Card;
@@ -62,6 +63,12 @@ public class TickNetworkHandler {
                 case CmdDefine.DESTROY_TOWER: {
                     RequestDestroyTower requestDestroyTower = new RequestDestroyTower(dataCmd);
                     processDestroyTower(tickNumber, user, requestDestroyTower);
+                    break;
+                }
+                case CmdDefine.PUT_TRAP: {
+                    RequestPutTrap requestPutTrap = new RequestPutTrap(dataCmd);
+                    processPutTrap(tickNumber, user, requestPutTrap);
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -188,6 +195,28 @@ public class TickNetworkHandler {
             ExtensionUtility.getExtension().send(new ResponseOpponentDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), opponent);
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
+        }
+    }
+
+    private void processPutTrap(int tickNumber, User user, RequestPutTrap req) {
+        try {
+            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+
+            // IMPORTANT: move this action to TickInternalHandler
+//            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+//            BattleMapObject battleMapObject = battleMap.battleMapObject;
+//            Trap trap = battleMapObject.putTrapIntoMap(req.getTilePos(), req.getTrapId());
+//            if (trap == null) {
+//                System.out.println("[BattleHandler.java line 103 processPutTrap]  trap null");
+//                return;
+//            }
+
+            ExtensionUtility.getExtension().send(new ResponseRequestPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), user);
+            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+            ExtensionUtility.getExtension().send(new ResponseOpponentPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), opponent);
+        } catch (Exception e) {
+            logger.info("processGetName exception");
         }
     }
 }

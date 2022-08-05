@@ -94,11 +94,12 @@ public class BattleHandler extends BaseClientRequestHandler {
                     room.addInput(user, dataCmd);
                     break;
                 }
-                case CmdDefine.PUT_TRAP:
-                    System.out.println("[BattleHandler.java line 59] cmd Put trap: " + CmdDefine.PUT_TRAP);
+                case CmdDefine.PUT_TRAP: {
                     RequestPutTrap requestPutTrap = new RequestPutTrap(dataCmd);
-                    processPutTrap(user, requestPutTrap);
+                    Room room = RoomManager.getInstance().getRoom(requestPutTrap.getRoomId());
+                    room.addInput(user, dataCmd);
                     break;
+                }
                 case CmdDefine.DESTROY_TOWER: {
                     RequestDestroyTower requestDestroyTower = new RequestDestroyTower(dataCmd);
                     Room room = RoomManager.getInstance().getRoom(requestDestroyTower.getRoomId());
@@ -128,26 +129,6 @@ public class BattleHandler extends BaseClientRequestHandler {
             BattleMap btm = new BattleMap();
             btm.show();
             send(new ResponseRequestGetBattleMap(BattleHandler.BattleError.SUCCESS.getValue(), btm), user);
-        } catch (Exception e) {
-            logger.info("processGetName exception");
-        }
-    }
-
-    private void processPutTrap(User user, RequestPutTrap req) {
-        System.out.println("BattleMap processPutTrap");
-        try {
-            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-//            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
-//            BattleMapObject battleMapObject = battleMap.battleMapObject;
-//            Trap trap = battleMapObject.putTrapIntoMap(req.getTilePos(), req.getTrapId());
-//            if (trap == null) {
-//                System.out.println("[BattleHandler.java line 103 processPutTrap]  trap null");
-//                return;
-//            }
-            send(new ResponseRequestPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos()), user);
-            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
-            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            send(new ResponseOpponentPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos()), opponent);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }
