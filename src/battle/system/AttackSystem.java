@@ -51,8 +51,8 @@ public class AttackSystem extends SystemECS {
                 List<EntityECS> monsterInRange = new ArrayList<>();
 
                 for (EntityECS monster : monsterList) {
-                    UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(GameConfig.COMPONENT_ID.UNDER_GROUND);
-                    if (underGroundComponent == null || (underGroundComponent.isInGround() == false)) {
+                    UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(UnderGroundComponent.typeID);
+                    if (underGroundComponent == null || (!underGroundComponent.isInGround())) {
                         if (monster.getActive() && monster.getMode() == tower.getMode()) {
                             double distance = this._distanceFrom(tower, monster);
                             if (distance <= attackComponent.getRange()) monsterInRange.add(monster);
@@ -62,8 +62,8 @@ public class AttackSystem extends SystemECS {
                 if (monsterInRange.size() > 0) {
                     EntityECS targetMonster = this.findTargetMonsterByStrategy(attackComponent.getTargetStrategy(), monsterInRange);
                     if (targetMonster != null) {
-                        PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(GameConfig.COMPONENT_ID.POSITION);
-                        PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
+                        PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(PositionComponent.typeID);
+                        PositionComponent towerPos = (PositionComponent) tower.getComponent(PositionComponent.typeID);
 
                         try {
                             if (tower.getTypeID() == GameConfig.ENTITY_ID.FROG_TOWER) {
@@ -87,8 +87,8 @@ public class AttackSystem extends SystemECS {
     }
 
     public double _distanceFrom(EntityECS tower, EntityECS monster) {
-        PositionComponent towerPos = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
-        PositionComponent monsterPos = (PositionComponent) monster.getComponent(GameConfig.COMPONENT_ID.POSITION);
+        PositionComponent towerPos = (PositionComponent) tower.getComponent(PositionComponent.typeID);
+        PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
         // System.out.println("AttackSystem Position "+towerPos.getX()+" "+towerPos.getY()+" "+monsterPos.getX()+" "+monsterPos.getY());
         return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
     }

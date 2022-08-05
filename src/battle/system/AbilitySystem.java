@@ -8,11 +8,13 @@ import battle.component.effect.BuffAttackDamageEffect;
 import battle.component.effect.BuffAttackSpeedEffect;
 import battle.component.effect.TowerAbilityComponent;
 import battle.component.info.LifeComponent;
+import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,11 +42,11 @@ public class AbilitySystem extends SystemECS {
     private void handleUnderGroundComponent(double tick, Battle battle) {
         List<EntityECS> underGroundList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
-                        .singletonList(GameConfig.COMPONENT_ID.UNDER_GROUND));
+                        .singletonList(UnderGroundComponent.typeID));
         for (EntityECS underGround : underGroundList) {
-            LifeComponent lifeComponent = (LifeComponent) underGround.getComponent(GameConfig.COMPONENT_ID.LIFE);
-            UnderGroundComponent underGroundComponent = (UnderGroundComponent) underGround.getComponent(GameConfig.COMPONENT_ID.UNDER_GROUND);
-            PositionComponent positionComponent = (PositionComponent) underGround.getComponent(GameConfig.COMPONENT_ID.POSITION);
+            LifeComponent lifeComponent = (LifeComponent) underGround.getComponent(LifeComponent.typeID);
+            UnderGroundComponent underGroundComponent = (UnderGroundComponent) underGround.getComponent(UnderGroundComponent.typeID);
+            PositionComponent positionComponent = (PositionComponent) underGround.getComponent(PositionComponent.typeID);
             if (!underGroundComponent.isInGround()) {
                 if (((lifeComponent.getHp() / lifeComponent.getMaxHP()) <= 0.7 - 0.3 * underGroundComponent.getTrigger())) {
                     underGroundComponent.setTrigger(underGroundComponent.getTrigger() + 1);
@@ -63,14 +65,14 @@ public class AbilitySystem extends SystemECS {
     private void handleSpawnMinionComponent(double tick, Battle battle) throws Exception {
         List<EntityECS> entityList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
-                        .singletonList(GameConfig.COMPONENT_ID.SPAWN_MINION));
+                        .singletonList(SpawnMinionComponent.typeID));
         for (EntityECS entity : entityList) {
-            SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(GameConfig.COMPONENT_ID.SPAWN_MINION);
+            SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(SpawnMinionComponent.typeID);
             if (spawnMinionComponent.getPeriod() >= 0) {
                 spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick / 1000);
             } else {
                 spawnMinionComponent.setPeriod(2);
-                PositionComponent positionComponent = (PositionComponent) entity.getComponent(GameConfig.COMPONENT_ID.POSITION);
+                PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
                 int spawnAmount = spawnMinionComponent.getSpawnAmount();
                 if (spawnAmount < 5) {
                     battle.getEntityFactory().createDemonTreeMinion(
@@ -84,16 +86,15 @@ public class AbilitySystem extends SystemECS {
     private void handleHealingAbility(double tick, Battle battle) {
         List<EntityECS> entityList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
-                        .singletonList(GameConfig.COMPONENT_ID.HEALING_ABILITY));
+                        .singletonList(HealingAbilityComponent.typeID));
         List<EntityECS> monsterList = null;
         if (entityList.size() > 0) {
             monsterList = battle.getEntityManager()
-                    .getEntitiesHasComponents(Collections
-                            .singletonList(GameConfig.COMPONENT_ID.MONSTER_INFO));
+                    .getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
         }
         for (EntityECS satyr : entityList) {
             HealingAbilityComponent healingAbilityComponent = (HealingAbilityComponent) satyr
-                    .getComponent(GameConfig.COMPONENT_ID.HEALING_ABILITY);
+                    .getComponent(HealingAbilityComponent.typeID);
             double countdown = healingAbilityComponent.getCountdown();
             if (countdown > 0) {
                 healingAbilityComponent.setCountdown(countdown - tick / 1000);
@@ -103,7 +104,7 @@ public class AbilitySystem extends SystemECS {
                     if (monster.getActive() && monster.getMode() == satyr.getMode()) {
                         double distance = distanceFrom(satyr, monster);
                         if (distance <= healingAbilityComponent.getRange()) {
-                            LifeComponent lifeComponent = (LifeComponent) monster.getComponent(GameConfig.COMPONENT_ID.LIFE);
+                            LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
                             double entityHpAfterHeal = Math.min(
                                     lifeComponent.getHp() + lifeComponent.getMaxHP() * healingAbilityComponent.getHealingRate(),
                                     lifeComponent.getMaxHP());
@@ -118,7 +119,7 @@ public class AbilitySystem extends SystemECS {
     private void handleBuffAbility(double tick, Battle battle) {
         List<EntityECS> buffTowerList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
-                        .singletonList(GameConfig.COMPONENT_ID.TOWER_ABILITY));
+                        .singletonList(TowerAbilityComponent.typeId));
         List<EntityECS> damageTowerList = null;
         if (buffTowerList.size() > 0) {
             damageTowerList = battle.getEntityManager().getEntitiesHasComponents(Collections.singletonList(AttackComponent.typeID));
@@ -146,8 +147,8 @@ public class AbilitySystem extends SystemECS {
     }
 
     private double distanceFrom(EntityECS tower, EntityECS monster) {
-        PositionComponent towerPositionComponent = (PositionComponent) tower.getComponent(GameConfig.COMPONENT_ID.POSITION);
-        PositionComponent monsterPositionComponent = (PositionComponent) monster.getComponent(GameConfig.COMPONENT_ID.POSITION);
+        PositionComponent towerPositionComponent = (PositionComponent) tower.getComponent(PositionComponent.typeID);
+        PositionComponent monsterPositionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
         Point towerPoint = new Point(towerPositionComponent.getX(), towerPositionComponent.getY());
         Point monsterPoint = new Point(monsterPositionComponent.getX(), monsterPositionComponent.getY());
         return Utils.euclidDistance(towerPoint, monsterPoint);
