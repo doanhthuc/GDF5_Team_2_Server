@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;
@@ -155,7 +155,7 @@ public class GameConfig {
     public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
 
     public static class BATTLE {
-        public static long START_GAME_AFTER = 5 * 1000;
+        public static long START_GAME_AFTER = 10 * 1000;
         public static long WAVE_TIME = 5 * 1000;
         public static int AMOUNT_MONSTER_EACH_WAVE = 2;
         public static int TICK_RATE = 50;

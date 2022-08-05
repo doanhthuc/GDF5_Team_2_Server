@@ -17,9 +17,10 @@ public class TickManager {
     private Map<Integer, Queue<Pair<User, DataCmd>>> inputTick = new HashMap<>();
     private TickNetworkHandler tickNetworkHandler = new TickNetworkHandler();
     private TickInternalHandler tickInternalHandler = new TickInternalHandler();
+    private final long startTime;
 
-    public TickManager () {
-
+    public TickManager (long startTime) {
+        this.startTime = startTime;
     }
 
     public void addInput (Pair<User, DataCmd> input) {
@@ -30,7 +31,9 @@ public class TickManager {
             case CmdDefine.PUT_TOWER: {
                 int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
 
-                System.out.println("xx Current Tick = " + currentTick);
+                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
+                System.out.println("xx Latest Tick = " + currentTick);
+                System.out.println("xx Current Tick = " + currentTick2);
                 System.out.println("xx Future Tick put tower = " + futureTick);
                 Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(futureTick, new LinkedList<>());
                 queue.add(input);

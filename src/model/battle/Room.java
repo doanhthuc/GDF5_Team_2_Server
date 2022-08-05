@@ -43,7 +43,7 @@ public class Room implements Runnable {
         }
     });
 
-    private final TickManager tickManager = new TickManager();
+    private final TickManager tickManager;
     private final Queue<Pair<User, DataCmd>> waitingInputQueue = new LinkedList<>();
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
@@ -59,6 +59,7 @@ public class Room implements Runnable {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
         }
 
+        this.tickManager= new TickManager(this.startTime);
     }
 
     public void addInput(User user, DataCmd dataCmd) {
