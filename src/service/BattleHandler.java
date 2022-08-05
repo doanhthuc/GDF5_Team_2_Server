@@ -88,11 +88,13 @@ public class BattleHandler extends BaseClientRequestHandler {
                     room.addInput(user, dataCmd);
                     break;
                 }
-                case CmdDefine.CHANGE_TOWER_STRATEGY:
+                case CmdDefine.CHANGE_TOWER_STRATEGY: {
                     System.out.println("[BattleHandler.java line 58] cmd Change tower strategy: " + CmdDefine.CHANGE_TOWER_STRATEGY);
                     RequestChangeTowerStrategy requestChangeTowerStrategy = new RequestChangeTowerStrategy(dataCmd);
-                    processChangeTowerStrategy(user, requestChangeTowerStrategy);
+                    Room room = RoomManager.getInstance().getRoom(requestChangeTowerStrategy.getRoomId());
+                    room.addInput(user, dataCmd);
                     break;
+                }
                 case CmdDefine.PUT_TRAP:
                     System.out.println("[BattleHandler.java line 59] cmd Put trap: " + CmdDefine.PUT_TRAP);
                     RequestPutTrap requestPutTrap = new RequestPutTrap(dataCmd);
@@ -128,27 +130,6 @@ public class BattleHandler extends BaseClientRequestHandler {
             send(new ResponseRequestGetBattleMap(BattleHandler.BattleError.SUCCESS.getValue(), btm), user);
         } catch (Exception e) {
             logger.info("processGetName exception");
-        }
-    }
-
-
-    private void processChangeTowerStrategy(User user, RequestChangeTowerStrategy req) {
-        System.out.println("BattleMap processChangeTowerStrategy");
-        try {
-            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
-            BattleMapObject battleMapObject = battleMap.battleMapObject;
-            // TODO: implement tower entity in server
-//            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
-//            tower.setStrategy(req.getStrategy());
-            send(new ResponseChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getStrategyId(), req.getTilePos()), user);
-            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
-            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            send(new ResponseOpponentChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getStrategyId(), req.getTilePos()), opponent);
-        } catch (Exception e) {
-            logger.info("BattleMap processChangeTowerStrategy exception");
         }
     }
 

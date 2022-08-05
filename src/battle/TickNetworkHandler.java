@@ -10,11 +10,14 @@ import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
 import cmd.receive.battle.spell.RequestDropSpell;
+import cmd.receive.battle.tower.RequestChangeTowerStrategy;
 import cmd.receive.battle.tower.RequestPutTower;
 import cmd.receive.battle.tower.RequestUpgradeTower;
 import cmd.send.battle.opponent.ResponseOppentPutTower;
+import cmd.send.battle.opponent.ResponseOpponentChangeTowerTargetStrategy;
 import cmd.send.battle.opponent.ResponseOpponentDropSpell;
 import cmd.send.battle.opponent.ResponseOpponentUpgradeTower;
+import cmd.send.battle.player.ResponseChangeTowerTargetStrategy;
 import cmd.send.battle.player.ResponseRequestDropSpell;
 import cmd.send.battle.player.ResponseRequestPutTower;
 import cmd.send.battle.player.ResponseRequestUpgradeTower;
@@ -54,6 +57,12 @@ public class TickNetworkHandler {
                     processDropSpell(tickNumber, user, requestDropSpell);
                     break;
                 }
+                case CmdDefine.CHANGE_TOWER_STRATEGY: {
+                    System.out.println("[BattleHandler.java line 58] cmd Change tower strategy: " + CmdDefine.CHANGE_TOWER_STRATEGY);
+                    RequestChangeTowerStrategy requestChangeTowerStrategy = new RequestChangeTowerStrategy(dataCmd);
+                    processChangeTowerStrategy(tickNumber, user, requestChangeTowerStrategy);
+                    break;
+                }
             }
         } catch (Exception e) {
             logger.warn(ExceptionUtils.getStackTrace(e));
@@ -67,6 +76,7 @@ public class TickNetworkHandler {
 
             EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
             ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
+            // IMPORTANT: move this action to TickInternalHandler
             room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
 
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
@@ -133,6 +143,29 @@ public class TickNetworkHandler {
                     req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
         } catch (Exception e) {
             logger.info("BattleMap processDropSpell exception");
+        }
+    }
+
+    private void processChangeTowerStrategy(int tickNumber, User user, RequestChangeTowerStrategy req) {
+        System.out.println("BattleMap processChangeTowerStrategy");
+        try {
+            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+
+            // IMPORTANT: move this action to TickInternalHandler
+            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+            BattleMapObject battleMapObject = battleMap.battleMapObject;
+            // TODO: implement tower entity in server
+//            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
+//            tower.setStrategy(req.getStrategy());
+
+            ExtensionUtility.getExtension().send(new ResponseChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),
+                    req.getStrategyId(), req.getTilePos(), tickNumber), user);
+            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+            ExtensionUtility.getExtension().send(new ResponseOpponentChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),
+                    req.getStrategyId(), req.getTilePos(), tickNumber), opponent);
+        } catch (Exception e) {
+            logger.info("BattleMap processChangeTowerStrategy exception");
         }
     }
 }

@@ -5,6 +5,7 @@ import battle.config.GameConfig;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import cmd.receive.battle.tower.RequestChangeTowerStrategy;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -36,7 +37,7 @@ public class TickManager {
                 System.out.println("xx Current Tick = " + currentTick2);
                 System.out.println("xx Future Tick put tower = " + futureTick);
 
-                Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(futureTick, new LinkedList<>());
+                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
                 this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
@@ -49,14 +50,21 @@ public class TickManager {
                 System.out.println("xx Current Tick = " + currentTick2);
                 System.out.println("xx Future Tick upgrade tower = " + nextTick);
 
-                Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(nextTick, new LinkedList<>());
+                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
                 queue.add(input);
                 this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
                 break;
             }
             case CmdDefine.DROP_SPELL: {
                 int nextTick = currentTick + 1;
-                Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(nextTick, new LinkedList<>());
+                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
+                queue.add(input);
+                this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
+                break;
+            }
+            case CmdDefine.CHANGE_TOWER_STRATEGY: {
+                int nextTick = currentTick + 1;
+                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
                 queue.add(input);
                 this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
                 break;
@@ -82,5 +90,9 @@ public class TickManager {
 
     public int getCurrentTick () {
         return this.currentTick;
+    }
+
+    private Queue<Pair<User, DataCmd>> getInputQueueOfTick (int tickNumber) {
+        return this.inputTick.getOrDefault(tickNumber, new LinkedList<>());
     }
 }
