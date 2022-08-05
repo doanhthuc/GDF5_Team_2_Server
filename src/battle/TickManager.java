@@ -6,6 +6,7 @@ import bitzero.server.entities.User;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.receive.battle.tower.RequestChangeTowerStrategy;
+import cmd.receive.battle.tower.RequestDestroyTower;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -55,14 +56,9 @@ public class TickManager {
                 this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
                 break;
             }
-            case CmdDefine.DROP_SPELL: {
-                int nextTick = currentTick + 1;
-                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
-                queue.add(input);
-                this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
-                break;
-            }
-            case CmdDefine.CHANGE_TOWER_STRATEGY: {
+            case CmdDefine.DROP_SPELL:
+            case CmdDefine.CHANGE_TOWER_STRATEGY:
+            case CmdDefine.DESTROY_TOWER: {
                 int nextTick = currentTick + 1;
                 Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
                 queue.add(input);

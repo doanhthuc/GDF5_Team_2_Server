@@ -3,6 +3,7 @@ package battle;
 import battle.common.EntityMode;
 import battle.common.Point;
 import battle.newMap.BattleMapObject;
+import battle.newMap.TileObject;
 import battle.newMap.Tower;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
@@ -11,16 +12,11 @@ import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
 import cmd.receive.battle.spell.RequestDropSpell;
 import cmd.receive.battle.tower.RequestChangeTowerStrategy;
+import cmd.receive.battle.tower.RequestDestroyTower;
 import cmd.receive.battle.tower.RequestPutTower;
 import cmd.receive.battle.tower.RequestUpgradeTower;
-import cmd.send.battle.opponent.ResponseOppentPutTower;
-import cmd.send.battle.opponent.ResponseOpponentChangeTowerTargetStrategy;
-import cmd.send.battle.opponent.ResponseOpponentDropSpell;
-import cmd.send.battle.opponent.ResponseOpponentUpgradeTower;
-import cmd.send.battle.player.ResponseChangeTowerTargetStrategy;
-import cmd.send.battle.player.ResponseRequestDropSpell;
-import cmd.send.battle.player.ResponseRequestPutTower;
-import cmd.send.battle.player.ResponseRequestUpgradeTower;
+import cmd.send.battle.opponent.*;
+import cmd.send.battle.player.*;
 import model.Inventory.Card;
 import model.Inventory.Inventory;
 import model.battle.Room;
@@ -63,9 +59,13 @@ public class TickNetworkHandler {
                     processChangeTowerStrategy(tickNumber, user, requestChangeTowerStrategy);
                     break;
                 }
+                case CmdDefine.DESTROY_TOWER: {
+                    RequestDestroyTower requestDestroyTower = new RequestDestroyTower(dataCmd);
+                    processDestroyTower(tickNumber, user, requestDestroyTower);
+                }
             }
         } catch (Exception e) {
-            logger.warn(ExceptionUtils.getStackTrace(e));
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -142,7 +142,7 @@ public class TickNetworkHandler {
             ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
                     req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
         } catch (Exception e) {
-            logger.info("BattleMap processDropSpell exception");
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -165,7 +165,29 @@ public class TickNetworkHandler {
             ExtensionUtility.getExtension().send(new ResponseOpponentChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),
                     req.getStrategyId(), req.getTilePos(), tickNumber), opponent);
         } catch (Exception e) {
-            logger.info("BattleMap processChangeTowerStrategy exception");
+            System.out.println(ExceptionUtils.getStackTrace(e));
+        }
+    }
+
+    private void processDestroyTower(int tickNumber, User user, RequestDestroyTower req) {
+        System.out.println("BattleMap processDestroyTower");
+        try {
+            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+
+            // IMPORTANT: move this action to TickInternalHandler
+            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+            BattleMapObject battleMapObject = battleMap.battleMapObject;
+//            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
+//            tower.destroyTower();
+            TileObject tileObject = battleMapObject.getCellObject(req.getTilePos());
+            tileObject.destroyTower();
+
+            ExtensionUtility.getExtension().send(new ResponseRequestDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), user);
+            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+            ExtensionUtility.getExtension().send(new ResponseOpponentDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), opponent);
+        } catch (Exception e) {
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 }
