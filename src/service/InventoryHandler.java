@@ -7,9 +7,12 @@ import bitzero.server.extensions.BaseClientRequestHandler;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.HandlerId;
+import cmd.receive.inventory.RequestSwapCard;
 import cmd.receive.inventory.RequestUpgradeCard;
 import cmd.send.inventory.ResponseRequestGetUserInventory;
+import cmd.send.inventory.ResponseRequestSwapCard;
 import cmd.send.inventory.ResponseRequestUpgradeCard;
+import cmd.send.user.ResponseRequestUserInfo;
 import event.eventType.DemoEventType;
 import extension.FresherExtension;
 import model.Inventory.Inventory;
@@ -54,6 +57,9 @@ public class InventoryHandler extends BaseClientRequestHandler {
                 case CmdDefine.UPGRADE_CARD:
                     RequestUpgradeCard rq = new RequestUpgradeCard(dataCmd);
                     processUpgradeCard(rq, user);
+                case CmdDefine.SWAP_CARD:
+                    RequestSwapCard requestSwapCard = new RequestSwapCard(dataCmd);
+                    processSwapCard(requestSwapCard, user);
                     break;
             }
         } catch (Exception e) {
@@ -108,6 +114,40 @@ public class InventoryHandler extends BaseClientRequestHandler {
             logger.info("processGetName exception");
         }
     }
+
+    private void processSwapCard(RequestSwapCard rq, User user) {
+        try {
+            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
+            if (userInfo == null) {
+                logger.info("PlayerInfo null");
+                //send(new ResponseGetName(UserHandler.UserError.PLAYERINFO_NULL.getValue(), ""), user);
+            }
+            System.out.println("Inventory Handle ProcessSwap Card");
+            Inventory userInventory = (Inventory) Inventory.getModel(userInfo.getId(), Inventory.class);
+            int cardInID = rq.getCardInID();
+            int cardOutID = rq.getCardOutID();
+            for(int i=0; i<userInventory.battleDeck.size();i++)
+            {
+                System.out.print(userInventory.battleDeck.get(i));
+            }
+            System.out.println(cardInID+ " "+cardOutID);
+            //Verify battleDeck
+//            if (!userInventory.getBattleDeck().contains(cardOutID)) {
+//                send(new ResponseRequestSwapCard(InventoryError.ERROR.getValue()), user);
+//            }
+            System.out.println("Inventory Handle ProcessSwap Card 111111111111111111111111111" + cardInID + " " + cardOutID);
+            userInventory.swapBattleDeck(cardInID, cardOutID);
+            for(int i=0; i<userInventory.battleDeck.size();i++)
+            {
+                System.out.print(userInventory.battleDeck.get(i));
+            }
+            send(new ResponseRequestSwapCard(InventoryError.ERROR.getValue(), cardInID, cardOutID), user);
+            userInventory.saveModel(userInfo.getId());
+        } catch (Exception e) {
+            logger.info("processGetName exception");
+        }
+    }
+
 
     private boolean verifyPurchase(int userGold, int requireGold) {
         return userGold >= requireGold;

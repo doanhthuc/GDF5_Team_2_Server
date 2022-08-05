@@ -1,8 +1,8 @@
 package extension;
 
 
-import battle.Battle;
-import battle.BattleMap;
+import battle.config.GameStat.MonsterConfigItem;
+import battle.config.ReadConfigUtil;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -27,6 +27,7 @@ import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
+import model.battle.Room;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.*;
@@ -36,8 +37,9 @@ import util.metric.MetricLog;
 import util.server.ServerConstant;
 import util.server.ServerLoop;
 
-import javax.management.BadAttributeValueExpException;
 import java.util.List;
+
+import static battle.config.ReadConfigUtil.monsterInfo;
 
 
 public class FresherExtension extends BZExtension {
@@ -57,7 +59,16 @@ public class FresherExtension extends BZExtension {
         /**
          * register new handler to catch client's packet
          */
-
+        try {
+            ReadConfigUtil.readTowerConfig();
+            ReadConfigUtil.readMonsterConfig();
+//            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
+//            PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
+//            Room room = new Room(playerInfo1, playerInfo2);
+//            new Thread(room).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        initBattle();
 
         trace("  Register Handler ");
@@ -96,13 +107,8 @@ public class FresherExtension extends BZExtension {
         }
     }
 
-    public void initBattle() {
-        BattleMap btm = new BattleMap();
-        btm.show();
-//        Battle battle = new Battle();
-    }
 
-    public void initUserData(long userID) {
+    public static void initUserData(long userID) {
         System.out.println("initUserdata");
         ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
         DailyShop dailyShop = new DailyShop(userID);
@@ -185,6 +191,10 @@ public class FresherExtension extends BZExtension {
                     send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()), user);
                 }
                 userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
+
+//                DailyShop dailyShop = (DailyShop) DailyShop.getModel(userInfo.getId(), DailyShop.class);
+//                DailyShop dailyShop = new DailyShop(pID.userID);
+//                dailyShop.saveModel(pID.userID);
             }
             UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
             User u = ExtensionUtility.instance().canLogin(uInfo, "", session);

@@ -15,6 +15,7 @@ public class CmdDefine {
 
     public static final short GET_USER_INVENTORY = 3001;
     public static final short UPGRADE_CARD = 3002;
+    public static final short SWAP_CARD = 3003;
 
     public static final short GET_USER_LOBBY_CHEST = 4001;
     public static final short UNLOCK_LOBBY_CHEST = 4002;
@@ -30,6 +31,15 @@ public class CmdDefine {
     public static final short OPPONENT_UPGRADE_TOWER = 5007;
     public static final short DROP_SPELL = 5008;
     public static final short OPPONENT_DROP_SPELL = 5009;
+    public static final short CHANGE_TOWER_STRATEGY = 5010;
+    public static final short OPPONENT_CHANGE_TOWER_STRATEGY = 5011;
+    public static final short PUT_TRAP = 5012;
+    public static final short OPPONENT_PUT_TRAP = 5013;
+    public static final short DESTROY_TOWER = 5014;
+    public static final short OPPONENT_DESTROY_TOWER = 5015;
+    public static final short GET_BATTLE_INFO = 5016;
+    public static final short END_BATTLE = 5017;
+    public static final short GET_BATTLE_DECK_IN_BATTLE = 5018;
 
     public static final short ENTER_ROOM = 6001;
 

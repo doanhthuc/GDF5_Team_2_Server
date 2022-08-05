@@ -13,14 +13,13 @@ public class ResponseRequestSpeedUpLobbyChest extends BaseMsg {
     public short error;
 
     public ResponseRequestSpeedUpLobbyChest(short _error, LobbyDTO lobbyDTO) {
-        super(CmdDefine.SPEEDUP_LOBBY_CHEST);
+        super(CmdDefine.SPEEDUP_LOBBY_CHEST, _error);
         this.lobbyDTO = lobbyDTO;
-        error = _error;
+        Error = (byte)_error;
     }
 
     public ResponseRequestSpeedUpLobbyChest(short _error) {
-        super(CmdDefine.SPEEDUP_LOBBY_CHEST);
-        error = _error;
+        super(CmdDefine.SPEEDUP_LOBBY_CHEST, _error);
     }
 
 

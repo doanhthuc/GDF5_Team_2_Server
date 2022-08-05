@@ -9,6 +9,7 @@ public class MatchingInfo {
     private int trophy;
     private int startRank;
     private int endRank;
+    private long startTime;
 
     public MatchingInfo(int playerId, long time, int trophy) {
         this.playerId = playerId;
@@ -19,6 +20,7 @@ public class MatchingInfo {
         int endRank = trophy + 100;
         this.startRank = startRank;
         this.endRank = endRank;
+        this.startTime = time;
     }
 
     @Override
@@ -73,6 +75,10 @@ public class MatchingInfo {
 
     public int getEndRank() {
         return endRank;
+    }
+
+    public long getStartTime() {
+        return startTime;
     }
 
     public void setEndRank(int endRank) {

@@ -9,7 +9,7 @@ public class LobbyChestContainer extends DataModel {
     public ArrayList<LobbyChest> lobbyChestContainer = new ArrayList<LobbyChest>();
 
     public LobbyChestContainer(long id) {
-        this.id=id;
+        this.id = id;
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.NOT_OPENING_STATE));
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.OPENING_STATE, 10800 * 1000));
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.CLAIMABLE_STATE));
@@ -18,8 +18,10 @@ public class LobbyChestContainer extends DataModel {
 
     public void addLobbyChest() {
         for (int i = 0; i < this.lobbyChestContainer.size(); i++)
-            if (this.lobbyChestContainer.get(i).getState() == LobbyChestDefine.EMPTY_STATE)
-                this.lobbyChestContainer.get(i).setState(LobbyChestDefine.OPENING_STATE);
+            if (this.lobbyChestContainer.get(i).getState() == LobbyChestDefine.EMPTY_STATE) {
+                this.lobbyChestContainer.get(i).setState(LobbyChestDefine.NOT_OPENING_STATE);
+                return;
+            }
     }
 
     public void show() {
@@ -37,17 +39,19 @@ public class LobbyChestContainer extends DataModel {
             }
         }
     }
-    public void setLobbyChest(int id,LobbyChest lc)
-    {
+
+    public void setLobbyChest(int id, LobbyChest lc) {
         this.lobbyChestContainer.get(id).setState(lc.getState());
         this.lobbyChestContainer.get(id).setClaimTime(lc.getClaimTime());
     }
+
     public void update() {
         for (int i = 0; i < this.lobbyChestContainer.size(); i++) this.lobbyChestContainer.get(i).updateChest();
     }
-    public boolean checkSpeedUpChest(){
-        for (int i =0;i<this.lobbyChestContainer.size();i++)
-            if (this.lobbyChestContainer.get(i).getState()==LobbyChestDefine.OPENING_STATE) return true;
-        return  false;
+
+    public boolean checkSpeedUpChest() {
+        for (int i = 0; i < this.lobbyChestContainer.size(); i++)
+            if (this.lobbyChestContainer.get(i).getState() == LobbyChestDefine.OPENING_STATE) return true;
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import match.UserType;
 import util.database.DataModel;
 
 public class PlayerInfo extends DataModel {
@@ -9,6 +10,7 @@ public class PlayerInfo extends DataModel {
     private int trophy;
     private int gold;
     private int gem;
+    private int userType;
 
     public PlayerInfo(int _id, String username, int gold, int gem, int trophy) {
         super();
@@ -17,6 +19,7 @@ public class PlayerInfo extends DataModel {
         this.gold = gold;
         this.gem = gem;
         this.trophy = trophy;
+        this.userType = UserType.PLAYER;
     }
 
     public String toString() {
@@ -61,7 +64,7 @@ public class PlayerInfo extends DataModel {
     }
 
     public void setTrophy(int trophy) {
-        this.trophy = trophy;
+        this.trophy = Math.max(trophy, 0);
     }
 
     public void show() {
@@ -70,5 +73,13 @@ public class PlayerInfo extends DataModel {
         System.out.print(" gold=" + this.gold);
         System.out.print(" gem=" + this.gem);
         System.out.println(" trophy=" + this.trophy);
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
+
+    public int getUserType() {
+        return this.userType;
     }
 }

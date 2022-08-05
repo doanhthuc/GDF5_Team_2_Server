@@ -1,5 +1,6 @@
 package battle;
 
+import battle.config.GameConfig;
 import battle.newMap.BattleMapObject;
 import battle.newMap.Tower;
 
@@ -24,20 +25,21 @@ public class BattleMap {
     public ArrayList<Tower> towerList = new ArrayList<>();
     public BattleMapObject battleMapObject;
 
+
     public BattleMap() {
         this.reset();
         while (this.checkOK() == false) {
             this.reset();
             this.genEverything();
         }
-        this.show();
+        //this.show();
     }
 
     public boolean checkOK() {
         int countPitTile = 0;
         int countTreeTile = 0;
         int requirePitTile = 1;
-        int requireTreeTile = 1;
+        int requireTreeTile = 2;
         for (int i = 0; i < this.mapW; i++)
             for (int j = 0; j < this.mapH; j++) {
                 if (this.map[i][j] == pitTile) countPitTile++;
@@ -52,10 +54,10 @@ public class BattleMap {
         this.genTree();
         this.genPitCell();
         this.removePath();
-        this.show();
+        //this.show();
 
         this.battleMapObject = new BattleMapObject(this.map);
-        this.battleMapObject.showConsole();
+//        this.battleMapObject.showConsole();
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
     public BattleMap(int X)
@@ -280,6 +282,11 @@ public class BattleMap {
         return false;
     }
 
+    public boolean isMovableTile(int value) {
+        if (value == GameConfig.MAP.NONE || value == GameConfig.MAP.ATTACK_SPEED || value == GameConfig.MAP.ATTACK_RANGE || value == GameConfig.MAP.ATTACK_DAMAGE) return true;
+        return false;
+    }
+
     public boolean compareNode(Point a, Point b) {
         return (a.x == b.x && a.y == b.y);
     }
@@ -288,4 +295,11 @@ public class BattleMap {
         return p.x < mapH && p.y < mapW && map[p.x][p.y] != 0;
     }
 
+    public ArrayList<Point> getPath() {
+        return path;
+    }
+
+    public void setPath(ArrayList<Point> path) {
+        this.path = path;
+    }
 }
