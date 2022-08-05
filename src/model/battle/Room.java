@@ -38,9 +38,7 @@ public class Room implements Runnable {
     private final long startTime;
     private boolean endBattle;
     private ScheduledFuture roomRun;
-    private int towerBuildingTime = 1000;
     private long botCommandTime = 0;
-    private long countDownBotCommandTime = 1500;
     private final Logger logger = LoggerFactory.getLogger("Room");
     private final PriorityQueue<ClientCommand> clientCommands = new PriorityQueue(new Comparator<ClientCommand>() {
         @Override
@@ -59,10 +57,10 @@ public class Room implements Runnable {
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
         this.botCommandTime = this.startTime + GameConfig.BATTLE.START_GAME_AFTER;
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
-//        if (GameConfig.DEBUG) {
-//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
-//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
-////        }
+        if (GameConfig.DEBUG) {
+            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
+            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
+        }
 
     }
 
@@ -127,8 +125,8 @@ public class Room implements Runnable {
 
         if (this.endBattle) {
             if (winUserID != -1)
-                this.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP));
-            else this.sendDraw();
+                SendResult.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP));
+            else SendResult.sendDrawBattle(player1.getId(),player2.getId(),this.battle.getPlayer1HP());
             RoomManager.getInstance().removeRoom(this.roomId);
             this.endRoom();
         }
@@ -149,6 +147,10 @@ public class Room implements Runnable {
     }
 
     public void handleBotAction() throws Exception {
+
+        int towerBuildingTime = 1000;
+        long countDownBotCommandTime = 1500;
+
         if (this.player2.getUserType() == UserType.PLAYER) return;
         if (System.currentTimeMillis() > this.botCommandTime) {
             if (this.battle.getCurrentWave() == -1) return;
@@ -182,48 +184,14 @@ public class Room implements Runnable {
         }
     }
 
-    public void sendDraw() throws Exception {
-        User user1 = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-        User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2.getId());
-        PlayerInfo userInfo1 = (PlayerInfo) PlayerInfo.getModel(player1.getId(), PlayerInfo.class);
-        PlayerInfo userInfo2 = (PlayerInfo) PlayerInfo.getModel(player2.getId(), PlayerInfo.class);
-        if (userInfo1.getUserType() == UserType.PLAYER)
-            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer1HP(), battle.getPlayer2HP(), userInfo1.getTrophy(), 0, 0), user1);
-        if (userInfo2.getUserType() == UserType.PLAYER)
-            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, battle.getPlayer2HP(), battle.getPlayer1HP(), userInfo2.getTrophy(), 0, 0), user2);
-    }
 
-    public void sendWinUser(int winUserID, int loseUserID, int winnerHP, int loserHP) throws Exception {
-        User user1 = BitZeroServer.getInstance().getUserManager().getUserById(winUserID);
-        User user2 = BitZeroServer.getInstance().getUserManager().getUserById(loseUserID);
-
-        PlayerInfo winUser = (PlayerInfo) PlayerInfo.getModel(winUserID, PlayerInfo.class);
-        PlayerInfo loseUser = (PlayerInfo) PlayerInfo.getModel(loseUserID, PlayerInfo.class);
-        LobbyChestContainer winUserLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(winUser.getId(), LobbyChestContainer.class);
-        if (winUser.getUserType() == UserType.PLAYER) {
-            if (winUserLobbyChest.lobbyChestContainer.size() < LobbyChestDefine.LOBBY_CHEST_AMOUNT) {
-                winUserLobbyChest.addLobbyChest();
-                winUserLobbyChest.saveModel(winUser.getId());
-                ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 1), user1);
-            } else
-                ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUser.getTrophy(), 10, 0), user1);
-        }
-        winUser.setTrophy(winUser.getTrophy() + GameConfig.BATTLE.WINNER_TROPHY);
-        winUser.saveModel(winUser.getId());
-        loseUser.setTrophy(loseUser.getTrophy() - GameConfig.BATTLE.LOSER_TROPHY);
-        loseUser.saveModel(loseUser.getId());
-
-        if (loseUser.getUserType() == UserType.PLAYER)
-            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
-
-    }
-
-public PlayerInBattle getPlayerByID(int playerID) {
+    public PlayerInBattle getPlayerByID(int playerID) {
         if (player1.getId() == playerID)
             return player1;
         else
             return player2;
     }
+
     public PlayerInfo getOpponentPlayer(int playerId) {
         if (playerId == player1.getId()) {
             return player1;

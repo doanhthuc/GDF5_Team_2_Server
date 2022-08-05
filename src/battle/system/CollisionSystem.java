@@ -240,15 +240,11 @@ public class CollisionSystem extends SystemECS {
         double w2 = collision2.getWidth(), h2 = collision2.getHeight();
         if ((w1 == 0 && h1 == 0) || (w2 == 0) && (h2 == 0)) return false;
 
-//        return this._interSectRect(pos1.getX() - w1 / 2, pos1.getY() - h1 / 2, w1, h1, pos2.getX() - w2 / 2, pos2.getY() - h2 / 2, w2, h2);
         return this.rectIntersectsRect(
                 new Rect(pos1.getX() - w1 / 2, pos1.getY() - h1 / 2, w1, h1),
                 new Rect(pos2.getX() - w2 / 2, pos2.getY() - h2 / 2, w2, h2));
     }
 
-    public boolean _interSectRect(double x1, double y1, double w1, double h1, double x2, double y2, double w2, double h2) {
-        return ((x1 + w1 >= x2) && (x1 <= x2 + w2)) && (y1 + h1 >= y2) && (y1 <= y2 + h2);
-    }
 
     public boolean rectIntersectsRect(Rect rectA, Rect rectB) {
         return !(rectA.x > rectB.x + rectB.width ||

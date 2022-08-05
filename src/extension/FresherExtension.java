@@ -62,10 +62,10 @@ public class FresherExtension extends BZExtension {
         try {
             ReadConfigUtil.readTowerConfig();
             ReadConfigUtil.readMonsterConfig();
-            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
-            PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
-          //  Room room = new Room(playerInfo1, playerInfo2);
-          //  new Thread(room).start();
+//            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
+//            PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
+//            Room room = new Room(playerInfo1, playerInfo2);
+//            new Thread(room).start();
         } catch (Exception e) {
             e.printStackTrace();
         }

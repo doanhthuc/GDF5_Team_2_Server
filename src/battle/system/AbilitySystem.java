@@ -101,7 +101,7 @@ public class AbilitySystem extends SystemECS {
             } else {
                 for (EntityECS monster : monsterList) {
                     healingAbilityComponent.setCountdown(1);
-                    if (monster.getActive() && monster.getMode() == satyr.getMode()) {
+                    if (monster.getActive() && monster.getMode() == satyr.getMode() && monster.getId() != satyr.getId()) {
                         double distance = distanceFrom(satyr, monster);
                         if (distance <= healingAbilityComponent.getRange()) {
                             LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);

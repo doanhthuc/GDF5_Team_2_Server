@@ -44,7 +44,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
     JComboBox entityChoosen;
     EntityMode entityMode;
     String userName, opponentUserName;
-    int userHP, opponentHP,userEnergy,opponentEnergy;
+    int userHP, opponentHP, userEnergy, opponentEnergy;
 //    public static void main(String[] args) throws Exception {
 //        new BattleVisualization(1);
 //    }
@@ -164,7 +164,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
 
         }
 
-        List<EntityECS> towerList = this.battle.getEntityManager().getEntitiesHasComponents(Collections.singletonList(TowerInfoComponent.typeID));
+        List<EntityECS> towerList = this.battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(TowerInfoComponent.typeID, PositionComponent.typeID));
         for (EntityECS tower : towerList) {
             if (tower.getMode() != this.entityMode) continue;
             PositionComponent positionComponent = (PositionComponent) tower.getComponent(PositionComponent.typeID);
@@ -183,7 +183,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
             G.setColor(Color.GREEN);
             Point p = this.getMonsterPos(positionComponent, collisionComponent);
-            G.fillRect((int) p.x, (int) p.y, (int) 5 * scale, (int) 5* scale);
+            G.fillRect((int) p.x, (int) p.y, (int) 5 * scale, (int) 5 * scale);
         }
         G1.drawImage(B, 0, 0, this.getWidth(), this.getHeight(), null);
 
