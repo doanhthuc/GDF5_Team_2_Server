@@ -11,13 +11,15 @@ public class ResponseRequestDropSpell extends BaseMsg {
     private final int spellId;
     private final int spellLevel;
     private final Point pixelPos;
+    private final int tickNumber;
 
-    public ResponseRequestDropSpell(short _error, int spellId, int spellLevel, Point pixelPos) {
+    public ResponseRequestDropSpell(short _error, int spellId, int spellLevel, Point pixelPos, int tickNumber) {
         super(CmdDefine.DROP_SPELL);
         this._error = _error;
         this.spellId = spellId;
         this.spellLevel = spellLevel;
         this.pixelPos = pixelPos;
+        this.tickNumber = tickNumber;
     }
 
     @Override
@@ -27,6 +29,7 @@ public class ResponseRequestDropSpell extends BaseMsg {
         bf.putInt(spellLevel);
         bf.putDouble(pixelPos.x);
         bf.putDouble(pixelPos.y);
+        bf.putInt(tickNumber);
         return packBuffer(bf);
     }
 }

@@ -1,14 +1,13 @@
 package model.battle;
 
-import battle.Battle;
-import battle.BattleMap;
-import battle.BattleVisualization;
-import battle.common.EntityMode;
+import battle.*;
+import battle.common.*;
 import battle.config.GameConfig;
-import battle.config.ReadConfigUtil;
+import battle.config.ReadTowerConfigUtil;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.data.BaseCmd;
+import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
 import cmd.receive.battle.tower.RequestPutTower;
@@ -47,6 +46,8 @@ public class Room implements Runnable {
         }
     });
 
+    private final TickManager tickManager;
+    private final Queue<Pair<User, DataCmd>> waitingInputQueue = new LinkedList<>();
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
@@ -62,25 +63,42 @@ public class Room implements Runnable {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
         }
 
+        this.tickManager= new TickManager(this.startTime);
     }
 
+    public void addInput(User user, DataCmd dataCmd) {
+        this.waitingInputQueue.add(new Pair<>(user, dataCmd));
+    }
 
     @Override
     public void run() {
         this.roomRun = BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
             try {
                 if (!this.endBattle) {
+                    int currentTick = this.tickManager.getCurrentTick();
+
+                    // enqueue the waiting inputs
+                    while (!this.waitingInputQueue.isEmpty()) {
+                        Pair<User, DataCmd> data = this.waitingInputQueue.poll();
+                        this.tickManager.addInput(data);
+                    }
+
+                    // handle the inputs in the current tick
+                    this.tickManager.handleInternalInputTick(currentTick);
+
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
                     this.handleBotAction();
                     this.handlerClientCommand();
                     this.checkEndBattle();
-//                    this.checkAllUserDisconnect();
+                    this.checkAllUserDisconnect();
+
+                    this.tickManager.increaseTick();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 0, 10, TimeUnit.MILLISECONDS);
+        }, 0, GameConfig.BATTLE.TICK_RATE, TimeUnit.MILLISECONDS);
     }
 
     private void handlerClientCommand() throws Exception {
