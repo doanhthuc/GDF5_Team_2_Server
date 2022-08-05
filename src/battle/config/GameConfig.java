@@ -59,6 +59,11 @@ public class GameConfig {
         public static double y = 0;
     }
 
+    public static class MONSTER_BORN_POSITION {
+        public static double x = 0;
+        public static double y = 4;
+    }
+
     public static class ENTITY_ID {
         public static final int CANNON_TOWER = 0;
         public static final int WIZARD_TOWER = 1;

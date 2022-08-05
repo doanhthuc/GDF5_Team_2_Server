@@ -12,7 +12,7 @@ public class MonsterInfoComponent extends InfoComponent {
 
     private String category;
     private String classs;
-    private int weight;
+    private double weight;
     private int energy;
     private int gainEnergy;
     int ability;

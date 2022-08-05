@@ -297,4 +297,15 @@ public class ComponentFactory {
         }
         return buffAttackDamageEffect;
     }
+
+    public FireBallEffect createFireBallEffect(double a, double maxDuration, Point startPos, Point endPos, double v0) throws Exception {
+        FireBallEffect fireBallEffect = (FireBallEffect) this.pool.checkOut(FireBallEffect.typeID);
+        if (fireBallEffect != null) {
+            fireBallEffect.reset(a, maxDuration, startPos, endPos, v0);
+        } else {
+            fireBallEffect = new FireBallEffect(a, maxDuration, startPos, endPos, v0);
+            this.componentManager.add(fireBallEffect);
+        }
+        return fireBallEffect;
+    }
 }

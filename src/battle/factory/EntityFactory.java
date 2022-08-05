@@ -747,7 +747,7 @@ public class EntityFactory {
         Point speed = Utils.calculateVelocityVector(new Point(pixelPos.getX(), pixelPos.getY() + S), pixelPos, V);
         VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed.getX(), speed.getY());
 
-        DamageEffect damageEffect = this.componentFactory.createDamageEffect(100);
+        DamageEffect damageEffect = this.componentFactory.createDamageEffect(5);
         SpellInfoComponent spellInfoComponent = this.componentFactory.createSpellInfoComponent(pixelPos, Arrays.asList(damageEffect), 1.2 * GameConfig.TILE_WIDTH, T);
 
         entity.addComponent(positionComponent);

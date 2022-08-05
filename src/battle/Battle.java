@@ -166,8 +166,8 @@ public class Battle {
         }
     }
 
-    //Player Hp and energy
-
+    //PlayerHp and Energy
+   
     public void minusPlayerHP(int hp, EntityMode mode) {
         if (mode == EntityMode.PLAYER) this.player1HP -= hp;
         else this.player2HP -= hp;
@@ -371,6 +371,12 @@ public class Battle {
 //        System.out.println("Player1 Hp= " + this.player1HP + " Player1 Energy=" + this.player1energy);
 //        System.out.println("Player2 Hp= " + this.player2HP + " Player2 Energy=" + this.player2energy);
     }
+
+     public BattleMap getBattleMapByEntityMode(EntityMode mode) {
+        if (mode == EntityMode.PLAYER) return this.player1BattleMap;
+        else return this.player2BattleMap;
+    }
+
 
     public EntityManager getEntityManager() {
         return this.entityManager;

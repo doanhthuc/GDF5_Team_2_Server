@@ -59,10 +59,10 @@ public class Room implements Runnable {
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
         this.botCommandTime = this.startTime + GameConfig.BATTLE.START_GAME_AFTER;
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
-        if (GameConfig.DEBUG) {
-            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
+//        if (GameConfig.DEBUG) {
+//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
-        }
+//        }
 
     }
 
@@ -77,7 +77,7 @@ public class Room implements Runnable {
                     this.handleBotAction();
                     this.handlerClientCommand();
                     this.checkEndBattle();
-                    this.checkAllUserDisconnect();
+//                    this.checkAllUserDisconnect();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -218,7 +218,12 @@ public class Room implements Runnable {
 
     }
 
-
+public PlayerInBattle getPlayerByID(int playerID) {
+        if (player1.getId() == playerID)
+            return player1;
+        else
+            return player2;
+    }
     public PlayerInfo getOpponentPlayer(int playerId) {
         if (playerId == player1.getId()) {
             return player1;
