@@ -1,6 +1,7 @@
 package match;
 
 import battle.BattleMap;
+import battle.config.GameConfig;
 import bitzero.core.P;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
@@ -49,7 +50,7 @@ public class MatchMaking implements Runnable {
 
             Iterator<MatchingInfo> it = waitingQueue.iterator();
             it.next();
-            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 2000) {
+            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= GameConfig.BATTLE.TIME_MATCHING_BOT) {
                 processMatchingWithBot(matchingInfo1);
                 waitingQueue.remove(matchingInfo1);
                 waitingMap.remove(matchingInfo1.getPlayerId());

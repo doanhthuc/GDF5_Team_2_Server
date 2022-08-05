@@ -11,13 +11,15 @@ public class ResponseRequestUpgradeTower extends BaseMsg {
     private final int towerId;
     private final int towerLevel;
     private final Point tilePos;
+    private final int tickNumber;
 
-    public ResponseRequestUpgradeTower(short _error, int towerId, int towerLevel, Point tilePos) {
+    public ResponseRequestUpgradeTower(short _error, int towerId, int towerLevel, Point tilePos, int tickNumber) {
         super(CmdDefine.UPGRADE_TOWER);
         this._error = _error;
         this.towerId = towerId;
         this.towerLevel = towerLevel;
         this.tilePos = tilePos;
+        this.tickNumber = tickNumber;
     }
 
     @Override
@@ -27,6 +29,7 @@ public class ResponseRequestUpgradeTower extends BaseMsg {
         bf.putInt(towerLevel);
         bf.putInt(tilePos.x);
         bf.putInt(tilePos.y);
+        bf.putInt(tickNumber);
         return packBuffer(bf);
     }
 }

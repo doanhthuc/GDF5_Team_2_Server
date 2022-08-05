@@ -1,14 +1,13 @@
 package model.battle;
 
-import battle.Battle;
-import battle.BattleMap;
-import battle.BattleVisualization;
-import battle.common.EntityMode;
+import battle.*;
+import battle.common.*;
 import battle.config.GameConfig;
 import battle.config.ReadConfigUtil;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.data.BaseCmd;
+import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
 import cmd.receive.battle.tower.RequestPutTower;
@@ -25,6 +24,7 @@ import service.BattleHandler;
 import service.RoomHandler;
 
 import java.awt.*;
+import java.awt.Point;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
@@ -39,14 +39,8 @@ public class Room implements Runnable {
     private boolean endBattle;
     private ScheduledFuture roomRun;
     private long botCommandTime = 0;
-    private final Logger logger = LoggerFactory.getLogger("Room");
-    private final PriorityQueue<ClientCommand> clientCommands = new PriorityQueue(new Comparator<ClientCommand>() {
-        @Override
-        public int compare(ClientCommand a, ClientCommand b) {
-            return (int) (a.executeTime - b.executeTime);
-        }
-    });
-
+    private final TickManager tickManager;
+    private final Queue<Pair<User, DataCmd>> waitingInputQueue = new LinkedList<>();
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
@@ -62,40 +56,44 @@ public class Room implements Runnable {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
         }
 
+        this.tickManager = new TickManager(this.startTime);
     }
 
+    public void addInput(User user, DataCmd dataCmd) {
+        this.waitingInputQueue.add(new Pair<>(user, dataCmd));
+    }
 
     @Override
     public void run() {
         this.roomRun = BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(() -> {
             try {
                 if (!this.endBattle) {
+                    int currentTick = this.tickManager.getCurrentTick();
+                    System.out.println(currentTick);
+                    // enqueue the waiting inputs
+                    while (!this.waitingInputQueue.isEmpty()) {
+                        Pair<User, DataCmd> data = this.waitingInputQueue.poll();
+                        this.tickManager.addInput(data);
+                    }
+
+                    // handle the inputs in the current tick
+                    this.tickManager.handleInternalInputTick(currentTick);
+
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
-                    this.handleBotAction();
-                    this.handlerClientCommand();
+                    this.handleBotAction(this.tickManager.getCurrentTick());
+                    //this.handlerClientCommand();
                     this.checkEndBattle();
-//                    this.checkAllUserDisconnect();
+                    this.checkAllUserDisconnect();
+
+                    this.tickManager.increaseTick();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 0, 10, TimeUnit.MILLISECONDS);
+        }, 0, GameConfig.BATTLE.TICK_RATE, TimeUnit.MILLISECONDS);
     }
 
-    private void handlerClientCommand() throws Exception {
-        if (this.clientCommands.size() == 0) return;
-        ClientCommand cmd = this.clientCommands.peek();
-        if (cmd.executeTime <= System.currentTimeMillis()) {
-            switch (cmd.cmdID) {
-                case CmdDefine.PUT_TOWER:
-                    RequestPutTower req = (RequestPutTower) cmd.getBaseCmd();
-                    this.battle.buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, cmd.getMode());
-                    break;
-            }
-            this.clientCommands.remove();
-        }
-    }
 
     public void checkEndBattle() throws Exception {
         int player1HP = this.battle.getPlayer1HP();
@@ -126,7 +124,7 @@ public class Room implements Runnable {
         if (this.endBattle) {
             if (winUserID != -1)
                 SendResult.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP));
-            else SendResult.sendDrawBattle(player1.getId(),player2.getId(),this.battle.getPlayer1HP());
+            else SendResult.sendDrawBattle(player1.getId(), player2.getId(), this.battle.getPlayer1HP());
             RoomManager.getInstance().removeRoom(this.roomId);
             this.endRoom();
         }
@@ -146,9 +144,8 @@ public class Room implements Runnable {
         this.roomRun.cancel(true);
     }
 
-    public void handleBotAction() throws Exception {
+    public void handleBotAction(int tickNumber) throws Exception {
 
-        int towerBuildingTime = 1000;
         long countDownBotCommandTime = 1500;
 
         if (this.player2.getUserType() == UserType.PLAYER) return;
@@ -172,11 +169,11 @@ public class Room implements Runnable {
                                 && (!monsterPath.contains(new java.awt.Point(tilePosX, tilePosY)))
                                 && this.battle.getPlayer2energy() >= towerEnergy) {
                             RequestPutTower botReq = new RequestPutTower(this.roomId, towerID, new Point(tilePosX, tilePosY));
-                            this.clientCommands.add(new ClientCommand(System.currentTimeMillis() + towerBuildingTime, botReq, CmdDefine.PUT_TOWER, EntityMode.OPPONENT));
                             this.botCommandTime = System.currentTimeMillis() + countDownBotCommandTime;
                             //Send To User
+//                            this.tickManager.addInput();
                             User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-                            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY)), player);
+                            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber + 20), player);
                             return;
                         }
                 }
@@ -260,33 +257,4 @@ public class Room implements Runnable {
         return startTime;
     }
 
-    public void addClientCommand(long executeTime, BaseCmd baseCmd, int cmdID, EntityMode mode) {
-        this.clientCommands.add(new ClientCommand(executeTime, baseCmd, cmdID, mode));
-    }
-}
-
-class ClientCommand {
-    long executeTime;
-    BaseCmd baseCmd;
-    int cmdID;
-    EntityMode mode;
-
-    public ClientCommand(long executeTime, BaseCmd baseCmd, int cmdID, EntityMode mode) {
-        this.executeTime = executeTime;
-        this.baseCmd = baseCmd;
-        this.cmdID = cmdID;
-        this.mode = mode;
-    }
-
-    public long getExecuteTime() {
-        return this.executeTime;
-    }
-
-    public BaseCmd getBaseCmd() {
-        return this.baseCmd;
-    }
-
-    public EntityMode getMode() {
-        return this.mode;
-    }
 }
