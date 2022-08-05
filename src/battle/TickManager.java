@@ -86,7 +86,8 @@ public class TickManager {
     }
 
     public int getCurrentTick () {
-        return this.currentTick;
+//        return this.currentTick;
+        return (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
     }
 
     private Queue<Pair<User, DataCmd>> getInputQueueOfTick (int tickNumber) {
