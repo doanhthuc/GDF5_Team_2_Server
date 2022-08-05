@@ -7,6 +7,7 @@ import battle.component.common.AttackComponent;
 import battle.component.common.PositionComponent;
 import battle.component.common.UnderGroundComponent;
 import battle.component.info.LifeComponent;
+import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
@@ -14,6 +15,7 @@ import battle.manager.EntityManager;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AttackSystem extends SystemECS {
@@ -29,13 +31,9 @@ public class AttackSystem extends SystemECS {
     public void run(Battle battle) {
         this.tick = this.getElapseTime();
         //Create List of Component TypeIDs
-        List<Integer> typeIDTower = new ArrayList<>();
-        typeIDTower.add(GameConfig.COMPONENT_ID.ATTACK);
-        List<EntityECS> towerList = battle.getEntityManager().getEntitiesHasComponents(typeIDTower);
+        List<EntityECS> towerList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(AttackComponent.typeID));
 
-        List<Integer> typeIDMonster = new ArrayList<>();
-        typeIDMonster.add(GameConfig.COMPONENT_ID.MONSTER_INFO);
-        List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(typeIDMonster);
+        List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID,PositionComponent.typeID));
 //        Debug Bullet
 //        List<Integer> typeIDBullet = new ArrayList<>();
 //        typeIDBullet.add(GameConfig.COMPONENT_ID.BULLET_INFO);

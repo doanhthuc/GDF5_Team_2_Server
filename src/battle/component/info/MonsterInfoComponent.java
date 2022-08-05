@@ -32,7 +32,7 @@ public class MonsterInfoComponent extends InfoComponent {
         this.reset(category, classs, weight, energy, gainEnergy, ability, effects);
     }
 
-    public void reset( String category, String classs, int weight, int energy,
+    public void reset( String category, String classs, double weight, int energy,
                       int gainEnergy, int ability, List<EffectComponent> effects) {
         this.name = name;
         this.weight = weight;
@@ -66,5 +66,9 @@ public class MonsterInfoComponent extends InfoComponent {
 
     public void setClasss(String classs) {
         this.classs = classs;
+    }
+
+    public double getWeight() {
+        return this.weight;
     }
 }
