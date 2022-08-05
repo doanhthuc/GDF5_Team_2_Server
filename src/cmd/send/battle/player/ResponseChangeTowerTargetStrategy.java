@@ -10,12 +10,14 @@ public class ResponseChangeTowerTargetStrategy extends BaseMsg {
     private final short _error;
     private final int strategyId;
     private final Point tilePos;
+    private final int tickNumber;
 
-    public ResponseChangeTowerTargetStrategy(short _error, int strategyId, Point tilePos) {
+    public ResponseChangeTowerTargetStrategy(short _error, int strategyId, Point tilePos, int tickNumber) {
         super(CmdDefine.CHANGE_TOWER_STRATEGY);
         this._error = _error;
         this.strategyId = strategyId;
         this.tilePos = tilePos;
+        this.tickNumber = tickNumber;
     }
 
     @Override
@@ -24,6 +26,7 @@ public class ResponseChangeTowerTargetStrategy extends BaseMsg {
         bf.putInt(tilePos.x);
         bf.putInt(tilePos.y);
         bf.putInt(strategyId);
+        bf.putInt(tickNumber);
         return packBuffer(bf);
     }
 }
