@@ -1,6 +1,7 @@
 package battle;
 
 import battle.common.EntityMode;
+import battle.common.Point;
 import battle.newMap.BattleMapObject;
 import battle.newMap.Tower;
 import bitzero.server.BitZeroServer;
@@ -8,10 +9,13 @@ import bitzero.server.entities.User;
 import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
+import cmd.receive.battle.spell.RequestDropSpell;
 import cmd.receive.battle.tower.RequestPutTower;
 import cmd.receive.battle.tower.RequestUpgradeTower;
 import cmd.send.battle.opponent.ResponseOppentPutTower;
+import cmd.send.battle.opponent.ResponseOpponentDropSpell;
 import cmd.send.battle.opponent.ResponseOpponentUpgradeTower;
+import cmd.send.battle.player.ResponseRequestDropSpell;
 import cmd.send.battle.player.ResponseRequestPutTower;
 import cmd.send.battle.player.ResponseRequestUpgradeTower;
 import model.Inventory.Card;
@@ -43,6 +47,12 @@ public class TickNetworkHandler {
                     System.out.println("[BattleHandler.java line 56] cmd Upgrade tower: " + CmdDefine.UPGRADE_TOWER);
                     RequestUpgradeTower requestUpgradeTower = new RequestUpgradeTower(dataCmd);
                     processUpgradeTower(tickNumber, user, requestUpgradeTower);
+                }
+                case CmdDefine.DROP_SPELL: {
+                    System.out.println("[BattleHandler.java line 57] cmd Drop spell: " + CmdDefine.DROP_SPELL);
+                    RequestDropSpell requestDropSpell = new RequestDropSpell(dataCmd);
+                    processDropSpell(tickNumber, user, requestDropSpell);
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -102,6 +112,27 @@ public class TickNetworkHandler {
                     req.getTowerId(), tower.getLevel(), tower.getTilePos(), tickNumber), opponent);
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
+        }
+    }
+
+    private void processDropSpell(int tickNumber, User user, RequestDropSpell req) {
+        System.out.println("BattleMap processDropSpell");
+        try {
+            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
+
+            Card spellCard = inventory.getCardById(req.getSpellId());
+            Point p = req.getPixelPos();
+            System.out.println("PointXX: " + p.x + ", y = " + p.y);
+            ExtensionUtility.getExtension().send(new ResponseRequestDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
+                    req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), user);
+
+            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+            ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
+                    req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
+        } catch (Exception e) {
+            logger.info("BattleMap processDropSpell exception");
         }
     }
 }

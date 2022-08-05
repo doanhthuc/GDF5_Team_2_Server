@@ -55,11 +55,11 @@ public class TickManager {
                 break;
             }
             case CmdDefine.DROP_SPELL: {
-//                int futureTick = currentTick + 1;
-//                Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(futureTick, new LinkedList<>());
-//                queue.add(input);
-//                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
-//                break;
+                int nextTick = currentTick + 1;
+                Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(nextTick, new LinkedList<>());
+                queue.add(input);
+                this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
+                break;
             }
         }
     }

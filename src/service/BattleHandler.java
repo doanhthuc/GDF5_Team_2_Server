@@ -71,7 +71,6 @@ public class BattleHandler extends BaseClientRequestHandler {
 //                    processGetBattleMap(user);
                     break;
                 case CmdDefine.PUT_TOWER: {
-                    System.out.println("[BattleHandler.java line 55] cmd Put tower: " + CmdDefine.PUT_TOWER);
                     RequestPutTower requestPutTower = new RequestPutTower(dataCmd);
                     Room room = RoomManager.getInstance().getRoom(requestPutTower.getRoomId());
                     room.addInput(user, dataCmd);
@@ -83,11 +82,12 @@ public class BattleHandler extends BaseClientRequestHandler {
                     room.addInput(user, dataCmd);
                     break;
                 }
-                case CmdDefine.DROP_SPELL:
-                    System.out.println("[BattleHandler.java line 57] cmd Drop spell: " + CmdDefine.DROP_SPELL);
+                case CmdDefine.DROP_SPELL: {
                     RequestDropSpell requestDropSpell = new RequestDropSpell(dataCmd);
-                    processDropSpell(user, requestDropSpell);
+                    Room room = RoomManager.getInstance().getRoom(requestDropSpell.getRoomId());
+                    room.addInput(user, dataCmd);
                     break;
+                }
                 case CmdDefine.CHANGE_TOWER_STRATEGY:
                     System.out.println("[BattleHandler.java line 58] cmd Change tower strategy: " + CmdDefine.CHANGE_TOWER_STRATEGY);
                     RequestChangeTowerStrategy requestChangeTowerStrategy = new RequestChangeTowerStrategy(dataCmd);
@@ -131,23 +131,6 @@ public class BattleHandler extends BaseClientRequestHandler {
         }
     }
 
-
-    private void processDropSpell(User user, RequestDropSpell req) {
-        System.out.println("BattleMap processDropSpell");
-        try {
-            Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
-            Card spellCard = inventory.getCardById(req.getSpellId());
-            send(new ResponseRequestDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getSpellId(), spellCard.getLevel(), req.getPixelPos()), user);
-            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
-            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getSpellId(), spellCard.getLevel(), req.getPixelPos()), opponent);
-        } catch (Exception e) {
-            logger.info("BattleMap processDropSpell exception");
-        }
-    }
 
     private void processChangeTowerStrategy(User user, RequestChangeTowerStrategy req) {
         System.out.println("BattleMap processChangeTowerStrategy");
