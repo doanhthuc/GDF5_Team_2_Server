@@ -1,5 +1,7 @@
 package battle.newMap;
 
+import battle.common.Utils;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,23 @@ public class BattleMapObject {
     public Tower putTowerIntoMap(Point tilePos, int towerId) {
         TileObject tileObject = this.battleMap.get(tilePos.x).get(tilePos.y);
         return tileObject.buildTower(towerId, 1);
+    }
+
+    public boolean isHavingTowerInTile(int x, int y) {
+        if (!Utils.validateTilePos(new battle.common.Point(x, y))) {
+            try {
+                throw new Exception("Invalid tile pos");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        TileObject tileObject = this.battleMap.get(x).get(y);
+        return tileObject.isHavingTower();
+    }
+
+    public Tower getTowerInTile(int x, int y) {
+        TileObject tileObject = this.battleMap.get(x).get(y);
+        return (Tower) tileObject.getObjectInCell();
     }
 
     public int getWidth() {

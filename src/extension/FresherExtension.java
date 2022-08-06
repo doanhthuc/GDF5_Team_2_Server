@@ -6,8 +6,10 @@ import battle.BattleMap;
 import battle.BattleVisualization;
 import battle.Bida;
 import battle.common.EntityMode;
+import battle.common.MonsterWaveScript;
 import battle.common.Utils;
 import battle.component.info.MonsterInfoComponent;
+import battle.config.MonsterWaveConfig;
 import battle.config.ReadTowerConfigUtil;
 import battle.config.TowerConfigItem;
 import bitzero.engine.sessions.ISession;
@@ -68,6 +70,8 @@ public class FresherExtension extends BZExtension {
          */
         try {
             ReadTowerConfigUtil.readTowerConfig();
+            MonsterWaveConfig.readMonsterWaveConfigFromJson();
+
             PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
             PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
             Room room = new Room(playerInfo1, playerInfo2);

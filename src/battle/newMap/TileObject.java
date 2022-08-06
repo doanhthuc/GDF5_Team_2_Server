@@ -31,6 +31,10 @@ public class TileObject {
         return this.objectInTile;
     }
 
+    public boolean isHavingTower() {
+        return this.objectInTile.getObjectInCellType() == ObjectInTileType.TOWER;
+    }
+
     public Point getTilePos() {
         return tilePos;
     }

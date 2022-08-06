@@ -149,7 +149,7 @@ public class CollisionSystem extends SystemECS {
             for (EntityECS monster : monsterList) {
                 if (monster.getMode() == bulletEntity.getMode()) {
                     MonsterInfoComponent monsterInfo = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
-                    if (monsterInfo.getClasss() == GameConfig.MONSTER.CLASS.AIR) {
+                    if (Objects.equals(monsterInfo.getClasss(), GameConfig.MONSTER.CLASS.AIR)) {
                         continue;
                     }
                     if (Utils.euclidDistance((PositionComponent) monster.getComponent(PositionComponent.typeID), bulletPos) <= bulletInfo.getRadius()) {
@@ -190,8 +190,8 @@ public class CollisionSystem extends SystemECS {
                             && ValidatorECS.isEntityInGroupId(entity2, GameConfig.GROUP_ID.MONSTER_ENTITY)
                             && this.isCollide(entity1, entity2)) {
                         MonsterInfoComponent monsterInfo = (MonsterInfoComponent) entity2.getComponent(MonsterInfoComponent.typeID);
-                        if (monsterInfo.getClasss() == GameConfig.MONSTER.CLASS.AIR) continue;
-                        if (monsterInfo.getCategory()== GameConfig.MONSTER.CATEGORY.BOSS) continue;
+                        if (Objects.equals(monsterInfo.getClasss(), GameConfig.MONSTER.CLASS.AIR)) continue;
+                        if (Objects.equals(monsterInfo.getCategory(), GameConfig.MONSTER.CATEGORY.BOSS)) continue;
                         entity2.addComponent(battle.getComponentFactory().createTrapEffect());
                     }
                 }
@@ -219,8 +219,8 @@ public class CollisionSystem extends SystemECS {
                         && ValidatorECS.isEntityInGroupId(entity2, GameConfig.GROUP_ID.MONSTER_ENTITY)
                         && this.isCollide(entity1, entity2)) {
                     MonsterInfoComponent monsterInfo = (MonsterInfoComponent) entity2.getComponent(MonsterInfoComponent.typeID);
-                    if (monsterInfo.getClasss() == GameConfig.MONSTER.CLASS.AIR) continue;
-                    if (monsterInfo.getCategory()== GameConfig.MONSTER.CATEGORY.BOSS) continue;
+                    if (Objects.equals(monsterInfo.getClasss(), GameConfig.MONSTER.CLASS.AIR)) continue;
+                    if (Objects.equals(monsterInfo.getCategory(), GameConfig.MONSTER.CATEGORY.BOSS)) continue;
 
                     trapInfoComponent.setTriggered(true);
 

@@ -6,6 +6,7 @@ import battle.component.common.PositionComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.component.info.TowerInfoComponent;
 import battle.config.GameConfig;
+import battle.config.MonsterWaveConfig;
 import battle.entity.EntityECS;
 import battle.factory.ComponentFactory;
 import battle.factory.EntityFactory;
@@ -28,7 +29,6 @@ public class Battle {
     private ComponentPool componentPool;
     private EntityPool entityPool;
     private EntityManager entityManager;
-
 
 
     private ComponentManager componentManager;
@@ -138,7 +138,7 @@ public class Battle {
     }
 
     public void initMonsterWave() {
-        this.monsterWave = this.createNewMonsterWave();
+        this.monsterWave = this.createNewMonsterWave2();
         this.currentWave = -1;
     }
 
@@ -195,6 +195,79 @@ public class Battle {
     public void minusPlayerEnergy(int energy, EntityMode mode) {
         if (mode == EntityMode.PLAYER) this.player1energy -= energy;
         else this.player2energy -= energy;
+    }
+
+    public List<Integer> createMonsterWaveByCurrentWaveId(int currentWave, EntityMode monde) {
+        List<Integer> monsterWaveIdList = new ArrayList<>();
+        MonsterWaveScript monsterWaveScript = MonsterWaveConfig.monsterWaveScriptHashMap.get(currentWave);
+        for (int i = 0; i < monsterWaveScript.getMonsterWaveSlotList().size(); i++) {
+            MonsterWaveSlot monsterWaveSlot = monsterWaveScript.getMonsterWaveSlotList().get(i);
+            if (Objects.equals(monsterWaveSlot.getMonsterClass(), "boss")) {
+                int bossId = GameConfig.MONSTER.BOSS_MONSTER.get(new Random().nextInt(GameConfig.MONSTER.BOSS_MONSTER.size()));
+                monsterWaveIdList.add(bossId);
+                continue;
+            }
+            int sumAllTowerInMap = getAllCurrentTowerLevelInMap(monde);
+            double monsterRate = monsterWaveSlot.getRate();
+            int monsterBaseAmount = 1;
+            int monsterId = -1;
+            if (monsterWaveSlot.getMonsterId() != -1 && Objects.equals(monsterWaveSlot.getCategory(), "normal")) {
+                monsterId = monsterWaveSlot.getMonsterId();
+                monsterBaseAmount = MonsterWaveConfig.monsterBaseAmountMap.get(monsterId);
+            } else if (monsterWaveSlot.getMonsterId() == -1 && Objects.equals(monsterWaveSlot.getMonsterClass(), GameConfig.MONSTER.CLASS.LAND)) {
+                Random random = new Random();
+                monsterId = GameConfig.MONSTER.LAND_MONSTER.get(random.nextInt(GameConfig.MONSTER.LAND_MONSTER.size()));
+                monsterBaseAmount = MonsterWaveConfig.monsterBaseAmountMap.get(monsterId);
+            } else if (Objects.equals(monsterWaveSlot.getMonsterClass(), GameConfig.MONSTER.CLASS.AIR)) {
+                monsterId = GameConfig.MONSTER.AIR_MONSTER.get(new Random().nextInt(GameConfig.MONSTER.AIR_MONSTER.size()));
+            }
+            int multiplier = getMonsterAmountMultiplierByTowerLevel(sumAllTowerInMap);
+            int monsterAmount = (int) Math.ceil(monsterBaseAmount * monsterRate * multiplier);
+            for (int j = 0; j < monsterAmount; j++) {
+                monsterWaveIdList.add(monsterId);
+            }
+        }
+        return monsterWaveIdList;
+    }
+
+    public int getMonsterAmountMultiplierByTowerLevel(int level) {
+        int multiplier = 1;
+        if (level < 5) {
+            multiplier = 1;
+        } else if (level < 10) {
+            multiplier = 2;
+        } else if (level < 15) {
+            multiplier = 3;
+        } else if (level < 20) {
+            multiplier = 4;
+        } else if (level < 25) {
+            multiplier = 5;
+        } else if (level < 30) {
+            multiplier = 6;
+        } else {
+            multiplier = 7;
+        }
+        return multiplier;
+    }
+
+    public int getAllCurrentTowerLevelInMap(EntityMode mode) {
+        int level = 0;
+        for (int i = 0; i < BattleMap.mapW; i++) {
+            for (int j = 0; j < BattleMap.mapH; j++) {
+                if (this.getBattleMapByEntityMode(mode).battleMapObject.isHavingTowerInTile(i, j)) {
+                    level += this.getBattleMapByEntityMode(mode).battleMapObject.getTowerInTile(i, j).getLevel();
+                }
+            }
+        }
+        return level;
+    }
+
+    public List<List<Integer>> createNewMonsterWave2() {
+        List<List<Integer>> monsterWave = new ArrayList<>();
+        for (int i = 0; i < MonsterWaveConfig.monsterWaveScriptHashMap.size(); i++) {
+            monsterWave.add(createMonsterWaveByCurrentWaveId(i + 1, EntityMode.PLAYER));
+        }
+        return monsterWave;
     }
 
 
