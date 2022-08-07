@@ -41,6 +41,10 @@ public class TickInternalHandler {
                 room.getBattle().castSpellBySpellID(GameConfig.ENTITY_ID.TRAP_SPELL,req.getTilePos().x,req.getTilePos().y,entityMode);
                 System.out.println("AAAAAAAAAAAA Handle dropTrap internal");
             }
+            case CmdDefine.UPGRADE_TOWER:{
+                System.out.println("AAAAAAAAAAAA Handle upgradeTower internal");
+                
+            }
         }
     }
 }
