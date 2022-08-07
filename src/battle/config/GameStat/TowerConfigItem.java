@@ -11,17 +11,22 @@ public class TowerConfigItem {
     private String targetType;
     private String bulletType;
     private int bulletTargetBuffType;
+    private int auraTargetBuffType;
     private int energy;
     private int attackAnimationTime;
+
+
+
     private int shootAnimationTime;
     private HashMap<Integer, TowerStat> towerStatHashMap;
 
-    public TowerConfigItem(String name, String archetype, String targetType, String bulletType, int bulletTargetBuffType, int energy, int attackAnimationTime, int shootAnimationTime, HashMap<Integer, TowerStat> towerStat) {
+    public TowerConfigItem(String name, String archetype, String targetType, String bulletType, int bulletTargetBuffType, int auraTargetBuffType, int energy, int attackAnimationTime, int shootAnimationTime, HashMap<Integer, TowerStat> towerStat) {
         this.name = name;
         this.archetype = archetype;
         this.targetType = targetType;
         this.bulletType = bulletType;
         this.bulletTargetBuffType = bulletTargetBuffType;
+        this.auraTargetBuffType = auraTargetBuffType;
         this.energy = energy;
         this.attackAnimationTime = attackAnimationTime;
         this.shootAnimationTime = shootAnimationTime;
@@ -98,6 +103,14 @@ public class TowerConfigItem {
 
     public void setShootAnimationTime(int shootAnimationTime) {
         this.shootAnimationTime = shootAnimationTime;
+    }
+
+    public int getAuraTargetBuffType() {
+        return auraTargetBuffType;
+    }
+
+    public void setAuraTargetBuffType(int auraTargetBuffType) {
+        this.auraTargetBuffType = auraTargetBuffType;
     }
 
     public HashMap<Integer, TowerStat> getTowerStat() {
