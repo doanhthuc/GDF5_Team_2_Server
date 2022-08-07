@@ -41,13 +41,14 @@ public class ReadConfigUtil {
                 JsonObject value = (JsonObject) entry.getValue();
                 HashMap<Integer, TowerStat> towerStatHashMap = new HashMap<>();
                 String name = "", archetype = "", targetType = "", bulletType = "";
-                int bulletTargetBuffType = -1, energy = 0, attackAnimationTime = 0, shootAnimationTime = 0;
+                int bulletTargetBuffType = -1, auraTowerBuffType = -1, energy = 0, attackAnimationTime = 0, shootAnimationTime = 0;
                 if (value.has("name")) name = value.get("name").getAsString();
                 if (value.has("archetype")) archetype = value.get("archetype").getAsString();
                 if (value.has("targetType")) targetType = value.get("targetType").getAsString();
                 if (value.has("bulletType")) bulletType = value.get("bulletType").getAsString();
                 if (value.has("bulletTargetBuffType"))
                     bulletTargetBuffType = value.get("bulletTargetBuffType").getAsInt();
+                if (value.has("auraTowerBuffType")) auraTowerBuffType = value.get("auraTowerBuffType").getAsInt();
                 if (value.has("energy")) energy = value.get("energy").getAsInt();
                 if (value.has("attackAnimationTime")) attackAnimationTime = value.get("attackAnimationTime").getAsInt();
                 if (value.has("shootAnimationTime")) shootAnimationTime = value.get("shootAnimationTime").getAsInt();
@@ -72,7 +73,7 @@ public class ReadConfigUtil {
                         towerStatHashMap.put(towerRank, towerStat);
                     }
                 }
-                TowerConfigItem towerConfigItem = new TowerConfigItem(name, archetype, targetType, bulletType, bulletTargetBuffType, energy,
+                TowerConfigItem towerConfigItem = new TowerConfigItem(name, archetype, targetType, bulletType, bulletTargetBuffType, auraTowerBuffType, energy,
                         attackAnimationTime, shootAnimationTime, towerStatHashMap);
                 towerInfo.put(key, towerConfigItem);
             }
