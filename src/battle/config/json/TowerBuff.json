@@ -110,23 +110,6 @@
         ]
       },
       "state": "frozen"
-    },
-    "6": {
-      "name": "potionFrozen",
-      "durationType": "limited",
-      "duration": {
-        "1": 2000
-      },
-      "durationUseCardLevel": true,
-      "effects": {
-        "1": [
-          {
-            "name": "frozen",
-            "type": "disable"
-          }
-        ]
-      },
-      "state": "frozen"
     }
   }
 }

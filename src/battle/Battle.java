@@ -62,7 +62,6 @@ public class Battle {
     public int player2HP = GameConfig.PLAYER_HP;
     private int player1energy = GameConfig.PLAYER_ENERGY;
     private int player2energy = GameConfig.OPPONENT_ENERGY;
-    //DDojc va luu
     public PlayerInfo user1;
     public PlayerInfo user2;
 
@@ -73,16 +72,8 @@ public class Battle {
         this.initMonsterWave();
     }
 
-    //    public Battle(int userId1, int userId2, BattleMap battleMap1, BattleMap battleMap2) throws Exception {
-//        this.battleMapListByPlayerId = new HashMap<>();
-//        this.battleMapListByPlayerId.put(userId1, battleMap1);
-//        this.battleMapListByPlayerId.put(userId2, battleMap2);
-//
-//        this.entityManager = EntityManager.getInstance();
-//        //this._initTower();
-//        this.attackSystem = new AttackSystem();
-//    }
-//  INIT
+
+    //init
     public void initPoolAndManager() {
         this.entityPool = new EntityPool();
         this.componentPool = new ComponentPool();
@@ -142,21 +133,21 @@ public class Battle {
         this.currentWave = -1;
     }
 
-//Update
+    //Update
 
     public void updateSystem() throws Exception {
         if (GameConfig.DEBUG) this.debug();
         resetSystem.run(this);
-        movementSystem.run(this);
-        lifeSystem.run(this);
-        attackSystem.run(this);
-        collisionSystem.run(this);
+        abilitySystem.run(this);
         effectSystem.run(this);
+        attackSystem.run(this);
+        lifeSystem.run(this);
+        collisionSystem.run(this);
         pathMonsterSystem.run(this);
         spellSystem.run(this);
         monsterSystem.run(this);
         bulletSystem.run(this);
-        abilitySystem.run(this);
+        movementSystem.run(this);
     }
 
     public void updateMonsterWave() throws Exception {
@@ -176,12 +167,8 @@ public class Battle {
         }
     }
 
-    //Other Function
-    public BattleMap getBattleMapByEntityMode(EntityMode mode) {
-        if (mode == EntityMode.PLAYER) return this.player1BattleMap;
-        else return this.player2BattleMap;
-    }
-
+    //PlayerHp and Energy
+   
     public void minusPlayerHP(int hp, EntityMode mode) {
         if (mode == EntityMode.PLAYER) this.player1HP -= hp;
         else this.player2HP -= hp;
@@ -373,17 +360,30 @@ public class Battle {
                 this.entityFactory.createGoatAttackDamageTower(new Point(tilePosX, tilePosY), mode);
                 break;
         }
-        this.updateMap(towerID, tilePosX, tilePosY, mode);
+        this.updateMapWhenPutTower(towerID, tilePosX, tilePosY, mode);
         this.handlerPutTower(mode);
     }
 
-    public void updateMap(int towerId, int tilePosX, int tilePosY, EntityMode mode) {
+    public void castSpellBySpellID(int spellID, double pixelPosX, double pixelPosY, EntityMode mode) throws Exception {
+        switch (spellID) {
+            case GameConfig.ENTITY_ID.FIRE_SPELL:
+                this.entityFactory.createFireSpell(new Point(pixelPosX, pixelPosY), mode);
+                break;
+            case GameConfig.ENTITY_ID.FROZEN_SPELL:
+                this.entityFactory.createFrozenSpell(new Point(pixelPosX, pixelPosY), mode);
+                break;
+            case GameConfig.ENTITY_ID.TRAP_SPELL:
+                this.entityFactory.createTrapSpell(new Point(pixelPosX, pixelPosY), mode);
+                break;
+        }
+    }
+
+    public void updateMapWhenPutTower(int towerId, int tilePosX, int tilePosY, EntityMode mode) {
         BattleMap battleMap = null;
         if (mode == EntityMode.PLAYER) {
             this.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
             battleMap = this.player1BattleMap;
-        }
-        if (mode == EntityMode.OPPONENT) {
+        } else {
             this.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
             battleMap = this.player2BattleMap;
         }
@@ -391,17 +391,18 @@ public class Battle {
         battleMapObject.putTowerIntoMap(new java.awt.Point(tilePosX, tilePosY), towerId);
     }
 
-    public void castSpellByID(int spellID, int pixelPosX, int pixelPosY, EntityMode mode) throws Exception {
-        switch (spellID) {
-            case GameConfig.ENTITY_ID.FIRE_SPELL:
-                //System.out.println(pixelPos.getX()+ " "+pixelPos.getY());
-                this.entityFactory.createFireSpell(new Point(pixelPosX, pixelPosY), mode);
-                break;
-            case GameConfig.ENTITY_ID.FROZEN_SPELL:
-                this.entityFactory.createFrozenSpell(new Point(pixelPosX, pixelPosY), mode);
-                break;
+    public void handlerDesTroyTower(int tilePosX,int tilePosY, EntityMode mode)
+    {
+        BattleMap battleMap = null;
+        if (mode == EntityMode.PLAYER) {
+            this.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
+            battleMap = this.player1BattleMap;
+        } else {
+            this.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
+            battleMap = this.player2BattleMap;
         }
-
+        BattleMapObject battleMapObject = battleMap.battleMapObject;
+        //TODO: DestroyTower in BattleMapObject
     }
 
 
@@ -444,6 +445,12 @@ public class Battle {
 //        System.out.println("Player1 Hp= " + this.player1HP + " Player1 Energy=" + this.player1energy);
 //        System.out.println("Player2 Hp= " + this.player2HP + " Player2 Energy=" + this.player2energy);
     }
+
+     public BattleMap getBattleMapByEntityMode(EntityMode mode) {
+        if (mode == EntityMode.PLAYER) return this.player1BattleMap;
+        else return this.player2BattleMap;
+    }
+
 
     public EntityManager getEntityManager() {
         return this.entityManager;

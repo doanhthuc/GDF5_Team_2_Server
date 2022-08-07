@@ -3,19 +3,18 @@ package battle.factory;
 import battle.Battle;
 import battle.common.EntityMode;
 import battle.common.Point;
-import battle.common.UUIDGeneratorECS;
 import battle.common.Utils;
 import battle.component.common.*;
 import battle.component.effect.*;
 import battle.component.info.*;
 import battle.config.GameConfig;
-import battle.config.ReadTowerConfigUtil;
-import battle.config.TowerConfigItem;
-import battle.config.TowerStat;
+import battle.config.GameStat.MonsterConfigItem;
+import battle.config.ReadConfigUtil;
+import battle.config.GameStat.TowerConfigItem;
+import battle.config.GameStat.TowerStat;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.pool.EntityPool;
-import bitzero.core.P;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -158,11 +157,20 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("normal", "land", 30, 1, 10, null, null);
+        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.SWORD_MAN);
+        String category = SwordManStat.getCategory();
+        String classs = SwordManStat.getClasss();
+        int weight = SwordManStat.getWeight();
+        int gainEnergy = SwordManStat.getGainEnergy();
+        int ability = SwordManStat.getAbility();
+        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+
+        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.8 * GameConfig.TILE_WIDTH, 0, null);
-        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(20, 30);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed, 0, null);
+        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(18);
 
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
@@ -188,11 +196,21 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("normal", "land", 15, 1, 10, null, null);
+        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.ASSASSIN);
+        String category = SwordManStat.getCategory();
+        String classs = SwordManStat.getClasss();
+        int weight = SwordManStat.getWeight();
+        int gainEnergy = SwordManStat.getGainEnergy();
+        int ability = SwordManStat.getAbility();
+        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+
+
+        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(1.4 * GameConfig.TILE_WIDTH, 0, null);
-        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(15, 15);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed, 0, null);
+        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(12);
 
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
@@ -217,11 +235,20 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("normal", "air", 25, 1, 10, null, null);
+        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.BAT);
+        String category = SwordManStat.getCategory();
+        String classs = SwordManStat.getClasss();
+        int weight = SwordManStat.getWeight();
+        int gainEnergy = SwordManStat.getGainEnergy();
+        int ability = SwordManStat.getAbility();
+        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+
+        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(1 * GameConfig.TILE_WIDTH, 0, null);
-        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(20, 30);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed, 0, null);
+        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(14);
 
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
@@ -245,11 +272,20 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("normal", "ground", 200, 3, 30, null, null);
+        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.GIANT);
+        String category = SwordManStat.getCategory();
+        String classs = SwordManStat.getClasss();
+        int weight = SwordManStat.getWeight();
+        int gainEnergy = SwordManStat.getGainEnergy();
+        int ability = SwordManStat.getAbility();
+        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+
+        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.5 * GameConfig.TILE_WIDTH, 0, null);
-        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(30, 30);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed, 0, null);
+        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(82);
 
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
@@ -274,11 +310,19 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("normal", "ground", 30, 1, 10, null, null);
+        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.NINJA);
+        String category = SwordManStat.getCategory();
+        String classs = SwordManStat.getClasss();
+        int weight = SwordManStat.getWeight();
+        int gainEnergy = SwordManStat.getGainEnergy();
+        int ability = SwordManStat.getAbility();
+        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.8 * GameConfig.TILE_WIDTH, 0, null);
-        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(20, 30);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed, 0, null);
+        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(24);
         UnderGroundComponent underGroundComponent = this.componentFactory.createUnderGroundComponent();
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
@@ -305,11 +349,20 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("boss", "land", 400, 5, 15, null, null);
+        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.DEMON_TREE_BOSS);
+        String category = SwordManStat.getCategory();
+        String classs = SwordManStat.getClasss();
+        int weight = SwordManStat.getWeight();
+        int gainEnergy = SwordManStat.getGainEnergy();
+        int ability = SwordManStat.getAbility();
+        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+
+        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 5, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.4 * GameConfig.TILE_WIDTH, 0, null);
-        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(20, 30);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed, 0, null);
+        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(400);
         SpawnMinionComponent spawnMinionComponent = this.componentFactory.createSpawnMinionComponent(2);
 
@@ -334,11 +387,20 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("normal", "land", 50, 1, 1, null, null);
+        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.DEMON_TREE_MINION);
+        String category = SwordManStat.getCategory();
+        String classs = SwordManStat.getClasss();
+        int weight = SwordManStat.getWeight();
+        int gainEnergy = SwordManStat.getGainEnergy();
+        int ability = SwordManStat.getAbility();
+        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+
+        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.8 * GameConfig.TILE_WIDTH, 0, null);
-        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(20, 30);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed, 0, null);
+        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(30);
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
@@ -360,11 +422,20 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("normal", "land", 500, 5, 15, null, null);
+        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.DARK_GIANT);
+        String category = SwordManStat.getCategory();
+        String classs = SwordManStat.getClasss();
+        int weight = SwordManStat.getWeight();
+        int gainEnergy = SwordManStat.getGainEnergy();
+        int ability = SwordManStat.getAbility();
+        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+
+        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 5, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.4 * GameConfig.TILE_WIDTH, 0, null);
-        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(40, 40);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed, 0, null);
+        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(800);
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
@@ -387,14 +458,23 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent("boss", "land", 300, 5, 15, null, null);
+        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.SATYR);
+        String category = SwordManStat.getCategory();
+        String classs = SwordManStat.getClasss();
+        int weight = SwordManStat.getWeight();
+        int gainEnergy = SwordManStat.getGainEnergy();
+        int ability = SwordManStat.getAbility();
+        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+
+        MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 5, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
         VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.4 * GameConfig.TILE_WIDTH, 0, null);
         CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(30, 30);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(400);
 
-        HealingAbilityComponent healingAbilityComponent = this.componentFactory.createHealingAbilityComponent(2 * GameConfig.TILE_WIDTH, 100);
+        HealingAbilityComponent healingAbilityComponent = this.componentFactory.createHealingAbilityComponent(2 * GameConfig.TILE_WIDTH, 0.03);
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
         //ToDo: find shortest Path with TilePos
@@ -418,7 +498,7 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.CANNON);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.CANNON);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -430,7 +510,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
+        double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -453,7 +533,7 @@ public class EntityFactory {
 
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.BEAR);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.BEAR);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -464,7 +544,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
+        double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
 
@@ -491,7 +571,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.FROG);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.FROG);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -502,7 +582,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
+        double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -525,7 +605,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.BUNNY);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.BUNNY);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -536,7 +616,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
+        double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -562,7 +642,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.WIZARD);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.WIZARD);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -573,7 +653,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
+        double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -594,7 +674,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.SNAKE);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.SNAKE);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -605,7 +685,7 @@ public class EntityFactory {
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
         double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius()*GameConfig.TILE_WIDTH;
+        double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -628,7 +708,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
         int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadTowerConfigUtil.towerInfo.get(ReadTowerConfigUtil.TOWER_IN_CONFIG.GOAT);
+        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.GOAT);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();

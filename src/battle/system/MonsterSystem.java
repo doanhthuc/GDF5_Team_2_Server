@@ -35,7 +35,7 @@ public class MonsterSystem extends SystemECS {
             if (posTile.x == GameConfig.HOUSE_POSITION.x && posTile.y == GameConfig.HOUSE_POSITION.y) {
                 MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
                 battle.minusPlayerHP(monsterInfoComponent.getEnergy(), monster.getMode());
-                battle.addPlayerEnergy(monsterInfoComponent.getGainEnergy(), monster.getMode());
+                battle.addPlayerEnergy(monsterInfoComponent.getEnergy() * 10, monster.getMode());
                 battle.getEntityManager().destroy(monster);
             }
         }

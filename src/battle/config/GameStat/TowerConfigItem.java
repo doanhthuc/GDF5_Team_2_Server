@@ -1,4 +1,6 @@
-package battle.config;
+package battle.config.GameStat;
+
+import battle.config.GameStat.TowerStat;
 
 import java.util.HashMap;
 
