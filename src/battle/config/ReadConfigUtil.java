@@ -16,8 +16,8 @@ import java.util.Map;
 public class ReadConfigUtil {
     public final static HashMap<Integer, TowerConfigItem> towerInfo = new HashMap<>();
     public final static MonsterConfigItem monsterInfo = new MonsterConfigItem();
-    public final static HashMap<Integer, TargetBuffConfigItem> targetBuffInfo = new HashMap();
-    public final static HashMap<Integer, TargetBuffConfigItem> towerBuffInfo = new HashMap();
+    public final static HashMap<Integer, TargetBuffConfigItem> targetBuffInfo = new HashMap<>();
+    public final static HashMap<Integer, TargetBuffConfigItem> towerBuffInfo = new HashMap<>();
 
     public static class TOWER_IN_CONFIG {
         public static int CANNON = 0;
