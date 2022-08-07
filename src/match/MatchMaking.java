@@ -1,6 +1,7 @@
 package match;
 
 import battle.BattleMap;
+import battle.config.GameConfig;
 import bitzero.core.P;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
@@ -18,6 +19,7 @@ import model.PlayerInfo;
 import model.UserIncrementID;
 import model.battle.Room;
 import model.battle.RoomManager;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.MatchingHandler;
@@ -49,7 +51,7 @@ public class MatchMaking implements Runnable {
 
             Iterator<MatchingInfo> it = waitingQueue.iterator();
             it.next();
-            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 2000) {
+            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= GameConfig.BATTLE.TIME_MATCHING_BOT) {
                 processMatchingWithBot(matchingInfo1);
             } else {
                 while (it.hasNext()) {
@@ -74,7 +76,7 @@ public class MatchMaking implements Runnable {
 
     public void addUser(int userId, int trophy) {
         if (waitingMap.containsKey(userId)) {
-            logger.warn("matching => user id = " + userId + " is existing in waiting queue");
+            System.out.println("matching => user id = " + userId + " is existing in waiting queue");
             return;
         }
         MatchingInfo matchingInfo = new MatchingInfo(userId, System.currentTimeMillis(), trophy);
@@ -86,7 +88,7 @@ public class MatchMaking implements Runnable {
     public void cancelMatching(User user) {
         int userId = user.getId();
         if (waitingMap.containsKey(userId)) {
-            logger.warn("cancel matching => user id = " + userId + " is existing in waiting queue");
+            System.out.println("cancel matching => user id = " + userId + " is existing in waiting queue");
             ExtensionUtility.getExtension().send(new ResponseCancelMatching(), user);
             MatchingInfo matchingInfo = waitingMap.remove(userId);
             waitingQueue.remove(matchingInfo);
@@ -155,7 +157,7 @@ public class MatchMaking implements Runnable {
 //                System.out.println();
 //            }
         } catch (Exception e) {
-            logger.error("MatchMaking error: " + e.getMessage());
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -199,7 +201,7 @@ public class MatchMaking implements Runnable {
 //                System.out.println();
 //            }
         } catch (Exception e) {
-            logger.error("MatchMaking error: " + e.getMessage());
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 
