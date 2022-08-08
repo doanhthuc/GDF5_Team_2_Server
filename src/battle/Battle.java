@@ -200,7 +200,7 @@ public class Battle {
         MonsterWaveScript monsterWaveScript = MonsterWaveConfig.monsterWaveScriptHashMap.get(currentWave);
         for (int i = 0; i < monsterWaveScript.getMonsterWaveSlotList().size(); i++) {
             MonsterWaveSlot monsterWaveSlot = monsterWaveScript.getMonsterWaveSlotList().get(i);
-            if (Objects.equals(monsterWaveSlot.getMonsterClass(), "boss")) {
+            if (Objects.equals(monsterWaveSlot.getCategory(), "boss")) {
                 int bossId = GameConfig.MONSTER.BOSS_MONSTER.get(new Random().nextInt(GameConfig.MONSTER.BOSS_MONSTER.size()));
                 monsterWaveIdList.add(bossId);
                 continue;
