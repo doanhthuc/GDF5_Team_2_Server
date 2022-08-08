@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;
@@ -152,8 +152,8 @@ public class GameConfig {
         public static int DRAW = 2;
     }
 
-    public static int WAVE_AMOUNT = 100;
-    public static int PLAYER_HP = 2000;
+    public static int WAVE_AMOUNT = 20;
+    public static int PLAYER_HP = 20;
     public static int PLAYER_ENERGY = 30;
     public static int OPPONENT_ENERGY = 30;
 
@@ -162,7 +162,7 @@ public class GameConfig {
     public static class BATTLE {
         public static long START_GAME_AFTER = 8 * 1000;
         public static long WAVE_TIME = 20 * 1000;
-        public static int AMOUNT_MONSTER_EACH_WAVE = 10;
+        public static int AMOUNT_MONSTER_EACH_WAVE = 5;
         public static int TICK_RATE = 50;
 
         public static int WINNER_TROPHY = 10;
