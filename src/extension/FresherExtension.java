@@ -39,7 +39,7 @@ import util.server.ServerLoop;
 
 import java.util.List;
 
-import static battle.config.ReadConfigUtil.monsterInfo;
+import static battle.config.ReadConfigUtil.*;
 
 
 public class FresherExtension extends BZExtension {
@@ -62,6 +62,10 @@ public class FresherExtension extends BZExtension {
         try {
             ReadConfigUtil.readTowerConfig();
             ReadConfigUtil.readMonsterConfig();
+            ReadConfigUtil.readTargetBuffConfig();
+            ReadConfigUtil.readTowerBuffConfig();
+            System.out.println(towerBuffInfo.get(TOWER_BUFF_IN_CONFIG.GOAT_TOWER).getListEffect().get(1).get(0).getValue());
+            System.out.println(towerInfo.get(TOWER_IN_CONFIG.SNAKE).getAuraTargetBuffType());
 //            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
 //            PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
 //            Room room = new Room(playerInfo1, playerInfo2);

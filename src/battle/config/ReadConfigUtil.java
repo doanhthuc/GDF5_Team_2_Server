@@ -1,20 +1,23 @@
 package battle.config;
 
-import battle.config.GameStat.MonsterConfigItem;
-import battle.config.GameStat.TowerConfigItem;
-import battle.config.GameStat.TowerStat;
+import battle.config.GameStat.*;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ReadConfigUtil {
     public final static HashMap<Integer, TowerConfigItem> towerInfo = new HashMap<>();
     public final static MonsterConfigItem monsterInfo = new MonsterConfigItem();
+    public final static HashMap<Integer, TargetBuffConfigItem> targetBuffInfo = new HashMap();
+    public final static HashMap<Integer, TargetBuffConfigItem> towerBuffInfo = new HashMap();
 
     public static class TOWER_IN_CONFIG {
         public static int CANNON = 0;
@@ -38,13 +41,14 @@ public class ReadConfigUtil {
                 JsonObject value = (JsonObject) entry.getValue();
                 HashMap<Integer, TowerStat> towerStatHashMap = new HashMap<>();
                 String name = "", archetype = "", targetType = "", bulletType = "";
-                int bulletTargetBuffType = -1, energy = 0, attackAnimationTime = 0, shootAnimationTime = 0;
+                int bulletTargetBuffType = -1, auraTowerBuffType = -1, energy = 0, attackAnimationTime = 0, shootAnimationTime = 0;
                 if (value.has("name")) name = value.get("name").getAsString();
                 if (value.has("archetype")) archetype = value.get("archetype").getAsString();
                 if (value.has("targetType")) targetType = value.get("targetType").getAsString();
                 if (value.has("bulletType")) bulletType = value.get("bulletType").getAsString();
                 if (value.has("bulletTargetBuffType"))
                     bulletTargetBuffType = value.get("bulletTargetBuffType").getAsInt();
+                if (value.has("auraTowerBuffType")) auraTowerBuffType = value.get("auraTowerBuffType").getAsInt();
                 if (value.has("energy")) energy = value.get("energy").getAsInt();
                 if (value.has("attackAnimationTime")) attackAnimationTime = value.get("attackAnimationTime").getAsInt();
                 if (value.has("shootAnimationTime")) shootAnimationTime = value.get("shootAnimationTime").getAsInt();
@@ -69,7 +73,7 @@ public class ReadConfigUtil {
                         towerStatHashMap.put(towerRank, towerStat);
                     }
                 }
-                TowerConfigItem towerConfigItem = new TowerConfigItem(name, archetype, targetType, bulletType, bulletTargetBuffType, energy,
+                TowerConfigItem towerConfigItem = new TowerConfigItem(name, archetype, targetType, bulletType, bulletTargetBuffType, auraTowerBuffType, energy,
                         attackAnimationTime, shootAnimationTime, towerStatHashMap);
                 towerInfo.put(key, towerConfigItem);
             }
@@ -138,5 +142,138 @@ public class ReadConfigUtil {
         } catch (FileNotFoundException fileNotFoundException) {
             fileNotFoundException.printStackTrace();
         }
+    }
+
+    public static class TARGET_BUFF_IN_CONFIG {
+        public static int BULLET_OIL_GUN = 0;
+        public static int BULLET_ICE_GUN = 1;
+        public static int POTION_FROZEN = 2;
+        public static int NINJA_ABILITY = 6;
+    }
+
+    public static void readTargetBuffConfig() {
+        JsonParser parser = new JsonParser();
+        try {
+            FileReader fileReader = new FileReader("src/battle/config/json/TargetBuff.json");
+            JsonObject jsonObject = (JsonObject) parser.parse(fileReader);
+            JsonObject targetBuffObj = jsonObject.getAsJsonObject("targetBuff");
+
+            for (Map.Entry<String, JsonElement> entryTargetBuff : targetBuffObj.entrySet()) {
+                TargetBuffConfigItem targetBuffConfig = null;
+                int key = Integer.parseInt(entryTargetBuff.getKey());
+                JsonObject value = (JsonObject) entryTargetBuff.getValue();
+                String name = "", durationType = "", state = "";
+                boolean durationUseCardLevel = false;
+                JsonObject duration = null;
+                if (value.has("name")) name = value.get("name").getAsString();
+                if (value.has("durationType")) durationType = value.get("durationType").getAsString();
+                if (value.has("durationUseCardLevel"))
+                    durationUseCardLevel = value.get("durationUseCardLevel").getAsBoolean();
+                if (value.has("state")) state = value.get("state").getAsString();
+
+                targetBuffConfig = new TargetBuffConfigItem(name, durationType, durationUseCardLevel, state);
+                if (value.has("duration")) {
+                    duration = value.get("duration").getAsJsonObject();
+                    for (Map.Entry<String, JsonElement> entryDuration : duration.entrySet()) {
+                        targetBuffConfig.addDurationItem(Integer.parseInt(entryDuration.getKey()), entryDuration.getValue().getAsDouble());
+                    }
+                }
+
+                JsonObject effects = null;
+                if (value.has("effects")) {
+                    effects = value.getAsJsonObject("effects");
+                    for (Map.Entry<String, JsonElement> entryEffects : effects.entrySet()) {
+                        int level = Integer.parseInt(entryEffects.getKey());
+                        List<EffectStat> effectStats = new ArrayList<>();
+                        JsonArray jsonArray = (JsonArray) entryEffects.getValue();
+
+                        for (JsonElement effectObj : jsonArray) {
+                            JsonObject effectInfo = effectObj.getAsJsonObject();
+                            String effectName = "";
+                            String effectType = "";
+                            double effectValue = 0;
+                            if (effectInfo.has("name")) effectName = effectInfo.get("name").getAsString();
+                            if (effectInfo.has("type")) effectType = effectInfo.get("type").getAsString();
+                            if (effectInfo.has("value")) effectValue = effectInfo.get("value").getAsDouble();
+                            EffectStat effectStat;
+                            effectStat = new EffectStat(effectName, effectType, effectValue);
+                            effectStats.add(effectStat);
+                        }
+                        targetBuffConfig.addEffectStats(level, effectStats);
+                    }
+                    targetBuffInfo.put(key, targetBuffConfig);
+                }
+            }
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        }
+    }
+
+    public static class TOWER_BUFF_IN_CONFIG {
+        public static int CELL_DAMAGE = 0;
+        public static int CELl_ATTACK_SPEED = 1;
+        public static int CELL_RANGE = 2;
+        public static int GOAT_TOWER = 3;
+        public static int SNAKE_TOWER = 4;
+        public static int ICE_MAN = 5;
+    }
+
+    public static void readTowerBuffConfig() {
+        JsonParser parser = new JsonParser();
+        try {
+            FileReader fileReader = new FileReader("src/battle/config/json/TowerBuff.json");
+            JsonObject jsonObject = (JsonObject) parser.parse(fileReader);
+            JsonObject towerBuffObj = jsonObject.getAsJsonObject("towerBuff");
+
+            for (Map.Entry<String, JsonElement> entryTowerBuff : towerBuffObj.entrySet()) {
+                TargetBuffConfigItem targetBuffConfig = null;
+                int key = Integer.parseInt(entryTowerBuff.getKey());
+                JsonObject value = (JsonObject) entryTowerBuff.getValue();
+                String name = "", durationType = "", state = "";
+                boolean durationUseCardLevel = false;
+                JsonObject duration = null;
+                if (value.has("name")) name = value.get("name").getAsString();
+                if (value.has("durationType")) durationType = value.get("durationType").getAsString();
+                if (value.has("durationUseCardLevel"))
+                    durationUseCardLevel = value.get("durationUseCardLevel").getAsBoolean();
+                if (value.has("state")) state = value.get("state").getAsString();
+
+                targetBuffConfig = new TargetBuffConfigItem(name, durationType, durationUseCardLevel, state);
+                if (value.has("duration")) {
+                    duration = value.get("duration").getAsJsonObject();
+                    for (Map.Entry<String, JsonElement> entryDuration : duration.entrySet()) {
+                        targetBuffConfig.addDurationItem(Integer.parseInt(entryDuration.getKey()), entryDuration.getValue().getAsDouble());
+                    }
+                }
+
+                JsonObject effects = null;
+                if (value.has("effects")) {
+                    effects = value.getAsJsonObject("effects");
+                    for (Map.Entry<String, JsonElement> entryEffects : effects.entrySet()) {
+                        int level = Integer.parseInt(entryEffects.getKey());
+                        List<EffectStat> effectStats = new ArrayList<>();
+                        JsonArray jsonArray = (JsonArray) entryEffects.getValue();
+
+                        for (JsonElement effectObj : jsonArray) {
+                            JsonObject effectInfo = effectObj.getAsJsonObject();
+                            String effectName = "";
+                            String effectType = "";
+                            double effectValue = 0;
+                            if (effectInfo.has("name")) effectName = effectInfo.get("name").getAsString();
+                            if (effectInfo.has("type")) effectType = effectInfo.get("type").getAsString();
+                            if (effectInfo.has("value")) effectValue = effectInfo.get("value").getAsDouble();
+                            EffectStat effectStat;
+                            effectStat = new EffectStat(effectName, effectType, effectValue);
+                            effectStats.add(effectStat);
+                        }
+                        targetBuffConfig.addEffectStats(level, effectStats);
+                    }
+                    towerBuffInfo.put(key, targetBuffConfig);
+                }
+            }
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        }
+
     }
 }

@@ -111,9 +111,8 @@ public class BattleHandler extends BaseClientRequestHandler {
 
             }
         } catch (Exception e) {
-            logger.warn("BATTLEHANDLER EXCEPTION " + e.getMessage());
-            logger.warn(ExceptionUtils.getStackTrace(e));
-        }
+            System.out.println(ExceptionUtils.getStackTrace(e));
+    }
 
     }
 
@@ -130,7 +129,7 @@ public class BattleHandler extends BaseClientRequestHandler {
             btm.show();
             send(new ResponseRequestGetBattleMap(BattleHandler.BattleError.SUCCESS.getValue(), btm), user);
         } catch (Exception e) {
-            logger.info("processGetName exception");
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 
