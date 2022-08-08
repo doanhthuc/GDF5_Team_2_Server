@@ -3,6 +3,7 @@ package battle;
 import battle.common.EntityMode;
 import battle.config.GameConfig;
 import battle.newMap.BattleMapObject;
+import battle.newMap.TileObject;
 import battle.newMap.Tower;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.data.DataCmd;
@@ -56,7 +57,7 @@ public class TickInternalHandler {
                 Battle battle = room.getBattle();
                 Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, user);
                 tower.upgradeTower();
-                room.getBattle().handleUpgradeTower((int) tower.getEntityId(), tower.getLevel());
+                room.getBattle().handleUpgradeTower(tower.getEntityId(), tower.getLevel());
                 break;
             }
             case CmdDefine.DESTROY_TOWER: {
@@ -65,7 +66,9 @@ public class TickInternalHandler {
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
                 Battle battle = room.getBattle();
                 Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, user);
-                battle.handleDestroyTower((int) tower.getEntityId());
+                TileObject tileObject = battle.getBattleMapByPlayerId(user.getId()).battleMapObject.getCellObject(req.getTilePos());
+                tileObject.destroyTower();
+                battle.handleDestroyTower(tower.getEntityId());
                 break;
             }
             case CmdDefine.CHANGE_TOWER_STRATEGY: {

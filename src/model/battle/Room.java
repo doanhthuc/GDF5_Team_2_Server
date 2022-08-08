@@ -69,7 +69,7 @@ public class Room implements Runnable {
             try {
                 if (!this.endBattle) {
                     int currentTick = this.tickManager.getCurrentTick();
-                    System.out.println(currentTick);
+//                    System.out.println(currentTick);
                     // enqueue the waiting inputs
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<User, DataCmd> data = this.waitingInputQueue.poll();

@@ -185,12 +185,10 @@ public class TickNetworkHandler {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
 
             // IMPORTANT: move this action to TickInternalHandler
-            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
-            BattleMapObject battleMapObject = battleMap.battleMapObject;
+//            BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
+//            BattleMapObject battleMapObject = battleMap.battleMapObject;
 //            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
 //            tower.destroyTower();
-            TileObject tileObject = battleMapObject.getCellObject(req.getTilePos());
-            tileObject.destroyTower();
 
             ExtensionUtility.getExtension().send(new ResponseRequestDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();

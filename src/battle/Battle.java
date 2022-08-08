@@ -352,30 +352,33 @@ public class Battle {
     }
 
     public void buildTowerByTowerID(int towerID, int tilePosX, int tilePosY, EntityMode mode) throws Exception {
+        EntityECS tower = null;
         switch (towerID) {
             case GameConfig.ENTITY_ID.CANNON_TOWER:
-                this.entityFactory.createCannonOwlTower(new Point(tilePosX, tilePosY), mode);
+                tower = this.entityFactory.createCannonOwlTower(new Point(tilePosX, tilePosY), mode);
                 break;
             case GameConfig.ENTITY_ID.FROG_TOWER:
-                this.entityFactory.createFrogTower(new Point(tilePosX, tilePosY), mode);
+                tower = this.entityFactory.createFrogTower(new Point(tilePosX, tilePosY), mode);
                 break;
             case GameConfig.ENTITY_ID.WIZARD_TOWER:
-                this.entityFactory.createWizardTower(new Point(tilePosX, tilePosY), mode);
+                tower = this.entityFactory.createWizardTower(new Point(tilePosX, tilePosY), mode);
                 break;
             case GameConfig.ENTITY_ID.BEAR_TOWER:
-                this.entityFactory.createIceGunPolarBearTower(new Point(tilePosX, tilePosY), mode);
+                tower = this.entityFactory.createIceGunPolarBearTower(new Point(tilePosX, tilePosY), mode);
                 break;
             case GameConfig.ENTITY_ID.BUNNY_TOWER:
-                this.entityFactory.createBunnyOilGunTower(new Point(tilePosX, tilePosY), mode);
+                tower = this.entityFactory.createBunnyOilGunTower(new Point(tilePosX, tilePosY), mode);
                 break;
             case GameConfig.ENTITY_ID.SNAKE_TOWER:
-                this.entityFactory.createSnakeAttackSpeedTower(new Point(tilePosX, tilePosY), mode);
+                tower = this.entityFactory.createSnakeAttackSpeedTower(new Point(tilePosX, tilePosY), mode);
                 break;
             case GameConfig.ENTITY_ID.GOAT_TOWER:
-                this.entityFactory.createGoatAttackDamageTower(new Point(tilePosX, tilePosY), mode);
+                tower = this.entityFactory.createGoatAttackDamageTower(new Point(tilePosX, tilePosY), mode);
                 break;
         }
-        this.updateMapWhenPutTower(towerID, tilePosX, tilePosY, mode);
+        assert tower != null;
+        long entityID = tower.getId();
+        this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
         this.handlerPutTower(mode);
     }
 
@@ -393,13 +396,13 @@ public class Battle {
         }
     }
 
-    public void updateMapWhenPutTower(int towerId, int tilePosX, int tilePosY, EntityMode mode) {
+    public void updateMapWhenPutTower(long entityId, int towerId, int tilePosX, int tilePosY, EntityMode mode) {
         if (mode == EntityMode.PLAYER) {
             this.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-            this.player1BattleMap.battleMapObject.putTowerIntoMap(new java.awt.Point(tilePosX, tilePosY), towerId);;
+            this.player1BattleMap.battleMapObject.putTowerIntoMap(entityId, new java.awt.Point(tilePosX, tilePosY), towerId);;
         } else {
             this.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-            this.player2BattleMap.battleMapObject.putTowerIntoMap(new java.awt.Point(tilePosX, tilePosY), towerId);;
+            this.player2BattleMap.battleMapObject.putTowerIntoMap(entityId, new java.awt.Point(tilePosX, tilePosY), towerId);;
         }
 
     }
@@ -448,11 +451,12 @@ public class Battle {
         }
     }
 
-    public void handleUpgradeTower(int entityId, int towerLevel) throws Exception {
-        this.onUpgradeTower((int) entityId, towerLevel);
+    public void handleUpgradeTower(long entityId, int towerLevel) throws Exception {
+        this.onUpgradeTower(entityId, towerLevel);
     }
 
-    public void onUpgradeTower(int entityId, int towerLevel) throws Exception {
+    public void onUpgradeTower(long entityId, int towerLevel) throws Exception {
+        System.out.println("[Battle.java line 456] onUpgradeTower: " + entityId + " " + towerLevel);
         EntityECS entity = this.entityManager.getEntity(entityId);
         switch (entity.getTypeID()) {
             case GameConfig.ENTITY_ID.CANNON_TOWER:
@@ -531,7 +535,7 @@ public class Battle {
         }
     }
 
-    public void handleDestroyTower (int entityId) throws Exception {
+    public void handleDestroyTower (long entityId) throws Exception {
         EntityECS entity = this.entityManager.getEntity(entityId);
         this.entityManager.remove(entity);
     }
