@@ -127,12 +127,13 @@ public class TickNetworkHandler {
             tower = tower.upgradeTower();
             System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
             ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getTowerId(), tower.getLevel()+1, tower.getTilePos(), tickNumber), user);
+                    req.getTowerId(), tower.getLevel() + 1, tower.getTilePos(), tickNumber), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER) ExtensionUtility.getExtension().send(new ResponseOpponentUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getTowerId(), tower.getLevel()+1, tower.getTilePos(), tickNumber), opponent);
+            if (opponentInfo.getUserType() == UserType.PLAYER)
+                ExtensionUtility.getExtension().send(new ResponseOpponentUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
+                        req.getTowerId(), tower.getLevel() + 1, tower.getTilePos(), tickNumber), opponent);
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
@@ -152,8 +153,9 @@ public class TickNetworkHandler {
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER) ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
+            if (opponentInfo.getUserType() == UserType.PLAYER)
+                ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
+                        req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }

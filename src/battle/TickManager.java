@@ -38,7 +38,7 @@ public class TickManager {
                 break;
             }
             case CmdDefine.UPGRADE_TOWER: {
-                int nextTick = currentTick + 1;
+                int nextTick = currentTick + 5;
 
 //                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
 //                System.out.println("xx Latest Tick = " + currentTick);
