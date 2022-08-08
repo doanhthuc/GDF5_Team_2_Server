@@ -1,7 +1,15 @@
 package extension;
 
 
-import battle.config.GameStat.MonsterConfigItem;
+import battle.Battle;
+import battle.BattleMap;
+import battle.BattleVisualization;
+import battle.Bida;
+import battle.common.EntityMode;
+import battle.common.MonsterWaveScript;
+import battle.common.Utils;
+import battle.component.info.MonsterInfoComponent;
+import battle.config.MonsterWaveConfig;
 import battle.config.ReadConfigUtil;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
@@ -64,6 +72,7 @@ public class FresherExtension extends BZExtension {
             ReadConfigUtil.readMonsterConfig();
             ReadConfigUtil.readTargetBuffConfig();
             ReadConfigUtil.readTowerBuffConfig();
+            MonsterWaveConfig.readMonsterWaveConfigFromJson();
             System.out.println(towerBuffInfo.get(TOWER_BUFF_IN_CONFIG.GOAT_TOWER).getListEffect().get(1).get(0).getValue());
             System.out.println(towerInfo.get(TOWER_IN_CONFIG.SNAKE).getAuraTargetBuffType());
 //            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
