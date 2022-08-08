@@ -157,7 +157,7 @@ public class GameConfig {
         public static int DRAW = 2;
     }
 
-    public static int WAVE_AMOUNT = 100;
+    public static int WAVE_AMOUNT = 20;
     public static int PLAYER_HP = 2000;
     public static int PLAYER_ENERGY = 30;
     public static int OPPONENT_ENERGY = 30;

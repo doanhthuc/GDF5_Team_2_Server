@@ -119,13 +119,13 @@ public class AbilitySystem extends SystemECS {
     private void handleBuffAbility(double tick, Battle battle) {
         List<EntityECS> buffTowerList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
-                        .singletonList(TowerAbilityComponent.typeId));
+                        .singletonList(TowerAbilityComponent.typeID));
         List<EntityECS> damageTowerList = null;
         if (buffTowerList.size() > 0) {
             damageTowerList = battle.getEntityManager().getEntitiesHasComponents(Collections.singletonList(AttackComponent.typeID));
         }
         for (EntityECS buffTower : buffTowerList) {
-            TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(TowerAbilityComponent.typeId);
+            TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(TowerAbilityComponent.typeID);
             for (EntityECS damageTower : damageTowerList) {
                 if (this.distanceFrom(buffTower, damageTower) < towerAbilityComponent.getRange()) {
                     int typeId = towerAbilityComponent.getEffect().getTypeID();

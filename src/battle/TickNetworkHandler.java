@@ -123,14 +123,13 @@ public class TickNetworkHandler {
                 return;
             }
 
-            tower = tower.upgradeTower();
             System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
             ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getTowerId(), tower.getLevel(), tower.getTilePos(), tickNumber), user);
+                    req.getTowerId(), tower.getLevel() + 1, tower.getTilePos(), tickNumber), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
             ExtensionUtility.getExtension().send(new ResponseOpponentUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getTowerId(), tower.getLevel(), tower.getTilePos(), tickNumber), opponent);
+                    req.getTowerId(), tower.getLevel() + 1, tower.getTilePos(), tickNumber), opponent);
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
