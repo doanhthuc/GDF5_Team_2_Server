@@ -108,7 +108,7 @@ public class ComponentFactory {
         return pathComponent;
     }
 
-    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, List<Component> ability, List<EffectComponent> effect) throws Exception {
+    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, List<EffectComponent> effect) throws Exception {
         MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.MONSTER_INFO);
         if (monsterInfoComponent != null) {
             monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
@@ -296,5 +296,16 @@ public class ComponentFactory {
             this.componentManager.add(buffAttackDamageEffect);
         }
         return buffAttackDamageEffect;
+    }
+
+    public FireBallEffect createFireBallEffect(double a, double maxDuration, Point startPos, Point endPos, double v0) throws Exception {
+        FireBallEffect fireBallEffect = (FireBallEffect) this.pool.checkOut(FireBallEffect.typeID);
+        if (fireBallEffect != null) {
+            fireBallEffect.reset(a, maxDuration, startPos, endPos, v0);
+        } else {
+            fireBallEffect = new FireBallEffect(a, maxDuration, startPos, endPos, v0);
+            this.componentManager.add(fireBallEffect);
+        }
+        return fireBallEffect;
     }
 }

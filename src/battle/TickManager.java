@@ -21,11 +21,11 @@ public class TickManager {
     private TickInternalHandler tickInternalHandler = new TickInternalHandler();
     private final long startTime;
 
-    public TickManager (long startTime) {
+    public TickManager(long startTime) {
         this.startTime = startTime;
     }
 
-    public void addInput (Pair<User, DataCmd> input) {
+    public void addInput(Pair<User, DataCmd> input) {
         DataCmd dataCmd = input.second;
         int currentTick = this.getCurrentTick();
 
@@ -37,10 +37,48 @@ public class TickManager {
                 this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
             }
-            case CmdDefine.UPGRADE_TOWER:
-            case CmdDefine.DROP_SPELL:
+            case CmdDefine.UPGRADE_TOWER: {
+                int nextTick = currentTick + 1;
+
+//                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
+//                System.out.println("xx Latest Tick = " + currentTick);
+//                System.out.println("xx Current Tick = " + currentTick2);
+//                System.out.println("xx Future Tick upgrade tower = " + nextTick);
+
+                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
+                queue.add(input);
+                this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
+                break;
+            }
+            case CmdDefine.DROP_SPELL: {
+                int futureTick = currentTick + 1;
+
+                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
+//                System.out.println("xx Latest Tick = " + currentTick);
+//                System.out.println("xx Current Tick = " + currentTick2);
+//                System.out.println("xx Future Tick put tower = " + futureTick);
+
+                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
+                queue.add(input);
+                this.inputTick.put(futureTick, queue);
+                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+                break;
+            }
             case CmdDefine.CHANGE_TOWER_STRATEGY:
-            case CmdDefine.PUT_TRAP:
+            case CmdDefine.PUT_TRAP:{
+                int futureTick = currentTick + 1;
+
+//                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
+//                System.out.println("xx Latest Tick = " + currentTick);
+//                System.out.println("xx Current Tick = " + currentTick2);
+//                System.out.println("xx Future Tick put tower = " + futureTick);
+
+                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
+                queue.add(input);
+                this.inputTick.put(futureTick, queue);
+                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+                break;
+        }
             case CmdDefine.DESTROY_TOWER: {
                 int nextTick = currentTick + 1;
 
@@ -52,28 +90,29 @@ public class TickManager {
         }
     }
 
-    public void handleInternalInputTick(int tickNumber) {
-        Queue<Pair<User, DataCmd>> queue = this.inputTick.getOrDefault(tickNumber, new LinkedList<>());
-        while (!queue.isEmpty()) {
+    public void handleInternalInputTick(int tickNumber) throws Exception {
+        Queue<Pair<User, DataCmd>> queue = this.inputTick.get(tickNumber);
+        if (queue != null) System.out.println("queue Internal InputTick Size " + queue.size());
+        while (queue != null && !queue.isEmpty()) {
             Pair<User, DataCmd> data = queue.poll();
             tickInternalHandler.handleCommand(data.first, data.second);
         }
     }
 
-    public void increaseTick () {
+    public void increaseTick() {
         this.currentTick++;
     }
 
-    public int getTickRate () {
+    public int getTickRate() {
         return this.tickRate;
     }
 
-    public int getCurrentTick () {
+    public int getCurrentTick() {
 //        return this.currentTick;
         return (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
     }
 
-    private Queue<Pair<User, DataCmd>> getInputQueueOfTick (int tickNumber) {
-        return this.inputTick.getOrDefault(tickNumber, new LinkedList<>());
+    private Queue<Pair<User, DataCmd>> getInputQueueOfTick(int tickNumber) {
+        return this.inputTick.computeIfAbsent(tickNumber, k -> new LinkedList<>());
     }
 }

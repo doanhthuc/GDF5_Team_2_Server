@@ -1,15 +1,8 @@
 package extension;
 
 
-import battle.Battle;
-import battle.BattleMap;
-import battle.BattleVisualization;
-import battle.Bida;
-import battle.common.EntityMode;
-import battle.common.Utils;
-import battle.component.info.MonsterInfoComponent;
-import battle.config.ReadTowerConfigUtil;
-import battle.config.TowerConfigItem;
+import battle.config.GameStat.MonsterConfigItem;
+import battle.config.ReadConfigUtil;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -34,6 +27,7 @@ import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
+import model.battle.Room;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.*;
@@ -43,9 +37,9 @@ import util.metric.MetricLog;
 import util.server.ServerConstant;
 import util.server.ServerLoop;
 
-import javax.management.BadAttributeValueExpException;
-import java.util.Arrays;
 import java.util.List;
+
+import static battle.config.ReadConfigUtil.*;
 
 
 public class FresherExtension extends BZExtension {
@@ -66,7 +60,16 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
-            ReadTowerConfigUtil.readTowerConfig();
+            ReadConfigUtil.readTowerConfig();
+            ReadConfigUtil.readMonsterConfig();
+            ReadConfigUtil.readTargetBuffConfig();
+            ReadConfigUtil.readTowerBuffConfig();
+            System.out.println(towerBuffInfo.get(TOWER_BUFF_IN_CONFIG.GOAT_TOWER).getListEffect().get(1).get(0).getValue());
+            System.out.println(towerInfo.get(TOWER_IN_CONFIG.SNAKE).getAuraTargetBuffType());
+//            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
+//            PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
+//            Room room = new Room(playerInfo1, playerInfo2);
+//            new Thread(room).start();
         } catch (Exception e) {
             e.printStackTrace();
         }

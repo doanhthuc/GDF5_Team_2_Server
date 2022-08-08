@@ -1,7 +1,6 @@
 package cmd.receive.battle.tower;
 
 
-
 import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;
 import bitzero.util.common.business.CommonHandle;
@@ -18,6 +17,13 @@ public class RequestPutTower extends BaseCmd {
     public RequestPutTower(DataCmd dataCmd) {
         super(dataCmd);
         unpackData();
+    }
+
+    public RequestPutTower(int roomId, int towerId, Point tilePos) {
+        super(null);
+        this.roomId = roomId;
+        this.towerId = towerId;
+        this.tilePos = tilePos;
     }
 
     @Override

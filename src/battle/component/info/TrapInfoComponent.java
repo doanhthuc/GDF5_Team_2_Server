@@ -11,7 +11,7 @@ public class TrapInfoComponent extends Component {
     private boolean isTriggered;
 
     public TrapInfoComponent(double delayTrigger) {
-        super(GameConfig.COMPONENT_ID.TOWER_INFO);
+        super(GameConfig.COMPONENT_ID.TRAP_INFO);
         this.reset(delayTrigger);
     }
 
@@ -20,8 +20,8 @@ public class TrapInfoComponent extends Component {
         this.isTriggered = false;
     }
 
-    public void setTrigger() {
-        this.isTriggered = true;
+    public void setTriggered(boolean triggered) {
+        isTriggered = triggered;
     }
 
     public boolean isTriggered() {

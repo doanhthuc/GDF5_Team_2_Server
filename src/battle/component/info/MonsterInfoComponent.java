@@ -12,9 +12,10 @@ public class MonsterInfoComponent extends InfoComponent {
 
     private String category;
     private String classs;
+    private double weight;
     private int energy;
     private int gainEnergy;
-    private List<Component> ability;
+    int ability;
     private List<EffectComponent> effects;
 
     public int getGainEnergy() {
@@ -26,14 +27,15 @@ public class MonsterInfoComponent extends InfoComponent {
     }
 
     public MonsterInfoComponent(String category, String classs, int weight, int energy,
-                                int gainEnergy, List<Component> ability, List<EffectComponent> effects) {
+                                int gainEnergy, int ability, List<EffectComponent> effects) {
         super(GameConfig.COMPONENT_ID.MONSTER_INFO);
         this.reset(category, classs, weight, energy, gainEnergy, ability, effects);
     }
 
-    public void reset( String category, String classs, int weight, int energy,
-                      int gainEnergy, List<Component> ability, List<EffectComponent> effects) {
+    public void reset( String category, String classs, double weight, int energy,
+                      int gainEnergy, int ability, List<EffectComponent> effects) {
         this.name = name;
+        this.weight = weight;
         this.category = category;
         this.classs = classs;
         this.energy = energy;
@@ -64,5 +66,9 @@ public class MonsterInfoComponent extends InfoComponent {
 
     public void setClasss(String classs) {
         this.classs = classs;
+    }
+
+    public double getWeight() {
+        return this.weight;
     }
 }

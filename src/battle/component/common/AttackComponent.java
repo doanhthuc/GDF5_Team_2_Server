@@ -39,8 +39,7 @@ public class AttackComponent extends Component {
         this.countdown = countdown;
         this.effects.clear();
         if (effects != null) {
-            for (EffectComponent effect : effects)
-                this.effects.add(effect);
+            this.effects.addAll(effects);
         }
         //  System.out.println("countdown "+this.countdown);
         this.effects.add(new DamageEffect(this.damage));

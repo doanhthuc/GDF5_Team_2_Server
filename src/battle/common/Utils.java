@@ -119,7 +119,7 @@ public class Utils {
         }
 
         if (pointA.y != pointB.y) {
-            direction2 = (int) ((pointB.y - pointA.y) / Math.abs(pointB.y - pointA.y))*3;
+            direction2 = (int) ((pointB.y - pointA.y) / Math.abs(pointB.y - pointA.y)) * 3;
         }
         return direction1 + direction2;
     }
@@ -233,6 +233,11 @@ public class Utils {
             cellArr.add(new Point(cellX, cellY));
         }
         return cellArr;
+    }
+
+    public static boolean validateTilePos(Point tilePos) {
+        return tilePos.getX() >= 0 && tilePos.getX() < GameConfig.MAP_WIDTH
+                && tilePos.getY() >= 0 && tilePos.getY() < GameConfig.MAP_HEIGHT;
     }
 
     public static Utils getInstance() {

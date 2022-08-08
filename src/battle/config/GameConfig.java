@@ -59,6 +59,11 @@ public class GameConfig {
         public static double y = 0;
     }
 
+    public static class MONSTER_BORN_POSITION {
+        public static double x = 0;
+        public static double y = 4;
+    }
+
     public static class ENTITY_ID {
         public static final int CANNON_TOWER = 0;
         public static final int WIZARD_TOWER = 1;
@@ -156,9 +161,13 @@ public class GameConfig {
 
     public static class BATTLE {
         public static long START_GAME_AFTER = 8 * 1000;
-        public static long WAVE_TIME = 5 * 1000;
-        public static int AMOUNT_MONSTER_EACH_WAVE = 6;
+        public static long WAVE_TIME = 20 * 1000;
+        public static int AMOUNT_MONSTER_EACH_WAVE = 5;
         public static int TICK_RATE = 50;
+
+        public static int WINNER_TROPHY = 10;
+        public static int LOSER_TROPHY = 10;
+        
         public static int DELAY_BUILD_TOWER = 1 * 1000;
         public static int TIME_MATCHING_BOT = 5 * 1000;
     }
