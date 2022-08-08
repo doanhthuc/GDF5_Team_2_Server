@@ -25,11 +25,13 @@ public class SendResult {
     }
 
     public static void sendWinUser(int winUserID, int loseUserID, int winnerHP, int loserHP) throws Exception {
+
         User user1 = BitZeroServer.getInstance().getUserManager().getUserById(winUserID);
         User user2 = BitZeroServer.getInstance().getUserManager().getUserById(loseUserID);
-
         PlayerInfo winUser = (PlayerInfo) PlayerInfo.getModel(winUserID, PlayerInfo.class);
         PlayerInfo loseUser = (PlayerInfo) PlayerInfo.getModel(loseUserID, PlayerInfo.class);
+        if (loseUser.getUserType() == UserType.PLAYER)
+            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
         LobbyChestContainer winUserLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(winUser.getId(), LobbyChestContainer.class);
         if (winUser.getUserType() == UserType.PLAYER) {
             if (winUserLobbyChest.lobbyChestContainer.size() < LobbyChestDefine.LOBBY_CHEST_AMOUNT) {
@@ -41,11 +43,9 @@ public class SendResult {
         }
         winUser.setTrophy(winUser.getTrophy() + GameConfig.BATTLE.WINNER_TROPHY);
         winUser.saveModel(winUser.getId());
+        winUser.show();
         loseUser.setTrophy(loseUser.getTrophy() - GameConfig.BATTLE.LOSER_TROPHY);
         loseUser.saveModel(loseUser.getId());
-
-        if (loseUser.getUserType() == UserType.PLAYER)
-            ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUser.getTrophy(), -10, 0), user2);
-
+        return;
     }
 }

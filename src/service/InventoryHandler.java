@@ -57,6 +57,7 @@ public class InventoryHandler extends BaseClientRequestHandler {
                 case CmdDefine.UPGRADE_CARD:
                     RequestUpgradeCard rq = new RequestUpgradeCard(dataCmd);
                     processUpgradeCard(rq, user);
+                    break;
                 case CmdDefine.SWAP_CARD:
                     RequestSwapCard requestSwapCard = new RequestSwapCard(dataCmd);
                     processSwapCard(requestSwapCard, user);
@@ -99,14 +100,14 @@ public class InventoryHandler extends BaseClientRequestHandler {
             int cardType = rq.getcardType();
             int requireGold = userInventory.getGoldToUpgradeCard(cardType);
             int requireCard = userInventory.getfragmentToUpgradeCard(cardType);
-            if ((verifyPurchase(userInfo.getGold(), requireGold) == true)
-                    && (userInventory.checkFragmentToUpgradeCard(cardType) == true)) {
+            if ((verifyPurchase(userInfo.getGold(), requireGold))
+                    && (userInventory.checkFragmentToUpgradeCard(cardType))) {
                 userInfo.addGold(-requireGold);
                 userInventory.upgradeCard(cardType);
                 send(new ResponseRequestUpgradeCard(InventoryError.SUCCESS.getValue(), new InventoryDTO(-requireGold, cardType, -requireCard)), user);
                 userInfo.saveModel(userInfo.getId());
                 userInventory.saveModel(userInfo.getId());
-                //userCardCollection.show();
+                userInventory.show();
             } else {
                 send(new ResponseRequestUpgradeCard(InventoryError.ERROR.getValue(), new InventoryDTO(0, 0, 0)), user);
             }
@@ -126,21 +127,15 @@ public class InventoryHandler extends BaseClientRequestHandler {
             Inventory userInventory = (Inventory) Inventory.getModel(userInfo.getId(), Inventory.class);
             int cardInID = rq.getCardInID();
             int cardOutID = rq.getCardOutID();
-            for(int i=0; i<userInventory.battleDeck.size();i++)
-            {
-                System.out.print(userInventory.battleDeck.get(i));
-            }
-            System.out.println(cardInID+ " "+cardOutID);
+            for (int i = 0; i < userInventory.battleDeck.size(); i++) System.out.print(userInventory.battleDeck.get(i));
+            System.out.println(cardInID + " " + cardOutID);
             //Verify battleDeck
 //            if (!userInventory.getBattleDeck().contains(cardOutID)) {
 //                send(new ResponseRequestSwapCard(InventoryError.ERROR.getValue()), user);
 //            }
             System.out.println("Inventory Handle ProcessSwap Card 111111111111111111111111111" + cardInID + " " + cardOutID);
             userInventory.swapBattleDeck(cardInID, cardOutID);
-            for(int i=0; i<userInventory.battleDeck.size();i++)
-            {
-                System.out.print(userInventory.battleDeck.get(i));
-            }
+            for (int i = 0; i < userInventory.battleDeck.size(); i++) System.out.print(userInventory.battleDeck.get(i));
             send(new ResponseRequestSwapCard(InventoryError.ERROR.getValue(), cardInID, cardOutID), user);
             userInventory.saveModel(userInfo.getId());
         } catch (Exception e) {
