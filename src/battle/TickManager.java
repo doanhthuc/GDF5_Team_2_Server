@@ -113,6 +113,11 @@ public class TickManager {
     }
 
     private Queue<Pair<User, DataCmd>> getInputQueueOfTick(int tickNumber) {
-        return this.inputTick.computeIfAbsent(tickNumber, k -> new LinkedList<>());
+        Queue<Pair<User, DataCmd>> queue = this.inputTick.get(tickNumber);
+        if (queue == null) {
+            queue = new LinkedList<>();
+            this.inputTick.put(tickNumber, queue);
+        }
+        return queue;
     }
 }
