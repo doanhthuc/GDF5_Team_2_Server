@@ -33,6 +33,10 @@ public class EntityFactory {
         this.entityManager = entityManager;
         this.componentFactory = componentFactory;
         this.battle = battle;
+        ReadConfigUtil.readTowerConfig();
+        ReadConfigUtil.readMonsterConfig();
+        ReadConfigUtil.readTargetBuffConfig();
+        ReadConfigUtil.readTowerBuffConfig();
     }
 
     public EntityECS _createEntity(int typeID, EntityMode mode) {
