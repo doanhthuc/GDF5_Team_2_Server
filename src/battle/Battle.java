@@ -184,7 +184,7 @@ public class Battle {
     }
 
     //PlayerHp and Energy
-   
+
     public void minusPlayerHP(int hp, EntityMode mode) {
         if (mode == EntityMode.PLAYER) this.player1HP -= hp;
         else this.player2HP -= hp;
@@ -385,9 +385,6 @@ public class Battle {
         long entityID = tower.getId();
         this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
 
-        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user1.getId(),PlayerInfo.class);
-        User user = BitZeroServer.getInstance().getUserManager().getUserById(user1.getId());
-        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
 
         this.handlerPutTower(mode);
     }
@@ -406,19 +403,21 @@ public class Battle {
         }
     }
 
-    public void updateMapWhenPutTower(long entityId, int towerId, int tilePosX, int tilePosY, EntityMode mode) {
+    public void updateMapWhenPutTower(long entityId, int towerId, int tilePosX, int tilePosY, EntityMode mode) throws Exception {
         if (mode == EntityMode.PLAYER) {
             this.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-            this.player1BattleMap.battleMapObject.putTowerIntoMap(entityId, new java.awt.Point(tilePosX, tilePosY), towerId);;
+            PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user1.getId(), PlayerInfo.class);
+            User user = BitZeroServer.getInstance().getUserManager().getUserById(user1.getId());
+            ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+            this.player1BattleMap.battleMapObject.putTowerIntoMap(entityId, new java.awt.Point(tilePosX, tilePosY), towerId);
         } else {
             this.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-            this.player2BattleMap.battleMapObject.putTowerIntoMap(entityId, new java.awt.Point(tilePosX, tilePosY), towerId);;
+            this.player2BattleMap.battleMapObject.putTowerIntoMap(entityId, new java.awt.Point(tilePosX, tilePosY), towerId);
         }
 
     }
 
-    public void handlerDesTroyTower(int tilePosX,int tilePosY, EntityMode mode)
-    {
+    public void handlerDesTroyTower(int tilePosX, int tilePosY, EntityMode mode) {
         BattleMap battleMap = null;
         if (mode == EntityMode.PLAYER) {
             this.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
@@ -545,12 +544,12 @@ public class Battle {
         }
     }
 
-    public void handleDestroyTower (long entityId) throws Exception {
+    public void handleDestroyTower(long entityId) throws Exception {
         EntityECS entity = this.entityManager.getEntity(entityId);
         this.entityManager.remove(entity);
     }
 
-    public void handleTowerChangeTargetStrategy (int entityId, int strategyId) throws Exception {
+    public void handleTowerChangeTargetStrategy(int entityId, int strategyId) throws Exception {
         EntityECS entity = this.entityManager.getEntity(entityId);
         AttackComponent attackComponent = (AttackComponent) entity.getComponent(AttackComponent.typeID);
         attackComponent.setTargetStrategy(strategyId);
@@ -567,7 +566,7 @@ public class Battle {
 //        System.out.println("Player2 Hp= " + this.player2HP + " Player2 Energy=" + this.player2energy);
     }
 
-     public BattleMap getBattleMapByEntityMode(EntityMode mode) {
+    public BattleMap getBattleMapByEntityMode(EntityMode mode) {
         if (mode == EntityMode.PLAYER) return this.player1BattleMap;
         else return this.player2BattleMap;
     }
