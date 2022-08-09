@@ -358,6 +358,9 @@ public class Battle {
 
     public void buildTowerByTowerID(int towerID, int tilePosX, int tilePosY, EntityMode mode) throws Exception {
         EntityECS tower = null;
+        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user1.getId(), PlayerInfo.class);
+        User user = BitZeroServer.getInstance().getUserManager().getUserById(user1.getId());
+        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
         switch (towerID) {
             case GameConfig.ENTITY_ID.CANNON_TOWER:
                 tower = this.entityFactory.createCannonOwlTower(new Point(tilePosX, tilePosY), mode);
@@ -383,10 +386,6 @@ public class Battle {
         }
         assert tower != null;
         long entityID = tower.getId();
-
-        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user1.getId(), PlayerInfo.class);
-        User user = BitZeroServer.getInstance().getUserManager().getUserById(user1.getId());
-        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
         this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
         this.handlerPutTower(mode);
     }
