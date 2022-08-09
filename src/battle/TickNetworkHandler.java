@@ -114,15 +114,16 @@ public class TickNetworkHandler {
 //                return;
 //            }
 
-//            if (tower == null) {
-//                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
-//                return;
-//            }
-//
-//            if (tower.getId() != towerId) {
-//                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
-//                return;
-//            }
+            if (tower == null) {
+                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
+                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue()), user);
+                return;
+            }
+
+            if (tower.getId() != towerId) {
+                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
+                return;
+            }
 
             System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
             ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
