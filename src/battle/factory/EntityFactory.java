@@ -510,9 +510,7 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
         int level = 1;
         TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.CANNON);
-        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(battle.user1.getId(), PlayerInfo.class);
-        User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
-        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
@@ -533,11 +531,15 @@ public class EntityFactory {
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
         AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
 
+        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(battle.user1.getId(), PlayerInfo.class);
+        User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
+        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
         entity.addComponent(attackComponent);
 
-        this.battle.minusPlayerEnergy(towerInfoComponent.getEnergy(), mode);
+        //this.battle.minusPlayerEnergy(towerInfoComponent.getEnergy(), mode);
         return entity;
     }
 
