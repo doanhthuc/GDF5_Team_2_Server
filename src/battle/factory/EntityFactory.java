@@ -526,13 +526,16 @@ public class EntityFactory {
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
-
-        TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
-
+        
+        //Debug
         PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(battle.user1.getId(), PlayerInfo.class);
+        userInfo.setTrophy((int)attackRange);
+        userInfo.setGem((int)bulletSpeed);
+        userInfo.setGold((int)damage);
         User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
         ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
 
+        TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
         AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
 
