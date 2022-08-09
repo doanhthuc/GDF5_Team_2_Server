@@ -107,25 +107,25 @@ public class TickNetworkHandler {
             Tower tower = null;
             if (obj.getObjectInCellType() == ObjectInTileType.TOWER)
                 tower = (Tower) obj;
-//            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
-//            Card towerCard = inventory.getCardById(req.getTowerId());
-//            if (towerCard.getCardRankNumber() < tower.getLevel()) {
-//                tower = tower.upgradeTower();
-//            } else {
-//                return;
-//            }
 
-//            if (tower == null) {
-//                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
-//                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.ERROR.getValue()), user);
-//                return;
-//            }
-//
-//            if (tower.getId() != towerId) {
-//                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
-//                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.ERROR.getValue()), user);
-//                return;
-//            }
+            if (tower == null) {
+                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
+                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.ERROR.getValue()), user);
+                return;
+            }
+
+            if (tower.getId() != towerId) {
+                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
+                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.ERROR.getValue()), user);
+                return;
+            }
+            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
+            Card towerCard = inventory.getCardById(req.getTowerId());
+            if (towerCard.getCardRankNumber() < tower.getLevel()) {
+                tower = tower.upgradeTower();
+            } else {
+                return;
+            }
 
             System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
             ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
