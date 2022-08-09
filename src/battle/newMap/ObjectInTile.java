@@ -4,6 +4,11 @@ public class ObjectInTile {
     private long entityId;
     private ObjectInTileType objectInTileType;
 
+    public ObjectInTile(long entityId, ObjectInTileType objectInTileType) {
+        this.entityId = entityId;
+        this.objectInTileType = objectInTileType;
+    }
+
     public ObjectInTile(ObjectInTileType objectInTileType) {
         this.objectInTileType = objectInTileType;
     }

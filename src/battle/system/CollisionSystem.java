@@ -149,7 +149,7 @@ public class CollisionSystem extends SystemECS {
             for (EntityECS monster : monsterList) {
                 if (monster.getMode() == bulletEntity.getMode()) {
                     MonsterInfoComponent monsterInfo = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
-                    if (monsterInfo.getClasss() == GameConfig.MONSTER.CLASS.AIR) {
+                    if (Objects.equals(monsterInfo.getClasss(), GameConfig.MONSTER.CLASS.AIR)) {
                         continue;
                     }
                     if (Utils.euclidDistance((PositionComponent) monster.getComponent(PositionComponent.typeID), bulletPos) <= bulletInfo.getRadius()) {

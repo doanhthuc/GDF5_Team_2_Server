@@ -30,14 +30,18 @@ public class TickManager {
         int currentTick = this.getCurrentTick();
 
         switch (dataCmd.getId()) {
-            case CmdDefine.PUT_TOWER: {
+            case CmdDefine.PUT_TOWER:
+            case CmdDefine.UPGRADE_TOWER: {
                 int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
                 Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
                 this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
             }
-            case CmdDefine.UPGRADE_TOWER: {
+
+            case CmdDefine.DESTROY_TOWER:
+            case CmdDefine.CHANGE_TOWER_STRATEGY:
+            case CmdDefine.PUT_TRAP: {
                 int nextTick = currentTick + 1;
 
 //                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
@@ -63,30 +67,8 @@ public class TickManager {
                 this.inputTick.put(futureTick, queue);
                 this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
-            }
-            case CmdDefine.CHANGE_TOWER_STRATEGY:
-            case CmdDefine.PUT_TRAP:{
-                int futureTick = currentTick + 1;
-
-//                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
-//                System.out.println("xx Latest Tick = " + currentTick);
-//                System.out.println("xx Current Tick = " + currentTick2);
-//                System.out.println("xx Future Tick put tower = " + futureTick);
-
-                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
-                queue.add(input);
-                this.inputTick.put(futureTick, queue);
-                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
-                break;
-        }
-            case CmdDefine.DESTROY_TOWER: {
-                int nextTick = currentTick + 1;
-
-                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
-                queue.add(input);
-                this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
-                break;
-            }
+            }//                System.out.println("xx Future Tick put tower = " + futureTick);
+//                this.inputTick.put(futureTick, queue);
         }
     }
 
@@ -95,7 +77,8 @@ public class TickManager {
         if (queue != null) System.out.println("queue Internal InputTick Size " + queue.size());
         while (queue != null && !queue.isEmpty()) {
             Pair<User, DataCmd> data = queue.poll();
-            tickInternalHandler.handleCommand(data.first, data.second);
+            tickInternalHandler.
+                    handleCommand(data.first, data.second);
         }
     }
 
@@ -113,6 +96,11 @@ public class TickManager {
     }
 
     private Queue<Pair<User, DataCmd>> getInputQueueOfTick(int tickNumber) {
-        return this.inputTick.computeIfAbsent(tickNumber, k -> new LinkedList<>());
+        Queue<Pair<User, DataCmd>> queue = this.inputTick.get(tickNumber);
+        if (queue == null) {
+            queue = new LinkedList<>();
+            this.inputTick.put(tickNumber, queue);
+        }
+        return queue;
     }
 }

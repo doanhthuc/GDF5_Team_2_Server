@@ -55,12 +55,26 @@ public class TargetBuffConfigItem {
         return duration;
     }
 
+    public Double getDurationByLevel(int level) {
+        if (duration.containsKey(level)) {
+            return duration.get(level);
+        }
+        return null;
+    }
+
     public void setDuration(HashMap<Integer, Double> duration) {
         this.duration = duration;
     }
 
     public HashMap<Integer, List<EffectStat>> getListEffect() {
         return listEffect;
+    }
+
+    public List<EffectStat> getEffectStatsByLevel(int level) {
+        if (listEffect.containsKey(level)) {
+            return listEffect.get(level);
+        }
+        return null;
     }
 
     public void setListEffect(HashMap<Integer, List<EffectStat>> listEffect) {

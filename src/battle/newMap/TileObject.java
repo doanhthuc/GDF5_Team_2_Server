@@ -13,6 +13,15 @@ public class TileObject {
         this.objectInTile = objectInTile;
     }
 
+    public Tower buildTower(long entityId, int towerId, int level) {
+        if (this.objectInTile.getObjectInCellType() == ObjectInTileType.NONE) {
+            this.objectInTile = new Tower(entityId, towerId, level, this.tilePos);
+        } else {
+            throw new IllegalStateException("CellObject already has an objectInCell");
+        }
+        return (Tower) this.objectInTile;
+    }
+
     public Tower buildTower(int towerId, int level) {
         if (this.objectInTile.getObjectInCellType() == ObjectInTileType.NONE) {
             this.objectInTile = new Tower(towerId, level, this.tilePos);
@@ -29,6 +38,10 @@ public class TileObject {
             throw new IllegalStateException("TileObject does not have a tower");
         }
         return this.objectInTile;
+    }
+
+    public boolean isHavingTower() {
+        return this.objectInTile.getObjectInCellType() == ObjectInTileType.TOWER;
     }
 
     public Point getTilePos() {

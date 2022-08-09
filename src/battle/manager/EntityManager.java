@@ -31,7 +31,7 @@ public class EntityManager extends ManagerECS {
 //        throw new NotImplementedException();
     }
 
-    public EntityECS getEntity(int entityID) {
+    public EntityECS getEntity(long entityID) {
         return entities.get(entityID);
     }
 

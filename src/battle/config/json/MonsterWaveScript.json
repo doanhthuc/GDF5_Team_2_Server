@@ -1,0 +1,288 @@
+{
+  "1": [
+    {
+      "monsterId": 19,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "2": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "3": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "4": [
+    {
+      "monsterId": -1,
+      "rate": 0.2,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.8,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "5": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "boss"
+    }
+  ],
+  "6": [
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "7": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "air",
+      "category": "normal"
+    }
+  ],
+  "8": [
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "air",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.75,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "9": [
+    {
+      "monsterId": -1,
+      "rate": 0.8,
+      "monsterClass": "air",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.4,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "10": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "boss"
+    }
+  ],
+  "11": [
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "12": [
+    {
+      "monsterId": -1,
+      "rate": 0.75,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "13": [
+    {
+      "monsterId": -1,
+      "rate": 0.75,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.2,
+      "monsterClass": "air",
+      "category": "normal"
+    }
+  ],
+  "14": [
+    {
+      "monsterId": -1,
+      "rate": 0.75,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "air",
+      "category": "normal"
+    }
+  ],
+  "15": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "boss"
+    },
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "16": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "17": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "air",
+      "category": "normal"
+    }
+  ],
+  "18": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 0.5,
+      "monsterClass": "land",
+      "category": "normal"
+    }
+  ],
+  "19": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "air",
+      "category": "normal"
+    }
+  ],
+  "20": [
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "boss"
+    },
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "land",
+      "category": "normal"
+    },
+    {
+      "monsterId": -1,
+      "rate": 1,
+      "monsterClass": "air",
+      "category": "normal"
+    }
+  ]
+}
