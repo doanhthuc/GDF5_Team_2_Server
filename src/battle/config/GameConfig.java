@@ -1,12 +1,13 @@
 package battle.config;
 
 import battle.common.EntityMode;
+import bitzero.core.I;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;
@@ -137,6 +138,10 @@ public class GameConfig {
             public static String LAND = "land";
             public static String AIR = "air";
         }
+
+        public static List<Integer> LAND_MONSTER = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.ASSASSIN, ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT);
+        public static List<Integer> AIR_MONSTER = Arrays.asList(ENTITY_ID.BAT);
+        public static List<Integer> BOSS_MONSTER = Arrays.asList(ENTITY_ID.DEMON_TREE, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
     }
 
     public static class FROG_BULLET {
@@ -153,7 +158,7 @@ public class GameConfig {
     }
 
     public static int WAVE_AMOUNT = 20;
-    public static int PLAYER_HP = 1;
+    public static int PLAYER_HP = 20;
     public static int PLAYER_ENERGY = 30;
     public static int OPPONENT_ENERGY = 30;
 
@@ -162,7 +167,7 @@ public class GameConfig {
     public static class BATTLE {
         public static long START_GAME_AFTER = 8 * 1000;
         public static long WAVE_TIME = 20 * 1000;
-        public static int AMOUNT_MONSTER_EACH_WAVE = 5;
+        public static int AMOUNT_MONSTER_EACH_WAVE = 10;
         public static int TICK_RATE = 50;
 
         public static int WINNER_TROPHY = 10;

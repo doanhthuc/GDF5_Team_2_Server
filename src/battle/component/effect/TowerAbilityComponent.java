@@ -5,13 +5,13 @@ import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
 public class TowerAbilityComponent extends Component {
+    public static int typeID = GameConfig.COMPONENT_ID.TOWER_ABILITY;
     public static String name = "TowerAbilityComponent";
-    public static int typeId = GameConfig.COMPONENT_ID.TOWER_ABILITY;
     private double range;
     private EffectComponent effect;
 
     public TowerAbilityComponent(double range, EffectComponent effect) {
-        super(typeId);
+        super(typeID);
         this.range = range;
         this.effect = effect;
     }

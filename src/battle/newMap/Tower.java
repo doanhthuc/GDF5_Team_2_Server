@@ -8,6 +8,13 @@ public class Tower extends ObjectInTile {
     private int level;
     private Point tilePos;
 
+    public Tower(long entityId, int id, int level, Point tilePos) {
+        super(entityId, ObjectInTileType.TOWER);
+        this.id = id;
+        this.level = level;
+        this.tilePos = tilePos;
+    }
+
     public Tower(int id, int level, Point tilePos) {
         super(ObjectInTileType.TOWER);
         this.id = id;
