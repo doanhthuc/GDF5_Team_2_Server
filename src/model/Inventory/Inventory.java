@@ -27,9 +27,13 @@ public class Inventory extends DataModel {
     }
 
     public void upgradeCard(int cardType) {
-        int level = cardCollection.get(cardType).getLevel();
-        cardCollection.get(cardType).increaseLevel();
-        cardCollection.get(cardType).increaseAccumulateCard(-CardDefine.fragmentToUpgrade.get(level));
+        Card cardToUpgrade = null;
+        for (Card i : this.cardCollection) {
+            if (i.getCardType() == cardType) cardToUpgrade = i;
+        }
+        int level = cardToUpgrade.getLevel();
+        cardToUpgrade.increaseLevel();
+        cardToUpgrade.increaseAccumulateCard(-CardDefine.fragmentToUpgrade.get(level));
     }
 
     public void updateCard(int cardType, int quantity) {
@@ -43,17 +47,29 @@ public class Inventory extends DataModel {
     }
 
     public boolean checkFragmentToUpgradeCard(int cardType) {
-        int currentLevel = this.cardCollection.get(cardType).getLevel();
-        return this.cardCollection.get(cardType).getAmount() > CardDefine.fragmentToUpgrade.get(currentLevel);
+        Card card = null;
+        for (Card i : this.cardCollection) {
+            if (i.getCardType() == cardType) card = i;
+        }
+        int currentLevel = card.getLevel();
+        return card.getAmount() > CardDefine.fragmentToUpgrade.get(currentLevel);
     }
 
     public int getGoldToUpgradeCard(int cardType) {
-        int currentLevel = this.cardCollection.get(cardType).getLevel();
+        Card card = null;
+        for (Card i : this.cardCollection) {
+            if (i.getCardType() == cardType) card = i;
+        }
+        int currentLevel = card.getLevel();
         return CardDefine.goldToUpgrade.get(currentLevel);
     }
 
     public int getfragmentToUpgradeCard(int cardType) {
-        int currentLevel = this.cardCollection.get(cardType).getLevel();
+        Card card = null;
+        for (Card i : this.cardCollection) {
+            if (i.getCardType() == cardType) card = i;
+        }
+        int currentLevel = card.getLevel();
         return CardDefine.fragmentToUpgrade.get(currentLevel);
     }
 
@@ -67,8 +83,12 @@ public class Inventory extends DataModel {
     }
 
     public void setCard(int cardType, int cardLevel, int cardAmount) {
-        this.cardCollection.get(cardType).setLevel(cardLevel);
-        this.cardCollection.get(cardType).setAmount(cardAmount);
+        Card card = null;
+        for (Card i : this.cardCollection) {
+            if (i.getCardType() == cardType) card = i;
+        }
+        card.setLevel(cardLevel);
+        card.setAmount(cardAmount);
     }
 
     public int getSize() {
