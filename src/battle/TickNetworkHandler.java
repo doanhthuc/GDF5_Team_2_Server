@@ -105,7 +105,7 @@ public class TickNetworkHandler {
             int towerId = req.getTowerId();
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
             BattleMapObject battleMapObject = battleMap.battleMapObject;
-            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
+//            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
 //            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
 //            Card towerCard = inventory.getCardById(req.getTowerId());
 //            if (towerCard.getCardRankNumber() < tower.getLevel()) {
