@@ -510,17 +510,15 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
         int level = 1;
         TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.CANNON);
-
+        //Debug
+        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(battle.user1.getId(), PlayerInfo.class);
+        User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
+        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
         String bulletType = cannonOwlConfig.getBulletType();
         int energy = cannonOwlConfig.getEnergy();
-        
-        //Debug
-        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(battle.user1.getId(), PlayerInfo.class);
-        User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
-        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
 
         TowerStat towerStat = cannonOwlConfig.getTowerStat().get(level);
 
