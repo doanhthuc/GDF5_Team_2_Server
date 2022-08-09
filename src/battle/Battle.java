@@ -376,7 +376,6 @@ public class Battle {
                 tower = this.entityFactory.createGoatAttackDamageTower(new Point(tilePosX, tilePosY), mode);
                 break;
         }
-        assert tower != null;
         long entityID = tower.getId();
         this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
         this.handlerPutTower(mode);
