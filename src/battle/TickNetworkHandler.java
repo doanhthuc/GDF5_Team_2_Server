@@ -116,12 +116,13 @@ public class TickNetworkHandler {
 
             if (tower == null) {
                 System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
-                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue()), user);
+                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.ERROR.getValue()), user);
                 return;
             }
 
             if (tower.getId() != towerId) {
                 System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
+                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.ERROR.getValue()), user);
                 return;
             }
 
