@@ -30,14 +30,12 @@ public class TickInternalHandler {
     public void handleCommand(User user, DataCmd dataCmd) throws Exception {
         switch (dataCmd.getId()) {
             case CmdDefine.PUT_TOWER: {
-                PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user.getId(),PlayerInfo.class);
-                ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
 
                 RequestPutTower req = new RequestPutTower(dataCmd);
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
+
                 EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
                 room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
-
 
                 System.out.println("AAAAAAAAAAAA Handle put tower internal");
                 break;

@@ -26,9 +26,14 @@ import battle.newMap.Tower;
 import battle.pool.ComponentPool;
 import battle.pool.EntityPool;
 import battle.system.*;
+import bitzero.server.BitZeroServer;
+import bitzero.server.entities.User;
+import bitzero.util.ExtensionUtility;
+import cmd.send.user.ResponseRequestUserInfo;
 import model.Inventory.Card;
 import model.Inventory.Inventory;
 import model.PlayerInfo;
+import service.DemoHandler;
 
 import javax.swing.plaf.BorderUIResource;
 import java.util.*;
@@ -376,7 +381,13 @@ public class Battle {
                 tower = this.entityFactory.createGoatAttackDamageTower(new Point(tilePosX, tilePosY), mode);
                 break;
         }
+        assert tower != null;
         long entityID = tower.getId();
+
+        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user1.getId(),PlayerInfo.class);
+        User user = BitZeroServer.getInstance().getUserManager().getUserById(user1.getId());
+        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+
         this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
         this.handlerPutTower(mode);
     }
