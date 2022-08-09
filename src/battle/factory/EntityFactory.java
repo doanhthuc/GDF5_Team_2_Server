@@ -509,23 +509,30 @@ public class EntityFactory {
     public EntityECS createCannonOwlTower(Point tilePos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
-        int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.CANNON);
-        //Debug
+        String breakPoint = "";
         User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
-        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint1"), user);
+        int level = 1;
+        TowerConfigItem cannonOwlConfig = null;
+        String targetType = "", archType = "", bulletType = "";
+        int energy=0;
+        try {
 
-        String targetType = cannonOwlConfig.getTargetType();
-        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint2"), user);
+            cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.CANNON);
+            //Debug
+            breakPoint = "breakpoint1";
+            targetType = cannonOwlConfig.getTargetType();
+            breakPoint = "breakpoint2";
+            archType = cannonOwlConfig.getArchetype();
+            breakPoint = "breakpoint3";
+            bulletType = cannonOwlConfig.getBulletType();
+            breakPoint = "breakpoint4";
+            energy = cannonOwlConfig.getEnergy();
+            breakPoint = "breakpoint5";
 
-        String archType = cannonOwlConfig.getArchetype();
-        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint3"), user);
+        } catch (Exception e) {
+            ExtensionUtility.getExtension().send(new ResponseError((short) 0, breakPoint + " " + e.getMessage()), user);
+        }
 
-        String bulletType = cannonOwlConfig.getBulletType();
-        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint4"), user);
-
-        int energy = cannonOwlConfig.getEnergy();
-        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint5"), user);
 
         TowerStat towerStat = cannonOwlConfig.getTowerStat().get(level);
 
@@ -538,12 +545,9 @@ public class EntityFactory {
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
 
-
-
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
         AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
-
 
 
         entity.addComponent(towerInfoComponent);
