@@ -383,9 +383,11 @@ public class Battle {
         }
         assert tower != null;
         long entityID = tower.getId();
+
+        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user1.getId(), PlayerInfo.class);
+        User user = BitZeroServer.getInstance().getUserManager().getUserById(user1.getId());
+        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
         this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
-
-
         this.handlerPutTower(mode);
     }
 
@@ -406,9 +408,7 @@ public class Battle {
     public void updateMapWhenPutTower(long entityId, int towerId, int tilePosX, int tilePosY, EntityMode mode) throws Exception {
         if (mode == EntityMode.PLAYER) {
             this.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-            PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user1.getId(), PlayerInfo.class);
-            User user = BitZeroServer.getInstance().getUserManager().getUserById(user1.getId());
-            ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+
             this.player1BattleMap.battleMapObject.putTowerIntoMap(entityId, new java.awt.Point(tilePosX, tilePosY), towerId);
         } else {
             this.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
