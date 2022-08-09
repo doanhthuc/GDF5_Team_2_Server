@@ -140,7 +140,7 @@ public class Battle {
     }
 
     public void initMonsterWave() {
-        this.monsterWave = this.createNewMonsterWave2();
+        this.monsterWave = this.createNewMonsterWave();
         this.currentWave = -1;
     }
 
