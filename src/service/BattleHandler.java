@@ -138,7 +138,9 @@ public class BattleHandler extends BaseClientRequestHandler {
     public enum BattleError {
         SUCCESS((short) 0),
         ERROR((short) 1),
-        USER_INFO_NULL((short) 2);
+        TOWER_NULL((short) 3),
+        USER_INFO_NULL((short) 2),
+        TOWER_ID_NOT_MATCH((short) 4);
 
 
         private final short value;

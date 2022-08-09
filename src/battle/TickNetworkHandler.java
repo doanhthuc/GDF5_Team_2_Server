@@ -110,13 +110,13 @@ public class TickNetworkHandler {
 
             if (tower == null) {
                 System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
-                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.ERROR.getValue()), user);
+                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.TOWER_NULL.getValue()), user);
                 return;
             }
 
             if (tower.getId() != towerId) {
                 System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
-                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.ERROR.getValue()), user);
+                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.TOWER_ID_NOT_MATCH.getValue()), user);
                 return;
             }
             Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
