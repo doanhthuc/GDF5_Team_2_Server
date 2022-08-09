@@ -51,10 +51,10 @@ public class Room implements Runnable {
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
         this.botCommandTime = this.startTime + GameConfig.BATTLE.START_GAME_AFTER;
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
-        if (GameConfig.DEBUG) {
-            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
-            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
-        }
+//        if (GameConfig.DEBUG) {
+//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
+//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
+//        }
 
         this.tickManager = new TickManager(this.startTime);
     }
@@ -70,7 +70,6 @@ public class Room implements Runnable {
                 if (!this.endBattle) {
                     int currentTick = this.tickManager.getCurrentTick();
                     //System.out.println(currentTick);
-                    // enqueue the waiting inputs
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<User, DataCmd> data = this.waitingInputQueue.poll();
                         this.tickManager.addInput(data);
@@ -172,8 +171,8 @@ public class Room implements Runnable {
                             this.botCommandTime = System.currentTimeMillis() + countDownBotCommandTime;
                             //Send To User
 //                            this.tickManager.addInput();
-                            User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-                            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber + 20), player);
+                           // User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
+                           // ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber + 20), player);
                             return;
                         }
                 }

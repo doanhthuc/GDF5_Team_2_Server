@@ -25,7 +25,6 @@ import service.DemoHandler;
 
 public class TickInternalHandler {
     public TickInternalHandler() {
-
     }
 
     public void handleCommand(User user, DataCmd dataCmd) throws Exception {

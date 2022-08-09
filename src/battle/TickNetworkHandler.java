@@ -81,8 +81,6 @@ public class TickNetworkHandler {
         System.out.println("BattleMap processPutTower");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-
-            EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
             ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
             // IMPORTANT: move this action to TickInternalHandler
             //room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
