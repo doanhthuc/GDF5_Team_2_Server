@@ -2,9 +2,7 @@ package battle;
 
 import battle.common.EntityMode;
 import battle.common.Point;
-import battle.newMap.BattleMapObject;
-import battle.newMap.TileObject;
-import battle.newMap.Tower;
+import battle.newMap.*;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.data.DataCmd;
@@ -105,7 +103,10 @@ public class TickNetworkHandler {
             int towerId = req.getTowerId();
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
             BattleMapObject battleMapObject = battleMap.battleMapObject;
-//            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
+            ObjectInTile obj = (battleMapObject.getCellObject(req.getTilePos()).getObjectInCell());
+            Tower tower = null;
+            if (obj.getObjectInCellType() == ObjectInTileType.TOWER)
+                tower = (Tower) obj;
 //            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
 //            Card towerCard = inventory.getCardById(req.getTowerId());
 //            if (towerCard.getCardRankNumber() < tower.getLevel()) {
@@ -127,15 +128,14 @@ public class TickNetworkHandler {
 //            }
 
             System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
-
             ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getTowerId(), 3, req.getTilePos(), tickNumber), user);
+                    req.getTowerId(), tower.getLevel() + 1, req.getTilePos(), tickNumber), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
             if (opponentInfo.getUserType() == UserType.PLAYER) {
                 ExtensionUtility.getExtension().send(new ResponseOpponentUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                        req.getTowerId(), 3, req.getTilePos(), tickNumber), opponent);
+                        req.getTowerId(), tower.getLevel() + 1, req.getTilePos(), tickNumber), opponent);
             }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
