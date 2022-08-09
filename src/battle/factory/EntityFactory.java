@@ -516,6 +516,11 @@ public class EntityFactory {
         String archType = cannonOwlConfig.getArchetype();
         String bulletType = cannonOwlConfig.getBulletType();
         int energy = cannonOwlConfig.getEnergy();
+        
+        //Debug
+        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(battle.user1.getId(), PlayerInfo.class);
+        User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
+        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
 
         TowerStat towerStat = cannonOwlConfig.getTowerStat().get(level);
 
@@ -526,14 +531,9 @@ public class EntityFactory {
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
-        
-        //Debug
-        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(battle.user1.getId(), PlayerInfo.class);
-        userInfo.setTrophy((int)attackRange);
-        userInfo.setGem((int)bulletSpeed);
-        userInfo.setGold((int)damage);
-        User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
-        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+
+
+
 
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
