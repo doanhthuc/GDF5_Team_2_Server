@@ -16,6 +16,12 @@ import battle.config.GameStat.TowerStat;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.pool.EntityPool;
+import bitzero.server.BitZeroServer;
+import bitzero.server.entities.User;
+import bitzero.util.ExtensionUtility;
+import cmd.send.user.ResponseRequestUserInfo;
+import model.PlayerInfo;
+import service.DemoHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -504,6 +510,9 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
         int level = 1;
         TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.CANNON);
+        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(battle.user1.getId(), PlayerInfo.class);
+        User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
+        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();

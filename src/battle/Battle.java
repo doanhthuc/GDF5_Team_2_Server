@@ -381,9 +381,7 @@ public class Battle {
                 tower = this.entityFactory.createGoatAttackDamageTower(new Point(tilePosX, tilePosY), mode);
                 break;
         }
-        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user1.getId(), PlayerInfo.class);
-        User user = BitZeroServer.getInstance().getUserManager().getUserById(user1.getId());
-        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+
         assert tower != null;
         long entityID = tower.getId();
         this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
