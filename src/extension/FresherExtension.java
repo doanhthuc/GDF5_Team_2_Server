@@ -36,6 +36,7 @@ import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
 import model.battle.Room;
+import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.*;
@@ -68,6 +69,7 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
+            RoomManager.getInstance().clearRoom();
             ReadConfigUtil.readTowerConfig();
             ReadConfigUtil.readMonsterConfig();
             ReadConfigUtil.readTargetBuffConfig();
