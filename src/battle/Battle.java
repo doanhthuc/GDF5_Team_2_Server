@@ -383,12 +383,12 @@ public class Battle {
         }
         assert tower != null;
         long entityID = tower.getId();
+        this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
 
         PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(user1.getId(),PlayerInfo.class);
         User user = BitZeroServer.getInstance().getUserManager().getUserById(user1.getId());
         ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
 
-        this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
         this.handlerPutTower(mode);
     }
 
