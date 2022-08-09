@@ -104,6 +104,7 @@ public class TickNetworkHandler {
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
             BattleMapObject battleMapObject = battleMap.battleMapObject;
             ObjectInTile obj = (battleMapObject.getCellObject(req.getTilePos()).getObjectInCell());
+
             Tower tower = null;
             if (obj.getObjectInCellType() == ObjectInTileType.TOWER) {
                 tower = (Tower) obj;
@@ -120,8 +121,8 @@ public class TickNetworkHandler {
                 ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.TOWER_ID_NOT_MATCH.getValue()), user);
                 return;
             }
-            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
-            Card towerCard = inventory.getCardById(req.getTowerId());
+//            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
+//            Card towerCard = inventory.getCardById(req.getTowerId());
 //            if (towerCard.getCardRankNumber() < tower.getLevel()) {
 //                tower = tower.upgradeTower();
 //            } else {
