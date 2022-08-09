@@ -19,6 +19,7 @@ import battle.pool.EntityPool;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
+import cmd.send.error.ResponseError;
 import cmd.send.user.ResponseRequestUserInfo;
 import model.PlayerInfo;
 import service.DemoHandler;
@@ -511,14 +512,20 @@ public class EntityFactory {
         int level = 1;
         TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.CANNON);
         //Debug
-        PlayerInfo userInfo = (PlayerInfo) PlayerInfo.getModel(battle.user1.getId(), PlayerInfo.class);
         User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
-        ExtensionUtility.getExtension().send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint1"), user);
 
         String targetType = cannonOwlConfig.getTargetType();
+        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint2"), user);
+
         String archType = cannonOwlConfig.getArchetype();
+        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint3"), user);
+
         String bulletType = cannonOwlConfig.getBulletType();
+        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint4"), user);
+
         int energy = cannonOwlConfig.getEnergy();
+        ExtensionUtility.getExtension().send(new ResponseError((short) 0, "breakpoint5"), user);
 
         TowerStat towerStat = cannonOwlConfig.getTowerStat().get(level);
 
