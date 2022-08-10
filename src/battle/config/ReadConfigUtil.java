@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadConfigUtil {
-    public final static HashMap<Integer, TowerConfigItem> towerInfo = new HashMap<>();
-    public final static MonsterConfigItem monsterInfo = new MonsterConfigItem();
-    public final static HashMap<Integer, TargetBuffConfigItem> targetBuffInfo = new HashMap<>();
-    public final static HashMap<Integer, TargetBuffConfigItem> towerBuffInfo = new HashMap<>();
+    public static HashMap<Integer, TowerConfigItem2> towerInfo = new HashMap<>();
+    public static MonsterConfigItem2 monsterInfo = new MonsterConfigItem2();
+    public static HashMap<Integer, TargetBuffConfigItem2> targetBuffInfo = new HashMap<>();
+    public static HashMap<Integer, TargetBuffConfigItem2> towerBuffInfo = new HashMap<>();
 
     public static class TOWER_IN_CONFIG {
         public static int CANNON = 0;
@@ -39,7 +39,7 @@ public class ReadConfigUtil {
             for (Map.Entry<String, JsonElement> entry : towerObj.entrySet()) {
                 int key = Integer.parseInt(entry.getKey());
                 JsonObject value = (JsonObject) entry.getValue();
-                HashMap<Integer, TowerStat> towerStatHashMap = new HashMap<>();
+                HashMap<Integer, TowerStat2> towerStatHashMap = new HashMap<>();
                 String name = "", archetype = "", targetType = "", bulletType = "";
                 int bulletTargetBuffType = -1, auraTowerBuffType = -1, energy = 0, attackAnimationTime = 0, shootAnimationTime = 0;
                 if (value.has("name")) name = value.get("name").getAsString();
@@ -69,11 +69,11 @@ public class ReadConfigUtil {
                         } catch (Exception e) {
 
                         }
-                        TowerStat towerStat = new TowerStat(damage, attackSpeed, range, bulletRadius, bulletSpeed);
+                        TowerStat2 towerStat = new TowerStat2(damage, attackSpeed, range, bulletRadius, bulletSpeed);
                         towerStatHashMap.put(towerRank, towerStat);
                     }
                 }
-                TowerConfigItem towerConfigItem = new TowerConfigItem(name, archetype, targetType, bulletType, bulletTargetBuffType, auraTowerBuffType, energy,
+                TowerConfigItem2 towerConfigItem = new TowerConfigItem2(name, archetype, targetType, bulletType, bulletTargetBuffType, auraTowerBuffType, energy,
                         attackAnimationTime, shootAnimationTime, towerStatHashMap);
                 towerInfo.put(key, towerConfigItem);
             }
@@ -109,7 +109,7 @@ public class ReadConfigUtil {
                 int numberMonsters = 0;
                 if (value.has("hp")) hp = value.get("hp").getAsDouble();
                 if (value.has("numberMonsters")) numberMonsters = value.get("numberMonsters").getAsInt();
-                monsterInfo.addMonsterMultiplier(key, new MonsterConfigItem.MonsterMultiplier(hp, numberMonsters));
+                monsterInfo.addMonsterMultiplier(key, new MonsterConfigItem2.MonsterMultiplier(hp, numberMonsters));
             }
 
             JsonObject monsterStatObj = jsonObject.getAsJsonObject("monster");
@@ -135,7 +135,7 @@ public class ReadConfigUtil {
                     } catch (Exception e) {
 
                     }
-                    MonsterConfigItem.MonsterStat monsterStat = new MonsterConfigItem.MonsterStat(name, category, classs, hp, speed, hitRadius, weight, ability, energy, gainEnergy, numberMonster);
+                    MonsterConfigItem2.MonsterStat monsterStat = new MonsterConfigItem2.MonsterStat(name, category, classs, hp, speed, hitRadius, weight, ability, energy, gainEnergy, numberMonster);
                     monsterInfo.addMonsterStat(monsterType, monsterStat);
                 }
             }
@@ -159,7 +159,7 @@ public class ReadConfigUtil {
             JsonObject targetBuffObj = jsonObject.getAsJsonObject("targetBuff");
 
             for (Map.Entry<String, JsonElement> entryTargetBuff : targetBuffObj.entrySet()) {
-                TargetBuffConfigItem targetBuffConfig = null;
+                TargetBuffConfigItem2 targetBuffConfig = null;
                 int key = Integer.parseInt(entryTargetBuff.getKey());
                 JsonObject value = (JsonObject) entryTargetBuff.getValue();
                 String name = "", durationType = "", state = "";
@@ -171,7 +171,7 @@ public class ReadConfigUtil {
                     durationUseCardLevel = value.get("durationUseCardLevel").getAsBoolean();
                 if (value.has("state")) state = value.get("state").getAsString();
 
-                targetBuffConfig = new TargetBuffConfigItem(name, durationType, durationUseCardLevel, state);
+                targetBuffConfig = new TargetBuffConfigItem2(name, durationType, durationUseCardLevel, state);
                 if (value.has("duration")) {
                     duration = value.get("duration").getAsJsonObject();
                     for (Map.Entry<String, JsonElement> entryDuration : duration.entrySet()) {
@@ -226,7 +226,7 @@ public class ReadConfigUtil {
             JsonObject towerBuffObj = jsonObject.getAsJsonObject("towerBuff");
 
             for (Map.Entry<String, JsonElement> entryTowerBuff : towerBuffObj.entrySet()) {
-                TargetBuffConfigItem targetBuffConfig = null;
+                TargetBuffConfigItem2 targetBuffConfig = null;
                 int key = Integer.parseInt(entryTowerBuff.getKey());
                 JsonObject value = (JsonObject) entryTowerBuff.getValue();
                 String name = "", durationType = "", state = "";
@@ -238,7 +238,7 @@ public class ReadConfigUtil {
                     durationUseCardLevel = value.get("durationUseCardLevel").getAsBoolean();
                 if (value.has("state")) state = value.get("state").getAsString();
 
-                targetBuffConfig = new TargetBuffConfigItem(name, durationType, durationUseCardLevel, state);
+                targetBuffConfig = new TargetBuffConfigItem2(name, durationType, durationUseCardLevel, state);
                 if (value.has("duration")) {
                     duration = value.get("duration").getAsJsonObject();
                     for (Map.Entry<String, JsonElement> entryDuration : duration.entrySet()) {

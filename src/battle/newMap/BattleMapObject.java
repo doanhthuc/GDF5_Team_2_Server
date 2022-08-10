@@ -58,8 +58,7 @@ public class BattleMapObject {
     }
 
     public Tower putTowerIntoMap(long entityId, Point tilePos, int towerId) {
-        TileObject tileObject = this.battleMap.get(tilePos.x).get(tilePos.y);
-        return tileObject.buildTower(entityId, towerId, 1);
+        return  this.battleMap.get(tilePos.x).get(tilePos.y).buildTower(entityId, towerId, 1);
     }
 
     public boolean isHavingTowerInTile(int x, int y) {

@@ -3,7 +3,7 @@ package battle.config.GameStat;
 import java.util.HashMap;
 import java.util.List;
 
-public class TargetBuffConfigItem {
+public class TargetBuffConfigItem2 {
     String name;
     String durationType;
     boolean durationUseCardLevel;
@@ -11,7 +11,7 @@ public class TargetBuffConfigItem {
     HashMap<Integer, List<EffectStat>> listEffect = new HashMap<>();
     String state;
 
-    public TargetBuffConfigItem(String name, String durationType, boolean durationUseCardLevel, String state) {
+    public TargetBuffConfigItem2(String name, String durationType, boolean durationUseCardLevel, String state) {
         this.name = name;
         this.durationType = durationType;
         this.durationUseCardLevel = durationUseCardLevel;

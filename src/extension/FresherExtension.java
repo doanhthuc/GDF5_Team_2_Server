@@ -11,6 +11,9 @@ import battle.common.Utils;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.MonsterWaveConfig;
 import battle.config.ReadConfigUtil;
+import battle.config.conf.monster.MonsterConfig;
+import battle.config.conf.tower.TowerConfig;
+import battle.config.conf.tower.TowerConfigItem;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -36,6 +39,7 @@ import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
 import model.battle.Room;
+import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.*;
@@ -68,13 +72,13 @@ public class FresherExtension extends BZExtension {
          * register new handler to catch client's packet
          */
         try {
-            ReadConfigUtil.readTowerConfig();
-            ReadConfigUtil.readMonsterConfig();
-            ReadConfigUtil.readTargetBuffConfig();
-            ReadConfigUtil.readTowerBuffConfig();
-            MonsterWaveConfig.readMonsterWaveConfigFromJson();
-            System.out.println(towerBuffInfo.get(TOWER_BUFF_IN_CONFIG.GOAT_TOWER).getListEffect().get(1).get(0).getValue());
-            System.out.println(towerInfo.get(TOWER_IN_CONFIG.SNAKE).getAuraTargetBuffType());
+            RoomManager.getInstance().clearRoom();
+            //MonsterWaveConfig.readMonsterWaveConfigFromJson();
+            System.out.println(TowerConfig.INS.getTowerConfig((short)0).getArchetype());
+//            ReadConfigUtil.readMonsterConfig();
+//            ReadConfigUtil.readTargetBuffConfig();
+//            ReadConfigUtil.readTowerBuffConfig();
+//            System.out.println(towerInfo.get(TOWER_IN_CONFIG.SNAKE).getAuraTargetBuffType());
 //            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
 //            PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
 //            Room room = new Room(playerInfo1, playerInfo2);
