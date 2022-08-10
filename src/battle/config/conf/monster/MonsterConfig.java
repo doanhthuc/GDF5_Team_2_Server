@@ -36,7 +36,7 @@ public class MonsterConfig {
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
         try {
-            FileReader reader = new FileReader("src/battle/config/conf/json/Monster.json");
+            FileReader reader = new FileReader("./config/game/battle/json/Monster.json");
             JsonObject obj = (JsonObject) parser.parse(reader);
 
             JsonObject mulObj = obj.getAsJsonObject("multiplier");

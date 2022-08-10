@@ -27,7 +27,10 @@ import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.send.error.ResponseError;
+import org.apache.commons.lang.exception.ExceptionUtils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -533,7 +536,10 @@ public class EntityFactory {
             breakPoint = "breakpoint5";
 
         } catch (Exception e) {
-            ExtensionUtility.getExtension().send(new ResponseError((short) 0, breakPoint + " " + e.getMessage()), user);
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String exceptionAsString = sw.toString();
+            ExtensionUtility.getExtension().send(new ResponseError((short) 0, breakPoint + " " + exceptionAsString), user);
         }
 
 
