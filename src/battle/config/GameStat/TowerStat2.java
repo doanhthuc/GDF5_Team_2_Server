@@ -2,14 +2,14 @@ package battle.config.GameStat;
 
 import java.util.HashMap;
 
-public class TowerStat {
+public class TowerStat2 {
     private double damage;
     private double attackSpeed;
     private double range;
     private double bulletRadius;
     private double bulletSpeed;
 
-    public TowerStat(double damage, double attackSpeed, double range, double bulletRadius, double bulletSpeed) {
+    public TowerStat2(double damage, double attackSpeed, double range, double bulletRadius, double bulletSpeed) {
         this.damage = damage;
         this.attackSpeed = attackSpeed;
         this.range = range;

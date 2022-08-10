@@ -20,7 +20,7 @@ import java.util.List;
 
 public class EffectSystem extends SystemECS {
     int id = GameConfig.SYSTEM_ID.EFFECT;
-    public String name = "EffectSystem";
+    private String name = "EffectSystem";
 
     public EffectSystem() {
         super(GameConfig.SYSTEM_ID.EFFECT);

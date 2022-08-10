@@ -58,7 +58,8 @@ public class SpellSystem extends SystemECS {
                                     VelocityComponent oldVelocity = (VelocityComponent) spellEntity.getComponent(VelocityComponent.typeID);
                                     MonsterInfoComponent monsterInfo = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
 
-                                    if (monsterInfo != null && monsterInfo.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
+                                    if (monsterInfo != null)
+                                            if (monsterInfo.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
                                         continue;
                                     }
                                     if (oldVelocity == null || monsterInfo == null) {

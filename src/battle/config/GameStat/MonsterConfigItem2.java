@@ -2,7 +2,7 @@ package battle.config.GameStat;
 
 import java.util.HashMap;
 
-public class MonsterConfigItem {
+public class MonsterConfigItem2 {
     private HashMap<Integer, MonsterMultiplier> monsterMultiplierHashMap = new HashMap<>();
     private HashMap<Integer, MonsterStat> monsterStatHashMap = new HashMap<>();
 
