@@ -6,27 +6,16 @@ import battle.config.GameConfig;
 import battle.config.ReadConfigUtil;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
-import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;
-import bitzero.util.ExtensionUtility;
-import cmd.CmdDefine;
 import cmd.receive.battle.tower.RequestPutTower;
-import cmd.send.battle.ResponseEndBattle;
 
-import cmd.send.battle.opponent.ResponseOppentPutTower;
 import match.UserType;
-import model.Lobby.LobbyChestContainer;
-import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import service.BattleHandler;
-import service.RoomHandler;
 
-import java.awt.*;
 import java.awt.Point;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +29,7 @@ public class Room implements Runnable {
     private ScheduledFuture roomRun;
     private long botCommandTime = 0;
     private final TickManager tickManager;
-    private final Queue<Pair<User, DataCmd>> waitingInputQueue = new LinkedList<>();
+    private final Queue<Pair<User, DataCmd>> waitingInputQueue = new ConcurrentLinkedQueue<>();
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
@@ -60,7 +49,9 @@ public class Room implements Runnable {
     }
 
     public void addInput(User user, DataCmd dataCmd) {
-        this.waitingInputQueue.add(new Pair<>(user, dataCmd));
+        synchronized (this.waitingInputQueue) {
+            this.waitingInputQueue.add(new Pair<>(user, dataCmd));
+        }
     }
 
     @Override
@@ -171,8 +162,8 @@ public class Room implements Runnable {
                             this.botCommandTime = System.currentTimeMillis() + countDownBotCommandTime;
                             //Send To User
 //                            this.tickManager.addInput();
-                           // User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-                           // ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber + 20), player);
+                            // User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
+                            // ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber + 20), player);
                             return;
                         }
                 }

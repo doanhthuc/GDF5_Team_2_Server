@@ -112,7 +112,7 @@ public class BattleHandler extends BaseClientRequestHandler {
             }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
-    }
+        }
 
     }
 
@@ -132,7 +132,6 @@ public class BattleHandler extends BaseClientRequestHandler {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
-
 
 
     public enum BattleError {
