@@ -33,7 +33,7 @@ public class TowerConfig {
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
         try {
-            FileReader reader = new FileReader("./src/battle/config/conf/json/Tower.json");
+            FileReader reader = new FileReader("./config/game/battle/json/Tower.json");
             JsonObject obj = (JsonObject) parser.parse(reader);
             this.buildingTime = obj.get("buildingTime").getAsInt();
 
