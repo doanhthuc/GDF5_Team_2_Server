@@ -1,10 +1,8 @@
 package battle.config.GameStat;
 
-import battle.config.GameStat.TowerStat;
-
 import java.util.HashMap;
 
-public class TowerConfigItem {
+public class TowerConfigItem2 {
     private double buildingTime;
     private String name;
     private String archetype;
@@ -18,9 +16,9 @@ public class TowerConfigItem {
 
 
     private int shootAnimationTime;
-    private HashMap<Integer, TowerStat> towerStatHashMap;
+    private HashMap<Integer, TowerStat2> towerStatHashMap;
 
-    public TowerConfigItem(String name, String archetype, String targetType, String bulletType, int bulletTargetBuffType, int auraTargetBuffType, int energy, int attackAnimationTime, int shootAnimationTime, HashMap<Integer, TowerStat> towerStat) {
+    public TowerConfigItem2(String name, String archetype, String targetType, String bulletType, int bulletTargetBuffType, int auraTargetBuffType, int energy, int attackAnimationTime, int shootAnimationTime, HashMap<Integer, TowerStat2> towerStat) {
         this.name = name;
         this.archetype = archetype;
         this.targetType = targetType;
@@ -113,7 +111,7 @@ public class TowerConfigItem {
         this.auraTargetBuffType = auraTargetBuffType;
     }
 
-    public HashMap<Integer, TowerStat> getTowerStat() {
+    public HashMap<Integer, TowerStat2> getTowerStat() {
         return towerStatHashMap;
     }
 

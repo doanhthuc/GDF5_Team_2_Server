@@ -69,8 +69,7 @@ public class Room implements Runnable {
             try {
                 if (!this.endBattle) {
                     int currentTick = this.tickManager.getCurrentTick();
-//                    System.out.println(currentTick);
-                    // enqueue the waiting inputs
+                    //System.out.println(currentTick);
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<User, DataCmd> data = this.waitingInputQueue.poll();
                         this.tickManager.addInput(data);
@@ -81,7 +80,7 @@ public class Room implements Runnable {
 
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
-                    this.handleBotAction(this.tickManager.getCurrentTick());
+                    //this.handleBotAction(this.tickManager.getCurrentTick());
                     //this.handlerClientCommand();
                     this.checkEndBattle();
                     this.checkAllUserDisconnect();
@@ -172,8 +171,8 @@ public class Room implements Runnable {
                             this.botCommandTime = System.currentTimeMillis() + countDownBotCommandTime;
                             //Send To User
 //                            this.tickManager.addInput();
-                            User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
-                            ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber + 20), player);
+                           // User player = BitZeroServer.getInstance().getUserManager().getUserById(player1.getId());
+                           // ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), towerID, 1, new java.awt.Point(tilePosX, tilePosY), tickNumber + 20), player);
                             return;
                         }
                 }

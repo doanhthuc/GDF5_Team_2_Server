@@ -88,7 +88,8 @@ public class UserHandler extends BaseClientRequestHandler {
                 send(new ResponseRequestUserInfo(UserError.USERINFO_NULL.getValue()), user);
             }
             logger.info("get name = " + userInfo.toString());
-            send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+            System.out.println("UserHandler"+userInfo.getTrophy());
+                send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
         } catch (Exception e) {
             logger.info("processGetUserInfo exception");
         }
@@ -123,12 +124,13 @@ public class UserHandler extends BaseClientRequestHandler {
             logger.info("processAddUserGem exception");
         }
     }
-    private void processLogoutUser(User user){
+
+    private void processLogoutUser(User user) {
         System.out.println("loggout");
-        send(new ResponseLogout(UserError.SUCCESS.getValue()),user);
+        send(new ResponseLogout(UserError.SUCCESS.getValue()), user);
         BitZeroServer.getInstance().getSessionManager().removeSession(user.getSession());
         BitZeroServer.getInstance().getUserManager().disconnectUser(user);
-  //      ExtensionUtility.dispatchEvent(new BZEvent(BZEventType.USER_DISCONNECT));
+        //      ExtensionUtility.dispatchEvent(new BZEvent(BZEventType.USER_DISCONNECT));
     }
 
     private void userDisconnect(User user) {
@@ -143,7 +145,7 @@ public class UserHandler extends BaseClientRequestHandler {
 
     public enum UserError {
         SUCCESS((short) 0),
-        USERINFO_NULL((short)1),
+        USERINFO_NULL((short) 1),
         ;
 
 

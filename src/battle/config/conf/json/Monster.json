@@ -33,7 +33,7 @@
     "0": {
       "name": "swordsman",
       "category": "normal",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 30,
       "speed": 0.8,
       "hitRadius": 0.2,
@@ -46,7 +46,7 @@
     "1": {
       "name": "assassin",
       "category": "normal",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 15,
       "speed": 1.4,
       "hitRadius": 0.15,
@@ -59,7 +59,7 @@
     "2": {
       "name": "giant",
       "category": "normal",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 200,
       "speed": 0.5,
       "hitRadius": 0.5,
@@ -72,7 +72,7 @@
     "3": {
       "name": "bat",
       "category": "normal",
-      "class": "aerial",
+      "monsterClass": "aerial",
       "hp": 25,
       "speed": 1,
       "hitRadius": 0.2,
@@ -85,7 +85,7 @@
     "4": {
       "name": "ninja",
       "category": "normal",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 30,
       "speed": 0.8,
       "hitRadius": 0.2,
@@ -98,7 +98,7 @@
     "5": {
       "name": "darkGiant",
       "category": "boss",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 800,
       "speed": 0.4,
       "hitRadius": 0.65,
@@ -110,7 +110,7 @@
     "6": {
       "name": "satyr",
       "category": "boss",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 400,
       "speed": 0.4,
       "hitRadius": 0.65,
@@ -121,7 +121,7 @@
     "7": {
       "name": "desertKing",
       "category": "boss",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 300,
       "speed": 0.4,
       "hitRadius": 0.65,
@@ -132,7 +132,7 @@
     "8": {
       "name": "iceman",
       "category": "boss",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 400,
       "speed": 0.4,
       "hitRadius": 0.65,
@@ -143,7 +143,7 @@
     "9": {
       "name": "golem",
       "category": "boss",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 500,
       "speed": 0.4,
       "hitRadius": 0.65,
@@ -154,7 +154,7 @@
     "10": {
       "name": "golemMinion",
       "category": "minion",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 50,
       "speed": 0.6,
       "hitRadius": 0.3,
@@ -165,7 +165,7 @@
     "11": {
       "name": "demonTree",
       "category": "boss",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 400,
       "speed": 0.4,
       "hitRadius": 0.65,
@@ -176,7 +176,7 @@
     "12": {
       "name": "demonTreeMinion",
       "category": "minion",
-      "class": "land",
+      "monsterClass": "land",
       "hp": 30,
       "speed": 0.8,
       "hitRadius": 0.2,

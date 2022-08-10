@@ -136,7 +136,7 @@ public class GameConfig {
 
         public static class CLASS {
             public static String LAND = "land";
-            public static String AIR = "air";
+            public static String AIR = "aerial";
         }
 
         public static List<Integer> LAND_MONSTER = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.ASSASSIN, ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT);
@@ -158,7 +158,7 @@ public class GameConfig {
     }
 
     public static int WAVE_AMOUNT = 20;
-    public static int PLAYER_HP = 2000;
+    public static int PLAYER_HP = 20;
     public static int PLAYER_ENERGY = 30;
     public static int OPPONENT_ENERGY = 30;
 

@@ -30,25 +30,26 @@ public class TickManager {
         int currentTick = this.getCurrentTick();
 
         switch (dataCmd.getId()) {
-            case CmdDefine.PUT_TOWER:
+            case CmdDefine.PUT_TOWER: {//PutTower
+                int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
+                Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
+                queue.add(input);
+                this.inputTick.put(futureTick, queue);
+                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+                break;
+            }
             case CmdDefine.UPGRADE_TOWER: {
+                //UpgradeTower
                 int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
                 Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
                 this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
             }
-
             case CmdDefine.DESTROY_TOWER:
             case CmdDefine.CHANGE_TOWER_STRATEGY:
             case CmdDefine.PUT_TRAP: {
                 int nextTick = currentTick + 1;
-
-//                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
-//                System.out.println("xx Latest Tick = " + currentTick);
-//                System.out.println("xx Current Tick = " + currentTick2);
-//                System.out.println("xx Future Tick upgrade tower = " + nextTick);
-
                 Queue<Pair<User, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
                 queue.add(input);
                 this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
@@ -77,8 +78,7 @@ public class TickManager {
         if (queue != null) System.out.println("queue Internal InputTick Size " + queue.size());
         while (queue != null && !queue.isEmpty()) {
             Pair<User, DataCmd> data = queue.poll();
-            tickInternalHandler.
-                    handleCommand(data.first, data.second);
+            tickInternalHandler.handleCommand(data.first, data.second);
         }
     }
 

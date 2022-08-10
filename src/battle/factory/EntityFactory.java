@@ -8,14 +8,25 @@ import battle.component.common.*;
 import battle.component.effect.*;
 import battle.component.info.*;
 import battle.config.GameConfig;
-import battle.config.GameStat.MonsterConfigItem;
-import battle.config.GameStat.TargetBuffConfigItem;
+import battle.config.GameStat.TargetBuffConfigItem2;
 import battle.config.ReadConfigUtil;
-import battle.config.GameStat.TowerConfigItem;
-import battle.config.GameStat.TowerStat;
+import battle.config.GameStat.TowerConfigItem2;
+import battle.config.GameStat.TowerStat2;
+import battle.config.conf.monster.MonsterConfig;
+import battle.config.conf.monster.MonsterConfigItem;
+import battle.config.conf.targetBuff.TargetBuffConfig;
+import battle.config.conf.targetBuff.TargetBuffConfigItem;
+import battle.config.conf.tower.TowerConfig;
+import battle.config.conf.tower.TowerConfigItem;
+import battle.config.conf.tower.TowerStat;
+import battle.config.conf.towerBuff.TowerBuffConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.pool.EntityPool;
+import bitzero.server.BitZeroServer;
+import bitzero.server.entities.User;
+import bitzero.util.ExtensionUtility;
+import cmd.send.error.ResponseError;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +44,10 @@ public class EntityFactory {
         this.entityManager = entityManager;
         this.componentFactory = componentFactory;
         this.battle = battle;
+//        ReadConfigUtil.readTowerConfig();
+//        ReadConfigUtil.readMonsterConfig();
+//        ReadConfigUtil.readTargetBuffConfig();
+//        ReadConfigUtil.readTowerBuffConfig();
     }
 
     public EntityECS _createEntity(int typeID, EntityMode mode) {
@@ -158,10 +173,10 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.SWORD_MAN);
+        MonsterConfigItem SwordManStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.SWORDSMAN);
         String category = SwordManStat.getCategory();
-        String classs = SwordManStat.getClasss();
-        int weight = SwordManStat.getWeight();
+        String classs = SwordManStat.getMonsterClass();
+        int weight = (int) SwordManStat.getWeight();
         int gainEnergy = SwordManStat.getGainEnergy();
         int ability = SwordManStat.getAbility();
         double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
@@ -197,14 +212,14 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.ASSASSIN);
-        String category = SwordManStat.getCategory();
-        String classs = SwordManStat.getClasss();
-        int weight = SwordManStat.getWeight();
-        int gainEnergy = SwordManStat.getGainEnergy();
-        int ability = SwordManStat.getAbility();
-        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
-        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+        MonsterConfigItem assassinStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.ASSASSIN);
+        String category = assassinStat.getCategory();
+        String classs = assassinStat.getMonsterClass();
+        int weight = (int) assassinStat.getWeight();
+        int gainEnergy = assassinStat.getGainEnergy();
+        int ability = assassinStat.getAbility();
+        double speed = assassinStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (assassinStat.getHitRadius() * GameConfig.TILE_WIDTH);
 
 
         MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
@@ -236,14 +251,14 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.BAT);
-        String category = SwordManStat.getCategory();
-        String classs = SwordManStat.getClasss();
-        int weight = SwordManStat.getWeight();
-        int gainEnergy = SwordManStat.getGainEnergy();
-        int ability = SwordManStat.getAbility();
-        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
-        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+        MonsterConfigItem batMonsterStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.BAT);
+        String category = batMonsterStat.getCategory();
+        String classs = batMonsterStat.getMonsterClass();
+        int weight = (int) batMonsterStat.getWeight();
+        int gainEnergy = batMonsterStat.getGainEnergy();
+        int ability = batMonsterStat.getAbility();
+        double speed = batMonsterStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (batMonsterStat.getHitRadius() * GameConfig.TILE_WIDTH);
 
         MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
@@ -273,14 +288,14 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.GIANT);
-        String category = SwordManStat.getCategory();
-        String classs = SwordManStat.getClasss();
-        int weight = SwordManStat.getWeight();
-        int gainEnergy = SwordManStat.getGainEnergy();
-        int ability = SwordManStat.getAbility();
-        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
-        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+        MonsterConfigItem giant = MonsterConfig.INS.getMonsterConfig(MonsterConfig.GIANT);
+        String category = giant.getCategory();
+        String classs = giant.getMonsterClass();
+        int weight = (int) giant.getWeight();
+        int gainEnergy = giant.getGainEnergy();
+        int ability = giant.getAbility();
+        double speed = giant.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (giant.getHitRadius() * GameConfig.TILE_WIDTH);
 
         MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
@@ -311,14 +326,15 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.NINJA);
-        String category = SwordManStat.getCategory();
-        String classs = SwordManStat.getClasss();
-        int weight = SwordManStat.getWeight();
-        int gainEnergy = SwordManStat.getGainEnergy();
-        int ability = SwordManStat.getAbility();
-        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
-        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+        MonsterConfigItem ninjaMonsterStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.NINJA);
+        String category = ninjaMonsterStat.getCategory();
+        String classs = ninjaMonsterStat.getMonsterClass();
+        int weight = (int) ninjaMonsterStat.getWeight();
+        int gainEnergy = ninjaMonsterStat.getGainEnergy();
+        int ability = ninjaMonsterStat.getAbility();
+        double speed = ninjaMonsterStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (ninjaMonsterStat.getHitRadius() * GameConfig.TILE_WIDTH);
+
         MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
@@ -350,14 +366,14 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.DEMON_TREE_BOSS);
-        String category = SwordManStat.getCategory();
-        String classs = SwordManStat.getClasss();
-        int weight = SwordManStat.getWeight();
-        int gainEnergy = SwordManStat.getGainEnergy();
-        int ability = SwordManStat.getAbility();
-        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
-        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+        MonsterConfigItem demonTreeStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.DEMON_TREE);
+        String category = demonTreeStat.getCategory();
+        String classs = demonTreeStat.getMonsterClass();
+        int weight = (int) demonTreeStat.getWeight();
+        int gainEnergy = demonTreeStat.getGainEnergy();
+        int ability = demonTreeStat.getAbility();
+        double speed = demonTreeStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (demonTreeStat.getHitRadius() * GameConfig.TILE_WIDTH);
 
         MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 5, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
@@ -388,14 +404,14 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.DEMON_TREE_MINION);
-        String category = SwordManStat.getCategory();
-        String classs = SwordManStat.getClasss();
-        int weight = SwordManStat.getWeight();
-        int gainEnergy = SwordManStat.getGainEnergy();
-        int ability = SwordManStat.getAbility();
-        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
-        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+        MonsterConfigItem demonTreeMinionStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.DEMON_TREE_MINION);
+        String category = demonTreeMinionStat.getCategory();
+        String classs = demonTreeMinionStat.getMonsterClass();
+        int weight = (int) demonTreeMinionStat.getWeight();
+        int gainEnergy = demonTreeMinionStat.getGainEnergy();
+        int ability = demonTreeMinionStat.getAbility();
+        double speed = demonTreeMinionStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (demonTreeMinionStat.getHitRadius() * GameConfig.TILE_WIDTH);
 
         MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 1, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
@@ -423,14 +439,14 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.DARK_GIANT);
-        String category = SwordManStat.getCategory();
-        String classs = SwordManStat.getClasss();
-        int weight = SwordManStat.getWeight();
-        int gainEnergy = SwordManStat.getGainEnergy();
-        int ability = SwordManStat.getAbility();
-        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
-        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+        MonsterConfigItem darkGiantStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.DARK_GIANT);
+        String category = darkGiantStat.getCategory();
+        String classs = darkGiantStat.getMonsterClass();
+        int weight = (int) darkGiantStat.getWeight();
+        int gainEnergy = darkGiantStat.getGainEnergy();
+        int ability = darkGiantStat.getAbility();
+        double speed = darkGiantStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (darkGiantStat.getHitRadius() * GameConfig.TILE_WIDTH);
 
         MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 5, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
@@ -459,20 +475,20 @@ public class EntityFactory {
         this.pool.push(entity);
         this.entityManager.addEntity(entity);
 
-        MonsterConfigItem.MonsterStat SwordManStat = ReadConfigUtil.monsterInfo.getMonsterStatByMonsterID(ReadConfigUtil.MONSTER_IN_CONFIG.SATYR);
-        String category = SwordManStat.getCategory();
-        String classs = SwordManStat.getClasss();
-        int weight = SwordManStat.getWeight();
-        int gainEnergy = SwordManStat.getGainEnergy();
-        int ability = SwordManStat.getAbility();
-        double speed = SwordManStat.getSpeed() * GameConfig.TILE_WIDTH;
-        int hitRadius = (int) (SwordManStat.getHitRadius() * GameConfig.TILE_WIDTH);
+        MonsterConfigItem satyrStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.SATYR);
+        String category = satyrStat.getCategory();
+        String classs = satyrStat.getMonsterClass();
+        int weight = (int) satyrStat.getWeight();
+        int gainEnergy = satyrStat.getGainEnergy();
+        int ability = satyrStat.getAbility();
+        double speed = satyrStat.getSpeed() * GameConfig.TILE_WIDTH;
+        int hitRadius = (int) (satyrStat.getHitRadius() * GameConfig.TILE_WIDTH);
 
         MonsterInfoComponent monsterInfoComponent = this.componentFactory.createMonsterInfoComponent(category, classs, weight, 5, gainEnergy, ability, null);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent((int) pixelPos.x, (int) pixelPos.y);
 
-        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(0.4 * GameConfig.TILE_WIDTH, 0, null);
-        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(30, 30);
+        VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed, 0, null);
+        CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(400);
 
         HealingAbilityComponent healingAbilityComponent = this.componentFactory.createHealingAbilityComponent(2 * GameConfig.TILE_WIDTH, 0.03);
@@ -498,33 +514,50 @@ public class EntityFactory {
     public EntityECS createCannonOwlTower(Point tilePos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
-        int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.CANNON);
+        String breakPoint = "";
+        User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
+        short level = 1;
+        TowerConfigItem cannonOwlConfig = TowerConfig.INS.getTowerConfig(TowerConfig.OWL);
+        String targetType = "", archType = "", bulletType = "";
+        int energy=0;
+        try {
+            //Debug
+            breakPoint = "breakpoint1";
+            targetType = cannonOwlConfig.getTargetType();
+            breakPoint = "breakpoint2";
+            archType = cannonOwlConfig.getArchetype();
+            breakPoint = "breakpoint3";
+            bulletType = cannonOwlConfig.getBulletType();
+            breakPoint = "breakpoint4";
+            energy = cannonOwlConfig.getEnergy();
+            breakPoint = "breakpoint5";
 
-        String targetType = cannonOwlConfig.getTargetType();
-        String archType = cannonOwlConfig.getArchetype();
-        String bulletType = cannonOwlConfig.getBulletType();
-        int energy = cannonOwlConfig.getEnergy();
+        } catch (Exception e) {
+            ExtensionUtility.getExtension().send(new ResponseError((short) 0, breakPoint + " " + e.getMessage()), user);
+        }
 
-        TowerStat towerStat = cannonOwlConfig.getTowerStat().get(level);
+
+        TowerStat towerStat = cannonOwlConfig.getStat().get(level);
 
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
-        double attackSpeed = towerStat.getAttackSpeed() / 1000;
+        double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
+
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
         AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
+
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
         entity.addComponent(attackComponent);
 
-        this.battle.minusPlayerEnergy(towerInfoComponent.getEnergy(), mode);
+        //this.battle.minusPlayerEnergy(towerInfoComponent.getEnergy(), mode);
         return entity;
     }
 
@@ -533,25 +566,25 @@ public class EntityFactory {
         EntityECS entity = this._createEntity(typeID, mode);
 
 
-        int level = 1;
-        TowerConfigItem bearIceGunConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.BEAR);
+        short level = 1;
+        TowerConfigItem bearIceGunConfig = TowerConfig.INS.getTowerConfig(TowerConfig.POLAR_BEAR);
 
         String targetType = bearIceGunConfig.getTargetType();
         String archType = bearIceGunConfig.getArchetype();
         String bulletType = bearIceGunConfig.getBulletType();
         int energy = bearIceGunConfig.getEnergy();
 
-        TowerStat towerStat = bearIceGunConfig.getTowerStat().get(level);
+        TowerStat towerStat = bearIceGunConfig.getStat().get(level);
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
-        double attackSpeed = towerStat.getAttackSpeed() / 1000;
+        double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
-        double frozenDuration = ReadConfigUtil.targetBuffInfo.get(bearIceGunConfig.getBulletTargetBuffType()).getDurationByLevel(1);
+        double frozenDuration = TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_ICE_GUN).getDuration().get(level);
         FrozenEffect frozenEffect = this.componentFactory.createFrozenEffect(frozenDuration);
 
         List<EffectComponent> effectList = Arrays.asList(frozenEffect);
@@ -572,18 +605,18 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.FROG_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
 
-        int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.FROG);
+        short level = 1;
+        TowerConfigItem cannonOwlConfig = TowerConfig.INS.getTowerConfig(TowerConfig.FROG);
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
         String bulletType = cannonOwlConfig.getBulletType();
         int energy = cannonOwlConfig.getEnergy();
 
-        TowerStat towerStat = cannonOwlConfig.getTowerStat().get(level);
+        TowerStat towerStat = cannonOwlConfig.getStat().get(level);
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
-        double attackSpeed = towerStat.getAttackSpeed() / 1000;
+        double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
@@ -606,26 +639,25 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.BUNNY_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
 
-        int level = 1;
-        TowerConfigItem bunnyOilConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.BUNNY);
+        short level = 1;
+        TowerConfigItem bunnyOilConfig = TowerConfig.INS.getTowerConfig(TowerConfig.BUNNY);
 
         String targetType = bunnyOilConfig.getTargetType();
         String archType = bunnyOilConfig.getArchetype();
         String bulletType = bunnyOilConfig.getBulletType();
         int energy = bunnyOilConfig.getEnergy();
 
-        TowerStat towerStat = bunnyOilConfig.getTowerStat().get(level);
+        TowerStat towerStat = bunnyOilConfig.getStat().get(level);
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
-        double attackSpeed = towerStat.getAttackSpeed() / 1000;
+        double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
+        TargetBuffConfigItem targetBuffConfigItem = TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_OIL_GUN);
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
-
-        TargetBuffConfigItem targetBuffConfigItem = ReadConfigUtil.targetBuffInfo.get(bunnyOilConfig.getBulletTargetBuffType());
-        double duration = targetBuffConfigItem.getDurationByLevel(1);
-        double slowPercentage = targetBuffConfigItem.getEffectStatsByLevel(1).get(0).getValue();
+        double duration = targetBuffConfigItem.getDuration().get(level) /1000.0;
+        double slowPercentage = targetBuffConfigItem.getEffects().get(level).get(0).getValue();
         SlowEffect slowEffect = this.componentFactory.createSlowEffect(duration, slowPercentage);
         List<EffectComponent> effectList = Collections.singletonList(slowEffect);
 
@@ -646,18 +678,18 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.WIZARD_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
 
-        int level = 1;
-        TowerConfigItem cannonOwlConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.WIZARD);
+        short level = 1;
+        TowerConfigItem cannonOwlConfig = TowerConfig.INS.getTowerConfig(TowerConfig.WIZARD);;
 
         String targetType = cannonOwlConfig.getTargetType();
         String archType = cannonOwlConfig.getArchetype();
         String bulletType = cannonOwlConfig.getBulletType();
         int energy = cannonOwlConfig.getEnergy();
 
-        TowerStat towerStat = cannonOwlConfig.getTowerStat().get(level);
+        TowerStat towerStat = cannonOwlConfig.getStat().get(level);
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
         double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
-        double attackSpeed = towerStat.getAttackSpeed() / 1000;
+        double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
 
@@ -678,25 +710,20 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.SNAKE_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
 
-        int level = 1;
-        TowerConfigItem snakeAttackSpeedConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.SNAKE);
+        short level = 1;
+        TowerConfigItem snakeAttackSpeedConfig = TowerConfig.INS.getTowerConfig(TowerConfig.SNAKE);;
 
         String targetType = snakeAttackSpeedConfig.getTargetType();
         String archType = snakeAttackSpeedConfig.getArchetype();
-        String bulletType = snakeAttackSpeedConfig.getBulletType();
+
         int energy = snakeAttackSpeedConfig.getEnergy();
 
-        TowerStat towerStat = snakeAttackSpeedConfig.getTowerStat().get(level);
+        TowerStat towerStat = snakeAttackSpeedConfig.getStat().get(level);
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
-        double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
-        double attackSpeed = towerStat.getAttackSpeed() / 1000;
-        double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
-        double damage = towerStat.getDamage();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
-        int auraTargetBuffType = snakeAttackSpeedConfig.getAuraTargetBuffType();
-        double buffAttackSpeedEffectPercentage = ReadConfigUtil.towerBuffInfo.get(auraTargetBuffType).getEffectStatsByLevel(1).get(0).getValue();
+        double buffAttackSpeedEffectPercentage = TowerBuffConfig.INS.getTowerBuffConfig(TowerBuffConfig.ATTACK_SPEED_AURA).getEffects().get(level).get(0).getValue();
 
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, "none");
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
@@ -715,21 +742,20 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.GOAT_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
 
-        int level = 1;
-        TowerConfigItem goatDamageConfig = ReadConfigUtil.towerInfo.get(ReadConfigUtil.TOWER_IN_CONFIG.GOAT);
+        short level = 1;
+        TowerConfigItem goatDamageConfig = TowerConfig.INS.getTowerConfig(TowerConfig.GOAT);
 
         String targetType = goatDamageConfig.getTargetType();
         String archType = goatDamageConfig.getArchetype();
-        String bulletType = goatDamageConfig.getBulletType();
+
         int energy = goatDamageConfig.getEnergy();
 
-        TowerStat towerStat = goatDamageConfig.getTowerStat().get(level);
+        TowerStat towerStat = goatDamageConfig.getStat().get(level);
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
+        double buffAttackDamageEffectPercentage = TowerBuffConfig.INS.getTowerBuffConfig(TowerBuffConfig.ATTACK_AURA).getEffects().get(level).get(0).getValue();
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
-        int auraTargetBuffType = goatDamageConfig.getAuraTargetBuffType();
-        double buffAttackDamageEffectPercentage = ReadConfigUtil.towerBuffInfo.get(auraTargetBuffType).getEffectStatsByLevel(1).get(0).getValue();
 
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, "none");
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
@@ -888,7 +914,7 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.FROG_TOWER:
             case GameConfig.ENTITY_ID.WIZARD_TOWER: {
                 AttackComponent attackComponent = (AttackComponent) entity.getComponent(AttackComponent.typeID);
-                TowerStat towerStat = ReadConfigUtil.towerInfo.get(entity.getTypeID()).getTowerStat().get(towerLevel);
+                TowerStat2 towerStat = ReadConfigUtil.towerInfo.get(entity.getTypeID()).getTowerStat().get(towerLevel);
                 double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
                 double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
                 double attackSpeed = towerStat.getAttackSpeed() / 1000;
@@ -900,8 +926,8 @@ public class EntityFactory {
             }
             case GameConfig.ENTITY_ID.BEAR_TOWER: {
                 AttackComponent attackComponent = (AttackComponent) entity.getComponent(AttackComponent.typeID);
-                TowerConfigItem towerConfigItem = ReadConfigUtil.towerInfo.get(entity.getTypeID());
-                TowerStat towerStat = towerConfigItem.getTowerStat().get(towerLevel);
+                TowerConfigItem2 towerConfigItem = ReadConfigUtil.towerInfo.get(entity.getTypeID());
+                TowerStat2 towerStat = towerConfigItem.getTowerStat().get(towerLevel);
                 double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
                 double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
                 double attackSpeed = towerStat.getAttackSpeed() / 1000;
@@ -918,14 +944,14 @@ public class EntityFactory {
             }
             case GameConfig.ENTITY_ID.BUNNY_TOWER: {
                 AttackComponent attackComponent = (AttackComponent) entity.getComponent(AttackComponent.typeID);
-                TowerConfigItem towerConfigItem = ReadConfigUtil.towerInfo.get(entity.getTypeID());
-                TowerStat towerStat = towerConfigItem.getTowerStat().get(towerLevel);
+                TowerConfigItem2 towerConfigItem = ReadConfigUtil.towerInfo.get(entity.getTypeID());
+                TowerStat2 towerStat = towerConfigItem.getTowerStat().get(towerLevel);
                 double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
                 double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
                 double attackSpeed = towerStat.getAttackSpeed() / 1000;
                 double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
                 double damage = towerStat.getDamage();
-                TargetBuffConfigItem targetBuffConfigItem = ReadConfigUtil.targetBuffInfo.get(towerConfigItem.getBulletTargetBuffType());
+                TargetBuffConfigItem2 targetBuffConfigItem = ReadConfigUtil.targetBuffInfo.get(towerConfigItem.getBulletTargetBuffType());
                 double duration = targetBuffConfigItem.getDurationByLevel(towerLevel);
                 double slowPercentage = targetBuffConfigItem.getEffectStatsByLevel(towerLevel).get(0).getValue();
                 SlowEffect slowEffect = this.componentFactory.createSlowEffect(duration, slowPercentage);
@@ -935,8 +961,8 @@ public class EntityFactory {
             }
             case GameConfig.ENTITY_ID.GOAT_TOWER: {
                 TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) entity.getComponent(TowerAbilityComponent.typeID);
-                TowerConfigItem towerConfigItem = ReadConfigUtil.towerInfo.get(entity.getTypeID());
-                TowerStat towerStat = towerConfigItem.getTowerStat().get(towerLevel);
+                TowerConfigItem2 towerConfigItem = ReadConfigUtil.towerInfo.get(entity.getTypeID());
+                TowerStat2 towerStat = towerConfigItem.getTowerStat().get(towerLevel);
                 double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
                 int auraTargetBuffType = towerConfigItem.getAuraTargetBuffType();
                 double buffAttackDamageEffectPercentage = ReadConfigUtil.towerBuffInfo.get(auraTargetBuffType)
@@ -947,8 +973,8 @@ public class EntityFactory {
             }
             case GameConfig.ENTITY_ID.SNAKE_TOWER: {
                 TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) entity.getComponent(TowerAbilityComponent.typeID);
-                TowerConfigItem towerConfigItem = ReadConfigUtil.towerInfo.get(entity.getTypeID());
-                TowerStat towerStat = towerConfigItem.getTowerStat().get(towerLevel);
+                TowerConfigItem2 towerConfigItem = ReadConfigUtil.towerInfo.get(entity.getTypeID());
+                TowerStat2 towerStat = towerConfigItem.getTowerStat().get(towerLevel);
                 double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
                 int auraTargetBuffType = towerConfigItem.getAuraTargetBuffType();
                 double buffAttackSpeedEffectPercentage = ReadConfigUtil.towerBuffInfo.get(auraTargetBuffType)

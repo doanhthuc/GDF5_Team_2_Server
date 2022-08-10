@@ -2,9 +2,7 @@ package battle;
 
 import battle.common.EntityMode;
 import battle.common.Point;
-import battle.newMap.BattleMapObject;
-import battle.newMap.TileObject;
-import battle.newMap.Tower;
+import battle.newMap.*;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.data.DataCmd;
@@ -49,6 +47,7 @@ public class TickNetworkHandler {
                     System.out.println("[BattleHandler.java line 56] cmd Upgrade tower: " + CmdDefine.UPGRADE_TOWER);
                     RequestUpgradeTower requestUpgradeTower = new RequestUpgradeTower(dataCmd);
                     processUpgradeTower(tickNumber, user, requestUpgradeTower);
+                    break;
                 }
                 case CmdDefine.DROP_SPELL: {
                     System.out.println("[BattleHandler.java line 57] cmd Drop spell: " + CmdDefine.DROP_SPELL);
@@ -82,8 +81,6 @@ public class TickNetworkHandler {
         System.out.println("BattleMap processPutTower");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-
-            EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
             ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
             // IMPORTANT: move this action to TickInternalHandler
             //room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
@@ -104,32 +101,42 @@ public class TickNetworkHandler {
             int towerId = req.getTowerId();
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(user.getId());
             BattleMapObject battleMapObject = battleMap.battleMapObject;
-            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
-            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
-            Card towerCard = inventory.getCardById(req.getTowerId());
+            ObjectInTile obj = (battleMapObject.getCellObject(req.getTilePos()).getObjectInCell());
+
+            Tower tower = null;
+            if (obj.getObjectInCellType() == ObjectInTileType.TOWER) {
+                tower = (Tower) obj;
+            }
+
+            if (tower == null) {
+                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
+                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.TOWER_NULL.getValue()), user);
+                return;
+            }
+
+            if (tower.getId() != towerId) {
+                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
+                ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.TOWER_ID_NOT_MATCH.getValue()), user);
+                return;
+            }
+//            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
+//            Card towerCard = inventory.getCardById(req.getTowerId());
 //            if (towerCard.getCardRankNumber() < tower.getLevel()) {
 //                tower = tower.upgradeTower();
 //            } else {
 //                return;
 //            }
 
-            if (tower == null) {
-                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
-                return;
-            }
-
-            if (tower.getId() != towerId) {
-                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower id not match");
-                return;
-            }
-
             System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
             ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getTowerId(), tower.getLevel() + 1, tower.getTilePos(), tickNumber), user);
+                    req.getTowerId(), tower.getLevel() + 1, req.getTilePos(), tickNumber), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            ExtensionUtility.getExtension().send(new ResponseOpponentUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getTowerId(), tower.getLevel() + 1, tower.getTilePos(), tickNumber), opponent);
+            PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
+            if (opponentInfo.getUserType() == UserType.PLAYER) {
+                ExtensionUtility.getExtension().send(new ResponseOpponentUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
+                        req.getTowerId(), tower.getLevel() + 1, req.getTilePos(), tickNumber), opponent);
+            }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
@@ -149,8 +156,8 @@ public class TickNetworkHandler {
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER) ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
+            if (opponentInfo.getUserType() == UserType.PLAYER)
+                ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(), req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
@@ -172,8 +179,11 @@ public class TickNetworkHandler {
                     req.getStrategyId(), req.getTilePos(), tickNumber), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            ExtensionUtility.getExtension().send(new ResponseOpponentChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getStrategyId(), req.getTilePos(), tickNumber), opponent);
+            PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
+            if (opponentInfo.getUserType() == UserType.PLAYER) {
+                ExtensionUtility.getExtension().send(new ResponseOpponentChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),
+                        req.getStrategyId(), req.getTilePos(), tickNumber), opponent);
+            }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
@@ -193,7 +203,10 @@ public class TickNetworkHandler {
             ExtensionUtility.getExtension().send(new ResponseRequestDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            ExtensionUtility.getExtension().send(new ResponseOpponentDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), opponent);
+            PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
+            if (opponentInfo.getUserType() == UserType.PLAYER) {
+                ExtensionUtility.getExtension().send(new ResponseOpponentDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), opponent);
+            }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
@@ -215,7 +228,9 @@ public class TickNetworkHandler {
             ExtensionUtility.getExtension().send(new ResponseRequestPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), user);
             int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
             User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            ExtensionUtility.getExtension().send(new ResponseOpponentPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), opponent);
+            PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
+            if (opponentInfo.getUserType() == UserType.PLAYER)
+                ExtensionUtility.getExtension().send(new ResponseOpponentPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), opponent);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }

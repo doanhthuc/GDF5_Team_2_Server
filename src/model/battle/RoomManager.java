@@ -49,6 +49,9 @@ public class RoomManager {
     public int getRoomCount() {
         return roomMap.size();
     }
+    public void clearRoom(){
+        this.roomMap.clear();
+    }
 
 
 }
