@@ -141,7 +141,7 @@ public class Battle {
     }
 
     public void initMonsterWave() {
-        this.monsterWave = this.createNewMonsterWave2();
+        this.monsterWave = this.createNewMonsterWave();
         System.out.println("monsterWave:" + this.monsterWave);
         for (int i = 0; i < MonsterWaveConfig.monsterWaveScriptHashMap.size(); i++) {
             for (int j = 0; j < this.monsterWave.get(i).size(); j++) {
