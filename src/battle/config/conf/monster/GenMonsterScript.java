@@ -21,27 +21,27 @@ public class GenMonsterScript {
     }
 
     private GenMonsterScript() {
-        JsonParser parser = new JsonParser();
-        Gson gson = new Gson();
-        try {
-            FileReader reader = new FileReader("src/battle/config/conf/json/***.json");
-            JsonObject obj = (JsonObject) parser.parse(reader);
-
-            JsonObject scriptObj = obj.getAsJsonObject("script");
-            for (Map.Entry<String, JsonElement> entry : scriptObj.entrySet()){
-                short key = Short.parseShort(entry.getKey());
-                JsonArray array = (JsonArray) entry.getValue();
-                GenMonsterScriptItem[] itemList = new GenMonsterScriptItem[array.size()];
-                for (int i = 0; i < array.size(); i++) {
-                    JsonObject value = (JsonObject) array.get(i);
-                    GenMonsterScriptItem item = gson.fromJson(value.toString(), GenMonsterScriptItem.class);
-                    itemList[i] = item;
-                }
-                scriptMap.put(key, itemList);
-            }
-        } catch (Exception e){
-            Debug.trace(e);
-        }
+//        JsonParser parser = new JsonParser();
+//        Gson gson = new Gson();
+//        try {
+//            FileReader reader = new FileReader("src/battle/config/conf/json/***.json");
+//            JsonObject obj = (JsonObject) parser.parse(reader);
+//
+//            JsonObject scriptObj = obj.getAsJsonObject("script");
+//            for (Map.Entry<String, JsonElement> entry : scriptObj.entrySet()){
+//                short key = Short.parseShort(entry.getKey());
+//                JsonArray array = (JsonArray) entry.getValue();
+//                GenMonsterScriptItem[] itemList = new GenMonsterScriptItem[array.size()];
+//                for (int i = 0; i < array.size(); i++) {
+//                    JsonObject value = (JsonObject) array.get(i);
+//                    GenMonsterScriptItem item = gson.fromJson(value.toString(), GenMonsterScriptItem.class);
+//                    itemList[i] = item;
+//                }
+//                scriptMap.put(key, itemList);
+//            }
+//        } catch (Exception e){
+//            Debug.trace(e);
+//        }
     }
 
     public GenMonsterScriptItem[] getScriptByWaveNum(short waveNum) {

@@ -29,7 +29,7 @@ public class TowerConfig {
         System.out.println(item);
     }
 
-    private TowerConfig() {
+    public TowerConfig() {
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
         try {
