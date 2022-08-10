@@ -51,10 +51,10 @@ public class Room implements Runnable {
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
         this.botCommandTime = this.startTime + GameConfig.BATTLE.START_GAME_AFTER;
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
-//        if (GameConfig.DEBUG) {
-//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
-//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
-//        }
+        if (GameConfig.DEBUG) {
+            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
+            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
+        }
 
         this.tickManager = new TickManager(this.startTime);
     }
@@ -80,7 +80,7 @@ public class Room implements Runnable {
 
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
-                    this.handleBotAction(this.tickManager.getCurrentTick());
+                    //this.handleBotAction(this.tickManager.getCurrentTick());
                     //this.handlerClientCommand();
                     this.checkEndBattle();
                     this.checkAllUserDisconnect();
