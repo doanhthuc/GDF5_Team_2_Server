@@ -24,6 +24,7 @@ public class MonsterWaveConfig {
 
     public static void readMonsterWaveConfigFromJson() {
         JsonParser parser = new JsonParser();
+        Gson gson = new Gson();
         try {
             FileReader fileReader = new FileReader("src/battle/config/json/MonsterWaveScript.json");
             JsonObject jsonObject = (JsonObject) parser.parse(fileReader);
@@ -33,11 +34,12 @@ public class MonsterWaveConfig {
                 List<MonsterWaveSlot> monsterWaveSlotList = new ArrayList<>();
                 for (JsonElement element : value) {
                     JsonObject jsonObject1 = (JsonObject) element;
-                    int monsterId = jsonObject1.get("monsterId").getAsInt();
-                    double rate = jsonObject1.get("rate").getAsDouble();
-                    String monsterClass = jsonObject1.get("monsterClass").getAsString();
-                    String category = jsonObject1.get("category").getAsString();
-                    MonsterWaveSlot monsterWaveSlot = new MonsterWaveSlot(monsterId, rate, monsterClass, category);
+//                    int monsterId = jsonObject1.get("monsterId").getAsInt();
+//                    double rate = jsonObject1.get("rate").getAsDouble();
+//                    String monsterClass = jsonObject1.get("monsterClass").getAsString();
+//                    String category = jsonObject1.get("category").getAsString();
+                    //                    MonsterWaveSlot monsterWaveSlot = new MonsterWaveSlot(monsterId, rate, monsterClass, category);
+                    MonsterWaveSlot monsterWaveSlot = gson.fromJson(element, MonsterWaveSlot.class);
                     monsterWaveSlotList.add(monsterWaveSlot);
                 }
                 MonsterWaveScript monsterWaveScript = new MonsterWaveScript(monsterWaveSlotList);
