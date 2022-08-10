@@ -33,7 +33,7 @@ public class MonsterWaveConfig {
                 JsonArray value = (JsonArray) entry.getValue();
                 List<MonsterWaveSlot> monsterWaveSlotList = new ArrayList<>();
                 for (JsonElement element : value) {
-                    JsonObject jsonObject1 = (JsonObject) element;
+//                    JsonObject jsonObject1 = (JsonObject) element;
 //                    int monsterId = jsonObject1.get("monsterId").getAsInt();
 //                    double rate = jsonObject1.get("rate").getAsDouble();
 //                    String monsterClass = jsonObject1.get("monsterClass").getAsString();
