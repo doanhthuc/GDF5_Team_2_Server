@@ -73,7 +73,7 @@ public class FresherExtension extends BZExtension {
          */
         try {
             RoomManager.getInstance().clearRoom();
-            //MonsterWaveConfig.readMonsterWaveConfigFromJson();
+            MonsterWaveConfig.readMonsterWaveConfigFromJson();
             System.out.println(TowerConfig.INS.getTowerConfig((short)0).getArchetype());
 //            ReadConfigUtil.readMonsterConfig();
 //            ReadConfigUtil.readTargetBuffConfig();
