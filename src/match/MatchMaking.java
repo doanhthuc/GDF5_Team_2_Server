@@ -137,7 +137,7 @@ public class MatchMaking implements Runnable {
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user1);
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject,
-                    room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user2);
+                    room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject), user2);
 
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
