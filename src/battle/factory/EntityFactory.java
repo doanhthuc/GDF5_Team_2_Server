@@ -27,6 +27,7 @@ import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.send.error.ResponseError;
+import org.apache.commons.lang.exception.ExceptionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -533,7 +534,7 @@ public class EntityFactory {
             breakPoint = "breakpoint5";
 
         } catch (Exception e) {
-            ExtensionUtility.getExtension().send(new ResponseError((short) 0, breakPoint + " " + e.getMessage()), user);
+            ExtensionUtility.getExtension().send(new ResponseError((short) 0, breakPoint + " " + ExceptionUtils.getStackTrace(e)), user);
         }
 
 
