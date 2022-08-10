@@ -4,11 +4,11 @@ import util.database.DataModel;
 
 import java.util.ArrayList;
 
-public class LobbyChestContainer extends DataModel {
+public class UserLobbyChest extends DataModel {
     long id;
     public ArrayList<LobbyChest> lobbyChestContainer = new ArrayList<LobbyChest>();
 
-    public LobbyChestContainer(long id) {
+    public UserLobbyChest(long id) {
         this.id = id;
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.NOT_OPENING_STATE));
         this.lobbyChestContainer.add(new LobbyChest(LobbyChestDefine.OPENING_STATE, 10800 * 1000));
@@ -20,8 +20,9 @@ public class LobbyChestContainer extends DataModel {
         for (int i = 0; i < this.lobbyChestContainer.size(); i++)
             if (this.lobbyChestContainer.get(i).getState() == LobbyChestDefine.EMPTY_STATE) {
                 this.lobbyChestContainer.get(i).setState(LobbyChestDefine.NOT_OPENING_STATE);
-                return;
+                break;
             }
+        this.show();
     }
 
     public void show() {
@@ -52,6 +53,13 @@ public class LobbyChestContainer extends DataModel {
     public boolean checkSpeedUpChest() {
         for (int i = 0; i < this.lobbyChestContainer.size(); i++)
             if (this.lobbyChestContainer.get(i).getState() == LobbyChestDefine.OPENING_STATE) return true;
+        return false;
+    }
+
+    public boolean haveEmptySlot() {
+        for (int i = 0; i < this.lobbyChestContainer.size(); i++) {
+            if (this.lobbyChestContainer.get(i).getState() == LobbyChestDefine.EMPTY_STATE) return true;
+        }
         return false;
     }
 }
