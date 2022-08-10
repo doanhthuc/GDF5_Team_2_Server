@@ -30,7 +30,7 @@ public class TowerBuffConfig {
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
         try {
-            FileReader reader = new FileReader("./config/game/battle/json/TowerBuff.json");
+            FileReader reader = new FileReader("./conf/battle/json/TowerBuff.json");
             JsonObject obj = (JsonObject) parser.parse(reader);
             JsonObject buffObj = obj.getAsJsonObject("towerBuff");
             for (Map.Entry<String, JsonElement> entry : buffObj.entrySet()) {
