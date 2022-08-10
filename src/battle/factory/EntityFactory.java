@@ -525,7 +525,6 @@ public class EntityFactory {
         int energy=0;
         try {
             //Debug
-            TowerConfig towerConfig= new TowerConfig();
             breakPoint = "breakpoint1";
             targetType = cannonOwlConfig.getTargetType();
             breakPoint = "breakpoint2";

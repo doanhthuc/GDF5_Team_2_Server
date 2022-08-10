@@ -25,7 +25,7 @@ public class MonsterWaveConfig {
     public static void readMonsterWaveConfigFromJson() {
         JsonParser parser = new JsonParser();
         try {
-            FileReader fileReader = new FileReader("./config/json/MonsterWaveScript.json");
+            FileReader fileReader = new FileReader("./conf/json/MonsterWaveScript.json");
             JsonObject jsonObject = (JsonObject) parser.parse(fileReader);
             for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
                 int waveId = Integer.parseInt(entry.getKey());

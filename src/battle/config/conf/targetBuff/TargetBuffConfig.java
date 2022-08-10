@@ -33,7 +33,7 @@ public class TargetBuffConfig {
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
         try {
-            FileReader reader = new FileReader("src/battle/config/conf/json/TargetBuff.json");
+            FileReader reader = new FileReader("./src/battle/config/conf/json/TargetBuff.json");
             JsonObject obj = (JsonObject) parser.parse(reader);
             JsonObject buffObj = obj.getAsJsonObject("targetBuff");
             for (Map.Entry<String, JsonElement> entry : buffObj.entrySet()) {
