@@ -142,6 +142,13 @@ public class Battle {
 
     public void initMonsterWave() {
         this.monsterWave = this.createNewMonsterWave();
+        System.out.println("monsterWave:" + this.monsterWave);
+        for (int i = 0; i < MonsterWaveConfig.monsterWaveScriptHashMap.size(); i++) {
+            for (int j = 0; j < this.monsterWave.get(i).size(); j++) {
+                System.out.print(this.monsterWave.get(i).get(j) + " ");
+            }
+            System.out.println();
+        }
         this.currentWave = -1;
     }
 
@@ -168,7 +175,7 @@ public class Battle {
             this.currentWave += 1;
             this.nextWaveTime += GameConfig.BATTLE.WAVE_TIME;
         }
-        if ((this.currentWave < 0) || (this.currentWave > this.waveAmount)) return;
+        if ((this.currentWave < 0) || (this.currentWave >= this.waveAmount)) return;
         List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
         //System.out.println(this.nextBornMonsterTime - currentTime);
         if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
@@ -378,7 +385,6 @@ public class Battle {
                 break;
         }
 
-        assert tower != null;
         long entityID = tower.getId();
         this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
         this.handlerPutTower(mode);
@@ -401,7 +407,6 @@ public class Battle {
     public void updateMapWhenPutTower(long entityId, int towerId, int tilePosX, int tilePosY, EntityMode mode) throws Exception {
         if (mode == EntityMode.PLAYER) {
             this.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
-
             this.player1BattleMap.battleMapObject.putTowerIntoMap(entityId, new java.awt.Point(tilePosX, tilePosY), towerId);
         } else {
             this.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.TOWER;
