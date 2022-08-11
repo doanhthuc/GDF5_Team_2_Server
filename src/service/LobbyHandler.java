@@ -115,7 +115,7 @@ public class LobbyHandler extends BaseClientRequestHandler {
                     return;
                 }
                 //verify State
-                if (userLobbyChest.lobbyChestContainer.get(lobbyChestID).getState() != LobbyChestDefine.NOT_OPENING_STATE) {
+                if (userLobbyChest.lobbyChestContainer.get(lobbyChestID).getState() != LobbyChestDefine.NOT_OPENING_STATE || userLobbyChest.haveOpeningSlot()) {
                     send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_STATE_ERROR.getValue()), user);
                     return;
                 }
