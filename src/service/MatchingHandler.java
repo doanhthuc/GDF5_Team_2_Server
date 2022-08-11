@@ -55,10 +55,8 @@ public class MatchingHandler extends BaseClientRequestHandler {
             if (userInfo == null) {
                 return;
             }
-            synchronized (userInfo) {
                 System.out.println("processMatching");
                 this.matchMaking.addUser(user.getId(), userInfo.getTrophy());
-            }
         } catch (Exception e) {
             logger.error("processMatching exception");
         }
