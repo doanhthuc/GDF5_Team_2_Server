@@ -172,9 +172,9 @@ public class GameConfig {
 
         public static int WINNER_TROPHY = 10;
         public static int LOSER_TROPHY = 10;
-        
+
         public static int DELAY_BUILD_TOWER = 1 * 1000;
-        public static int TIME_MATCHING_BOT = 10* 1000;
+        public static int TIME_MATCHING_BOT = 5 * 1000;
     }
 }
 
