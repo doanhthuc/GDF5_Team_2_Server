@@ -26,7 +26,7 @@ public class MatchingHandler extends BaseClientRequestHandler {
     @Override
     public void init() {
         super.init();
-        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(matchMaking, 0, 100, TimeUnit.MILLISECONDS);
+        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(matchMaking, 0, 300, TimeUnit.MILLISECONDS);
     }
 
     @Override

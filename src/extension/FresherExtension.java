@@ -231,8 +231,9 @@ public class FresherExtension extends BZExtension {
     private int genNewID() {
         return GuestLogin.guestCount.incrementAndGet();
     }
-
-    ;
+    public static boolean checkUserOnline(int userID){
+        return BitZeroServer.getInstance().getUserManager().containsId(userID);
+    }
 }
 // addEventHandler(BZEventType.USER_LOGOUT, LogoutHandler.class);
 //addEventHandler(BZEventType.USER_DISCONNECT, LogoutHandler.class);
