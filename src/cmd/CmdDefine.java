@@ -7,6 +7,7 @@ public class CmdDefine {
     public static final short ADD_USER_GOLD = 1002;
     public static final short ADD_USER_GEM = 1003;
     public static final short LOG_OUT = 1004;
+    public static final short LOGIN_FAIL = 1005;
 
 
     public static final short BUY_GOLD_SHOP = 2001;
