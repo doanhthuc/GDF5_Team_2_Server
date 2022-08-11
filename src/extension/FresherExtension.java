@@ -186,7 +186,6 @@ public class FresherExtension extends BZExtension {
     public void doLogin(short cmdId, ISession session, DataCmd objData) {
         RequestLogin reqGet = new RequestLogin(objData);
         reqGet.unpackData();
-        System.out.println(reqGet.userIDStr + " zzzz " + session.getId());
         if (!validateUserIDStr(reqGet.userIDStr, session)) {
             return;
         } else {
@@ -260,7 +259,6 @@ public class FresherExtension extends BZExtension {
             return false;
         }
         if (ValidateString.isContainSpecialChar(userIDStr)) {
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaqqqqqqqqqqqqqqqqqq");
             ExtensionUtility.getExtension().send(new ResponseFailLogin((short) 1, "Username contains invalid characters"), session);
             return false;
         }

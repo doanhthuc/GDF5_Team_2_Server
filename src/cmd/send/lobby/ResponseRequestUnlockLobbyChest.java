@@ -17,7 +17,7 @@ public class ResponseRequestUnlockLobbyChest extends BaseMsg {
     }
 
     public ResponseRequestUnlockLobbyChest(short _error) {
-        super(CmdDefine.UNLOCK_LOBBY_CHEST);
+        super(CmdDefine.UNLOCK_LOBBY_CHEST, _error);
         error = _error;
     }
 
