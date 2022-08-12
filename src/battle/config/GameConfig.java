@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;
@@ -115,7 +115,9 @@ public class GameConfig {
     }
 
     public static class GROUP_ID {
-        public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.SNAKE_TOWER, ENTITY_ID.GOAT_TOWER);
+        public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.SNAKE_TOWER, ENTITY_ID.GOAT_TOWER, ENTITY_ID.BEAR_TOWER);
+        public static List<Integer> ATTACK_TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.BEAR_TOWER);
+
         public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.DEMON_TREE, ENTITY_ID.DEMON_TREE_MINION, ENTITY_ID.ASSASSIN,
                 ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
         public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET);

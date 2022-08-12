@@ -1,5 +1,7 @@
 package battle.common;
 
+import bitzero.core.P;
+
 public class Point {
     public double x;
     public double y;
@@ -24,6 +26,10 @@ public class Point {
 
     public Point getFather() {
         return this.father;
+    }
+
+    public Point oppositePoint() {
+        return new Point(-this.x, -this.y);
     }
 }
 
