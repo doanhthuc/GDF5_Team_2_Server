@@ -175,7 +175,8 @@ public class Room implements Runnable {
                             int tilePosY = currentPoint.y + dY.get(j);
                             if (botBattleMap.isInBound(tilePosX, tilePosY))
                                 if (botBattleMap.isMovableTile(botBattleMap.map[tilePosX][tilePosY])
-                                        && (!monsterPath.contains(new java.awt.Point(tilePosX, tilePosY)))) {
+                                        && (!monsterPath.contains(new java.awt.Point(tilePosX, tilePosY)))
+                                        && botBattleMap.map[tilePosX][tilePosY] != GameConfig.MAP.TOWER) {
                                     //Create Bot Command
                                     player2.moveCardToEnd(cardToUseID);
                                     this.botCommandTime = System.currentTimeMillis() + delayBotCommandTime;
@@ -218,7 +219,7 @@ public class Room implements Runnable {
                     this.botCommandTime = System.currentTimeMillis() + delayBotCommandTime;
                     DataCmd requestDropSpellCmd = BotCmd.createRequestDropSpell(roomId, spellID, spellX, spellY);
                     this.tickManager.addInput(new Pair<>(player2, requestDropSpellCmd));
-                    return;
+                    break;
                 }
                 case GameConfig.ENTITY_ID.GOAT_TOWER:
                 case GameConfig.ENTITY_ID.SNAKE_TOWER: {
@@ -238,7 +239,7 @@ public class Room implements Runnable {
                                 int j = tilePosY + dY.get(k);
                                 if (botBattleMap.isInBound(i, j))
                                     if (botBattleMap.map[i][j] == GameConfig.MAP.TOWER) {
-                                        long id = botBattleMap.battleMapObject.getTowerInTile(i,j).getEntityId();
+                                        long id = botBattleMap.battleMapObject.getTowerInTile(i, j).getEntityId();
                                         EntityECS tower = battle.getEntityManager().getEntity(id);
                                         if (battle.isAttackTower(tower)) countTower++;
                                     }
@@ -252,6 +253,7 @@ public class Room implements Runnable {
                             }
                         }
                     }
+                    break;
                 }
 
             }
