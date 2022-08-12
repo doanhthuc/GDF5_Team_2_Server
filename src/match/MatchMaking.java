@@ -13,6 +13,7 @@ import cmd.send.battle.player.ResponseRequestBattleMapObject;
 import cmd.send.battle.player.ResponseRequestGetBattleInfo;
 import cmd.send.matching.ResponseCancelMatching;
 import cmd.send.matching.ResponseMatching;
+import com.google.gson.JsonElement;
 import extension.FresherExtension;
 import model.PlayerID;
 import model.PlayerInfo;
@@ -40,7 +41,8 @@ public class MatchMaking implements Runnable {
 
     @Override
     public void run() {
-        while (waitingQueue.size() >= 1) {
+        this.clearDisconnectUser();
+        if (waitingQueue.size() >= 1) {
             MatchingInfo matchingInfo1 = waitingQueue.peek();
             MatchingInfo matchingInfo2;
 
@@ -58,11 +60,11 @@ public class MatchMaking implements Runnable {
             } else {
                 while (it.hasNext()) {
                     matchingInfo2 = it.next();
-
                     if (System.currentTimeMillis() - matchingInfo2.getTime() > limitTimeout) {
                         matchingInfo2.increaseRank();
                         matchingInfo2.setTime(System.currentTimeMillis());
                     }
+
 
                     if ((matchingInfo1.getTrophy() >= matchingInfo2.getStartRank() && matchingInfo1.getTrophy() <= matchingInfo2.getEndRank())
                             || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
@@ -80,6 +82,16 @@ public class MatchMaking implements Runnable {
 
     }
 
+    public void clearDisconnectUser(){
+        for (Map.Entry<Integer, MatchingInfo> matchingEntry : waitingMap.entrySet()) {
+            MatchingInfo matchingInfo = matchingEntry.getValue();
+            int userID= matchingInfo.getPlayerId();
+            if (!FresherExtension.checkUserOnline(userID)) {
+                waitingMap.remove(matchingInfo.getPlayerId());
+                waitingQueue.remove(matchingInfo);
+            }
+        }
+    }
     public void addUser(int userId, int trophy) {
         if (waitingMap.containsKey(userId)) {
             System.out.println("matching => user id = " + userId + " is existing in waiting queue");
@@ -137,7 +149,7 @@ public class MatchMaking implements Runnable {
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user1);
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject,
-                    room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user2);
+                    room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject), user2);
 
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);

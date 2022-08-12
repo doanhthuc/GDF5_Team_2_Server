@@ -158,7 +158,7 @@ public class GameConfig {
     }
 
     public static int WAVE_AMOUNT = 20;
-    public static int PLAYER_HP = 1;
+    public static int PLAYER_HP = 1000;
     public static int PLAYER_ENERGY = 30;
     public static int OPPONENT_ENERGY = 30;
 
@@ -172,7 +172,7 @@ public class GameConfig {
 
         public static int WINNER_TROPHY = 10;
         public static int LOSER_TROPHY = 10;
-        
+
         public static int DELAY_BUILD_TOWER = 1 * 1000;
         public static int TIME_MATCHING_BOT = 5 * 1000;
     }

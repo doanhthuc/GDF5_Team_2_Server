@@ -62,4 +62,12 @@ public class UserLobbyChest extends DataModel {
         }
         return false;
     }
+
+    public boolean haveOpeningSlot() {
+        for (int i = 0; i < this.lobbyChestContainer.size(); i++) {
+            if (this.lobbyChestContainer.get(i).getState() == LobbyChestDefine.OPENING_STATE) return true;
+        }
+        return false;
+    }
+
 }
