@@ -1,13 +1,13 @@
-package battle;
+package battle.tick;
 
+import battle.Battle;
+import battle.map.BattleMap;
 import battle.common.EntityMode;
 import battle.config.GameConfig;
 import battle.newMap.BattleMapObject;
 import battle.newMap.TileObject;
 import battle.newMap.Tower;
-import bitzero.server.entities.User;
 import bitzero.server.extensions.data.DataCmd;
-import bitzero.util.ExtensionUtility;
 import cmd.CmdDefine;
 import cmd.receive.battle.spell.RequestDropSpell;
 import cmd.receive.battle.tower.RequestChangeTowerStrategy;
@@ -15,13 +15,9 @@ import cmd.receive.battle.tower.RequestDestroyTower;
 import cmd.receive.battle.tower.RequestPutTower;
 import cmd.receive.battle.tower.RequestUpgradeTower;
 import cmd.receive.battle.trap.RequestPutTrap;
-import cmd.send.user.ResponseRequestUserInfo;
-import model.Inventory.Card;
-import model.Inventory.Inventory;
 import model.PlayerInfo;
 import model.battle.Room;
 import model.battle.RoomManager;
-import service.DemoHandler;
 
 public class TickInternalHandler {
     public TickInternalHandler() {

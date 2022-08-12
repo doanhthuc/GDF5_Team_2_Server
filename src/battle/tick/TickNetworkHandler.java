@@ -1,6 +1,6 @@
-package battle;
+package battle.tick;
 
-import battle.common.EntityMode;
+import battle.map.BattleMap;
 import battle.common.Point;
 import battle.newMap.*;
 import bitzero.server.BitZeroServer;
@@ -52,7 +52,7 @@ public class TickNetworkHandler {
                 case CmdDefine.DROP_SPELL: {
                     System.out.println("[BattleHandler.java line 57] cmd Drop spell: " + CmdDefine.DROP_SPELL);
                     RequestDropSpell requestDropSpell = new RequestDropSpell(dataCmd);
-                    // processDropSpell(tickNumber, playerInfo, requestDropSpell);
+                    processDropSpell(tickNumber, playerInfo, requestDropSpell);
                     break;
                 }
                 case CmdDefine.CHANGE_TOWER_STRATEGY: {
@@ -85,9 +85,8 @@ public class TickNetworkHandler {
                 User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
                 ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
             }
-            System.out.println(playerInfo.getId());
-            PlayerInfo opponentInfo = room.getOpponentPlayerByMyPlayerId(playerInfo.getId());
 
+            PlayerInfo opponentInfo = room.getOpponentPlayerByMyPlayerId(playerInfo.getId());
             if (opponentInfo.getUserType() == UserType.PLAYER) {
                 User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentInfo.getId());
                 ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), opponent);
@@ -144,22 +143,31 @@ public class TickNetworkHandler {
         }
     }
 
-    private void processDropSpell(int tickNumber, User user, RequestDropSpell req) {
-        System.out.println("BattleMap processDropSpell");
+    private void processDropSpell(int tickNumber, PlayerInfo playerInfo, RequestDropSpell req) {
+        System.out.println("requestDropSpellCmd");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
-
+            Inventory inventory = (Inventory) Inventory.getModel(playerInfo.getId(), Inventory.class);
+            Point spellPos = req.getPixelPos();
             Card spellCard = inventory.getCardById(req.getSpellId());
-            Point p = req.getPixelPos();
-            ExtensionUtility.getExtension().send(new ResponseRequestDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), user);
+            if (playerInfo.getUserType() == UserType.PLAYER) {
+                User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
+                ExtensionUtility.getExtension().send(new ResponseRequestDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
+                        req.getSpellId(), spellCard.getLevel(), spellPos, tickNumber), user);
+            }
 
-            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
-            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+
+
+            int opponentId = room.getOpponentPlayerByMyPlayerId(playerInfo.getId()).getId();
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER)
-                ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(), req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
+            if (opponentInfo.getUserType() == UserType.PLAYER){
+                User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+                if (playerInfo.getUserType() == UserType.PLAYER) {
+                    ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(), req.getSpellId(), spellCard.getLevel(), spellPos, tickNumber), opponent);
+                } else {
+                    ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(), req.getSpellId(), spellCard.getLevel(), spellPos.oppositePoint(), tickNumber), opponent);
+                }
+            }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }

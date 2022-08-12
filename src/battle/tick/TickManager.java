@@ -1,13 +1,10 @@
-package battle;
+package battle.tick;
 
 import battle.common.Pair;
 import battle.config.GameConfig;
 import model.PlayerInfo;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
-import cmd.receive.battle.tower.RequestChangeTowerStrategy;
-import cmd.receive.battle.tower.RequestDestroyTower;
-import model.PlayerInfo;
 
 import java.util.HashMap;
 import java.util.LinkedList;

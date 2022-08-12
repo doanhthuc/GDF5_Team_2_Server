@@ -235,6 +235,13 @@ public class Utils {
         return cellArr;
     }
 
+    public static double _distanceFrom(EntityECS tower, EntityECS monster) {
+        PositionComponent towerPos = (PositionComponent) tower.getComponent(PositionComponent.typeID);
+        PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
+        return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
+    }
+
+
     public static boolean validateTilePos(Point tilePos) {
         return tilePos.getX() >= 0 && tilePos.getX() < GameConfig.MAP_WIDTH
                 && tilePos.getY() >= 0 && tilePos.getY() < GameConfig.MAP_HEIGHT;

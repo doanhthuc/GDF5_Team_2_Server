@@ -1,6 +1,7 @@
 package battle.config.conf.potion;
 
 
+import battle.config.GameConfig;
 import battle.config.conf.monster.MultiplierItem;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -44,5 +45,16 @@ public class PotionConfig {
 
     public PotionConfigItem getPotionConfig(short type) {
         return potionMap.get(type);
+    }
+
+    public PotionConfigItem getSpellIDInConfig(int spellID)
+    {
+        if (spellID == GameConfig.ENTITY_ID.FIRE_SPELL)
+            return potionMap.get(PotionConfig.FIREBALL);
+        if (spellID == GameConfig.ENTITY_ID.FROZEN_SPELL)
+            return potionMap.get(PotionConfig.FROZEN);
+        if (spellID == GameConfig.ENTITY_ID.TRAP_SPELL)
+            return potionMap.get(PotionConfig.TRAP);
+        return null;
     }
 }

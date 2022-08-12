@@ -1,7 +1,6 @@
 package battle.system;
 
 import battle.Battle;
-import battle.BattleMap;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.common.ValidatorECS;
@@ -10,10 +9,8 @@ import battle.component.common.PositionComponent;
 import battle.component.common.VelocityComponent;
 import battle.component.effect.FireBallEffect;
 import battle.component.info.LifeComponent;
-import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;

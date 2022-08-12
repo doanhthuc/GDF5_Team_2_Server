@@ -1,9 +1,8 @@
 package extension;
 
 
-import battle.BattleMap;
 import battle.config.MonsterWaveConfig;
-import battle.config.conf.tower.TowerConfig;
+import battle.config.conf.targetBuff.TargetBuffConfig;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -60,7 +59,8 @@ public class FresherExtension extends BZExtension {
         try {
             RoomManager.getInstance().clearRoom();
             MonsterWaveConfig.readMonsterWaveConfigFromJson();
-            System.out.println(TowerConfig.INS.getTowerConfig((short)0).getArchetype());
+            System.out.println(TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_ICE_GUN).getEffects().get((short)1).get(0).getValue());
+
 //            ReadConfigUtil.readMonsterConfig();
 //            ReadConfigUtil.readTargetBuffConfig();
 //            ReadConfigUtil.readTowerBuffConfig();
