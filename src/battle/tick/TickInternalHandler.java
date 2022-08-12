@@ -27,14 +27,14 @@ public class TickInternalHandler {
     public TickInternalHandler() {
     }
 
-    public void handleCommand(User user, DataCmd dataCmd) throws Exception {
+    public void handleCommand(PlayerInfo playerInfo, DataCmd dataCmd) throws Exception {
         switch (dataCmd.getId()) {
             case CmdDefine.PUT_TOWER: {
 
                 RequestPutTower req = new RequestPutTower(dataCmd);
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
 
-                EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
+                EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(playerInfo.getId());
                 room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
 
                 System.out.println("AAAAAAAAAAAA Handle put tower internal");
@@ -43,7 +43,7 @@ public class TickInternalHandler {
             case CmdDefine.DROP_SPELL: {
                 RequestDropSpell req = new RequestDropSpell(dataCmd);
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-                EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
+                EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(playerInfo.getId());
                 room.getBattle().castSpellBySpellID(req.getSpellId(), req.getPixelPos().x, req.getPixelPos().y, entityMode);
                 System.out.println("AAAAAAAAAAAA Handle dropSpell internal");
                 break;
@@ -51,7 +51,7 @@ public class TickInternalHandler {
             case CmdDefine.PUT_TRAP:{
                 RequestPutTrap req = new RequestPutTrap(dataCmd);
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-                EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
+                EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(playerInfo.getId());
                 room.getBattle().castSpellBySpellID(GameConfig.ENTITY_ID.TRAP_SPELL,req.getTilePos().x,req.getTilePos().y,entityMode);
                 System.out.println("AAAAAAAAAAAA Handle dropTrap internal");
                 break;
@@ -61,7 +61,7 @@ public class TickInternalHandler {
                 RequestUpgradeTower req = new RequestUpgradeTower(dataCmd);
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
                 Battle battle = room.getBattle();
-                Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, user);
+                Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, playerInfo);
                 tower.upgradeTower();
                 room.getBattle().handleUpgradeTower(tower.getEntityId(), tower.getLevel());
                 break;
@@ -71,8 +71,8 @@ public class TickInternalHandler {
                 RequestDestroyTower req = new RequestDestroyTower(dataCmd);
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
                 Battle battle = room.getBattle();
-                Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, user);
-                TileObject tileObject = battle.getBattleMapByPlayerId(user.getId()).battleMapObject.getCellObject(req.getTilePos());
+                Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, playerInfo);
+                TileObject tileObject = battle.getBattleMapByPlayerId(playerInfo.getId()).battleMapObject.getCellObject(req.getTilePos());
                 tileObject.destroyTower();
                 battle.handleDestroyTower(tower.getEntityId());
                 break;
@@ -82,15 +82,15 @@ public class TickInternalHandler {
                 System.out.println("AAAAAAAAAAAA Handle changeTowerStrategy internal");
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
                 Battle battle = room.getBattle();
-                Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, user);
+                Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, playerInfo);
                 battle.handleTowerChangeTargetStrategy((int) tower.getEntityId(), req.getStrategyId());
                 break;
             }
         }
     }
 
-    private Tower getTowerByTilePosAndUser(Battle battle, int x, int y, User user) {
-        EntityMode entityMode = battle.getEntityModeByPlayerID(user.getId());
+    private Tower getTowerByTilePosAndUser(Battle battle, int x, int y, PlayerInfo playerInfo) {
+        EntityMode entityMode = battle.getEntityModeByPlayerID(playerInfo.getId());
         BattleMap battleMap = battle.getBattleMapByEntityMode(entityMode);
         BattleMapObject battleMapObject = battleMap.battleMapObject;
         return (Tower) battleMapObject.getCellObject(x, y).getObjectInCell();
