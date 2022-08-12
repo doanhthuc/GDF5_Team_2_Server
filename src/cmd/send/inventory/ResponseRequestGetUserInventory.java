@@ -11,7 +11,7 @@ public class ResponseRequestGetUserInventory extends BaseMsg {
     public short error;
 
     public ResponseRequestGetUserInventory(short _error, Inventory cc) {
-        super(CmdDefine.GET_USER_INVENTORY);
+        super(CmdDefine.GET_USER_INVENTORY, _error);
         this.cc = cc;
         error = _error;
     }
