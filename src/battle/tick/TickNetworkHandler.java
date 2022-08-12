@@ -1,6 +1,6 @@
-package battle;
+package battle.tick;
 
-import battle.common.EntityMode;
+import battle.map.BattleMap;
 import battle.common.Point;
 import battle.newMap.*;
 import bitzero.server.BitZeroServer;
@@ -34,41 +34,41 @@ public class TickNetworkHandler {
 
     }
 
-    public void handleCommand(int tickNumber, User user, DataCmd dataCmd) {
+    public void handleCommand(int tickNumber, PlayerInfo playerInfo, DataCmd dataCmd) {
         try {
             switch (dataCmd.getId()) {
                 case CmdDefine.PUT_TOWER: {
                     System.out.println("[BattleHandler.java line 55] cmd Put tower: " + CmdDefine.PUT_TOWER);
                     RequestPutTower requestPutTower = new RequestPutTower(dataCmd);
-                    processPutTower(tickNumber, user, requestPutTower);
+                    processPutTower(tickNumber, playerInfo, requestPutTower);
                     break;
                 }
                 case CmdDefine.UPGRADE_TOWER: {
                     System.out.println("[BattleHandler.java line 56] cmd Upgrade tower: " + CmdDefine.UPGRADE_TOWER);
                     RequestUpgradeTower requestUpgradeTower = new RequestUpgradeTower(dataCmd);
-                    processUpgradeTower(tickNumber, user, requestUpgradeTower);
+                    //  processUpgradeTower(tickNumber, playerInfo, requestUpgradeTower);
                     break;
                 }
                 case CmdDefine.DROP_SPELL: {
                     System.out.println("[BattleHandler.java line 57] cmd Drop spell: " + CmdDefine.DROP_SPELL);
                     RequestDropSpell requestDropSpell = new RequestDropSpell(dataCmd);
-                    processDropSpell(tickNumber, user, requestDropSpell);
+                    processDropSpell(tickNumber, playerInfo, requestDropSpell);
                     break;
                 }
                 case CmdDefine.CHANGE_TOWER_STRATEGY: {
                     System.out.println("[BattleHandler.java line 58] cmd Change tower strategy: " + CmdDefine.CHANGE_TOWER_STRATEGY);
                     RequestChangeTowerStrategy requestChangeTowerStrategy = new RequestChangeTowerStrategy(dataCmd);
-                    processChangeTowerStrategy(tickNumber, user, requestChangeTowerStrategy);
+                    //   processChangeTowerStrategy(tickNumber, playerInfo, requestChangeTowerStrategy);
                     break;
                 }
                 case CmdDefine.DESTROY_TOWER: {
                     RequestDestroyTower requestDestroyTower = new RequestDestroyTower(dataCmd);
-                    processDestroyTower(tickNumber, user, requestDestroyTower);
+                    //    processDestroyTower(tickNumber, playerInfo, requestDestroyTower);
                     break;
                 }
                 case CmdDefine.PUT_TRAP: {
                     RequestPutTrap requestPutTrap = new RequestPutTrap(dataCmd);
-                    processPutTrap(tickNumber, user, requestPutTrap);
+                    //    processPutTrap(tickNumber, playerInfo, requestPutTrap);
                     break;
                 }
             }
@@ -77,19 +77,20 @@ public class TickNetworkHandler {
         }
     }
 
-    private void processPutTower(int tickNumber, User user, RequestPutTower req) {
+    private void processPutTower(int tickNumber, PlayerInfo playerInfo, RequestPutTower req) {
         System.out.println("BattleMap processPutTower");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
-            // IMPORTANT: move this action to TickInternalHandler
-            //room.getBattle().buildTowerByTowerID(req.getTowerId(), req.getTilePos().x, req.getTilePos().y, entityMode);
+            if (playerInfo.getUserType() == UserType.PLAYER) {
+                User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
+                ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
+            }
 
-            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
-            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
-            PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER)
+            PlayerInfo opponentInfo = room.getOpponentPlayerByMyPlayerId(playerInfo.getId());
+            if (opponentInfo.getUserType() == UserType.PLAYER) {
+                User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentInfo.getId());
                 ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), opponent);
+            }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
@@ -142,22 +143,31 @@ public class TickNetworkHandler {
         }
     }
 
-    private void processDropSpell(int tickNumber, User user, RequestDropSpell req) {
-        System.out.println("BattleMap processDropSpell");
+    private void processDropSpell(int tickNumber, PlayerInfo playerInfo, RequestDropSpell req) {
+        System.out.println("requestDropSpellCmd");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            Inventory inventory = (Inventory) Inventory.getModel(user.getId(), Inventory.class);
-
+            Inventory inventory = (Inventory) Inventory.getModel(playerInfo.getId(), Inventory.class);
+            Point spellPos = req.getPixelPos();
             Card spellCard = inventory.getCardById(req.getSpellId());
-            Point p = req.getPixelPos();
-            ExtensionUtility.getExtension().send(new ResponseRequestDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
-                    req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), user);
+            if (playerInfo.getUserType() == UserType.PLAYER) {
+                User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
+                ExtensionUtility.getExtension().send(new ResponseRequestDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
+                        req.getSpellId(), spellCard.getLevel(), spellPos, tickNumber), user);
+            }
 
-            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
-            User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+
+
+            int opponentId = room.getOpponentPlayerByMyPlayerId(playerInfo.getId()).getId();
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER)
-                ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(), req.getSpellId(), spellCard.getLevel(), req.getPixelPos(), tickNumber), opponent);
+            if (opponentInfo.getUserType() == UserType.PLAYER){
+                User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
+                if (playerInfo.getUserType() == UserType.PLAYER) {
+                    ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(), req.getSpellId(), spellCard.getLevel(), spellPos, tickNumber), opponent);
+                } else {
+                    ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(), req.getSpellId(), spellCard.getLevel(), spellPos.oppositePoint(), tickNumber), opponent);
+                }
+            }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }

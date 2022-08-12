@@ -17,10 +17,10 @@ public class EntityECS {
     private long id;
     private boolean active;
     private EntityMode mode;
-    public EntityECS(int typeID, EntityMode mode) {
+    public EntityECS(int typeID, EntityMode mode , long id) {
         this.typeID = typeID;
         this.components = new HashMap<>();
-        this.id = UUIDGeneratorECS.genEntityID();
+        this.id = id;
         this.active = true;
         this.mode = mode;
     }

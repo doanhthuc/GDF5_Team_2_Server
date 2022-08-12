@@ -1,7 +1,6 @@
 package battle.system;
 
 import battle.Battle;
-import battle.BattleMap;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.common.ValidatorECS;
@@ -10,10 +9,8 @@ import battle.component.common.PositionComponent;
 import battle.component.common.VelocityComponent;
 import battle.component.effect.FireBallEffect;
 import battle.component.info.LifeComponent;
-import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,10 +67,8 @@ public class MovementSystem extends SystemECS {
                                 LifeComponent lifeComponent = (LifeComponent) entity.getComponent(LifeComponent.typeID);
                                 lifeComponent.setHp(0);
                             } else {
-                                List<Point> path = battle.getEntityFactory().getShortestPathInTile(entity.getMode(),
-                                        (int) tilePos.getX(), (int) tilePos.getY());
-                                PathComponent newPath = battle.getComponentFactory().createPathComponent(path,
-                                        entity.getMode(), true);
+                                List<Point> path = battle.getEntityFactory().getShortestPathInTile(entity.getMode(), (int) tilePos.getX(), (int) tilePos.getY());
+                                PathComponent newPath = battle.getComponentFactory().createPathComponent(path, entity.getMode(), true);
                                 entity.addComponent(newPath);
                             }
                         }
@@ -97,11 +92,11 @@ public class MovementSystem extends SystemECS {
                     Point currentTilePos = Utils.pixel2Tile(positionComponent.getPos().x, positionComponent.getPos().y, entity.getMode());
                     Point futureTilePos = Utils.pixel2Tile(tmpPos.x, tmpPos.y, entity.getMode());
                     if (Utils.validateTilePos(currentTilePos)
-                        && (
-                                !Utils.validateTilePos(futureTilePos)
-                                || (battle.getBattleMapByEntityMode(entity.getMode()).map[(int) futureTilePos.x][(int) futureTilePos.y] == GameConfig.MAP.TOWER)
-                                || (battle.getBattleMapByEntityMode(entity.getMode()).map[(int) futureTilePos.x][(int) futureTilePos.y] == GameConfig.MAP.TREE)
-                            )
+                            && (
+                            !Utils.validateTilePos(futureTilePos)
+                                    || (battle.getBattleMapByEntityMode(entity.getMode()).map[(int) futureTilePos.x][(int) futureTilePos.y] == GameConfig.MAP.TOWER)
+                                    || (battle.getBattleMapByEntityMode(entity.getMode()).map[(int) futureTilePos.x][(int) futureTilePos.y] == GameConfig.MAP.TREE)
+                    )
                     ) {
                         // Invalid Position
                     } else {
