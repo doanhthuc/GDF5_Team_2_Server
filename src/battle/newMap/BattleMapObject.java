@@ -14,6 +14,7 @@ public class BattleMapObject {
     public BattleMapObject(int[][] simpleMap) {
         this.width = simpleMap[0].length;
         this.height = simpleMap.length;
+        System.out.println(this.getWidth() + " " + this.getHeight());
         initBattleMap(simpleMap);
     }
 
@@ -58,7 +59,7 @@ public class BattleMapObject {
     }
 
     public Tower putTowerIntoMap(long entityId, Point tilePos, int towerId) {
-        return  this.battleMap.get(tilePos.x).get(tilePos.y).buildTower(entityId, towerId, 1);
+        return this.battleMap.get(tilePos.x).get(tilePos.y).buildTower(entityId, towerId, 1);
     }
 
     public boolean isHavingTowerInTile(int x, int y) {

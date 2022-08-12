@@ -27,7 +27,7 @@ public class PotionConfig {
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
         try {
-            FileReader reader = new FileReader("./src/battle/config/conf/json/Potion.json");
+            FileReader reader = new FileReader("./conf/battle/json/Potion.json");
             JsonObject obj = (JsonObject) parser.parse(reader);
 
             JsonObject potionObj = obj.getAsJsonObject("potion");

@@ -2,15 +2,15 @@ package cmd.send.lobby;
 
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
-import model.Lobby.LobbyChestContainer;
+import model.Lobby.UserLobbyChest;
 
 import java.nio.ByteBuffer;
 
 public class ResponseRequestGetUserLobbyChest extends BaseMsg {
-    public LobbyChestContainer lcc;
+    public UserLobbyChest lcc;
     public short error;
 
-    public ResponseRequestGetUserLobbyChest(short _error, LobbyChestContainer userLobbyChest) {
+    public ResponseRequestGetUserLobbyChest(short _error, UserLobbyChest userLobbyChest) {
         super(CmdDefine.GET_USER_LOBBY_CHEST);
         this.lcc = userLobbyChest;
         error = _error;

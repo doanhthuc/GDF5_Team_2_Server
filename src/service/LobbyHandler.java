@@ -4,8 +4,8 @@ import bitzero.server.core.BZEventType;
 import bitzero.server.core.IBZEvent;
 import bitzero.server.entities.User;
 import bitzero.server.extensions.BaseClientRequestHandler;
-import bitzero.server.extensions.data.BaseMsg;
 import bitzero.server.extensions.data.DataCmd;
+import bitzero.util.socialcontroller.bean.UserInfo;
 import cmd.CmdDefine;
 import cmd.HandlerId;
 import cmd.receive.lobby.RequestLobbyChest;
@@ -19,7 +19,7 @@ import model.Inventory.Inventory;
 import model.Common.Item;
 import model.Common.ItemDefine;
 import model.Lobby.LobbyChest;
-import model.Lobby.LobbyChestContainer;
+import model.Lobby.UserLobbyChest;
 import model.Lobby.LobbyChestDefine;
 import model.Lobby.LobbyDTO;
 import model.PlayerInfo;
@@ -84,15 +84,15 @@ public class LobbyHandler extends BaseClientRequestHandler {
     private void processGetUserLobbyChest(User user) {
         System.out.println("Lobby Handler processGetUserLobbyChest");
         try {
-            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
-            if (userInfo == null) {
+            UserLobbyChest userLobbyChest = (UserLobbyChest) user.getProperty(ServerConstant.LOBBY_CHEST);
+            if (userLobbyChest == null) {
                 logger.info("PlayerInfo null");
-                send(new ResponseRequestGetUserLobbyChest(LobbyHandler.LobbyError.USERINFO_NULL.getValue()), user);
+                send(new ResponseRequestGetUserLobbyChest(LobbyError.USERINFO_NULL.getValue()), user);
                 return;
             }
-            LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
-            userLobbyChest.show();
-            send(new ResponseRequestGetUserLobbyChest(LobbyHandler.LobbyError.SUCCESS.getValue(), userLobbyChest), user);
+            synchronized (userLobbyChest) {
+                send(new ResponseRequestGetUserLobbyChest(LobbyHandler.LobbyError.SUCCESS.getValue(), userLobbyChest), user);
+            }
         } catch (Exception e) {
             logger.info("processGetUserLobbyChest exception");
         }
@@ -100,29 +100,29 @@ public class LobbyHandler extends BaseClientRequestHandler {
 
     private void processUnlockLobbyChest(RequestLobbyChest rq, User user) {
         try {
-            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
-            if (userInfo == null) {
+            System.out.println("Inventory Handle ProcessUnlockLobbyChest");
+            UserLobbyChest userLobbyChest = (UserLobbyChest) user.getProperty(ServerConstant.LOBBY_CHEST);
+            if (userLobbyChest == null) {
                 logger.info("PlayerInfo null");
                 send(new ResponseRequestUnlockLobbyChest(LobbyError.USERINFO_NULL.getValue()), user);
                 return;
             }
-            System.out.println("Inventory Handle ProcessUnlockLobbyChest");
-            LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
-            int lobbychestId = rq.getLobbyChestId();
-            //verify Chest
-            if (userLobbyChest.lobbyChestContainer.get(lobbychestId) == null) {
-                send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_NULL_ERROR.getValue()), user);
-                return;
+            synchronized (userLobbyChest) {
+                int lobbyChestID = rq.getLobbyChestId();
+                //verify Chest
+                if (userLobbyChest.lobbyChestContainer.get(lobbyChestID) == null) {
+                    send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_NULL_ERROR.getValue()), user);
+                    return;
+                }
+                //verify State
+                if (userLobbyChest.lobbyChestContainer.get(lobbyChestID).getState() != LobbyChestDefine.NOT_OPENING_STATE || userLobbyChest.haveOpeningSlot()) {
+                    send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_STATE_ERROR.getValue()), user);
+                    return;
+                }
+                userLobbyChest.lobbyChestContainer.get(lobbyChestID).unlock();
+                userLobbyChest.saveModel(user.getId());
+                send(new ResponseRequestUnlockLobbyChest(LobbyError.SUCCESS.getValue(), new LobbyDTO(lobbyChestID, LobbyChestDefine.OPENING_STATE, userLobbyChest.lobbyChestContainer.get(lobbyChestID).getClaimTime())), user);
             }
-            //verify State
-            if (userLobbyChest.lobbyChestContainer.get(lobbychestId).getState() != LobbyChestDefine.NOT_OPENING_STATE) {
-                send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_STATE_ERROR.getValue()), user);
-                return;
-            }
-            userLobbyChest.lobbyChestContainer.get(lobbychestId).unlock();
-            userLobbyChest.saveModel(userInfo.getId());
-            send(new ResponseRequestUnlockLobbyChest(LobbyError.SUCCESS.getValue(), new LobbyDTO(lobbychestId, LobbyChestDefine.OPENING_STATE, userLobbyChest.lobbyChestContainer.get(lobbychestId).getClaimTime())), user);
-
         } catch (Exception e) {
             logger.info("processUnlockLobbyChest exception");
         }
@@ -130,48 +130,52 @@ public class LobbyHandler extends BaseClientRequestHandler {
 
     private void processSpeedUpLobbyChest(RequestLobbyChest rq, User user) {
         try {
+            System.out.println("Lobby Handle ProcessSpeedUpLobbyChest");
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
+            UserLobbyChest userLobbyChest = (UserLobbyChest) user.getProperty(ServerConstant.LOBBY_CHEST);
+            Inventory userInventory = (Inventory) user.getProperty(ServerConstant.INVENTORY);
             //verify user
-            if (userInfo == null) {
+            if (userInfo == null || userLobbyChest == null) {
                 logger.info("PlayerInfo null");
                 send(new ResponseRequestSpeedUpLobbyChest(LobbyError.USERINFO_NULL.getValue()), user);
                 return;
             }
-            System.out.println("Lobby Handle ProcessSpeedUpLobbyChest");
+            synchronized (userLobbyChest) {
+                userLobbyChest.update();
+                int lobbyChestId = rq.getLobbyChestId();
+                LobbyChest lobbyChestToSpeedup = userLobbyChest.lobbyChestContainer.get(lobbyChestId);
+                //verify Chest
+                if (lobbyChestToSpeedup == null) {
+                    send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_NULL_ERROR.getValue()), user);
+                    return;
+                }
+                //verify State
+                if ((lobbyChestToSpeedup.getState() != LobbyChestDefine.OPENING_STATE)
+                        && !(userLobbyChest.checkSpeedUpChest() && lobbyChestToSpeedup.getState() == LobbyChestDefine.NOT_OPENING_STATE)) {
+                    send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_STATE_ERROR.getValue()), user);
+                    return;
+                }
+                //If LobbyChest.State== NOT OPENING STATE
+                if (lobbyChestToSpeedup.getState() == LobbyChestDefine.NOT_OPENING_STATE)
+                    lobbyChestToSpeedup.unlock();
 
-            LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
-            userLobbyChest.update();
-            int lobbyChestId = rq.getLobbyChestId();
-            LobbyChest lobbyChestToSpeedup = userLobbyChest.lobbyChestContainer.get(lobbyChestId);
-            //verify Chest
-            if (lobbyChestToSpeedup == null) {
-                send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_NULL_ERROR.getValue()), user);
-                return;
-            }
-            //verify State
-            if ((lobbyChestToSpeedup.getState() != LobbyChestDefine.OPENING_STATE)
-                    && !(userLobbyChest.checkSpeedUpChest() == true && lobbyChestToSpeedup.getState() == LobbyChestDefine.NOT_OPENING_STATE)) {
-                send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_STATE_ERROR.getValue()), user);
-                return;
-            }
-            //If LobbyChest.State== NOTOPENING STATE
-            if (lobbyChestToSpeedup.getState()==LobbyChestDefine.NOT_OPENING_STATE) lobbyChestToSpeedup.unlock();
+                long remainingTime = lobbyChestToSpeedup.getRemainingTime();
+                int gemRequire = (int) Math.ceil(remainingTime * 1.0 / LobbyChestDefine.MILLISECOND_PER_GEM);
+                //verify Gem
+                if ((verifyPurchase(userInfo.getGem(), gemRequire))) {
+                    userInfo.addGem(-gemRequire);
+                    userLobbyChest.lobbyChestContainer.get(lobbyChestId).setEmpty();
+                    userLobbyChest.saveModel(userInfo.getId());
 
-            long remainingTime = lobbyChestToSpeedup.getRemainingTime();
-            int gemRequire = (int) Math.ceil(remainingTime / LobbyChestDefine.MILLISECOND_PER_GEM);
-            //verify Gem
-            if ((verifyPurchase(userInfo.getGem(), gemRequire)) == true) {
-                userInfo.addGem(-gemRequire);
-                userLobbyChest.lobbyChestContainer.get(lobbyChestId).setEmpty();
-                userLobbyChest.saveModel(userInfo.getId());
-
-                lobbyChestToSpeedup.randomRewardItem();
-
-                updateInventory(lobbyChestToSpeedup.getChestReward(), userInfo);
-                send(new ResponseRequestSpeedUpLobbyChest(LobbyError.SUCCESS.getValue(),
-                        new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToSpeedup.getChestReward(), -gemRequire)), user);
-            } else {
-                send(new ResponseRequestSpeedUpLobbyChest(LobbyError.NOT_ENOUGH_GEM.getValue()), user);
+                    lobbyChestToSpeedup.randomRewardItem();
+                    synchronized (userInventory) {
+                        updateInventory(lobbyChestToSpeedup.getChestReward(), userInfo, userInventory);
+                    }
+                    send(new ResponseRequestSpeedUpLobbyChest(LobbyError.SUCCESS.getValue(),
+                            new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToSpeedup.getChestReward(), -gemRequire)), user);
+                } else {
+                    send(new ResponseRequestSpeedUpLobbyChest(LobbyError.NOT_ENOUGH_GEM.getValue()), user);
+                }
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -180,34 +184,40 @@ public class LobbyHandler extends BaseClientRequestHandler {
 
     private void processClaimLobbyChest(RequestLobbyChest rq, User user) {
         try {
+            System.out.println("Lobby Handle ProcessClaimLobbyChest");
+
+            UserLobbyChest userLobbyChest = (UserLobbyChest) user.getProperty(ServerConstant.LOBBY_CHEST);
+            Inventory userInventory = (Inventory) user.getProperty(ServerConstant.INVENTORY);
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
-            if (userInfo == null) {
+            if (userLobbyChest == null) {
                 logger.info("PlayerInfo null");
                 send(new ResponseRequestClaimLobbyChest(LobbyError.USERINFO_NULL.getValue()), user);
                 return;
             }
-            System.out.println("Lobby Handle ProcessClaimLobbyChest");
-            LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
-            userLobbyChest.update();
-            int lobbyChestId = rq.getLobbyChestId();
-            LobbyChest lobbyChestToClaim = userLobbyChest.lobbyChestContainer.get(lobbyChestId);
-            //verify Chest
-            if (lobbyChestToClaim == null) {
-                send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_NULL_ERROR.getValue()), user);
-                return;
+            synchronized (userLobbyChest) {
+                userLobbyChest.update();
+                int lobbyChestId = rq.getLobbyChestId();
+                LobbyChest lobbyChestToClaim = userLobbyChest.lobbyChestContainer.get(lobbyChestId);
+                //verify Chest
+                if (lobbyChestToClaim == null) {
+                    send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_NULL_ERROR.getValue()), user);
+                    return;
+                }
+                //verify State
+                if (lobbyChestToClaim.getState() != LobbyChestDefine.CLAIMABLE_STATE) {
+                    send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_STATE_ERROR.getValue()), user);
+                    return;
+                }
+                int gemRequire = 0;
+                userLobbyChest.lobbyChestContainer.get(lobbyChestId).setEmpty();
+                lobbyChestToClaim.randomRewardItem();
+                userLobbyChest.saveModel(user.getId());
+                synchronized (userInventory) {
+                    updateInventory(lobbyChestToClaim.getChestReward(), userInfo, userInventory);
+                }
+                send(new ResponseRequestClaimLobbyChest(LobbyError.SUCCESS.getValue(),
+                        new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToClaim.getChestReward(), gemRequire)), user);
             }
-            //verify State
-            if (lobbyChestToClaim.getState() != LobbyChestDefine.CLAIMABLE_STATE) {
-                send(new ResponseRequestUnlockLobbyChest(LobbyError.CHEST_STATE_ERROR.getValue()), user);
-                return;
-            }
-            int gemRequire = 0;
-            userLobbyChest.lobbyChestContainer.get(lobbyChestId).setEmpty();
-            lobbyChestToClaim.randomRewardItem();
-            userLobbyChest.saveModel(userInfo.getId());
-            updateInventory(lobbyChestToClaim.getChestReward(), userInfo);
-            send(new ResponseRequestClaimLobbyChest(LobbyError.SUCCESS.getValue(),
-                    new LobbyDTO(lobbyChestId, LobbyChestDefine.EMPTY_STATE, lobbyChestToClaim.getChestReward(), gemRequire)), user);
         } catch (Exception exception) {
 
         }
@@ -217,8 +227,8 @@ public class LobbyHandler extends BaseClientRequestHandler {
         return userResource >= itemPrice;
     }
 
-    private void updateInventory(ArrayList<Item> reward, PlayerInfo userInfo) throws Exception {
-        Inventory userInventory = (Inventory) Inventory.getModel(userInfo.getId(), Inventory.class);
+    private void updateInventory(ArrayList<Item> reward, PlayerInfo userInfo, Inventory userInventory) throws Exception {
+
         for (int i = 0; i < reward.size(); i++) {
             Item item = reward.get(i);
             if (item.getItemType() == ItemDefine.GOLDTYPE) userInfo.addGold(item.getQuantity());

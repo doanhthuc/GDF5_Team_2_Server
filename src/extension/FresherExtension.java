@@ -1,19 +1,9 @@
 package extension;
 
 
-import battle.Battle;
 import battle.BattleMap;
-import battle.BattleVisualization;
-import battle.Bida;
-import battle.common.EntityMode;
-import battle.common.MonsterWaveScript;
-import battle.common.Utils;
-import battle.component.info.MonsterInfoComponent;
 import battle.config.MonsterWaveConfig;
-import battle.config.ReadConfigUtil;
-import battle.config.conf.monster.MonsterConfig;
 import battle.config.conf.tower.TowerConfig;
-import battle.config.conf.tower.TowerConfigItem;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -32,14 +22,13 @@ import cmd.send.user.ResponseLogout;
 import event.eventType.DemoEventType;
 import event.handler.LoginSuccessHandler;
 import model.Inventory.Inventory;
-import model.Lobby.LobbyChestContainer;
+import model.Lobby.UserLobbyChest;
 import model.PlayerID;
 import model.PlayerInfo;
 import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
-import model.battle.Room;
 import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
@@ -53,8 +42,6 @@ import util.validate.ValidateString;
 
 import java.io.IOException;
 import java.util.List;
-
-import static battle.config.ReadConfigUtil.*;
 
 
 public class FresherExtension extends BZExtension {
@@ -70,7 +57,6 @@ public class FresherExtension extends BZExtension {
     }
 
     public void init() {
-
         /**
          * register new handler to catch client's packet
          */
@@ -133,7 +119,7 @@ public class FresherExtension extends BZExtension {
         ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
         DailyShop dailyShop = new DailyShop(userID);
         Inventory userInventory = new Inventory(userID);
-        LobbyChestContainer userLobbyChest = new LobbyChestContainer(userID);
+        UserLobbyChest userLobbyChest = new UserLobbyChest(userID);
         try {
             goldShop.saveModel(userID);
             dailyShop.saveModel(userID);
@@ -151,7 +137,7 @@ public class FresherExtension extends BZExtension {
             dailyShop.show();
             Inventory userInventory = (Inventory) Inventory.getModel(userId, Inventory.class);
             userInventory.show();
-            LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userId, LobbyChestContainer.class);
+            UserLobbyChest userLobbyChest = (UserLobbyChest) UserLobbyChest.getModel(userId, UserLobbyChest.class);
             userLobbyChest.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -263,6 +249,9 @@ public class FresherExtension extends BZExtension {
             return false;
         }
         return true;
+    }
+    public static boolean checkUserOnline(int userID){
+        return BitZeroServer.getInstance().getUserManager().containsId(userID);
     }
 }
 // addEventHandler(BZEventType.USER_LOGOUT, LogoutHandler.class);
