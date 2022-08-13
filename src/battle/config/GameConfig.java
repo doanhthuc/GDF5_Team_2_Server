@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;
@@ -161,8 +161,8 @@ public class GameConfig {
 
     public static int WAVE_AMOUNT = 20;
     public static int PLAYER_HP = 30;
-    public static int PLAYER_ENERGY = 30;
-    public static int OPPONENT_ENERGY = 30;
+    public static int PLAYER_ENERGY = 1000;
+    public static int OPPONENT_ENERGY = 1000;
 
     public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
 

@@ -66,20 +66,18 @@ public class Room implements Runnable {
             try {
                 if (!this.endBattle) {
                     int currentTick = this.tickManager.getCurrentTick();
+                    this.handleBotAction();
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<PlayerInfo, DataCmd> data = this.waitingInputQueue.poll();
                         this.tickManager.addInput(data);
                     }
-
                     // handle the inputs in the current tick
-                    this.tickManager.handleInternalInputTick(currentTick);
                     this.battle.updateMonsterWave();
                     this.battle.updateSystem();
-                    this.handleBotAction();
+                    this.tickManager.handleInternalInputTick(currentTick);
                     //this.handlerClientCommand();
                     this.checkEndBattle();
                     this.checkAllUserDisconnect();
-
                     this.tickManager.increaseTick();
                 }
             } catch (Exception e) {
@@ -140,7 +138,7 @@ public class Room implements Runnable {
 
     public void handleBotAction() throws BZException {
         if (this.player2.getUserType() == UserType.PLAYER) return;
-        long delayBotCommandTime = 2000;
+        long delayBotCommandTime = 2500;
         if (System.currentTimeMillis() > this.botCommandTime) {
             //  if (this.battle.getCurrentWave() == -1) return;
             // get a Card from Deck
@@ -169,7 +167,7 @@ public class Room implements Runnable {
                         List<Integer> dX = Arrays.asList(1, 0, -1, 0, -1, 1, 1, -1);
                         List<Integer> dY = Arrays.asList(0, 1, 0, -1, 1, -1, 1, -1);
                         java.awt.Point currentPoint = monsterPath.get(i);
-
+                        botBattleMap.show();
                         for (int j = 0; j < dX.size(); j++) {
                             int tilePosX = currentPoint.x + dX.get(j);
                             int tilePosY = currentPoint.y + dY.get(j);
@@ -213,7 +211,7 @@ public class Room implements Runnable {
                             maxMonsterInSpellRange = monsterInSpellRange;
                         }
                     }
-                    if (maxMonsterInSpellRange < 3) break;
+                    if (maxMonsterInSpellRange < 2) break;
                     //createBotCommand
                     player2.moveCardToEnd(cardToUseID);
                     this.botCommandTime = System.currentTimeMillis() + delayBotCommandTime;
