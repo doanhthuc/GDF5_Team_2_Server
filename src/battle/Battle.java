@@ -138,7 +138,7 @@ public class Battle {
     }
 
     public void initMonsterWave() {
-        this.monsterWave = this.createNewMonsterWave();
+        this.monsterWave = this.createNewMonsterWave2();
         //  System.out.println("monsterWave:" + this.monsterWave);
 //        for (int i = 0; i < MonsterWaveConfig.monsterWaveScriptHashMap.size(); i++) {
 //            for (int j = 0; j < this.monsterWave.get(i).size(); j++) {
@@ -270,10 +270,10 @@ public class Battle {
         for (int i = 0; i < MonsterWaveConfig.monsterWaveScriptHashMap.size(); i++) {
             monsterWave.add(createMonsterWaveByCurrentWaveId(i + 1, EntityMode.PLAYER));
         }
-        for (int i = 0; i < monsterWave.size(); i++) {
-            System.out.println(monsterWave.get(i).size());
-        }
-        System.out.println("[Battle.java line 268] monsterWave: size " + monsterWave.size());
+//        for (int i = 0; i < monsterWave.size(); i++) {
+//            System.out.println(monsterWave.get(i).size());
+//        }
+//        System.out.println("[Battle.java line 268] monsterWave: size " + monsterWave.size());
         return monsterWave;
     }
 
