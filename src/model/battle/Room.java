@@ -252,7 +252,6 @@ public class Room implements Runnable {
                 }
             }
             // upgrade tower will be the last choice
-            System.out.println("upgradeTower");
             if (GameConfig.GROUP_ID.TOWER_ENTITY.contains(cardID)) {
                 for (int tilePosX = 0; tilePosX < GameConfig.MAP_WIDTH; tilePosX++) {
                     for (int tilePosY = 0; tilePosY < GameConfig.MAP_HEIGHT; tilePosY++) {
