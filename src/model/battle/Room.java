@@ -9,6 +9,7 @@ import battle.config.conf.potion.PotionConfig;
 import battle.config.conf.tower.TowerConfig;
 import battle.entity.EntityECS;
 import battle.map.BattleMap;
+import battle.newMap.Tower;
 import battle.tick.TickManager;
 import bitzero.server.BitZeroServer;
 import bitzero.server.exceptions.BZException;
@@ -35,7 +36,7 @@ public class Room implements Runnable {
     private final long startTime;
     private boolean endBattle;
     private ScheduledFuture roomRun;
-    private long botCommandTime = 0;
+    private long botActionTime = 0;
     private final TickManager tickManager;
     private final Queue<Pair<PlayerInfo, DataCmd>> waitingInputQueue = new ConcurrentLinkedQueue<>();
 
@@ -46,7 +47,7 @@ public class Room implements Runnable {
         this.battle = new Battle(player1, player2);
         this.endBattle = false;
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
-        this.botCommandTime = this.startTime + 1000;
+        this.botActionTime = this.startTime + 1000;
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
         if (GameConfig.DEBUG) {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
@@ -139,9 +140,8 @@ public class Room implements Runnable {
     public void handleBotAction() throws BZException {
         if (this.player2.getUserType() == UserType.PLAYER) return;
         long delayBotCommandTime = 2500;
-        if (System.currentTimeMillis() > this.botCommandTime) {
-            //  if (this.battle.getCurrentWave() == -1) return;
-            // get a Card from Deck
+        if (System.currentTimeMillis() > this.botActionTime) {
+            //get Card to use
             int cardToUseID = (int) (Math.random() * player2.getCardDeckSize());
             Card cardToUse = player2.getBattleDeck().get(cardToUseID);
             int cardID = cardToUse.getCardType();
@@ -151,8 +151,11 @@ public class Room implements Runnable {
             else
                 energy = PotionConfig.INS.getSpellIDInConfig(cardID).getEnergy();
             if (this.battle.getPlayer2energy() <= energy) return;
-
-
+            // get Bot BattleMap
+            BattleMap botBattleMap = this.battle.player2BattleMap;
+            ArrayList<java.awt.Point> monsterPath = botBattleMap.getPath();
+            //handle next bot action
+            this.botActionTime = System.currentTimeMillis() + delayBotCommandTime;
             switch (cardToUse.getCardType()) {
                 case GameConfig.ENTITY_ID.CANNON_TOWER:
                 case GameConfig.ENTITY_ID.BEAR_TOWER:
@@ -161,13 +164,11 @@ public class Room implements Runnable {
                 case GameConfig.ENTITY_ID.BUNNY_TOWER: {
                     //Attack and Magic tower Will be put beside Monster Path
                     int towerID = cardToUse.getCardType();
-                    BattleMap botBattleMap = this.battle.player2BattleMap;
-                    ArrayList<java.awt.Point> monsterPath = botBattleMap.getPath();
                     for (int i = monsterPath.size() - 1; i >= 0; i--) {
                         List<Integer> dX = Arrays.asList(1, 0, -1, 0, -1, 1, 1, -1);
                         List<Integer> dY = Arrays.asList(0, 1, 0, -1, 1, -1, 1, -1);
                         java.awt.Point currentPoint = monsterPath.get(i);
-                        botBattleMap.show();
+//                        botBattleMap.show();
                         for (int j = 0; j < dX.size(); j++) {
                             int tilePosX = currentPoint.x + dX.get(j);
                             int tilePosY = currentPoint.y + dY.get(j);
@@ -177,7 +178,6 @@ public class Room implements Runnable {
                                         && botBattleMap.map[tilePosX][tilePosY] != GameConfig.MAP.TOWER) {
                                     //Create Bot Command
                                     player2.moveCardToEnd(cardToUseID);
-                                    this.botCommandTime = System.currentTimeMillis() + delayBotCommandTime;
                                     DataCmd reqPutTowerCmd = BotCmd.createRequestPutTower(roomId, towerID, tilePosX, tilePosY);
                                     this.tickManager.addInput(new Pair<>(player2, reqPutTowerCmd));
                                     return;
@@ -188,6 +188,7 @@ public class Room implements Runnable {
                 }
                 case GameConfig.ENTITY_ID.FIRE_SPELL:
                 case GameConfig.ENTITY_ID.FROZEN_SPELL: {
+                    //Fire Spell and Frozen Spell will be cast to many monster as much as possible
                     int spellID = cardToUse.getCardType();
                     double spellRange = PotionConfig.INS.getPotionConfig(PotionConfig.FIREBALL).getRadius() * GameConfig.TILE_WIDTH;
                     int maxMonsterInSpellRange = 0;
@@ -214,16 +215,13 @@ public class Room implements Runnable {
                     if (maxMonsterInSpellRange < 2) break;
                     //createBotCommand
                     player2.moveCardToEnd(cardToUseID);
-                    this.botCommandTime = System.currentTimeMillis() + delayBotCommandTime;
                     DataCmd requestDropSpellCmd = BotCmd.createRequestDropSpell(roomId, spellID, spellX, spellY);
                     this.tickManager.addInput(new Pair<>(player2, requestDropSpellCmd));
-                    break;
+                    return;
                 }
                 case GameConfig.ENTITY_ID.GOAT_TOWER:
                 case GameConfig.ENTITY_ID.SNAKE_TOWER: {
                     int towerID = cardToUse.getCardType();
-                    BattleMap botBattleMap = this.battle.player2BattleMap;
-                    ArrayList<java.awt.Point> monsterPath = botBattleMap.getPath();
                     List<Integer> dX = Arrays.asList(1, 0, -1, 0);
                     List<Integer> dY = Arrays.asList(0, 1, 0, -1);
                     for (int tilePosX = 0; tilePosX < GameConfig.MAP_WIDTH; tilePosX++) {
@@ -244,7 +242,6 @@ public class Room implements Runnable {
                             }
                             if (countTower >= 1) {
                                 player2.moveCardToEnd(cardToUseID);
-                                this.botCommandTime = System.currentTimeMillis() + delayBotCommandTime;
                                 DataCmd reqPutTowerCmd = BotCmd.createRequestPutTower(roomId, towerID, tilePosX, tilePosY);
                                 this.tickManager.addInput(new Pair<>(player2, reqPutTowerCmd));
                                 return;
@@ -253,7 +250,24 @@ public class Room implements Runnable {
                     }
                     break;
                 }
-
+            }
+            // upgrade tower will be the last choice
+            System.out.println("upgradeTower");
+            if (GameConfig.GROUP_ID.TOWER_ENTITY.contains(cardID)) {
+                for (int tilePosX = 0; tilePosX < GameConfig.MAP_WIDTH; tilePosX++) {
+                    for (int tilePosY = 0; tilePosY < GameConfig.MAP_HEIGHT; tilePosY++) {
+                        if (botBattleMap.battleMapObject.isHavingTowerInTile(tilePosX, tilePosY)) {
+                            Tower tower = botBattleMap.battleMapObject.getTowerInTile(tilePosX, tilePosY);
+                            if (tower.getId() == cardID && tower.getLevel() <= 1) {
+                                player2.moveCardToEnd(cardToUseID);
+                                DataCmd reqUpgradeTowerCmd = BotCmd.createRequestUpgradeTower(roomId, cardID, tilePosX, tilePosY);
+                                this.tickManager.addInput(new Pair<>(player2, reqUpgradeTowerCmd));
+                                this.battle.minusPlayerEnergy(energy,EntityMode.OPPONENT);
+                                return;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
