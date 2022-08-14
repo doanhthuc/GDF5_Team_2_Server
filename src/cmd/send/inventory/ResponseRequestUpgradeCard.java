@@ -11,7 +11,7 @@ public class ResponseRequestUpgradeCard extends BaseMsg {
     public short error;
 
     public ResponseRequestUpgradeCard(short _error, InventoryDTO inventoryDTO) {
-        super(CmdDefine.UPGRADE_CARD);
+        super(CmdDefine.UPGRADE_CARD, _error);
         this.inventoryDTO = inventoryDTO;
         error = _error;
     }
