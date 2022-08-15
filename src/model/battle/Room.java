@@ -51,7 +51,7 @@ public class Room implements Runnable {
         this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
         if (GameConfig.DEBUG) {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
-            // new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
+             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
         }
 
         this.tickManager = new TickManager(this.startTime);
@@ -118,8 +118,8 @@ public class Room implements Runnable {
             if (winUserID != -1)
                 SendResult.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP));
             else SendResult.sendDrawBattle(player1.getId(), player2.getId(), this.battle.getPlayer1HP());
-            RoomManager.getInstance().removeRoom(this.roomId);
             this.endRoom();
+            RoomManager.getInstance().removeRoom(this.roomId);
         }
 
     }
@@ -129,6 +129,7 @@ public class Room implements Runnable {
         boolean user2Connection = BitZeroServer.getInstance().getUserManager().containsId(player2.getId());
         if (!user1Connection && !user2Connection) {
             this.endRoom();
+            RoomManager.getInstance().removeRoom(this.roomId);
             System.out.println("allUserDisconnect");
         }
     }
@@ -257,11 +258,11 @@ public class Room implements Runnable {
                     for (int tilePosY = 0; tilePosY < GameConfig.MAP_HEIGHT; tilePosY++) {
                         if (botBattleMap.battleMapObject.isHavingTowerInTile(tilePosX, tilePosY)) {
                             Tower tower = botBattleMap.battleMapObject.getTowerInTile(tilePosX, tilePosY);
-                            if (tower.getId() == cardID && tower.getLevel() <= 1) {
+                            if (tower.getId() == cardID && tower.getLevel() <= 2) {
                                 player2.moveCardToEnd(cardToUseID);
                                 DataCmd reqUpgradeTowerCmd = BotCmd.createRequestUpgradeTower(roomId, cardID, tilePosX, tilePosY);
                                 this.tickManager.addInput(new Pair<>(player2, reqUpgradeTowerCmd));
-                                this.battle.minusPlayerEnergy(energy,EntityMode.OPPONENT);
+                                this.battle.minusPlayerEnergy(energy, EntityMode.OPPONENT);
                                 return;
                             }
                         }

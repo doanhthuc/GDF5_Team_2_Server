@@ -16,6 +16,7 @@ import cmd.receive.battle.tower.RequestUpgradeTower;
 import cmd.receive.battle.trap.RequestPutTrap;
 import cmd.send.battle.opponent.*;
 import cmd.send.battle.player.*;
+import extension.FresherExtension;
 import match.UserType;
 import model.Inventory.Card;
 import model.Inventory.Inventory;
@@ -81,13 +82,13 @@ public class TickNetworkHandler {
         System.out.println("BattleMap processPutTower");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            if (playerInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(playerInfo.getId())) {
                 User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
                 ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
             }
 
             PlayerInfo opponentInfo = room.getOpponentPlayerByMyPlayerId(playerInfo.getId());
-            if (opponentInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(opponentInfo.getId())) {
                 User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentInfo.getId());
                 ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), opponent);
             }
@@ -105,14 +106,14 @@ public class TickNetworkHandler {
             BattleMapObject battleMapObject = battleMap.battleMapObject;
             ObjectInTile obj = (battleMapObject.getCellObject(req.getTilePos()).getObjectInCell());
 
-            User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
 
             Tower tower = null;
             if (obj.getObjectInCellType() == ObjectInTileType.TOWER) {
                 tower = (Tower) obj;
             }
 
-            if (playerInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(playerInfo.getId())) {
+                User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
                 if (tower == null) {
                     System.out.println("[BattleHandler.java line 103 processUpgradeTower]  tower null");
                     ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.TOWER_NULL.getValue()), user);
@@ -139,7 +140,7 @@ public class TickNetworkHandler {
 
             int opponentId = room.getOpponentPlayerByMyPlayerId(playerInfo.getId()).getId();
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(opponentInfo.getId())) {
                 User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
                 assert tower != null;
                 ExtensionUtility.getExtension().send(new ResponseOpponentUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
@@ -157,7 +158,7 @@ public class TickNetworkHandler {
             Inventory inventory = (Inventory) Inventory.getModel(playerInfo.getId(), Inventory.class);
             Point spellPos = req.getPixelPos();
             Card spellCard = inventory.getCardById(req.getSpellId());
-            if (playerInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(playerInfo.getId())) {
                 User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
                 ExtensionUtility.getExtension().send(new ResponseRequestDropSpell(BattleHandler.BattleError.SUCCESS.getValue(),
                         req.getSpellId(), spellCard.getLevel(), spellPos, tickNumber), user);
@@ -166,7 +167,7 @@ public class TickNetworkHandler {
 
             int opponentId = room.getOpponentPlayerByMyPlayerId(playerInfo.getId()).getId();
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(opponentInfo.getId())) {
                 User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
                 if (playerInfo.getUserType() == UserType.PLAYER) {
                     ExtensionUtility.getExtension().send(new ResponseOpponentDropSpell(BattleHandler.BattleError.SUCCESS.getValue(), req.getSpellId(), spellCard.getLevel(), spellPos, tickNumber), opponent);
@@ -185,14 +186,14 @@ public class TickNetworkHandler {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
             // TODO: implement tower entity in server
             User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
-            if (playerInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(playerInfo.getId())) {
                 ExtensionUtility.getExtension().send(new ResponseChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),
                         req.getStrategyId(), req.getTilePos(), tickNumber), user);
             }
 
             int opponentId = room.getOpponentPlayerByMyPlayerId(playerInfo.getId()).getId();
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(opponentInfo.getId())) {
                 User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
                 ExtensionUtility.getExtension().send(new ResponseOpponentChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),
                         req.getStrategyId(), req.getTilePos(), tickNumber), opponent);
@@ -212,14 +213,14 @@ public class TickNetworkHandler {
 //            BattleMapObject battleMapObject = battleMap.battleMapObject;
 //            Tower tower = (Tower) battleMapObject.getCellObject(req.getTilePos()).getObjectInCell();
 //            tower.destroyTower();
-            User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
-            if (playerInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(playerInfo.getId())) {
+                User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
                 ExtensionUtility.getExtension().send(new ResponseRequestDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), user);
             }
 
-            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            int opponentId = room.getOpponentPlayerByMyPlayerId(playerInfo.getId()).getId();
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(opponentInfo.getId())) {
                 User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
                 ExtensionUtility.getExtension().send(new ResponseOpponentDestroyTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), opponent);
             }
@@ -232,14 +233,14 @@ public class TickNetworkHandler {
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
 
-            if (playerInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(playerInfo.getId())) {
                 User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
                 ExtensionUtility.getExtension().send(new ResponseRequestPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), user);
             }
 
             int opponentId = room.getOpponentPlayerByMyPlayerId(playerInfo.getId()).getId();
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
-            if (opponentInfo.getUserType() == UserType.PLAYER) {
+            if (FresherExtension.checkUserOnline(opponentInfo.getId())) {
                 User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
                 ExtensionUtility.getExtension().send(new ResponseOpponentPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), opponent);
             }
