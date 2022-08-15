@@ -29,4 +29,17 @@ public class BotCmd {
         reqDropSpell.setId(CmdDefine.DROP_SPELL);
         return reqDropSpell;
     }
+
+    public static DataCmd createRequestUpgradeTower(int roomID, int towerID, int tilePosX, int tilePosY) throws BZException {
+        ByteArray dataCmdBody = new ByteArray();
+        dataCmdBody.writeInt(roomID);
+        dataCmdBody.writeInt(towerID);
+        dataCmdBody.writeInt(tilePosX);
+        dataCmdBody.writeInt(tilePosY);
+        System.out.println("handleBotAction");
+        DataCmd reqUpgradeTowerDataCmd = new DataCmd(dataCmdBody.getBytes());
+        reqUpgradeTowerDataCmd.setId(CmdDefine.UPGRADE_TOWER);
+        return reqUpgradeTowerDataCmd;
+    }
+
 }

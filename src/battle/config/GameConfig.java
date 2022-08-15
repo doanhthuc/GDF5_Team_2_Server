@@ -161,8 +161,8 @@ public class GameConfig {
 
     public static int WAVE_AMOUNT = 20;
     public static int PLAYER_HP = 30;
-    public static int PLAYER_ENERGY = 30;
-    public static int OPPONENT_ENERGY = 30;
+    public static int PLAYER_ENERGY = 1000;
+    public static int OPPONENT_ENERGY = 1000;
 
     public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
 

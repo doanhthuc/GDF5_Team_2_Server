@@ -29,9 +29,7 @@ public class SendResult {
 
         User winUser = BitZeroServer.getInstance().getUserManager().getUserById(winUserID);
         PlayerInfo winUserInfo = (PlayerInfo) PlayerInfo.getModel(winUserID, PlayerInfo.class);
-        UserLobbyChest winUserLobbyChest = null;
-        if (winUserInfo.getUserType() == UserType.PLAYER)
-            winUserLobbyChest = (UserLobbyChest) UserLobbyChest.getModel(winUserID, UserLobbyChest.class);
+        UserLobbyChest winUserLobbyChest = (UserLobbyChest) UserLobbyChest.getModel(winUserID, UserLobbyChest.class);
 
         if (winUserInfo.getUserType() == UserType.PLAYER) {
             winUserInfo = (PlayerInfo) winUser.getProperty(ServerConstant.PLAYER_INFO);
@@ -42,14 +40,14 @@ public class SendResult {
             synchronized (winUserLobbyChest) {
                 if (winUserLobbyChest.haveEmptySlot()) {
                     winUserLobbyChest.addLobbyChest();
-                    winUserLobbyChest.saveModel(winUser.getId());
+                    winUserLobbyChest.saveModel(winUserID);
                     if (winUserInfo.getUserType() == UserType.PLAYER)
                         ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUserInfo.getTrophy(), 10, 1), winUser);
                 } else if (winUserInfo.getUserType() == UserType.PLAYER)
                     ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.WIN, winnerHP, loserHP, winUserInfo.getTrophy(), 10, 0), winUser);
             }
             winUserInfo.setTrophy(winUserInfo.getTrophy() + GameConfig.BATTLE.WINNER_TROPHY);
-            winUserInfo.saveModel(winUser.getId());
+            winUserInfo.saveModel(winUserID);
         }
 
 
@@ -59,12 +57,11 @@ public class SendResult {
         if (loseUserInfo.getUserType() == UserType.PLAYER) {
             loseUserInfo = (PlayerInfo) loseUser.getProperty(ServerConstant.PLAYER_INFO);
         }
-
         synchronized (loseUserInfo) {
             if (loseUserInfo.getUserType() == UserType.PLAYER)
                 ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.LOSE, loserHP, winnerHP, loseUserInfo.getTrophy(), -10, 0), loseUser);
             loseUserInfo.setTrophy(loseUserInfo.getTrophy() - GameConfig.BATTLE.LOSER_TROPHY);
-            loseUserInfo.saveModel(loseUserInfo.getId());
+            loseUserInfo.saveModel(loseUserID);
         }
         return;
     }
