@@ -13,7 +13,7 @@ public class SystemECS {
 
     public SystemECS(int typeID) {
         SystemECS.typeID = typeID;
-        id = UUIDGeneratorECS.genSystemID();
+//        id = UUIDGeneratorECS.genSystemID();
     }
 
     public void run(Battle battle) throws Exception {

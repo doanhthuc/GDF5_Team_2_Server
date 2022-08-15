@@ -13,9 +13,7 @@ import battle.component.info.MonsterInfoComponent;
 import battle.component.info.TowerInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.factory.EntityFactory;
-import battle.manager.EntityManager;
-import battle.system.*;
+import battle.map.BattleMap;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
