@@ -81,7 +81,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             this.userEnergy = this.battle.getPlayer1energy();
             this.opponentUserName = this.battle.user2.getUserName();
             this.opponentHP = this.battle.getPlayer2HP();
-            this.opponentEnergy = this.battle.getPlayer1energy();
+            this.opponentEnergy = this.battle.getPlayer2energy();
         }
         if (this.entityMode == EntityMode.OPPONENT) {
             this.userName = this.battle.user2.getUserName();

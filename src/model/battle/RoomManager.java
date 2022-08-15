@@ -49,6 +49,7 @@ public class RoomManager {
     }
 
     public int getRoomCount() {
+        System.out.println("CurrentRoomCount = " + roomCount);
         return roomCount++;
     }
 
