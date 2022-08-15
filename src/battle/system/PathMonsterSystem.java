@@ -35,6 +35,7 @@ public class PathMonsterSystem extends SystemECS {
             PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
             List<Point> path = pathComponent.getPath();
+            if (path == null) continue;
             int currentPathIdx = pathComponent.getCurrentPathIDx();
 
             int nextPosIdx = this._findNextPath(path, positionComponent, currentPathIdx);

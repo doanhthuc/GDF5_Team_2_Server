@@ -1,6 +1,8 @@
 package battle.newMap;
 
 
+import battle.entity.EntityECS;
+
 import java.awt.*;
 
 public class Tower extends ObjectInTile {

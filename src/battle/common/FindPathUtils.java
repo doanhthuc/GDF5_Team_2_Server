@@ -1,6 +1,6 @@
 package battle.common;
 
-import battle.BattleMap;
+import battle.map.BattleMap;
 import battle.config.GameConfig;
 
 import java.util.*;

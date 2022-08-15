@@ -1,10 +1,8 @@
 package cmd.send.battle.player;
 
-import battle.BattleMap;
+import battle.map.BattleMap;
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
-import model.Inventory.Card;
-import model.PlayerInfo;
 
 import java.nio.ByteBuffer;
 

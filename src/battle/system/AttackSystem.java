@@ -89,7 +89,6 @@ public class AttackSystem extends SystemECS {
     public double _distanceFrom(EntityECS tower, EntityECS monster) {
         PositionComponent towerPos = (PositionComponent) tower.getComponent(PositionComponent.typeID);
         PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
-        // System.out.println("AttackSystem Position "+towerPos.getX()+" "+towerPos.getY()+" "+monsterPos.getX()+" "+monsterPos.getY());
         return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
     }
 

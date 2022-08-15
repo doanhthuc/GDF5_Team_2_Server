@@ -10,11 +10,7 @@ import battle.component.effect.SlowEffect;
 import battle.component.effect.TowerAbilityComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
-import battle.config.GameStat.TargetBuffConfigItem2;
-import battle.config.GameStat.TowerConfigItem2;
-import battle.config.GameStat.TowerStat2;
 import battle.config.MonsterWaveConfig;
-import battle.config.ReadConfigUtil;
 import battle.config.conf.targetBuff.TargetBuffConfig;
 import battle.config.conf.targetBuff.TargetBuffConfigItem;
 import battle.config.conf.tower.TowerConfig;
@@ -26,6 +22,7 @@ import battle.factory.ComponentFactory;
 import battle.factory.EntityFactory;
 import battle.manager.ComponentManager;
 import battle.manager.EntityManager;
+import battle.map.BattleMap;
 import battle.newMap.BattleMapObject;
 import battle.pool.ComponentPool;
 import battle.pool.EntityPool;
@@ -41,7 +38,7 @@ public class Battle {
     private ComponentPool componentPool;
     private EntityPool entityPool;
     private EntityManager entityManager;
-
+    private UUIDGeneratorECS uuidGeneratorECS = new UUIDGeneratorECS();
 
     private ComponentManager componentManager;
     private ComponentFactory componentFactory;
@@ -91,7 +88,7 @@ public class Battle {
         this.componentPool = new ComponentPool();
         this.entityManager = new EntityManager();
         this.componentManager = new ComponentManager();
-        this.componentFactory = new ComponentFactory(this.componentManager, this.componentPool);
+        this.componentFactory = new ComponentFactory(this.componentManager, this.componentPool, this);
         this.entityFactory = new EntityFactory(this.entityManager, this.componentFactory, this.entityPool, this);
     }
 
@@ -142,13 +139,13 @@ public class Battle {
 
     public void initMonsterWave() {
         this.monsterWave = this.createNewMonsterWave();
-        System.out.println("monsterWave:" + this.monsterWave);
-        for (int i = 0; i < MonsterWaveConfig.monsterWaveScriptHashMap.size(); i++) {
-            for (int j = 0; j < this.monsterWave.get(i).size(); j++) {
-                System.out.print(this.monsterWave.get(i).get(j) + " ");
-            }
-            System.out.println();
-        }
+        //  System.out.println("monsterWave:" + this.monsterWave);
+//        for (int i = 0; i < MonsterWaveConfig.monsterWaveScriptHashMap.size(); i++) {
+//            for (int j = 0; j < this.monsterWave.get(i).size(); j++) {
+//                System.out.print(this.monsterWave.get(i).get(j) + " ");
+//            }
+//            System.out.println();
+//        }
         this.currentWave = -1;
     }
 
@@ -273,10 +270,10 @@ public class Battle {
         for (int i = 0; i < MonsterWaveConfig.monsterWaveScriptHashMap.size(); i++) {
             monsterWave.add(createMonsterWaveByCurrentWaveId(i + 1, EntityMode.PLAYER));
         }
-        for (int i = 0; i < monsterWave.size(); i++) {
-            System.out.println(monsterWave.get(i).size());
-        }
-        System.out.println("[Battle.java line 268] monsterWave: size " + monsterWave.size());
+//        for (int i = 0; i < monsterWave.size(); i++) {
+//            System.out.println(monsterWave.get(i).size());
+//        }
+//        System.out.println("[Battle.java line 268] monsterWave: size " + monsterWave.size());
         return monsterWave;
     }
 
@@ -464,7 +461,7 @@ public class Battle {
 
     public void onUpgradeTower(long entityId, int towerLevel) throws Exception {
         System.out.println("[Battle.java line 456] onUpgradeTower: " + entityId + " " + towerLevel);
-        short level= (short)towerLevel;
+        short level = (short) towerLevel;
         EntityECS entity = this.entityManager.getEntity(entityId);
         switch (entity.getTypeID()) {
             case GameConfig.ENTITY_ID.CANNON_TOWER:
@@ -534,7 +531,8 @@ public class Battle {
             }
             case GameConfig.ENTITY_ID.SNAKE_TOWER: {
                 TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) entity.getComponent(TowerAbilityComponent.typeID);
-                TowerConfigItem snakeAttackSpeedConfig = TowerConfig.INS.getTowerConfig(TowerConfig.SNAKE);;
+                TowerConfigItem snakeAttackSpeedConfig = TowerConfig.INS.getTowerConfig(TowerConfig.SNAKE);
+                ;
 
                 TowerStat towerStat = snakeAttackSpeedConfig.getStat().get(level);
                 double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
@@ -633,6 +631,14 @@ public class Battle {
 
     public int getPlayer2energy() {
         return player2energy;
+    }
+
+    public UUIDGeneratorECS getUuidGeneratorECS() {
+        return uuidGeneratorECS;
+    }
+
+    public boolean isAttackTower(EntityECS tower) {
+        return GameConfig.GROUP_ID.ATTACK_TOWER_ENTITY.contains(tower.getTypeID());
     }
 
     public void setBattleMapListByPlayerId(HashMap<Integer, BattleMap> battleMapListByPlayerId) {
