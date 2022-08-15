@@ -232,12 +232,12 @@ public class TickNetworkHandler {
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
 
-            User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
             if (playerInfo.getUserType() == UserType.PLAYER) {
+                User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
                 ExtensionUtility.getExtension().send(new ResponseRequestPutTrap(BattleHandler.BattleError.SUCCESS.getValue(), req.getTilePos(), tickNumber), user);
             }
 
-            int opponentId = room.getOpponentPlayerByMyPlayerId(user.getId()).getId();
+            int opponentId = room.getOpponentPlayerByMyPlayerId(playerInfo.getId()).getId();
             PlayerInfo opponentInfo = (PlayerInfo) PlayerInfo.getModel(opponentId, PlayerInfo.class);
             if (opponentInfo.getUserType() == UserType.PLAYER) {
                 User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentId);
