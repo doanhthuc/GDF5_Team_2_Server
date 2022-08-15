@@ -1,7 +1,11 @@
 package model.Common;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Chest {
     public int chestType;
@@ -35,8 +39,12 @@ public class Chest {
         int goldQuantity = random.nextInt(ChestDefine.MAXGOLD - ChestDefine.MINGOLD) + ChestDefine.MINGOLD;
         Item GoldItem = new Item(ItemDefine.GOLDTYPE, goldQuantity);
         this.reward.add(GoldItem);
+        List<Integer> range = IntStream.range(0, ItemDefine.CARDAMOUNT).boxed()
+                .collect(Collectors.toCollection(ArrayList::new));
+        Collections.shuffle(range);
+        range = range.subList(0, this.cardSlot + 1);
         for (int i = 1; i <= this.cardSlot; i++) {
-            int cardType = random.nextInt(ItemDefine.CARDAMOUNT);
+            int cardType = range.get(i - 1);
             int quantity = random.nextInt(ChestDefine.MAXCARD - ChestDefine.MINCARD) + ChestDefine.MINCARD;
             this.reward.add(new Item(cardType, quantity));
         }
