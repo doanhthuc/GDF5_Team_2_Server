@@ -68,6 +68,7 @@ public class Room implements Runnable {
                 if (!this.endBattle) {
                     int currentTick = this.tickManager.getCurrentTick();
                     this.handleBotAction();
+
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<PlayerInfo, DataCmd> data = this.waitingInputQueue.poll();
                         this.tickManager.addInput(data);
