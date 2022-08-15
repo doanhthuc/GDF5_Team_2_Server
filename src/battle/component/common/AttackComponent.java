@@ -33,16 +33,15 @@ public class AttackComponent extends Component {
         this.originDamage = damage;
         this.damage = damage;
         this.targetStrategy = targetStrategy;
+        this.originRange = range;
         this.range = range;
         this.speed = speed;
         this.originSpeed = speed;
         this.countdown = countdown;
         this.effects.clear();
         if (effects != null) {
-            for (EffectComponent effect : effects)
-                this.effects.add(effect);
+            this.effects.addAll(effects);
         }
-        //  System.out.println("countdown "+this.countdown);
         this.effects.add(new DamageEffect(this.damage));
         this.bulletSpeed = bulletSpeed;
         this.bulletRadius = bulletRadius;
@@ -69,6 +68,22 @@ public class AttackComponent extends Component {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void updateAttackStatistic(double damage, double range, double attackSpeed, List<EffectComponent> effects, double bulletSpeed, double bulletRadius) {
+        this.damage = damage;
+        this.originDamage = damage;
+        this.range = range;
+        this.originRange = range;
+        this.speed = attackSpeed;
+        this.originSpeed = attackSpeed;
+        this.bulletSpeed = bulletSpeed;
+        this.bulletRadius = bulletRadius;
+        this.effects.clear();
+        if (effects != null) {
+            this.effects.addAll(effects);
+        }
+        this.effects.add(new DamageEffect(this.damage));
     }
 
     public double getOriginDamage() {

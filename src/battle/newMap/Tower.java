@@ -1,12 +1,21 @@
 package battle.newMap;
 
 
+import battle.entity.EntityECS;
+
 import java.awt.*;
 
 public class Tower extends ObjectInTile {
     private int id;
     private int level;
     private Point tilePos;
+
+    public Tower(long entityId, int id, int level, Point tilePos) {
+        super(entityId, ObjectInTileType.TOWER);
+        this.id = id;
+        this.level = level;
+        this.tilePos = tilePos;
+    }
 
     public Tower(int id, int level, Point tilePos) {
         super(ObjectInTileType.TOWER);

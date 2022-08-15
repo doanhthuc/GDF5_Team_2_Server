@@ -1,10 +1,9 @@
 package cmd.send.matching;
 
-import battle.BattleMap;
+import battle.map.BattleMap;
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
 import cmd.obj.matching.OpponentInfo;
-import model.PlayerInfo;
 
 import java.nio.ByteBuffer;
 

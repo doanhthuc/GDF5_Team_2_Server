@@ -26,7 +26,7 @@ public class MatchingHandler extends BaseClientRequestHandler {
     @Override
     public void init() {
         super.init();
-        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(matchMaking, 0, 100, TimeUnit.MILLISECONDS);
+        BitZeroServer.getInstance().getTaskScheduler().scheduleAtFixedRate(matchMaking, 0, 300, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MatchingHandler extends BaseClientRequestHandler {
                     break;
                 case CmdDefine.CANCEL_MATCHING:
                     RequestCancelMatching rqCancel = new RequestCancelMatching(dataCmd);
-                    processCancelMatching(rqCancel,user);
+                    processCancelMatching(rqCancel, user);
                     break;
             }
         } catch (Exception e) {
@@ -55,8 +55,8 @@ public class MatchingHandler extends BaseClientRequestHandler {
             if (userInfo == null) {
                 return;
             }
-
-            this.matchMaking.addUser(user.getId(), userInfo.getTrophy());
+                System.out.println("processMatching");
+                this.matchMaking.addUser(user.getId(), userInfo.getTrophy());
         } catch (Exception e) {
             logger.error("processMatching exception");
         }
@@ -68,8 +68,9 @@ public class MatchingHandler extends BaseClientRequestHandler {
             if (userInfo == null) {
                 return;
             }
-
-            this.matchMaking.cancelMatching(user);
+            synchronized (userInfo) {
+                this.matchMaking.cancelMatching(user);
+            }
         } catch (Exception e) {
             logger.error("processMatching exception");
         }
@@ -78,7 +79,7 @@ public class MatchingHandler extends BaseClientRequestHandler {
     private PlayerInfo getUserInfo(User user) {
         PlayerInfo playerInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
         if (playerInfo == null) {
-            send( new ResponseRequestCheatUserInfo(UserHandler.UserError.USERINFO_NULL.getValue()), user);
+            send(new ResponseRequestCheatUserInfo(UserHandler.UserError.USERINFO_NULL.getValue()), user);
             logger.error("PlayerInfo null");
             return null;
         }

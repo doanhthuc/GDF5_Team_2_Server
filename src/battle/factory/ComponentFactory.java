@@ -1,5 +1,6 @@
 package battle.factory;
 
+import battle.Battle;
 import battle.common.EntityMode;
 import battle.common.Point;
 import battle.component.common.*;
@@ -12,12 +13,13 @@ import battle.pool.ComponentPool;
 import java.util.List;
 
 public class ComponentFactory {
-    private  ComponentManager componentManager;
+    private ComponentManager componentManager;
     private ComponentPool pool;
-
-    public ComponentFactory(ComponentManager componentManager, ComponentPool pool) {
+    private Battle battle;
+    public ComponentFactory(ComponentManager componentManager, ComponentPool pool, Battle battle) {
         this.componentManager = componentManager;
         this.pool = pool;
+        this.battle = battle;
     }
 
     public BulletInfoComponent createBulletInfoComponent(List<EffectComponent> effects, String type, double radius) throws Exception {
@@ -26,6 +28,7 @@ public class ComponentFactory {
             bulletInfoComponent.reset(effects, type, radius);
         } else {
             bulletInfoComponent = new BulletInfoComponent(effects, type, radius);
+            bulletInfoComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(bulletInfoComponent);
         }
         return bulletInfoComponent;
@@ -37,6 +40,7 @@ public class ComponentFactory {
             positionComponent.reset(x, y);
         } else {
             positionComponent = new PositionComponent(x, y);
+            positionComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(positionComponent);
         }
         return positionComponent;
@@ -48,17 +52,19 @@ public class ComponentFactory {
             velocityComponent.reset(speedX, speedY, dynamicPosition);
         } else {
             velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition);
+            velocityComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(velocityComponent);
         }
         return velocityComponent;
     }
 
-    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition , Point staticPostion) throws Exception {
+    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition, Point staticPostion) throws Exception {
         VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
         if (velocityComponent != null) {
-            velocityComponent.reset(speedX, speedY, dynamicPosition , staticPostion);
+            velocityComponent.reset(speedX, speedY, dynamicPosition, staticPostion);
         } else {
-            velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition , staticPostion);
+            velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition, staticPostion);
+            velocityComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(velocityComponent);
         }
         return velocityComponent;
@@ -70,6 +76,7 @@ public class ComponentFactory {
             velocityComponent.reset(speedX, speedY);
         } else {
             velocityComponent = new VelocityComponent(speedX, speedY);
+            velocityComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(velocityComponent);
         }
         return velocityComponent;
@@ -81,6 +88,7 @@ public class ComponentFactory {
             collisionComponent.reset(width, height, originWidth, originHeight);
         } else {
             collisionComponent = new CollisionComponent(width, height, originWidth, originHeight);
+            collisionComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(collisionComponent);
         }
         return collisionComponent;
@@ -92,6 +100,7 @@ public class ComponentFactory {
             collisionComponent.reset(width, height);
         } else {
             collisionComponent = new CollisionComponent(width, height);
+            collisionComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(collisionComponent);
         }
         return collisionComponent;
@@ -103,17 +112,19 @@ public class ComponentFactory {
             pathComponent.reset(path, mode, isConvert);
         } else {
             pathComponent = new PathComponent(path, mode, isConvert);
+            pathComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(pathComponent);
         }
         return pathComponent;
     }
 
-    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, List<Component> ability, List<EffectComponent> effect) throws Exception {
+    public MonsterInfoComponent createMonsterInfoComponent(String category, String classs, int weight, int energy, int gainEnergy, int ability, List<EffectComponent> effect) throws Exception {
         MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.MONSTER_INFO);
         if (monsterInfoComponent != null) {
             monsterInfoComponent.reset(category, classs, weight, energy, gainEnergy, ability, effect);
         } else {
             monsterInfoComponent = new MonsterInfoComponent(category, classs, weight, energy, gainEnergy, ability, effect);
+            monsterInfoComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(monsterInfoComponent);
         }
         return monsterInfoComponent;
@@ -125,6 +136,7 @@ public class ComponentFactory {
             lifeComponent.reset(hp);
         } else {
             lifeComponent = new LifeComponent(hp);
+            lifeComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(lifeComponent);
         }
         return lifeComponent;
@@ -137,8 +149,9 @@ public class ComponentFactory {
             towerInfoComponent.reset(energy, bulletTargetType, archType, targetType, bulletType);
         } else {
             towerInfoComponent = new TowerInfoComponent(energy, bulletTargetType, archType, targetType, bulletType);
+            towerInfoComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(towerInfoComponent);
-           // this.pool.checkIn(towerInfoComponent);
+            // this.pool.checkIn(towerInfoComponent);
         }
         return towerInfoComponent;
     }
@@ -149,6 +162,7 @@ public class ComponentFactory {
             attackComponent.reset(damage, targetStrategy, range, speed, countdown, effects, bulletSpeed, bulletRadius);
         } else {
             attackComponent = new AttackComponent(damage, targetStrategy, range, speed, countdown, effects, bulletSpeed, bulletRadius);
+            attackComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(attackComponent);
         }
         return attackComponent;
@@ -160,6 +174,7 @@ public class ComponentFactory {
             healingAbilityComponent.reset(range, healingRate);
         } else {
             healingAbilityComponent = new HealingAbilityComponent(range, healingRate);
+            healingAbilityComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(healingAbilityComponent);
         }
         return healingAbilityComponent;
@@ -171,6 +186,7 @@ public class ComponentFactory {
             underGroundComponent.reset();
         } else {
             underGroundComponent = new UnderGroundComponent();
+            underGroundComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(underGroundComponent);
         }
         return underGroundComponent;
@@ -182,6 +198,7 @@ public class ComponentFactory {
             spawnMinionComponent.reset(period);
         } else {
             spawnMinionComponent = new SpawnMinionComponent(period);
+            spawnMinionComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(spawnMinionComponent);
         }
         return spawnMinionComponent;
@@ -193,6 +210,7 @@ public class ComponentFactory {
             spellInfoComponent.reset(position, effects, range, countdown);
         } else {
             spellInfoComponent = new SpellInfoComponent(position, effects, range, countdown);
+            spellInfoComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(spellInfoComponent);
         }
         return spellInfoComponent;
@@ -204,6 +222,7 @@ public class ComponentFactory {
             towerAbilityComponent.reset(range, effect);
         } else {
             towerAbilityComponent = new TowerAbilityComponent(range, effect);
+            towerAbilityComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(towerAbilityComponent);
         }
         return towerAbilityComponent;
@@ -215,6 +234,7 @@ public class ComponentFactory {
             damageEffect.reset(damage);
         } else {
             damageEffect = new DamageEffect(damage);
+            damageEffect.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(damageEffect);
         }
         return damageEffect;
@@ -226,6 +246,7 @@ public class ComponentFactory {
             trapInfoComponent.reset(delayTrigger);
         } else {
             trapInfoComponent = new TrapInfoComponent(delayTrigger);
+            trapInfoComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(trapInfoComponent);
         }
         return trapInfoComponent;
@@ -237,6 +258,7 @@ public class ComponentFactory {
             trapEffect.reset();
         } else {
             trapEffect = new TrapEffect();
+            trapEffect.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(trapEffect);
         }
         return trapEffect;
@@ -249,6 +271,7 @@ public class ComponentFactory {
             slowEffect.reset(duration, percent);
         } else {
             slowEffect = new SlowEffect(duration, percent);
+            slowEffect.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(slowEffect);
         }
         return slowEffect;
@@ -260,6 +283,7 @@ public class ComponentFactory {
             frozenEffect.reset(duration);
         } else {
             frozenEffect = new FrozenEffect(duration);
+            frozenEffect.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(frozenEffect);
         }
         return frozenEffect;
@@ -271,6 +295,7 @@ public class ComponentFactory {
             buffAttackRangeEffect.reset(percent);
         } else {
             buffAttackRangeEffect = new BuffAttackRangeEffect(percent);
+            buffAttackRangeEffect.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(buffAttackRangeEffect);
         }
         return buffAttackRangeEffect;
@@ -282,6 +307,7 @@ public class ComponentFactory {
             buffAttackSpeedEffect.reset(percent);
         } else {
             buffAttackSpeedEffect = new BuffAttackSpeedEffect(percent);
+            buffAttackSpeedEffect.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(buffAttackSpeedEffect);
         }
         return buffAttackSpeedEffect;
@@ -293,8 +319,21 @@ public class ComponentFactory {
             buffAttackDamageEffect.reset(percent);
         } else {
             buffAttackDamageEffect = new BuffAttackDamageEffect(percent);
+            buffAttackDamageEffect.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(buffAttackDamageEffect);
         }
         return buffAttackDamageEffect;
+    }
+
+    public FireBallEffect createFireBallEffect(double a, double maxDuration, Point startPos, Point endPos, double v0) throws Exception {
+        FireBallEffect fireBallEffect = (FireBallEffect) this.pool.checkOut(FireBallEffect.typeID);
+        if (fireBallEffect != null) {
+            fireBallEffect.reset(a, maxDuration, startPos, endPos, v0);
+        } else {
+            fireBallEffect = new FireBallEffect(a, maxDuration, startPos, endPos, v0);
+            fireBallEffect.setId(battle.getUuidGeneratorECS().genComponentID());
+            this.componentManager.add(fireBallEffect);
+        }
+        return fireBallEffect;
     }
 }

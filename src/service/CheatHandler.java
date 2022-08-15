@@ -18,7 +18,7 @@ import extension.FresherExtension;
 import model.Inventory.Card;
 import model.Inventory.Inventory;
 import model.Lobby.LobbyChest;
-import model.Lobby.LobbyChestContainer;
+import model.Lobby.UserLobbyChest;
 import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -79,18 +79,22 @@ public class CheatHandler extends BaseClientRequestHandler {
         System.out.println("CheatHandler " + " processCheatUserInfo");
         try {
             PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
+            //check UserInfo null
             if (userInfo == null) {
-                send( new ResponseRequestCheatUserInfo(CheatError.USER_INFO_NULL.getValue()), user);
+                send(new ResponseRequestCheatUserInfo(CheatError.USER_INFO_NULL.getValue()), user);
                 logger.info("PlayerInfo null");
                 return;
             }
+            //synchronized
+            synchronized (userInfo) {
+                userInfo.setGold(rq.getGold());
+                userInfo.setGem(rq.getGem());
+                userInfo.setTrophy(rq.getTrophy());
 
-            userInfo.setGold(rq.getGold());
-            userInfo.setGem(rq.getGem());
-            userInfo.setTrophy(rq.getTrophy());
+                userInfo.saveModel(userInfo.getId());
+                send(new ResponseRequestCheatUserInfo(CheatError.SUCCESS.getValue(), userInfo), user);
+            }
 
-            userInfo.saveModel(userInfo.getId());
-            send(new ResponseRequestCheatUserInfo(CheatError.SUCCESS.getValue(), userInfo), user);
         } catch (Exception e) {
             logger.info("processGetName exception");
         }
@@ -99,31 +103,30 @@ public class CheatHandler extends BaseClientRequestHandler {
     private void processCheatUserCard(RequestCheatUserCard rq, User user) {
         System.out.println("CheatHandler " + " processCheatUserCard");
         try {
-            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
-            if (userInfo == null) {
+            Inventory userInventory = (Inventory) user.getProperty(ServerConstant.INVENTORY);
+            //check Null
+            if (userInventory == null) {
                 logger.info("PlayerInfo null");
-                send(new ResponseRequestCheatUserCard(CheatError.USER_INFO_NULL.getValue()), user);
+                send(new ResponseRequestCheatUserCard(CheatError.USER_INVENTORY_NULL.getValue()), user);
                 return;
             }
-            Inventory userInventory = (Inventory) Inventory.getModel(userInfo.getId(), Inventory.class);
-            userInventory.setCard(rq.getCardType(), rq.getCardLevel(), rq.getCardAmount());
-            userInventory.cardCollection.get(rq.getCardType()).show();
-            userInventory.saveModel(userInfo.getId());
-            send(new ResponseRequestCheatUserCard(CheatError.SUCCESS.getValue(), new Card(rq.getCardType(), rq.getCardLevel(), rq.getCardAmount())), user);
+            //Synchronized
+            synchronized (userInventory) {
+                userInventory.setCard(rq.getCardType(), rq.getCardLevel(), rq.getCardAmount());
+                userInventory.cardCollection.get(rq.getCardType()).show();
+                userInventory.saveModel(user.getId());
+                send(new ResponseRequestCheatUserCard(CheatError.SUCCESS.getValue(), new Card(rq.getCardType(), rq.getCardLevel(), rq.getCardAmount())), user);
+            }
         } catch (Exception e) {
-            logger.info("processcheatUserCard exeption");
+            logger.info("processCheatUserCard exception");
         }
     }
 
     private void processCheatUserLobbyChest(RequestCheatUserLobbyChest rq, User user) {
         System.out.println("CheatHandler " + " processCheatUserLobbyChest");
         try {
-            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
-            if (userInfo == null) {
-                logger.info("PlayerInfo null");
-            }
-            synchronized (userInfo) {
-                LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userInfo.getId(), LobbyChestContainer.class);
+            UserLobbyChest userLobbyChest = (UserLobbyChest) user.getProperty(ServerConstant.LOBBY_CHEST);
+            synchronized (userLobbyChest) {
                 LobbyChest cheatLobbyChest = new LobbyChest(LobbyChestDefine.EMPTY_STATE);
                 if (rq.getChestState() == LobbyChestDefine.OPENING_STATE) {
                     cheatLobbyChest = new LobbyChest(rq.getChestState(), rq.getChestRemainingTime());
@@ -132,7 +135,7 @@ public class CheatHandler extends BaseClientRequestHandler {
                 }
                 userLobbyChest.setLobbyChest(rq.getChestId(), cheatLobbyChest);
 
-                userLobbyChest.saveModel(userInfo.getId());
+                userLobbyChest.saveModel(user.getId());
 
                 userLobbyChest.show();
                 send(new ResponseRequestCheatUserLobbyChest(CheatError.SUCCESS.getValue(), cheatLobbyChest, rq.getChestId()), user);
@@ -149,7 +152,8 @@ public class CheatHandler extends BaseClientRequestHandler {
     public enum CheatError {
         SUCCESS((short) 0),
         ERROR((short) 1),
-        USER_INFO_NULL((short)2),
+        USER_INFO_NULL((short) 2),
+        USER_INVENTORY_NULL((short) 3),
         ;
 
 

@@ -1,12 +1,12 @@
 package match;
 
-import battle.BattleMap;
-import bitzero.core.P;
+import battle.config.GameConfig;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.obj.matching.MatchingInfo;
 import cmd.obj.matching.OpponentInfo;
+import cmd.send.battle.player.ResponseBattleDeckInBattle;
 import cmd.send.battle.player.ResponseRequestBattleMapObject;
 import cmd.send.battle.player.ResponseRequestGetBattleInfo;
 import cmd.send.matching.ResponseCancelMatching;
@@ -17,11 +17,11 @@ import model.PlayerInfo;
 import model.UserIncrementID;
 import model.battle.Room;
 import model.battle.RoomManager;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.MatchingHandler;
 
-import java.sql.Time;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,7 +37,8 @@ public class MatchMaking implements Runnable {
 
     @Override
     public void run() {
-        while (waitingQueue.size() >= 1) {
+        this.clearDisconnectUser();
+        if (waitingQueue.size() >= 1) {
             MatchingInfo matchingInfo1 = waitingQueue.peek();
             MatchingInfo matchingInfo2;
 
@@ -48,20 +49,26 @@ public class MatchMaking implements Runnable {
 
             Iterator<MatchingInfo> it = waitingQueue.iterator();
             it.next();
-            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= 2000) {
+            if (System.currentTimeMillis() - matchingInfo1.getStartTime() >= GameConfig.BATTLE.TIME_MATCHING_BOT) {
                 processMatchingWithBot(matchingInfo1);
+                waitingQueue.remove(matchingInfo1);
+                waitingMap.remove(matchingInfo1.getPlayerId());
             } else {
                 while (it.hasNext()) {
                     matchingInfo2 = it.next();
-
                     if (System.currentTimeMillis() - matchingInfo2.getTime() > limitTimeout) {
                         matchingInfo2.increaseRank();
                         matchingInfo2.setTime(System.currentTimeMillis());
                     }
 
+
                     if ((matchingInfo1.getTrophy() >= matchingInfo2.getStartRank() && matchingInfo1.getTrophy() <= matchingInfo2.getEndRank())
                             || (matchingInfo2.getTrophy() >= matchingInfo1.getStartRank() && matchingInfo2.getTrophy() <= matchingInfo1.getEndRank())) {
                         processMatching(matchingInfo1, matchingInfo2);
+                        waitingMap.remove(matchingInfo1.getPlayerId());
+                        waitingMap.remove(matchingInfo2.getPlayerId());
+                        waitingQueue.remove(matchingInfo1);
+                        waitingQueue.remove(matchingInfo2);
                         break;
                     }
                 }
@@ -71,9 +78,19 @@ public class MatchMaking implements Runnable {
 
     }
 
+    public void clearDisconnectUser(){
+        for (Map.Entry<Integer, MatchingInfo> matchingEntry : waitingMap.entrySet()) {
+            MatchingInfo matchingInfo = matchingEntry.getValue();
+            int userID= matchingInfo.getPlayerId();
+            if (!FresherExtension.checkUserOnline(userID)) {
+                waitingMap.remove(matchingInfo.getPlayerId());
+                waitingQueue.remove(matchingInfo);
+            }
+        }
+    }
     public void addUser(int userId, int trophy) {
         if (waitingMap.containsKey(userId)) {
-            logger.warn("matching => user id = " + userId + " is existing in waiting queue");
+            System.out.println("matching => user id = " + userId + " is existing in waiting queue");
             return;
         }
         MatchingInfo matchingInfo = new MatchingInfo(userId, System.currentTimeMillis(), trophy);
@@ -85,7 +102,7 @@ public class MatchMaking implements Runnable {
     public void cancelMatching(User user) {
         int userId = user.getId();
         if (waitingMap.containsKey(userId)) {
-            logger.warn("cancel matching => user id = " + userId + " is existing in waiting queue");
+            System.out.println("cancel matching => user id = " + userId + " is existing in waiting queue");
             ExtensionUtility.getExtension().send(new ResponseCancelMatching(), user);
             MatchingInfo matchingInfo = waitingMap.remove(userId);
             waitingQueue.remove(matchingInfo);
@@ -123,22 +140,24 @@ public class MatchMaking implements Runnable {
                     opponentInfoOfUser2), user2);
 
 
-            waitingQueue.remove(matchingInfo1);
-            waitingQueue.remove(matchingInfo2);
-            waitingMap.remove(matchingInfo1.getPlayerId());
-            waitingMap.remove(matchingInfo2.getPlayerId());
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject,
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user1);
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject,
-                    room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user2);
+                    room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject), user2);
 
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
 
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user2);
+
+            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getPlayerByID(user1.getId()).getBattleDeck()), user1);
+            System.out.println("");
+            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getPlayerByID(user2.getId()).getBattleDeck()), user2);
 
 //            for (int i = 0; i < user1Map.battleMapObject.getHeight(); i++) {
 //                for (int j = 0; j < user1Map.battleMapObject.getWidth(); j++) {
@@ -148,7 +167,7 @@ public class MatchMaking implements Runnable {
 //                System.out.println();
 //            }
         } catch (Exception e) {
-            logger.error("MatchMaking error: " + e.getMessage());
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -174,13 +193,14 @@ public class MatchMaking implements Runnable {
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
 
-            waitingQueue.remove(matchingInfo1);
-            waitingMap.remove(matchingInfo1.getPlayerId());
 
             ExtensionUtility.getExtension().send(
                     new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                             room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject,
                             room.getBattle().getBattleMapByPlayerId(dummyBot.getId()).battleMapObject), user1);
+
+            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getPlayerByID(user1.getId()).getBattleDeck()), user1);
 //            for (int i = 0; i < userMap.battleMapObject.getHeight(); i++) {
 //                for (int j = 0; j < userMap.battleMapObject.getWidth(); j++) {
 //                    CellObject cellObject = userMap.battleMapObject.getCellObject(i, j);
@@ -189,7 +209,7 @@ public class MatchMaking implements Runnable {
 //                System.out.println();
 //            }
         } catch (Exception e) {
-            logger.error("MatchMaking error: " + e.getMessage());
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -217,4 +237,6 @@ public class MatchMaking implements Runnable {
         }
         return botInfo;
     }
+
+
 }

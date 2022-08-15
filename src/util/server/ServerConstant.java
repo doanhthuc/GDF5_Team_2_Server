@@ -4,6 +4,10 @@ import bitzero.server.config.ConfigHandle;
 
 public class ServerConstant {
     public static final String PLAYER_INFO = "player_info";
+    public static final String INVENTORY = "inventory";
+    public static final String DAILY_SHOP = "daily_shop";
+    public static final String GOLD_SHOP = "gold_shop";
+    public static final String LOBBY_CHEST = "lobby_chest";
  //   public static final String PLAYER_TRANSIENT = "player_transient";
  //   public static final String MACHINE_TRANSIENT = "machine_transient";
 

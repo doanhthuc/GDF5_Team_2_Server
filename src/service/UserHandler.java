@@ -87,8 +87,11 @@ public class UserHandler extends BaseClientRequestHandler {
                 logger.info("PlayerInfo null");
                 send(new ResponseRequestUserInfo(UserError.USERINFO_NULL.getValue()), user);
             }
-            logger.info("get name = " + userInfo.toString());
-            send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+            synchronized (userInfo) {
+                logger.info("get name = " + userInfo.toString());
+                System.out.println("UserHandler" + userInfo.getTrophy());
+                send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+            }
         } catch (Exception e) {
             logger.info("processGetUserInfo exception");
         }
@@ -101,9 +104,11 @@ public class UserHandler extends BaseClientRequestHandler {
                 logger.info("PlayerInfo null");
                 send(new ResponseRequestUserInfo(UserError.USERINFO_NULL.getValue()), user);
             }
-            userInfo.addGold(requestaddGold.getGold());
-            userInfo.saveModel(userInfo.getId());
-            send(new ResponseAddGold(UserHandler.UserError.SUCCESS.getValue(), requestaddGold.getGold()), user);
+            synchronized (userInfo) {
+                userInfo.addGold(requestaddGold.getGold());
+                userInfo.saveModel(userInfo.getId());
+                send(new ResponseAddGold(UserHandler.UserError.SUCCESS.getValue(), requestaddGold.getGold()), user);
+            }
         } catch (Exception e) {
             logger.info("processAddUserGold exception");
         }
@@ -116,19 +121,22 @@ public class UserHandler extends BaseClientRequestHandler {
                 logger.info("PlayerInfo null");
                 send(new ResponseRequestUserInfo(UserError.USERINFO_NULL.getValue()), user);
             }
-            userInfo.addGem(requestaddGem.getGem());
-            userInfo.saveModel(userInfo.getId());
-            send(new ResponseAddGem(UserHandler.UserError.SUCCESS.getValue(), requestaddGem.getGem()), user);
+            synchronized (userInfo) {
+                userInfo.addGem(requestaddGem.getGem());
+                userInfo.saveModel(userInfo.getId());
+                send(new ResponseAddGem(UserHandler.UserError.SUCCESS.getValue(), requestaddGem.getGem()), user);
+            }
         } catch (Exception e) {
             logger.info("processAddUserGem exception");
         }
     }
-    private void processLogoutUser(User user){
+
+    private void processLogoutUser(User user) {
         System.out.println("loggout");
-        send(new ResponseLogout(UserError.SUCCESS.getValue()),user);
+        send(new ResponseLogout(UserError.SUCCESS.getValue()), user);
         BitZeroServer.getInstance().getSessionManager().removeSession(user.getSession());
         BitZeroServer.getInstance().getUserManager().disconnectUser(user);
-  //      ExtensionUtility.dispatchEvent(new BZEvent(BZEventType.USER_DISCONNECT));
+        //      ExtensionUtility.dispatchEvent(new BZEvent(BZEventType.USER_DISCONNECT));
     }
 
     private void userDisconnect(User user) {
@@ -143,7 +151,7 @@ public class UserHandler extends BaseClientRequestHandler {
 
     public enum UserError {
         SUCCESS((short) 0),
-        USERINFO_NULL((short)1),
+        USERINFO_NULL((short) 1),
         ;
 
 

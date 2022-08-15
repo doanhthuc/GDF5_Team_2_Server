@@ -1,15 +1,8 @@
 package extension;
 
 
-import battle.Battle;
-import battle.BattleMap;
-import battle.BattleVisualization;
-import battle.Bida;
-import battle.common.EntityMode;
-import battle.common.Utils;
-import battle.component.info.MonsterInfoComponent;
-import battle.config.ReadTowerConfigUtil;
-import battle.config.TowerConfigItem;
+import battle.config.MonsterWaveConfig;
+import battle.config.conf.targetBuff.TargetBuffConfig;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -27,13 +20,14 @@ import cmd.send.user.ResponseLogout;
 import event.eventType.DemoEventType;
 import event.handler.LoginSuccessHandler;
 import model.Inventory.Inventory;
-import model.Lobby.LobbyChestContainer;
+import model.Lobby.UserLobbyChest;
 import model.PlayerID;
 import model.PlayerInfo;
 import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
+import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
 import service.*;
@@ -43,8 +37,6 @@ import util.metric.MetricLog;
 import util.server.ServerConstant;
 import util.server.ServerLoop;
 
-import javax.management.BadAttributeValueExpException;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -61,12 +53,22 @@ public class FresherExtension extends BZExtension {
     }
 
     public void init() {
-
         /**
          * register new handler to catch client's packet
          */
         try {
-            ReadTowerConfigUtil.readTowerConfig();
+            RoomManager.getInstance().clearRoom();
+            MonsterWaveConfig.readMonsterWaveConfigFromJson();
+            System.out.println(TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_ICE_GUN).getEffects().get((short)1).get(0).getValue());
+
+//            ReadConfigUtil.readMonsterConfig();
+//            ReadConfigUtil.readTargetBuffConfig();
+//            ReadConfigUtil.readTowerBuffConfig();
+//            System.out.println(towerInfo.get(TOWER_IN_CONFIG.SNAKE).getAuraTargetBuffType());
+//            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
+//            PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
+//            Room room = new Room(playerInfo1, playerInfo2);
+//            new Thread(room).start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,7 +116,7 @@ public class FresherExtension extends BZExtension {
         ShopItemList goldShop = new ShopItemList(userID, ShopItemDefine.GoldBanner);
         DailyShop dailyShop = new DailyShop(userID);
         Inventory userInventory = new Inventory(userID);
-        LobbyChestContainer userLobbyChest = new LobbyChestContainer(userID);
+        UserLobbyChest userLobbyChest = new UserLobbyChest(userID);
         try {
             goldShop.saveModel(userID);
             dailyShop.saveModel(userID);
@@ -132,7 +134,7 @@ public class FresherExtension extends BZExtension {
             dailyShop.show();
             Inventory userInventory = (Inventory) Inventory.getModel(userId, Inventory.class);
             userInventory.show();
-            LobbyChestContainer userLobbyChest = (LobbyChestContainer) LobbyChestContainer.getModel(userId, LobbyChestContainer.class);
+            UserLobbyChest userLobbyChest = (UserLobbyChest) UserLobbyChest.getModel(userId, UserLobbyChest.class);
             userLobbyChest.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -192,10 +194,6 @@ public class FresherExtension extends BZExtension {
                     send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()), user);
                 }
                 userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
-
-//                DailyShop dailyShop = (DailyShop) DailyShop.getModel(userInfo.getId(), DailyShop.class);
-//                DailyShop dailyShop = new DailyShop(pID.userID);
-//                dailyShop.saveModel(pID.userID);
             }
             UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
             User u = ExtensionUtility.instance().canLogin(uInfo, "", session);
@@ -233,8 +231,9 @@ public class FresherExtension extends BZExtension {
     private int genNewID() {
         return GuestLogin.guestCount.incrementAndGet();
     }
-
-    ;
+    public static boolean checkUserOnline(int userID){
+        return BitZeroServer.getInstance().getUserManager().containsId(userID);
+    }
 }
 // addEventHandler(BZEventType.USER_LOGOUT, LogoutHandler.class);
 //addEventHandler(BZEventType.USER_DISCONNECT, LogoutHandler.class);

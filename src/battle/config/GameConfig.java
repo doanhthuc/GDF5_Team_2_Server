@@ -1,6 +1,7 @@
 package battle.config;
 
 import battle.common.EntityMode;
+import bitzero.core.I;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +60,11 @@ public class GameConfig {
         public static double y = 0;
     }
 
+    public static class MONSTER_BORN_POSITION {
+        public static double x = 0;
+        public static double y = 4;
+    }
+
     public static class ENTITY_ID {
         public static final int CANNON_TOWER = 0;
         public static final int WIZARD_TOWER = 1;
@@ -109,7 +115,9 @@ public class GameConfig {
     }
 
     public static class GROUP_ID {
-        public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.SNAKE_TOWER, ENTITY_ID.GOAT_TOWER);
+        public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.SNAKE_TOWER, ENTITY_ID.GOAT_TOWER, ENTITY_ID.BEAR_TOWER);
+        public static List<Integer> ATTACK_TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.BEAR_TOWER);
+
         public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.DEMON_TREE, ENTITY_ID.DEMON_TREE_MINION, ENTITY_ID.ASSASSIN,
                 ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
         public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET);
@@ -130,8 +138,12 @@ public class GameConfig {
 
         public static class CLASS {
             public static String LAND = "land";
-            public static String AIR = "air";
+            public static String AIR = "aerial";
         }
+
+        public static List<Integer> LAND_MONSTER = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.ASSASSIN, ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT);
+        public static List<Integer> AIR_MONSTER = Arrays.asList(ENTITY_ID.BAT);
+        public static List<Integer> BOSS_MONSTER = Arrays.asList(ENTITY_ID.DEMON_TREE, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
     }
 
     public static class FROG_BULLET {
@@ -148,16 +160,23 @@ public class GameConfig {
     }
 
     public static int WAVE_AMOUNT = 20;
-    public static int PLAYER_HP = 20;
-    public static int PLAYER_ENERGY = 30;
-    public static int OPPONENT_ENERGY = 30;
+    public static int PLAYER_HP = 30;
+    public static int PLAYER_ENERGY = 1000;
+    public static int OPPONENT_ENERGY = 1000;
 
     public static long DAILY_SHOP_RESET_TIME_SECOND = 20;
 
     public static class BATTLE {
-        public static long START_GAME_AFTER = 5 * 1000;
-        public static long WAVE_TIME = 5 * 1000;
-        public static int AMOUNT_MONSTER_EACH_WAVE = 2;
+        public static long START_GAME_AFTER = 8 * 1000;
+        public static long WAVE_TIME = 20 * 1000;
+        public static int AMOUNT_MONSTER_EACH_WAVE = 10;
+        public static int TICK_RATE = 50;
+
+        public static int WINNER_TROPHY = 10;
+        public static int LOSER_TROPHY = 10;
+
+        public static int DELAY_BUILD_TOWER = 1 * 1000;
+        public static int TIME_MATCHING_BOT = 5 * 1000;
     }
 }
 
