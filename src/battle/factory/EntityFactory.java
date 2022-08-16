@@ -108,17 +108,16 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.FROG_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-                chasingPosition = (PositionComponent) targetEntity.getComponent(PositionComponent.typeID);
                 List<Point> dividePath = Utils.getInstance().divideCellPath(new Point(startPosition.getX(), startPosition.getY()),
-                        new Point(chasingPosition.getX(), chasingPosition.getY()), 5);
+                        staticPosition, 5);
 
                 //create PathComponent for frog Bullet
                 List<Point> path = new ArrayList<>();
-                path.add(new Point(startPosition.getX(), startPosition.getY()));
+                path.add(startPosition.getPos());
                 for (int i = 0; i < dividePath.size(); i++) path.add(dividePath.get(i));
                 path.add(staticPosition);
                 for (int i = dividePath.size() - 1; i >= 0; i--) path.add(dividePath.get(i));
-                path.add(new Point(startPosition.getX(), startPosition.getY()));
+                path.add(startPosition.getPos());
 
                 PathComponent pathComponent = this.componentFactory.createPathComponent(path, mode, false);
 
