@@ -70,9 +70,9 @@ public class AttackSystem extends SystemECS {
                                 double distance = this._distanceFrom(tower, targetMonster);
                                 double k = attackComponent.getRange() / distance;
                                 PositionComponent destination = new PositionComponent(k * (monsterPos.getX() - towerPos.getX()) + towerPos.getX(), k * (monsterPos.getY() - towerPos.getY()) + towerPos.getY());
-                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, destination, attackComponent.getEffects(), tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
+                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, null, destination.getPos(),attackComponent.getEffects(), tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
                             } else {
-                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(), tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
+                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, targetMonster, monsterPos.getPos(), attackComponent.getEffects(), tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
                             }
                         } catch (Exception e) {
 

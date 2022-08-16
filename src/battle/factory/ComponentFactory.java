@@ -46,24 +46,24 @@ public class ComponentFactory {
         return positionComponent;
     }
 
-    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition) throws Exception {
+    public VelocityComponent createVelocityComponent(double speedX, double speedY, long  dynamicEntityId) throws Exception {
         VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
         if (velocityComponent != null) {
-            velocityComponent.reset(speedX, speedY, dynamicPosition);
+            velocityComponent.reset(speedX, speedY, dynamicEntityId);
         } else {
-            velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition);
+            velocityComponent = new VelocityComponent(speedX, speedY, dynamicEntityId);
             velocityComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(velocityComponent);
         }
         return velocityComponent;
     }
 
-    public VelocityComponent createVelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition, Point staticPostion) throws Exception {
+    public VelocityComponent createVelocityComponent(double speedX, double speedY, Point staticPostion) throws Exception {
         VelocityComponent velocityComponent = (VelocityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.VELOCITY);
         if (velocityComponent != null) {
-            velocityComponent.reset(speedX, speedY, dynamicPosition, staticPostion);
+            velocityComponent.reset(speedX, speedY, staticPostion);
         } else {
-            velocityComponent = new VelocityComponent(speedX, speedY, dynamicPosition, staticPostion);
+            velocityComponent = new VelocityComponent(speedX, speedY, staticPostion);
             velocityComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(velocityComponent);
         }

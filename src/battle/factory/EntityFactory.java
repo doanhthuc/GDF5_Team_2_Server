@@ -64,21 +64,23 @@ public class EntityFactory {
         return entity;
     }
 
-    public EntityECS createBullet(int towerType, PositionComponent startPosition, PositionComponent targetPosition, List<EffectComponent> effects, EntityMode mode, double bulletSpeed, double bulletRadius) throws Exception {
+    public EntityECS createBullet(int towerType, PositionComponent startPosition, EntityECS targetEntity, Point staticPosition, List<EffectComponent> effects, EntityMode mode, double bulletSpeed, double bulletRadius) throws Exception {
         int typeID;
         EntityECS entity;
         BulletInfoComponent infoComponent;
         PositionComponent positionComponent;
         CollisionComponent collisionComponent;
-
+        PositionComponent chasingPosition;
         switch (towerType) {
             case GameConfig.ENTITY_ID.CANNON_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
                 infoComponent = this.componentFactory.createBulletInfoComponent(effects, "cannon", bulletRadius);
                 collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 1, 1);
-                Point speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
-                VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, targetPosition);
+                chasingPosition = (PositionComponent) targetEntity.getComponent(PositionComponent.typeID);
+
+                Point speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), chasingPosition.getPos(), bulletSpeed);
+                VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y,  targetEntity.getId());
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
 
                 entity.addComponent(infoComponent);
@@ -90,13 +92,13 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.BEAR_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
-
-                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
+                chasingPosition = (PositionComponent) targetEntity.getComponent(PositionComponent.typeID);
+                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), chasingPosition.getPos(), bulletSpeed);
 
                 infoComponent = this.componentFactory.createBulletInfoComponent(effects, "bear", bulletRadius);
                 collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 1, 1);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
-                velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, targetPosition);
+                velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, targetEntity.getId());
 
                 entity.addComponent(infoComponent);
                 entity.addComponent(positionComponent);
@@ -106,21 +108,22 @@ public class EntityFactory {
             case GameConfig.ENTITY_ID.FROG_TOWER:
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
+                chasingPosition = (PositionComponent) targetEntity.getComponent(PositionComponent.typeID);
                 List<Point> dividePath = Utils.getInstance().divideCellPath(new Point(startPosition.getX(), startPosition.getY()),
-                        new Point(targetPosition.getX(), targetPosition.getY()), 5);
+                        new Point(chasingPosition.getX(), chasingPosition.getY()), 5);
 
                 //create PathComponent for frog Bullet
                 List<Point> path = new ArrayList<>();
                 path.add(new Point(startPosition.getX(), startPosition.getY()));
                 for (int i = 0; i < dividePath.size(); i++) path.add(dividePath.get(i));
-                path.add(new Point(targetPosition.getX(), targetPosition.getY()));
+                path.add(staticPosition);
                 for (int i = dividePath.size() - 1; i >= 0; i--) path.add(dividePath.get(i));
                 path.add(new Point(startPosition.getX(), startPosition.getY()));
 
                 PathComponent pathComponent = this.componentFactory.createPathComponent(path, mode, false);
 
                 //create velocityComponent
-                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
+                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), staticPosition, bulletSpeed);
                 velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y);
 
                 //OtherComponent
@@ -139,12 +142,12 @@ public class EntityFactory {
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
 
-                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
+                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), staticPosition, bulletSpeed);
 
                 infoComponent = this.componentFactory.createBulletInfoComponent(effects, "bunny", bulletRadius);
                 collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 1, 1);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
-                velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, null, new Point(targetPosition.getX(), targetPosition.getY()));
+                velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, staticPosition);
                 entity.addComponent(infoComponent);
                 entity.addComponent(positionComponent);
                 entity.addComponent(velocityComponent);
@@ -154,12 +157,12 @@ public class EntityFactory {
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
 
-                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), targetPosition.getPos(), bulletSpeed);
+                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), staticPosition, bulletSpeed);
 
                 infoComponent = this.componentFactory.createBulletInfoComponent(effects, "wizard", bulletRadius);
                 collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 20, 20);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
-                velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, null, new Point(targetPosition.getX(), targetPosition.getY()));
+                velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, staticPosition);
                 entity.addComponent(infoComponent);
                 entity.addComponent(positionComponent);
                 entity.addComponent(velocityComponent);

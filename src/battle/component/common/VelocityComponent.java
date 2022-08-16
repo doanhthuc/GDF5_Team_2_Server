@@ -14,9 +14,9 @@ public class VelocityComponent extends Component {
     private double originSpeedY;
     private double originSpeed;
     private Point staticPosition;
-    private int dynamicEntityId = -1;
+    private long dynamicEntityId = -1;
 
-    public VelocityComponent(double speedX, double speedY, int dynamicEntityId) {
+    public VelocityComponent(double speedX, double speedY, long dynamicEntityId) {
         super(GameConfig.COMPONENT_ID.VELOCITY);
         this.reset(speedX, speedY, dynamicEntityId);
     }
@@ -31,7 +31,7 @@ public class VelocityComponent extends Component {
         this.reset(speedX, speedY);
     }
 
-    public void reset(double speedX, double speedY, int dynamicEntityId) {
+    public void reset(double speedX, double speedY, long dynamicEntityId) {
         this.speedX = speedX;
         this.speedY = speedY;
         this.dynamicEntityId = dynamicEntityId;
@@ -73,7 +73,7 @@ public class VelocityComponent extends Component {
         return null;
     }
 
-    public int getDynamicEntityId() {
+    public long getDynamicEntityId() {
         return this.dynamicEntityId;
     }
 
