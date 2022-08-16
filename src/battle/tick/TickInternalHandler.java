@@ -86,6 +86,11 @@ public class TickInternalHandler {
                 battle.handleTowerChangeTargetStrategy((int) tower.getEntityId(), req.getStrategyId());
                 break;
             }
+            case CmdDefine.BORN_MONSTER:{
+                Room room = RoomManager.getInstance().getRoom(dataCmd.readInt());
+                room.getBattle().bornMonsterByMonsterID(dataCmd.readInt(),EntityMode.PLAYER);
+                room.getBattle().bornMonsterByMonsterID(dataCmd.readInt(),EntityMode.OPPONENT);
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import battle.component.effect.EffectComponent;
 import battle.component.effect.FrozenEffect;
 import battle.component.effect.SlowEffect;
 import battle.component.effect.TowerAbilityComponent;
+import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.config.MonsterWaveConfig;
@@ -167,7 +168,7 @@ public class Battle {
     }
 
     public void updateMonsterWave() throws Exception {
-        long currentTime = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis()+1;
         if (currentTime >= this.nextWaveTime) {
             this.currentWave += 1;
             this.nextWaveTime += GameConfig.BATTLE.WAVE_TIME;
@@ -557,6 +558,16 @@ public class Battle {
 //        System.out.println("Player2 Hp= " + this.player2HP + " Player2 Energy=" + this.player2energy);
     }
 
+    public double getSumHp() {
+        int sumHp = 0;
+        List<EntityECS> monsterList = this.getEntityManager().getEntitiesHasComponents(Arrays.asList(LifeComponent.typeID));
+        for (EntityECS monster : monsterList) {
+            LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
+            sumHp += lifeComponent.getHp();
+        }
+        return sumHp;
+    }
+
     public BattleMap getBattleMapByEntityMode(EntityMode mode) {
         if (mode == EntityMode.PLAYER) return this.player1BattleMap;
         else return this.player2BattleMap;
@@ -613,6 +624,10 @@ public class Battle {
 
     public void setNextWaveTime(long nextWaveTime) {
         this.nextWaveTime = nextWaveTime;
+    }
+
+    public void setNextBornMonsterTime(long nextBornMonsterTime) {
+        this.nextBornMonsterTime = nextBornMonsterTime;
     }
 
     public int getPlayer1energy() {

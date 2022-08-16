@@ -5,7 +5,7 @@ import bitzero.server.extensions.data.DataCmd;
 import bitzero.server.util.ByteArray;
 import cmd.CmdDefine;
 
-public class BotCmd {
+public class CmdFactory {
     public static DataCmd createRequestPutTower(int roomID, int towerID, int tilePosX, int tilePosY) throws BZException {
         ByteArray dataCmdBody = new ByteArray();
         dataCmdBody.writeInt(roomID);
@@ -40,6 +40,15 @@ public class BotCmd {
         DataCmd reqUpgradeTowerDataCmd = new DataCmd(dataCmdBody.getBytes());
         reqUpgradeTowerDataCmd.setId(CmdDefine.UPGRADE_TOWER);
         return reqUpgradeTowerDataCmd;
+    }
+
+    public static DataCmd createBornMonsterCmd(int roomID, int monsterID) throws BZException {
+        ByteArray dataCmdBody = new ByteArray();
+        dataCmdBody.writeInt(roomID);
+        dataCmdBody.writeInt(monsterID);
+        DataCmd bornMonsterCmd = new DataCmd(dataCmdBody.getBytes());
+        bornMonsterCmd.setId(CmdDefine.BORN_MONSTER);
+        return bornMonsterCmd;
     }
 
 }
