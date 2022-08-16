@@ -17,12 +17,15 @@ public class EntityECS {
     private long id;
     private boolean active;
     private EntityMode mode;
-    public EntityECS(int typeID, EntityMode mode , long id) {
+    private int[] bitmask;
+
+    public EntityECS(int typeID, EntityMode mode, long id) {
         this.typeID = typeID;
         this.components = new HashMap<>();
         this.id = id;
         this.active = true;
         this.mode = mode;
+        this.bitmask = new int[100];
     }
 
     public EntityECS addComponent(Component component) {
@@ -31,6 +34,7 @@ public class EntityECS {
         }
         component.setActive(true);
         this.components.put(component.getTypeID(), component);
+        this.bitmask[component.getTypeID()] = 1;
         return this;
     }
 
@@ -39,6 +43,7 @@ public class EntityECS {
         if (component != null) {
             componentManager.remove(component);
             this.components.remove(component.typeID);
+            this.bitmask[component.getTypeID()] = 0;
         }
     }
 
@@ -56,6 +61,9 @@ public class EntityECS {
         return (c == typeIDs.size());
     }
 
+    public boolean _hasComponent(int typeID){
+        return this.bitmask[typeID] == 1;
+    }
 
     @Override
     public String toString() {
@@ -101,7 +109,7 @@ public class EntityECS {
         for (int i = 1; i <= 100; i++) {
             component = this.getComponent(i);
             if (component != null) {
-                System.out.print(component.getTypeID()+" ");
+                System.out.print(component.getTypeID() + " ");
             }
         }
     }

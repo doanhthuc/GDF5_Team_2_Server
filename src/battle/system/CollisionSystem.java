@@ -2,11 +2,8 @@ package battle.system;
 
 import battle.Battle;
 import battle.common.*;
-import battle.component.common.CollisionComponent;
-import battle.component.common.PathComponent;
-import battle.component.common.PositionComponent;
+import battle.component.common.*;
 import battle.common.QuadTreeData;
-import battle.component.common.VelocityComponent;
 import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.component.info.BulletInfoComponent;
@@ -93,6 +90,11 @@ public class CollisionSystem extends SystemECS {
                     EntityECS monster = data.getMonster();
                     EntityECS bullet = data.getBullet();
                     BulletInfoComponent bulletInfo = (BulletInfoComponent) bullet.getComponent(GameConfig.COMPONENT_ID.BULLET_INFO);
+
+                    UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(UnderGroundComponent.typeID);
+                    if (underGroundComponent != null && underGroundComponent.isInGround()) {
+                        continue;
+                    }
                     // FIXME: Define bulletInfo type for Frog Tower
                     if (bulletInfo.getType() == "frog") {
                         Map<Long, Integer> hitMonster;
@@ -144,7 +146,7 @@ public class CollisionSystem extends SystemECS {
         VelocityComponent bulletVelocity = (VelocityComponent) bulletEntity.getComponent(VelocityComponent.typeID);
         BulletInfoComponent bulletInfo = (BulletInfoComponent) bulletEntity.getComponent(BulletInfoComponent.typeID);
         Point staticPosition = bulletVelocity.getStaticPosition();
-        if ((Math.abs(staticPosition.getX() - bulletPos.getX()) <= 5) && (Math.abs(staticPosition.getY() - bulletPos.getY()) <= 5)) {
+        if ((Math.abs(staticPosition.getX() - bulletPos.getX()) <= 10) && (Math.abs(staticPosition.getY() - bulletPos.getY()) <= 10)) {
             List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
             for (EntityECS monster : monsterList) {
                 if (monster.getMode() == bulletEntity.getMode()) {

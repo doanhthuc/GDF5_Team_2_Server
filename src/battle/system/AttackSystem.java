@@ -33,7 +33,7 @@ public class AttackSystem extends SystemECS {
         //Create List of Component TypeIDs
         List<EntityECS> towerList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(AttackComponent.typeID));
 
-        List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID,PositionComponent.typeID));
+        List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
 //        Debug Bullet
 //        List<Integer> typeIDBullet = new ArrayList<>();
 //        typeIDBullet.add(GameConfig.COMPONENT_ID.BULLET_INFO);
@@ -45,7 +45,7 @@ public class AttackSystem extends SystemECS {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             double countDown = attackComponent.getCountdown();
             if (countDown > 0) {
-                attackComponent.setCountdown(countDown - tick * 1.0 / 1000);
+                attackComponent.setCountdown(countDown - tick / 1000);
             }
             if (countDown <= 0) {
                 List<EntityECS> monsterInRange = new ArrayList<>();
@@ -60,7 +60,7 @@ public class AttackSystem extends SystemECS {
                     }
                 }
                 if (monsterInRange.size() > 0) {
-                    EntityECS targetMonster = this.findTargetMonsterByStrategy(attackComponent.getTargetStrategy(), monsterInRange);
+                    EntityECS targetMonster = this.findTargetMonsterByStrategy(tower, attackComponent.getTargetStrategy(), monsterInRange);
                     if (targetMonster != null) {
                         PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(PositionComponent.typeID);
                         PositionComponent towerPos = (PositionComponent) tower.getComponent(PositionComponent.typeID);
@@ -92,7 +92,7 @@ public class AttackSystem extends SystemECS {
         return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
     }
 
-    public EntityECS findTargetMonsterByStrategy(int strategy, List<EntityECS> monsterInRange) {
+    public EntityECS findTargetMonsterByStrategy(EntityECS tower, int strategy, List<EntityECS> monsterInRange) {
         for (EntityECS monster : monsterInRange) {
             if (monster.getTypeID() == GameConfig.ENTITY_ID.DARK_GIANT) {
                 return monster;
@@ -122,7 +122,7 @@ public class AttackSystem extends SystemECS {
                         maxHPIndex = i;
                     }
                 }
-                if (maxHPIndex!=-1) targetMonster = monsterInRange.get(maxHPIndex);
+                if (maxHPIndex != -1) targetMonster = monsterInRange.get(maxHPIndex);
                 break;
             }
             case GameConfig.TOWER_TARGET_STRATEGY.MIN_HP:
@@ -136,31 +136,31 @@ public class AttackSystem extends SystemECS {
                         minHPIndex = i;
                     }
                 }
-                if (minHPIndex!=-1) targetMonster = monsterInRange.get(minHPIndex);
+                if (minHPIndex != -1) targetMonster = monsterInRange.get(minHPIndex);
                 break;
             case GameConfig.TOWER_TARGET_STRATEGY.MAX_DISTANCE:
                 double maxDistance = -1;
                 int maxDistanceIndex = -1;
                 for (int i = 0; i < monsterInRange.size(); i++) {
-                    double distance = this._distanceFrom(monsterInRange.get(i), monsterInRange.get(i));
+                    double distance = this._distanceFrom(monsterInRange.get(i), tower);
                     if (distance > maxDistance) {
                         maxDistance = distance;
                         maxDistanceIndex = i;
                     }
                 }
-                if (maxDistanceIndex!=-1) targetMonster = monsterInRange.get(maxDistanceIndex);
+                if (maxDistanceIndex != -1) targetMonster = monsterInRange.get(maxDistanceIndex);
                 break;
             case GameConfig.TOWER_TARGET_STRATEGY.MIN_DISTANCE:
                 double minDistance = Double.MAX_VALUE;
                 int minDistanceIndex = -1;
                 for (int i = 0; i < monsterInRange.size(); i++) {
-                    double distance = this._distanceFrom(monsterInRange.get(i), monsterInRange.get(i));
+                    double distance = this._distanceFrom(monsterInRange.get(i), tower);
                     if (distance < minDistance) {
                         minDistance = distance;
                         minDistanceIndex = i;
                     }
                 }
-                if (minDistanceIndex!=-1) targetMonster = monsterInRange.get(minDistanceIndex);
+                if (minDistanceIndex != -1) targetMonster = monsterInRange.get(minDistanceIndex);
                 break;
             default:
                 throw new Error("Invalid strategy");

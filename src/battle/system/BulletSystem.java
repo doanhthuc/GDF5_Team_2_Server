@@ -38,20 +38,19 @@ public class BulletSystem extends SystemECS {
                 continue;
             }
 
-            if (bulletVelocity.getDynamicPosition() == null) continue;
-
-            if (!bulletVelocity.getDynamicPosition().getActive()) {
-                bulletVelocity.setDynamicPosition(null);
+            if (bulletVelocity.getDynamicPosition(battle) == null && bulletVelocity.hasDynamicEntityId()) {
                 battle.getEntityManager().destroy(bullet);
                 continue;
             }
 
-            if (Math.abs(bulletVelocity.getDynamicPosition().getX() - bulletPos.getX()) <= 3
-                    && Math.abs(bulletVelocity.getDynamicPosition().getY() - bulletPos.getY()) <= 3) {
-                CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(GameConfig.COMPONENT_ID.COLLISION);
-                if (collisionComponent != null) {
-                    collisionComponent.setWidth(collisionComponent.getOriginWidth());
-                    collisionComponent.setHeight(collisionComponent.getOriginHeight());
+            if (bulletVelocity.getDynamicPosition(battle) != null) {
+                if (Math.abs(bulletVelocity.getDynamicPosition(battle).getX() - bulletPos.getX()) <= 10
+                        || Math.abs(bulletVelocity.getDynamicPosition(battle).getY() - bulletPos.getY()) <= 10) {
+                    CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(CollisionComponent.typeID);
+                    if (collisionComponent != null) {
+                        collisionComponent.setWidth(collisionComponent.getOriginWidth());
+                        collisionComponent.setHeight(collisionComponent.getOriginHeight());
+                    }
                 }
             }
         }

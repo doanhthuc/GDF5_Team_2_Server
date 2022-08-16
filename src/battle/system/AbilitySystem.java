@@ -6,6 +6,7 @@ import battle.common.Utils;
 import battle.component.common.*;
 import battle.component.effect.BuffAttackDamageEffect;
 import battle.component.effect.BuffAttackSpeedEffect;
+import battle.component.effect.FrozenEffect;
 import battle.component.effect.TowerAbilityComponent;
 import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
@@ -41,11 +42,13 @@ public class AbilitySystem extends SystemECS {
 
     private void handleUnderGroundComponent(double tick, Battle battle) {
         List<EntityECS> underGroundList = battle.getEntityManager()
-                .getEntitiesHasComponents(Arrays.asList(UnderGroundComponent.typeID,PositionComponent.typeID));
+                .getEntitiesHasComponents(Arrays.asList(UnderGroundComponent.typeID, PositionComponent.typeID));
         for (EntityECS underGround : underGroundList) {
             LifeComponent lifeComponent = (LifeComponent) underGround.getComponent(LifeComponent.typeID);
             UnderGroundComponent underGroundComponent = (UnderGroundComponent) underGround.getComponent(UnderGroundComponent.typeID);
             PositionComponent positionComponent = (PositionComponent) underGround.getComponent(PositionComponent.typeID);
+
+            if (underGround._hasComponent(FrozenEffect.typeID)) continue;
             if (!underGroundComponent.isInGround()) {
                 if (((lifeComponent.getHp() / lifeComponent.getMaxHP()) <= 0.7 - 0.3 * underGroundComponent.getTrigger())) {
                     underGroundComponent.setTrigger(underGroundComponent.getTrigger() + 1);
@@ -88,8 +91,7 @@ public class AbilitySystem extends SystemECS {
                         .singletonList(HealingAbilityComponent.typeID));
         List<EntityECS> monsterList = null;
         if (entityList.size() > 0) {
-            monsterList = battle.getEntityManager()
-                    .getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
+            monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
         }
         for (EntityECS satyr : entityList) {
             HealingAbilityComponent healingAbilityComponent = (HealingAbilityComponent) satyr

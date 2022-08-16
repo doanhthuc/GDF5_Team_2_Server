@@ -37,8 +37,8 @@ public class MovementSystem extends SystemECS {
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
             FireBallEffect fireballEffect = (FireBallEffect) entity.getComponent(FireBallEffect.typeID);
 
-            if ((velocityComponent.getDynamicPosition() != null) && velocityComponent.getDynamicPosition().getActive()) {
-                Point newVelocity = Utils.getInstance().calculateVelocityVector(positionComponent.getPos(), velocityComponent.getDynamicPosition().getPos(), velocityComponent.getOriginSpeed());
+            if ((velocityComponent.getDynamicPosition(battle) != null) && velocityComponent.getDynamicPosition(battle).getActive()) {
+                Point newVelocity = Utils.getInstance().calculateVelocityVector(positionComponent.getPos(), velocityComponent.getDynamicPosition(battle).getPos(), velocityComponent.getOriginSpeed());
                 velocityComponent.setSpeedX(newVelocity.x);
                 velocityComponent.setSpeedY(newVelocity.y);
             }
