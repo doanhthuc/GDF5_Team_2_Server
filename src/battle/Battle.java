@@ -412,19 +412,6 @@ public class Battle {
 
     }
 
-    public void handlerDesTroyTower(int tilePosX, int tilePosY, EntityMode mode) {
-        BattleMap battleMap = null;
-        if (mode == EntityMode.PLAYER) {
-            this.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
-            battleMap = this.player1BattleMap;
-        } else {
-            this.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
-            battleMap = this.player2BattleMap;
-        }
-        BattleMapObject battleMapObject = battleMap.battleMapObject;
-        //TODO: DestroyTower in BattleMapObject
-    }
-
 
     public void handlerPutTower(EntityMode mode) {
         if (mode == EntityMode.PLAYER)
@@ -457,6 +444,7 @@ public class Battle {
 
     public void handleUpgradeTower(long entityId, int towerLevel) throws Exception {
         this.onUpgradeTower(entityId, towerLevel);
+
     }
 
     public void onUpgradeTower(long entityId, int towerLevel) throws Exception {
@@ -547,7 +535,9 @@ public class Battle {
 
     public void handleDestroyTower(long entityId) throws Exception {
         EntityECS entity = this.entityManager.getEntity(entityId);
+        EntityMode mode = entity.getMode();
         this.entityManager.remove(entity);
+        handlerPutTower(mode);
     }
 
     public void handleTowerChangeTargetStrategy(int entityId, int strategyId) throws Exception {

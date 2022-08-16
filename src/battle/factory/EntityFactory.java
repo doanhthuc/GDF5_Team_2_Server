@@ -76,7 +76,7 @@ public class EntityFactory {
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
                 infoComponent = this.componentFactory.createBulletInfoComponent(effects, "cannon", bulletRadius);
-                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 1, 1);
+                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 10, 10);
                 chasingPosition = (PositionComponent) targetEntity.getComponent(PositionComponent.typeID);
 
                 Point speed = Utils.calculateVelocityVector(startPosition.getPos(), chasingPosition.getPos(), bulletSpeed);
@@ -96,7 +96,7 @@ public class EntityFactory {
                 speed = Utils.calculateVelocityVector(startPosition.getPos(), chasingPosition.getPos(), bulletSpeed);
 
                 infoComponent = this.componentFactory.createBulletInfoComponent(effects, "bear", bulletRadius);
-                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 1, 1);
+                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 10, 10);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
                 velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, targetEntity.getId());
 
@@ -127,7 +127,7 @@ public class EntityFactory {
 
                 //OtherComponent
                 infoComponent = this.componentFactory.createBulletInfoComponent(effects, "frog", bulletRadius);
-                collisionComponent = this.componentFactory.createCollisionComponent(20, 20, 20, 20);
+                collisionComponent = this.componentFactory.createCollisionComponent(40, 40, 40, 40);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
 
                 //add Component
@@ -141,10 +141,10 @@ public class EntityFactory {
                 typeID = GameConfig.ENTITY_ID.BULLET;
                 entity = this._createEntity(typeID, mode);
 
-                speed = Utils.getInstance().calculateVelocityVector(startPosition.getPos(), staticPosition, bulletSpeed);
+                speed = Utils.calculateVelocityVector(startPosition.getPos(), staticPosition, bulletSpeed);
 
                 infoComponent = this.componentFactory.createBulletInfoComponent(effects, "bunny", bulletRadius);
-                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 1, 1);
+                collisionComponent = this.componentFactory.createCollisionComponent(0, 0, 10, 10);
                 positionComponent = this.componentFactory.createPositionComponent(startPosition.getX(), startPosition.getY());
                 velocityComponent = this.componentFactory.createVelocityComponent(speed.x, speed.y, staticPosition);
                 entity.addComponent(infoComponent);

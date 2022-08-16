@@ -67,9 +67,13 @@ public class TickInternalHandler {
                 RequestDestroyTower req = new RequestDestroyTower(dataCmd);
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
                 Battle battle = room.getBattle();
-                Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, playerInfo);
-                TileObject tileObject = battle.getBattleMapByPlayerId(playerInfo.getId()).battleMapObject.getCellObject(req.getTilePos());
+                int tilePosX = req.getTilePos().x;
+                int tilePosY = req.getTilePos().y;
+                Tower tower = getTowerByTilePosAndUser(battle, tilePosX, tilePosY, playerInfo);
+                BattleMap battleMap = battle.getBattleMapByPlayerId(playerInfo.getId());
+                TileObject tileObject = battleMap.battleMapObject.getCellObject(req.getTilePos());
                 tileObject.destroyTower();
+                battleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
                 battle.handleDestroyTower(tower.getEntityId());
                 break;
             }
