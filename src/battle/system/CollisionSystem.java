@@ -24,7 +24,7 @@ public class CollisionSystem extends SystemECS {
     private QuadTree quadTreeOpponent = new QuadTree(0, new Rect(-mapWidth / 2, -mapHeight / 2, mapWidth, mapHeight));
 
     public CollisionSystem(long id) {
-        super(GameConfig.SYSTEM_ID.COLLISION, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.COLLISION, SYSTEM_NAME, id);
     }
 
     @Override

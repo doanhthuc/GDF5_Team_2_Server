@@ -17,7 +17,7 @@ public class MonsterSystem extends SystemECS {
     private static final String SYSTEM_NAME = "MonsterSystem";
 
     public MonsterSystem(long id) {
-        super(GameConfig.SYSTEM_ID.MONSTER, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.MONSTER, SYSTEM_NAME, id);
     }
 
     @Override

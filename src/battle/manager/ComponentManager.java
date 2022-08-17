@@ -31,8 +31,10 @@ public class ComponentManager extends ManagerECS {
 
     public void add(Component component) throws Exception {
         if (this.storeInstance.get(component.getId()) != null) {
+            System.out.println(this.storeInstance.toString());
             throw new Exception("Component with typeID = " + component.getTypeID() + ", id = " + component.getId() + " exists.");
         }
+        System.out.println("Add component id = " + component.getId());
         this.storeInstance.put(component.getId(), component);
     }
 

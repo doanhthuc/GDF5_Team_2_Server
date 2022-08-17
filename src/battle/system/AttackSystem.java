@@ -23,7 +23,7 @@ public class AttackSystem extends SystemECS {
     private static final String SYSTEM_NAME = "AttackSystem";
 
     public AttackSystem(long id) {
-        super(GameConfig.SYSTEM_ID.ATTACK, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.ATTACK, SYSTEM_NAME, id);
     }
 
     @Override

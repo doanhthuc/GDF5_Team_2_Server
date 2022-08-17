@@ -20,7 +20,7 @@ public class EffectSystem extends SystemECS {
     private final static String SYSTEM_NAME = "EffectSystem";
 
     public EffectSystem(long id) {
-        super(GameConfig.SYSTEM_ID.EFFECT, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.EFFECT, SYSTEM_NAME, id);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class EffectSystem extends SystemECS {
             if (life != null) {
                 DamageEffect damageEffect = (DamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
                 life.setHp(life.getHp() - damageEffect.getDamage());
-                entity.removeComponent(damageEffect, battle.getComponentManager());
+                entity.removeComponent(damageEffect);
             }
         }
     }
@@ -63,7 +63,7 @@ public class EffectSystem extends SystemECS {
 
             frozenComponent.setCountdown(frozenComponent.getCountdown() - tick / 1000);
             if (frozenComponent.getCountdown() <= 0) {
-                entity.removeComponent(frozenComponent, battle.getComponentManager());
+                entity.removeComponent(frozenComponent);
                 this.updateOriginVelocity(velocityComponent);
             } else {
                 velocityComponent.setSpeedX(0);
@@ -81,7 +81,7 @@ public class EffectSystem extends SystemECS {
             slowComponent.setCountdown(slowComponent.getCountdown() - tick / 1000);
             if (slowComponent.getCountdown() <= 0) {
                 this.updateOriginVelocity(velocityComponent);
-                entity.removeComponent(slowComponent, battle.getComponentManager());
+                entity.removeComponent(slowComponent);
             } else {
                 velocityComponent.setSpeedX(velocityComponent.getOriginSpeedX() * slowComponent.getPercent());
                 velocityComponent.setSpeedY(velocityComponent.getOriginSpeedY() * slowComponent.getPercent());
@@ -111,14 +111,14 @@ public class EffectSystem extends SystemECS {
                             .createPathComponent(path, entity.getMode(), true);
 
                     entity.addComponent(pathComponent);
-                    entity.removeComponent(trapEffect, battle.getComponentManager());
+                    entity.removeComponent(trapEffect);
                 }
             } else {
                 PositionComponent pos = (PositionComponent) entity.getComponent(GameConfig.COMPONENT_ID.POSITION);
                 PathComponent pathComponent = (PathComponent) entity.getComponent(GameConfig.COMPONENT_ID.PATH);
 
                 pathComponent.setCurrentPathIDx(0);
-                entity.removeComponent(pos, battle.getComponentManager());
+                entity.removeComponent(pos);
 
                 Point bornPos = Utils.tile2Pixel(GameConfig.MONSTER_BORN_POSITION.x,
                         GameConfig.MONSTER_BORN_POSITION.y, entity.getMode());

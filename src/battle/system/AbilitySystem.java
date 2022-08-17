@@ -24,7 +24,7 @@ public class AbilitySystem extends SystemECS {
     private static final String SYSTEM_NAME = "AbilitySystem";
 
     public AbilitySystem(long id) {
-        super(GameConfig.SYSTEM_ID.ABILITY, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.ABILITY, SYSTEM_NAME, id);
     }
 
     @Override

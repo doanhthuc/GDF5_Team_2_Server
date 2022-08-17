@@ -15,7 +15,7 @@ public class LifeSystem extends SystemECS {
     private static final String SYSTEM_NAME = "LifeSystem";
 
     public LifeSystem(long id) {
-        super(GameConfig.SYSTEM_ID.LIFE, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.LIFE, SYSTEM_NAME, id);
     }
 
     @Override

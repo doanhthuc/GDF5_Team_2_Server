@@ -22,7 +22,7 @@ public class SpellSystem extends SystemECS {
     private static final String SYSTEM_NAME = "SpellSystem";
 
     public SpellSystem(long id) {
-        super(GameConfig.SYSTEM_ID.SPELL, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.SPELL, SYSTEM_NAME, id);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class SpellSystem extends SystemECS {
                                             A, T, spellPos, monsterPos.getPos(), v0);
                                     monster.addComponent(fireBallEffect);
                                     PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
-                                    monster.removeComponent(pathComponent, battle.getComponentManager());
+                                    monster.removeComponent(pathComponent);
                                 }
                             }
                         }
