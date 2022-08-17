@@ -12,8 +12,8 @@ import java.util.List;
 public class ResetSystem extends SystemECS {
     private static final String SYSTEM_NAME = "ResetSystem";
 
-    public ResetSystem() {
-        super(GameConfig.SYSTEM_ID.RESET_SYSTEM, SYSTEM_NAME);
+    public ResetSystem(long id) {
+        super(GameConfig.SYSTEM_ID.RESET_SYSTEM, SYSTEM_NAME,id);
     }
 
     @Override

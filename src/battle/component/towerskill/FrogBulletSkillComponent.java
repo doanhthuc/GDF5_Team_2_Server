@@ -1,10 +1,11 @@
 package battle.component.towerskill;
 
 import battle.component.common.Component;
+import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
-public class FrogBulletSkillComponent extends Component {
+public class FrogBulletSkillComponent extends EffectComponent {
     private String name = "FrogBulletSkillComponent";
     public static int typeID = GameConfig.COMPONENT_ID.FROG_BULLET_SKILL;
 

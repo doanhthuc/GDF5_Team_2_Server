@@ -20,8 +20,8 @@ import java.util.List;
 public class PathMonsterSystem extends SystemECS {
     private static final String SYSTEM_NAME = "PathMonsterSystem";
 
-    public PathMonsterSystem() {
-        super(GameConfig.SYSTEM_ID.PATH_MONSTER, SYSTEM_NAME);
+    public PathMonsterSystem(long id) {
+        super(GameConfig.SYSTEM_ID.PATH_MONSTER, SYSTEM_NAME,id);
     }
 
     @Override

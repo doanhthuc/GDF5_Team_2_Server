@@ -13,8 +13,8 @@ import java.util.List;
 public class BulletSystem extends SystemECS {
     private static final String SYSTEM_NAME = "BulletSystem";
 
-    public BulletSystem() {
-        super(GameConfig.SYSTEM_ID.BULLET, SYSTEM_NAME);
+    public BulletSystem(long id) {
+        super(GameConfig.SYSTEM_ID.BULLET, SYSTEM_NAME,id);
     }
 
     @Override

@@ -156,7 +156,6 @@ public class GameConfig {
         public static int HIT_FIRST_TIME = 1;
         public static int HIT_SECOND_TIME = 2;
         public static int HIT_BOTH_TIME = 3;
-
     }
 
     public static class BATTLE_RESULT {
@@ -184,5 +183,7 @@ public class GameConfig {
         public static int DELAY_BUILD_TOWER = 1 * 1000;
         public static int TIME_MATCHING_BOT = 5 * 1000;
     }
+
+    public static int TOWER_MAX_LEVEL = 3;
 }
 

@@ -21,8 +21,8 @@ import java.util.List;
 public class SpellSystem extends SystemECS {
     private static final String SYSTEM_NAME = "SpellSystem";
 
-    public SpellSystem() {
-        super(GameConfig.SYSTEM_ID.SPELL, SYSTEM_NAME);
+    public SpellSystem(long id) {
+        super(GameConfig.SYSTEM_ID.SPELL, SYSTEM_NAME,id);
     }
 
     @Override

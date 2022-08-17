@@ -4,6 +4,7 @@ import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
+import javafx.scene.effect.Effect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,9 @@ public class AttackComponent extends Component {
         return effects;
     }
 
+    public void addEffect(EffectComponent effect){
+        this.effects.add(effect);
+    }
     public String getName() {
         return name;
     }

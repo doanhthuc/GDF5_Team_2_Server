@@ -17,9 +17,9 @@ public abstract class SystemECS {
     private long id;
     private Map<Long, EntityECS> entityStore;
 
-    public SystemECS(int typeId, String name) {
+    public SystemECS(int typeId, String name,long systemId) {
         this.typeId = typeId;
-        this.id = UUIDGeneratorECS.genSystemID();
+        this.id = systemId;
         this.entityStore = new HashMap<>();
     }
 
