@@ -104,7 +104,7 @@ public class TickNetworkHandler {
             int towerId = req.getTowerId();
             BattleMap battleMap = room.getBattle().getBattleMapByPlayerId(playerInfo.getId());
             BattleMapObject battleMapObject = battleMap.battleMapObject;
-            ObjectInTile obj = (battleMapObject.getCellObject(req.getTilePos()).getObjectInCell());
+            ObjectInTile obj = (battleMapObject.getTileObject(req.getTilePos()).getObjectInTile());
 
 
             Tower tower = null;
@@ -126,7 +126,7 @@ public class TickNetworkHandler {
                     return;
                 }
 
-                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getCellObject(req.getTilePos()));
+                System.out.println("[BattleHandler.java line 103 processUpgradeTower]  cellObject " + battleMapObject.getTileObject(req.getTilePos()));
                 ExtensionUtility.getExtension().send(new ResponseRequestUpgradeTower(BattleHandler.BattleError.SUCCESS.getValue(),
                         req.getTowerId(), tower.getLevel() + 1, req.getTilePos(), tickNumber), user);
             }
