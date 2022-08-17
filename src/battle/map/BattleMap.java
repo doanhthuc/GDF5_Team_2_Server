@@ -1,6 +1,5 @@
 package battle.map;
 
-import battle.TileNode;
 import battle.config.GameConfig;
 import battle.newMap.BattleMapObject;
 import battle.newMap.Tower;
