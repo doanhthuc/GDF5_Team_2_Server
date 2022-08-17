@@ -52,7 +52,13 @@ public class GameConfig {
         public static int TOWER_ABILITY = 24;
         public static int BUFF_ATTACK_RANGE = 25;
         public static int ACCELERATION = 26;
-
+        public static int FROG_BULLET_SKILL = 27;
+        public static int WIZARD_BULLET_SKILL = 28;
+        public static int DAMAGE_AMPLIFY_COMPONENT = 29;
+        public static int POISON = 30;
+        public static int SNAKE_BURN_HP_AURA = 31;
+        public static int GOAT_SLOW_EFFECT = 32;
+        public static int GOAT_SLOW_AURA = 33;
     }
 
     public static class HOUSE_POSITION {

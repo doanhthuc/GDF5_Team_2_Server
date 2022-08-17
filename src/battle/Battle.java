@@ -165,25 +165,7 @@ public class Battle {
         bulletSystem.run(this);
         movementSystem.run(this);
     }
-
-//    public void updateMonsterWave() throws Exception {
-//        long currentTime = System.currentTimeMillis() + 1;
-//        if (currentTime >= this.nextWaveTime) {
-//            this.currentWave += 1;
-//            this.nextWaveTime += GameConfig.BATTLE.WAVE_TIME;
-//        }
-//        if ((this.currentWave < 0) || (this.currentWave >= this.waveAmount)) return;
-//        List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
-//        //System.out.println(this.nextBornMonsterTime - currentTime);
-//        if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
-//            this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(0), EntityMode.PLAYER);
-//            this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(0), EntityMode.OPPONENT);
-//            this.monsterWave.get(currentWave).remove(0);
-//            this.nextBornMonsterTime = currentTime + 1000;
-//        }
-//    }
-
-    //PlayerHp and Energy
+    
 
     public void minusPlayerHP(int hp, EntityMode mode) {
         if (mode == EntityMode.PLAYER) this.player1HP -= hp;
