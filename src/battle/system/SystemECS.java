@@ -3,6 +3,7 @@ package battle.system;
 import battle.Battle;
 import battle.common.UUIDGeneratorECS;
 import battle.component.common.Component;
+import battle.config.GameConfig;
 import battle.entity.EntityECS;
 
 import java.util.HashMap;
@@ -11,14 +12,13 @@ import java.util.Map;
 public abstract class SystemECS {
     private String name;
     private int typeId;
-    long currentMillis;
-    long pastMillis;
     double tick;
     private long id;
     private Map<Long, EntityECS> entityStore;
 
     public SystemECS(int typeId, String name) {
         this.typeId = typeId;
+        this.name = name;
         this.id = UUIDGeneratorECS.genSystemID();
         this.entityStore = new HashMap<>();
     }
@@ -35,13 +35,14 @@ public abstract class SystemECS {
         return this.name;
     }
 
+    public Map<Long, EntityECS> getEntityStore() {
+        return this.entityStore;
+    }
+
     public abstract void run(Battle battle) throws Exception;
 
     public double getElapseTime() {
-        this.currentMillis = java.lang.System.currentTimeMillis();
-        this.tick = (double) currentMillis - pastMillis;
-        this.pastMillis = currentMillis;
-        return this.tick;
+        return GameConfig.BATTLE.TICK_RATE;
     }
 
     public abstract boolean checkEntityCondition(EntityECS entity, Component component);
