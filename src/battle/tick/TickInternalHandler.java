@@ -71,7 +71,7 @@ public class TickInternalHandler {
                 int tilePosY = req.getTilePos().y;
                 Tower tower = getTowerByTilePosAndUser(battle, tilePosX, tilePosY, playerInfo);
                 BattleMap battleMap = battle.getBattleMapByPlayerId(playerInfo.getId());
-                TileObject tileObject = battleMap.battleMapObject.getCellObject(req.getTilePos());
+                TileObject tileObject = battleMap.battleMapObject.getTileObject(req.getTilePos());
                 tileObject.destroyTower();
                 battleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
                 battle.handleDestroyTower(tower.getEntityId());
@@ -99,6 +99,6 @@ public class TickInternalHandler {
         EntityMode entityMode = battle.getEntityModeByPlayerID(playerInfo.getId());
         BattleMap battleMap = battle.getBattleMapByEntityMode(entityMode);
         BattleMapObject battleMapObject = battleMap.battleMapObject;
-        return (Tower) battleMapObject.getCellObject(x, y).getObjectInCell();
+        return (Tower) battleMapObject.getTileObject(x, y).getObjectInTile();
     }
 }
