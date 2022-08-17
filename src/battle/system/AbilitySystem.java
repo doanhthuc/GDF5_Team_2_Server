@@ -22,6 +22,7 @@ import battle.newMap.Tower;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class AbilitySystem extends SystemECS {
     private static final String SYSTEM_NAME = "AbilitySystem";
@@ -33,6 +34,7 @@ public class AbilitySystem extends SystemECS {
     @Override
     public void run(Battle battle) {
         this.tick = this.getElapseTime();
+        this.tick = this.tick / 1000;
         this.handleUnderGroundComponent(tick, battle);
         try {
             this.handleSpawnMinionComponent(tick, battle);
@@ -40,7 +42,7 @@ public class AbilitySystem extends SystemECS {
             e.printStackTrace();
         }
         this.handleHealingAbility(tick, battle);
-        this.handleBuffAbility(tick, battle);
+//        this.handleBuffAbility(tick, battle);
     }
 
     @Override
@@ -49,23 +51,30 @@ public class AbilitySystem extends SystemECS {
     }
 
     private void handleUnderGroundComponent(double tick, Battle battle) {
-        List<EntityECS> underGroundList = battle.getEntityManager()
-                .getEntitiesHasComponents(Arrays.asList(UnderGroundComponent.typeID, PositionComponent.typeID));
-        for (EntityECS underGround : underGroundList) {
-            LifeComponent lifeComponent = (LifeComponent) underGround.getComponent(LifeComponent.typeID);
-            UnderGroundComponent underGroundComponent = (UnderGroundComponent) underGround.getComponent(UnderGroundComponent.typeID);
-            PositionComponent positionComponent = (PositionComponent) underGround.getComponent(PositionComponent.typeID);
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS entity = mapElement.getValue();
+            if (!entity._hasComponent(UnderGroundComponent.typeID)) continue;;
 
-            if (underGround._hasComponent(FrozenEffect.typeID)) continue;
-            if (!underGroundComponent.isInGround()) {
-                if (((lifeComponent.getHp() / lifeComponent.getMaxHP()) <= 0.7 - 0.3 * underGroundComponent.getTrigger())) {
-                    underGroundComponent.setTrigger(underGroundComponent.getTrigger() + 1);
-                    underGroundComponent.setDisableMoveDistance(positionComponent.getMoveDistance() + GameConfig.TILE_WIDTH * 3);
-                    underGroundComponent.setInGround(true);
-                }
-            } else {
-                if (underGroundComponent.getDisableMoveDistance() <= positionComponent.getMoveDistance()) {
-                    underGroundComponent.setInGround(false);
+            LifeComponent lifeComponent = (LifeComponent) entity.getComponent(LifeComponent.typeID);
+            UnderGroundComponent underGroundComponent = (UnderGroundComponent) entity.getComponent(UnderGroundComponent.typeID);
+            PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
+
+            if (entity._hasComponent(FrozenEffect.typeID)) {
+                FrozenEffect frozenEffect = (FrozenEffect) entity.getComponent(FrozenEffect.typeID);
+                if (frozenEffect.getCountdown() > 0) continue;
+            }
+
+            if (positionComponent != null) {
+                if (!underGroundComponent.isInGround()) {
+                    if (((lifeComponent.getHp() / lifeComponent.getMaxHP()) <= 0.7 - 0.3 * underGroundComponent.getTrigger())) {
+                        underGroundComponent.setTrigger(underGroundComponent.getTrigger() + 1);
+                        underGroundComponent.setDisableMoveDistance(positionComponent.getMoveDistance() + GameConfig.TILE_WIDTH * 3);
+                        underGroundComponent.setInGround(true);
+                    }
+                } else {
+                    if (underGroundComponent.getDisableMoveDistance() <= positionComponent.getMoveDistance()) {
+                        underGroundComponent.setInGround(false);
+                    }
                 }
             }
         }
@@ -73,51 +82,60 @@ public class AbilitySystem extends SystemECS {
 
     //TODO: continue Implementing when have entity Factory
     private void handleSpawnMinionComponent(double tick, Battle battle) throws Exception {
-        List<EntityECS> entityList = battle.getEntityManager()
-                .getEntitiesHasComponents(Collections
-                        .singletonList(SpawnMinionComponent.typeID));
-        for (EntityECS entity : entityList) {
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS entity = mapElement.getValue();
+            if (!entity._hasComponent(SpawnMinionComponent.typeID)) continue;;
+
             SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(SpawnMinionComponent.typeID);
+
             if (spawnMinionComponent.getPeriod() >= 0) {
-                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick / 1000);
+                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick);
             } else {
                 spawnMinionComponent.setPeriod(2);
                 PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
-                int spawnAmount = spawnMinionComponent.getSpawnAmount();
-                if (spawnAmount < 5) {
+
+                if (spawnMinionComponent.getSpawnAmount() < spawnMinionComponent.getMaxAmount()) {
                     battle.getEntityFactory().createDemonTreeMinion(
                             new Point(positionComponent.getX(), positionComponent.getY()), entity.getMode());
-                    spawnMinionComponent.setSpawnAmount(spawnAmount + 1);
+                    spawnMinionComponent.setSpawnAmount(spawnMinionComponent.getSpawnAmount() + 1);
                 }
             }
         }
     }
 
     private void handleHealingAbility(double tick, Battle battle) {
-        List<EntityECS> entityList = battle.getEntityManager()
-                .getEntitiesHasComponents(Collections
-                        .singletonList(HealingAbilityComponent.typeID));
-        List<EntityECS> monsterList = null;
-        if (entityList.size() > 0) {
-            monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
-        }
-        for (EntityECS satyr : entityList) {
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS satyr = mapElement.getValue();
+
+            if (!satyr._hasComponent(HealingAbilityComponent.typeID)) continue;
+            if (!satyr._hasComponent(PositionComponent.typeID)) continue;
+
             HealingAbilityComponent healingAbilityComponent = (HealingAbilityComponent) satyr
                     .getComponent(HealingAbilityComponent.typeID);
+
             double countdown = healingAbilityComponent.getCountdown();
             if (countdown > 0) {
-                healingAbilityComponent.setCountdown(countdown - tick / 1000);
+                healingAbilityComponent.setCountdown(countdown - tick);
             } else {
-                for (EntityECS monster : monsterList) {
-                    healingAbilityComponent.setCountdown(1);
-                    if (monster.getActive() && monster.getMode() == satyr.getMode() && monster.getId() != satyr.getId()) {
-                        double distance = distanceFrom(satyr, monster);
-                        if (distance <= healingAbilityComponent.getRange()) {
-                            LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
-                            double entityHpAfterHeal = Math.min(
-                                    lifeComponent.getHp() + lifeComponent.getMaxHP() * healingAbilityComponent.getHealingRate(),
-                                    lifeComponent.getMaxHP());
-                            lifeComponent.setHp(entityHpAfterHeal);
+                healingAbilityComponent.setCountdown(1);
+                for (Map.Entry<Long, EntityECS> mapElement2 : this.getEntityStore().entrySet()) {
+                    EntityECS monster = mapElement2.getValue();
+                    if (!monster._hasComponent(PositionComponent.typeID)) continue;
+
+                    if (monster.getActive() && monster.getMode() == satyr.getMode()) {
+                        PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
+
+                        if (monsterPos != null) {
+                            double distance = distanceFrom(satyr, monster);
+
+                            if (distance <= healingAbilityComponent.getRange()) {
+                                LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
+
+                                double entityHpAfterHeal = Math.min(
+                                        lifeComponent.getHp() + lifeComponent.getMaxHP() * healingAbilityComponent.getHealingRate(),
+                                        lifeComponent.getMaxHP());
+                                lifeComponent.setHp(entityHpAfterHeal);
+                            }
                         }
                     }
                 }
