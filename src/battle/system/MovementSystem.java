@@ -35,13 +35,14 @@ public class MovementSystem extends SystemECS {
             FireBallEffect fireballEffect = (FireBallEffect) entity.getComponent(FireBallEffect.typeID);
 
             if ((velocityComponent.getDynamicPosition(battle) != null) && velocityComponent.getDynamicPosition(battle).getActive()) {
-                Point newVelocity = Utils.calculateVelocityVector(positionComponent.getPos(), velocityComponent.getDynamicPosition(battle).getPos(), velocityComponent.getOriginSpeed());
+                Point newVelocity = Utils.calculateVelocityVector(positionComponent.getPos(),
+                        velocityComponent.getDynamicPosition(battle).getPos(), velocityComponent.getOriginSpeed());
                 velocityComponent.setSpeedX(newVelocity.x);
                 velocityComponent.setSpeedY(newVelocity.y);
             }
 
             // start handle fireball effect
-            if (fireballEffect != null) {
+            if (fireballEffect != null && velocityComponent != null) {
                 if (fireballEffect.getAccTime() < fireballEffect.getMaxDuration()) {
                     fireballEffect.setAccTime(fireballEffect.getAccTime() + (this.tick / 1000));
                     double newSpeed = -1 * fireballEffect.getA() * fireballEffect.getAccTime() + fireballEffect.getV0();
@@ -52,8 +53,7 @@ public class MovementSystem extends SystemECS {
                 } else {
                     entity.removeComponent(fireballEffect);
                     if (ValidatorECS.isEntityInGroupId(entity, GameConfig.GROUP_ID.MONSTER_ENTITY)) {
-                        PositionComponent monsterPos =
-                                (PositionComponent) entity.getComponent(PositionComponent.typeID);
+                        PositionComponent monsterPos = (PositionComponent) entity.getComponent(PositionComponent.typeID);
                         if (monsterPos != null) {
                             Point tilePos = Utils.pixel2Tile(monsterPos.getX(), monsterPos.getY(), entity.getMode());
                             if (!Utils.validateTilePos(tilePos)) {
@@ -99,6 +99,8 @@ public class MovementSystem extends SystemECS {
                     } else {
                         positionComponent.setX(tmpPos.x);
                         positionComponent.setY(tmpPos.y);
+                        double moveDistance = Math.sqrt(Math.pow(moveDistanceX, 2) + Math.pow(moveDistanceY, 2));
+                        positionComponent.setMoveDistance(positionComponent.getMoveDistance() +moveDistance);
                     }
                 } else {
                     positionComponent.setX(tmpPos.x);

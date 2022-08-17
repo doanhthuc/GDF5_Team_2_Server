@@ -3,10 +3,7 @@ package battle.system;
 import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
-import battle.component.common.Component;
-import battle.component.common.PathComponent;
-import battle.component.common.PositionComponent;
-import battle.component.common.VelocityComponent;
+import battle.component.common.*;
 import battle.component.effect.EffectComponent;
 import battle.component.effect.FireBallEffect;
 import battle.component.info.MonsterInfoComponent;
@@ -29,40 +26,43 @@ public class SpellSystem extends SystemECS {
     @Override
     public void run(Battle battle) throws Exception {
         this.tick = this.getElapseTime();
-        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
-            EntityECS spellEntity = mapElement.getValue();
+        for (Map.Entry<Long, EntityECS> mapElementSpell : this.getEntityStore().entrySet()) {
+            EntityECS spellEntity = mapElementSpell.getValue();
+            if (!spellEntity._hasComponent(SpellInfoComponent.typeID)) continue;
 
             SpellInfoComponent spellInfoComponent = (SpellInfoComponent) spellEntity.getComponent(SpellInfoComponent.typeID);
             spellInfoComponent.setCountdown(spellInfoComponent.getCountdown() - (tick / 1000));
 
             if (spellInfoComponent.getCountdown() <= 0) {
-                List<Integer> monsterIds = Arrays.asList(MonsterInfoComponent.typeID);
-                //TODO : Update MonsterList
-                List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(monsterIds);
+                for (Map.Entry<Long, EntityECS> mapElementMonster : this.getEntityStore().entrySet()) {
+                    EntityECS monster = mapElementMonster.getValue();
+                    if (monster.getId() == spellEntity.getId()) continue;
+                    if (!monster._hasComponent(MonsterInfoComponent.typeID)) continue;
+                    if (!monster._hasComponent(PositionComponent.typeID)) continue;
+                    UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(UnderGroundComponent.typeID);
+                    if ((underGroundComponent != null) && underGroundComponent.isInGround()) continue;
 
-                for (EntityECS monster : monsterList) {
                     if (monster.getMode() == spellEntity.getMode()) {
-                        PositionComponent monsterPosition =
-                                (PositionComponent) monster.getComponent(PositionComponent.typeID);
-                        if (monsterPosition == null) {
-                            continue;
-                        }
+                        PositionComponent monsterPosition = (PositionComponent) monster.getComponent(PositionComponent.typeID);
                         double distance = Utils.euclidDistance(monsterPosition, spellInfoComponent.getPosition());
 
                         if (distance <= spellInfoComponent.getRange()) {
                             for (EffectComponent effect : spellInfoComponent.getEffects()) {
                                 monster.addComponent(effect.clone(battle.getComponentFactory()));
+
                                 if (spellEntity.getTypeID() == GameConfig.ENTITY_ID.FIRE_SPELL) {
                                     VelocityComponent oldVelocity = (VelocityComponent) spellEntity.getComponent(VelocityComponent.typeID);
                                     MonsterInfoComponent monsterInfo = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
 
                                     if (monsterInfo != null)
-                                            if (monsterInfo.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
-                                        continue;
-                                    }
+                                        if (monsterInfo.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
+                                            continue;
+                                        }
+
                                     if (oldVelocity == null || monsterInfo == null) {
                                         continue;
                                     }
+
                                     Point spellPos = spellInfoComponent.getPosition();
                                     PositionComponent monsterPos = monsterPosition;
 

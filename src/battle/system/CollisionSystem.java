@@ -187,11 +187,9 @@ public class CollisionSystem extends SystemECS {
                 }
             }
 
-            for(EntityECS monster : monsterInRadius){
-                for(EffectComponent effectComponent : bulletInfo.getEffects())
-                {
+            for (EntityECS monster : monsterInRadius) {
+                for (EffectComponent effectComponent : bulletInfo.getEffects())
                     monster.addComponent(effectComponent.clone(battle.getComponentFactory()));
-                }
             }
             battle.getEntityManager().destroy(bulletEntity);
         }

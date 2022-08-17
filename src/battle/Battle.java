@@ -47,7 +47,6 @@ public class Battle {
     private ComponentManager componentManager;
     private ComponentFactory componentFactory;
     private EntityFactory entityFactory;
-    private SystemManager systemManager;
     private SystemFactory systemFactory;
     //System
     public AttackSystem attackSystem;

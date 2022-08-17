@@ -38,7 +38,6 @@ public class EffectSystem extends SystemECS {
 
 
     private void handleDamageEffect(double tick, Battle battle) {
-
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS monster = mapElement.getValue();
             if (!monster._hasComponent(DamageEffect.typeID)) continue;
@@ -46,7 +45,7 @@ public class EffectSystem extends SystemECS {
             if (life != null) {
                 DamageEffect damageEffect = (DamageEffect) monster.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
                 life.setHp(life.getHp() - damageEffect.getDamage());
-                monster.removeComponent(damageEffect, battle.getComponentManager());
+                monster.removeComponent(damageEffect);
             }
         }
     }
@@ -61,7 +60,7 @@ public class EffectSystem extends SystemECS {
 
             frozenComponent.setCountdown(frozenComponent.getCountdown() - tick / 1000);
             if (frozenComponent.getCountdown() <= 0) {
-                monster.removeComponent(frozenComponent, battle.getComponentManager());
+                monster.removeComponent(frozenComponent);
                 this.updateOriginVelocity(velocityComponent);
             } else {
                 velocityComponent.setSpeedX(0);
@@ -73,12 +72,13 @@ public class EffectSystem extends SystemECS {
     private void handleSlowEffect(double tick, Battle battle) {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS monster = mapElement.getValue();
+            if (!monster._hasComponent(SlowEffect.typeID)) continue;
             VelocityComponent velocityComponent = (VelocityComponent) monster.getComponent(VelocityComponent.typeID);
             SlowEffect slowComponent = (SlowEffect) monster.getComponent(SlowEffect.typeID);
             slowComponent.setCountdown(slowComponent.getCountdown() - tick / 1000);
             if (slowComponent.getCountdown() <= 0) {
                 this.updateOriginVelocity(velocityComponent);
-                monster.removeComponent(slowComponent, battle.getComponentManager());
+                monster.removeComponent(slowComponent);
             } else {
                 velocityComponent.setSpeedX(velocityComponent.getOriginSpeedX() * slowComponent.getPercent());
                 velocityComponent.setSpeedY(velocityComponent.getOriginSpeedY() * slowComponent.getPercent());
@@ -89,6 +89,8 @@ public class EffectSystem extends SystemECS {
     private void handleTrapEffect(double tick, Battle battle) throws Exception {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS monster = mapElement.getValue();
+            if (!monster._hasComponent(TrapEffect.typeID)) continue;
+
             TrapEffect trapEffect = (TrapEffect) monster.getComponent(GameConfig.COMPONENT_ID.TRAP_EFFECT);
 
             if (trapEffect.isExecuted()) {
@@ -106,14 +108,14 @@ public class EffectSystem extends SystemECS {
                             .createPathComponent(path, monster.getMode(), true);
 
                     monster.addComponent(pathComponent);
-                    monster.removeComponent(trapEffect, battle.getComponentManager());
+                    monster.removeComponent(trapEffect);
                 }
             } else {
                 PositionComponent pos = (PositionComponent) monster.getComponent(GameConfig.COMPONENT_ID.POSITION);
                 PathComponent pathComponent = (PathComponent) monster.getComponent(GameConfig.COMPONENT_ID.PATH);
 
                 pathComponent.setCurrentPathIDx(0);
-                monster.removeComponent(pos, battle.getComponentManager());
+                monster.removeComponent(pos);
 
                 Point bornPos = Utils.tile2Pixel(GameConfig.MONSTER_BORN_POSITION.x,
                         GameConfig.MONSTER_BORN_POSITION.y, monster.getMode());
@@ -137,7 +139,7 @@ public class EffectSystem extends SystemECS {
                 LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
                 lifeComponent.setHp(lifeComponent.getHp() - poisonEffect.getHealthPerSecond() * tick / 1000);
             } else {
-                monster.removeComponent(poisonEffect, battle.getComponentManager());
+                monster.removeComponent(poisonEffect);
             }
         }
     }

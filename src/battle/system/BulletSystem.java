@@ -27,7 +27,7 @@ public class BulletSystem extends SystemECS {
             PositionComponent bulletPos = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
             VelocityComponent bulletVelocity = (VelocityComponent) bullet.getComponent(VelocityComponent.typeID);
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
-
+            // if Frog
             if (pathComponent != null) {
                 if (pathComponent.getCurrentPathIDx() == pathComponent.getPath().size() - 2) {
                     battle.getEntityManager().destroy(bullet);

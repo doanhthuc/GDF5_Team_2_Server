@@ -33,6 +33,7 @@ public class PathMonsterSystem extends SystemECS {
             if (!entity._hasComponent(PathComponent.typeID)) continue;
             if (!entity._hasComponent(VelocityComponent.typeID)) continue;
             if (!entity._hasComponent(PositionComponent.typeID)) continue;
+
             PathComponent pathComponent = (PathComponent) entity.getComponent(PathComponent.typeID);
             PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);

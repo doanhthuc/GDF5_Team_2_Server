@@ -57,8 +57,9 @@ public class AbilitySystem extends SystemECS {
 
             LifeComponent lifeComponent = (LifeComponent) entity.getComponent(LifeComponent.typeID);
             UnderGroundComponent underGroundComponent = (UnderGroundComponent) entity.getComponent(UnderGroundComponent.typeID);
-            PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
 
+            PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
+            //check Frozen effect before trigger UndergroundComponent
             if (entity._hasComponent(FrozenEffect.typeID)) {
                 FrozenEffect frozenEffect = (FrozenEffect) entity.getComponent(FrozenEffect.typeID);
                 if (frozenEffect.getCountdown() > 0) continue;
@@ -141,39 +142,7 @@ public class AbilitySystem extends SystemECS {
         }
     }
 
-    private void handleBuffAbility(double tick, Battle battle) {
-        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
-            EntityECS buffTower = mapElement.getValue();
-            if (!buffTower._hasComponent(TowerAbilityComponent.typeID)) continue;
 
-            TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(TowerAbilityComponent.typeID);
-            PositionComponent positionComponent = (PositionComponent) buffTower.getComponent(PositionComponent.typeID);
-            Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), buffTower.getMode());
-            BattleMap battleMap = battle.getBattleMapByEntityMode(buffTower.getMode());
-            BattleMapObject battleMapObject = battleMap.battleMapObject;
-            int[] direction = {0, -1, 0, 1, 0};
-            for (int i = 0; i < direction.length - 1; i++) {
-                TileObject tileObject = battleMapObject.getTileObject((int) tilePos.x + direction[i], (int) tilePos.y + direction[i + 1]);
-                if (tileObject == null) continue;
-
-                Tower towerInTile = tileObject.getTower();
-                if (towerInTile == null) continue;
-
-                EntityECS towerEntity = battle.getEntityManager().getEntity(towerInTile.getId());
-                AttackComponent attackComponent = (AttackComponent) towerEntity.getComponent(AttackComponent.typeID);
-                if (attackComponent == null) continue;
-
-                int typeId = towerAbilityComponent.getEffect().getTypeID();
-                if (typeId == BuffAttackDamageEffect.typeID) {
-                    BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) towerAbilityComponent.getEffect();
-                    attackComponent.setDamage(attackComponent.getDamage() + attackComponent.getOriginDamage() * buffAttackDamageEffect.getPercent());
-                } else if (typeId == BuffAttackSpeedEffect.typeID) {
-                    BuffAttackSpeedEffect buffAttackSpeedEffect = (BuffAttackSpeedEffect) towerAbilityComponent.getEffect();
-                    attackComponent.setSpeed(attackComponent.getSpeed() - (attackComponent.getOriginSpeed() * buffAttackSpeedEffect.getPercent()));
-                }
-            }
-        }
-    }
 
     private double distanceFrom(EntityECS tower, EntityECS monster) {
         PositionComponent towerPositionComponent = (PositionComponent) tower.getComponent(PositionComponent.typeID);

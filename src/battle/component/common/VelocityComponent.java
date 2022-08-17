@@ -67,6 +67,10 @@ public class VelocityComponent extends Component {
         EntityECS entityECS = battle.getEntityManager().getEntity(this.dynamicEntityId);
 
         if ((entityECS != null && entityECS.getActive())) {
+            if (entityECS._hasComponent(UnderGroundComponent.typeID)) {
+                UnderGroundComponent underGround = (UnderGroundComponent) entityECS.getComponent(UnderGroundComponent.typeID);
+                if (underGround.isInGround()) return null;
+            }
             return (PositionComponent) entityECS.getComponent(PositionComponent.typeID);
         }
 
