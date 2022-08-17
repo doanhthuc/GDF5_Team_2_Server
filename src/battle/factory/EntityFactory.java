@@ -562,7 +562,6 @@ public class EntityFactory {
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
         AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
 
-
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
         entity.addComponent(attackComponent);
@@ -601,6 +600,7 @@ public class EntityFactory {
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
         AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, effectList, bulletSpeed, bulletRadius);
+        attackComponent.setCanTargetAirMonster(false);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -635,6 +635,7 @@ public class EntityFactory {
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
         AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
+
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -690,7 +691,6 @@ public class EntityFactory {
 
         short level = 1;
         TowerConfigItem towerConfigItem = TowerConfig.INS.getTowerConfig(TowerConfig.WIZARD);
-        ;
 
         String targetType = towerConfigItem.getTargetType();
         String archType = towerConfigItem.getArchetype();
@@ -708,6 +708,7 @@ public class EntityFactory {
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
         AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
+        attackComponent.setCanTargetAirMonster(false);
 
         entity.addComponent(towerInfoComponent)
                 .addComponent(positionComponent)
@@ -914,7 +915,7 @@ public class EntityFactory {
                 List<EffectComponent> effectComponents = new ArrayList<>();
                 attackComponent.updateAttackStatistic(damage, attackRange, attackSpeed, effectComponents, bulletSpeed, bulletRadius);
                 if (towerLevel == GameConfig.TOWER_MAX_LEVEL) {
-                    WizardBulletSkillComponent wizardBulletSkillComponent = componentFactory.createWizardBulletSkillComponent(5);
+                    WizardBulletSkillComponent wizardBulletSkillComponent = componentFactory.createWizardBulletSkillComponent(5, 10);
                     attackComponent.addEffect(wizardBulletSkillComponent);
                 }
                 break;

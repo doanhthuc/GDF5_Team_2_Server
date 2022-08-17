@@ -24,17 +24,18 @@ public class AttackSystem extends SystemECS {
     private static final String SYSTEM_NAME = "AttackSystem";
 
     public AttackSystem(long id) {
-        super(GameConfig.SYSTEM_ID.ATTACK, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.ATTACK, SYSTEM_NAME, id);
     }
 
     @Override
     public void run(Battle battle) {
         this.tick = this.getElapseTime();
-        //Create List of Component TypeIDs
-
+        //TODO : Get monsterList
         List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
-        for (Map.Entry<Long,EntityECS> mapElement: this.getEntityStore().entrySet()) {
+        //
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS tower = mapElement.getValue();
+
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             double countDown = attackComponent.getCountdown();
             if (countDown > 0) {
@@ -44,6 +45,11 @@ public class AttackSystem extends SystemECS {
                 List<EntityECS> monsterInRange = new ArrayList<>();
 
                 for (EntityECS monster : monsterList) {
+                    if (!monster._hasComponent(PositionComponent.typeID)) continue;
+                    MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
+                    if (monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR) && !attackComponent.canTargetAirMonster())
+                        continue;
+
                     UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(UnderGroundComponent.typeID);
                     if (underGroundComponent == null || (!underGroundComponent.isInGround())) {
                         if (monster.getActive() && monster.getMode() == tower.getMode()) {
@@ -63,7 +69,7 @@ public class AttackSystem extends SystemECS {
                                 double distance = this._distanceFrom(tower, targetMonster);
                                 double k = attackComponent.getRange() / distance;
                                 PositionComponent destination = new PositionComponent(k * (monsterPos.getX() - towerPos.getX()) + towerPos.getX(), k * (monsterPos.getY() - towerPos.getY()) + towerPos.getY());
-                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, null, destination.getPos(),attackComponent.getEffects(), tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
+                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, null, destination.getPos(), attackComponent.getEffects(), tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
                             } else {
                                 battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, targetMonster, monsterPos.getPos(), attackComponent.getEffects(), tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
                             }

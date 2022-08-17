@@ -10,6 +10,7 @@ import battle.component.info.BulletInfoComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.component.info.TrapInfoComponent;
 import battle.component.towerskill.FrogBulletSkillComponent;
+import battle.component.towerskill.WizardBulletSkillComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.ComponentFactory;
@@ -157,6 +158,8 @@ public class CollisionSystem extends SystemECS {
         Point staticPosition = bulletVelocity.getStaticPosition();
 
         if ((Math.abs(staticPosition.getX() - bulletPos.getX()) <= 10) && (Math.abs(staticPosition.getY() - bulletPos.getY()) <= 10)) {
+            List<EntityECS> monsterInRadius = new ArrayList<>();
+            //TODO : fixMonsterList
             List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
             for (EntityECS monster : monsterList) {
                 if (monster.getMode() == bulletEntity.getMode()) {
@@ -165,9 +168,29 @@ public class CollisionSystem extends SystemECS {
                         continue;
                     }
                     if (Utils.euclidDistance((PositionComponent) monster.getComponent(PositionComponent.typeID), bulletPos) <= bulletInfo.getRadius()) {
-                        for (EffectComponent effect : bulletInfo.getEffects())
-                            monster.addComponent(effect.clone(battle.getComponentFactory()));
+                        monsterInRadius.add(monster);
                     }
+                }
+            }
+            //
+            for (EffectComponent effect : bulletInfo.getEffects()) {
+                if (effect.getTypeID() == WizardBulletSkillComponent.typeID) {
+                    WizardBulletSkillComponent wizardEffect = (WizardBulletSkillComponent) effect;
+                    if (monsterInRadius.size() >= wizardEffect.getAmountMonster()) {
+                        for (EffectComponent effect2 : bulletInfo.getEffects()) {
+                            if (effect2.getTypeID() == DamageEffect.typeID) {
+                                DamageEffect damageEffect = (DamageEffect) effect2;
+                                damageEffect.setDamage(damageEffect.getDamage() + wizardEffect.getIncreaseDamage());
+                            }
+                        }
+                    }
+                }
+            }
+
+            for(EntityECS monster : monsterInRadius){
+                for(EffectComponent effectComponent : bulletInfo.getEffects())
+                {
+                    monster.addComponent(effectComponent.clone(battle.getComponentFactory()));
                 }
             }
             battle.getEntityManager().destroy(bulletEntity);

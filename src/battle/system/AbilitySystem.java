@@ -54,7 +54,6 @@ public class AbilitySystem extends SystemECS {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS entity = mapElement.getValue();
             if (!entity._hasComponent(UnderGroundComponent.typeID)) continue;
-            ;
 
             LifeComponent lifeComponent = (LifeComponent) entity.getComponent(LifeComponent.typeID);
             UnderGroundComponent underGroundComponent = (UnderGroundComponent) entity.getComponent(UnderGroundComponent.typeID);
@@ -86,8 +85,6 @@ public class AbilitySystem extends SystemECS {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS entity = mapElement.getValue();
             if (!entity._hasComponent(SpawnMinionComponent.typeID)) continue;
-            ;
-
             SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(SpawnMinionComponent.typeID);
 
             if (spawnMinionComponent.getPeriod() >= 0) {
@@ -145,13 +142,10 @@ public class AbilitySystem extends SystemECS {
     }
 
     private void handleBuffAbility(double tick, Battle battle) {
-        List<EntityECS> buffTowerList = battle.getEntityManager()
-                .getEntitiesHasComponents(Collections
-                        .singletonList(TowerAbilityComponent.typeID));
-        if (buffTowerList == null || buffTowerList.size() == 0) {
-            return;
-        }
-        for (EntityECS buffTower : buffTowerList) {
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS buffTower = mapElement.getValue();
+            if (!buffTower._hasComponent(TowerAbilityComponent.typeID)) continue;
+
             TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(TowerAbilityComponent.typeID);
             PositionComponent positionComponent = (PositionComponent) buffTower.getComponent(PositionComponent.typeID);
             Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), buffTower.getMode());

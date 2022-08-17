@@ -411,12 +411,12 @@ public class ComponentFactory {
         return snakeBurnHpAuraComponent;
     }
 
-    public WizardBulletSkillComponent createWizardBulletSkillComponent(int amountMonster) throws Exception {
+    public WizardBulletSkillComponent createWizardBulletSkillComponent(int amountMonster, int increaseDamage) throws Exception {
         WizardBulletSkillComponent wizardBulletSkillComponent = (WizardBulletSkillComponent) this.pool.checkOut(WizardBulletSkillComponent.typeID);
         if (wizardBulletSkillComponent != null) {
-            wizardBulletSkillComponent.reset(amountMonster);
+            wizardBulletSkillComponent.reset(amountMonster, increaseDamage);
         } else {
-            wizardBulletSkillComponent = new WizardBulletSkillComponent(amountMonster);
+            wizardBulletSkillComponent = new WizardBulletSkillComponent(amountMonster, increaseDamage);
             wizardBulletSkillComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(wizardBulletSkillComponent);
         }

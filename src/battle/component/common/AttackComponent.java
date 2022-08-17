@@ -22,7 +22,7 @@ public class AttackComponent extends Component {
     private double countdown;
     private double bulletSpeed;
     private double bulletRadius;
-
+    private boolean canTargetAirMonster = true;
     private List<EffectComponent> effects = new ArrayList<>();
 
     public AttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects, double bulletSpeed, double bulletRadius) {
@@ -127,9 +127,10 @@ public class AttackComponent extends Component {
         return effects;
     }
 
-    public void addEffect(EffectComponent effect){
+    public void addEffect(EffectComponent effect) {
         this.effects.add(effect);
     }
+
     public String getName() {
         return name;
     }
@@ -168,5 +169,13 @@ public class AttackComponent extends Component {
 
     public void setBulletRadius(double bulletRadius) {
         this.bulletRadius = bulletRadius;
+    }
+
+    public void setCanTargetAirMonster(boolean canTargetAirMonster) {
+        this.canTargetAirMonster = canTargetAirMonster;
+    }
+
+    public boolean canTargetAirMonster() {
+        return this.canTargetAirMonster;
     }
 }
