@@ -11,6 +11,7 @@ import cmd.HandlerId;
 import cmd.receive.battle.spell.RequestDropSpell;
 import cmd.receive.battle.tower.*;
 import cmd.receive.battle.tower.RequestSendCheckSum;
+import cmd.receive.battle.tower.RequestSpeedUpNextWave;
 import cmd.receive.battle.trap.RequestPutTrap;
 import cmd.send.battle.player.*;
 import event.eventType.DemoEventType;
@@ -98,6 +99,12 @@ public class BattleHandler extends BaseClientRequestHandler {
                     RequestSendCheckSum requestSendCheckSum = new RequestSendCheckSum(dataCmd);
                     Room room = RoomManager.getInstance().getRoom(requestSendCheckSum.getRoomId());
                     room.checkClientSumHp(requestSendCheckSum.getSumHpInTick(),user);
+                    break;
+                }
+                case CmdDefine.SPEEDUP_NEXT_WAVE: {
+                    RequestSpeedUpNextWave requestSpeedUpNextWave = new RequestSpeedUpNextWave(dataCmd);
+                    Room room = RoomManager.getInstance().getRoom(requestSpeedUpNextWave.getRoomId());
+                    room.speedUpNextWave();
                     break;
                 }
                 default:

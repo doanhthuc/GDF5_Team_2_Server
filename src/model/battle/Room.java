@@ -55,7 +55,7 @@ public class Room implements Runnable {
         }
 
         this.tickManager = new TickManager(this.startTime);
-        this.battle.setNextWaveTime(this.tickManager.getCurrentTick());
+        this.battle.setNextWaveTimeTick((int) (GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate()));
 
     }
 
@@ -358,7 +358,6 @@ public class Room implements Runnable {
     public void checkClientSumHp(double[] clientSumHpInEachTick, User user) {
         double[] serverSumHpInEachTick = this.checkSum;
         PlayerInfo playerInfo = this.getMyPlayerInBattle(user.getId());
-        System.out.println("User" + playerInfo.getUserName());
         for (int i = 0; i < clientSumHpInEachTick.length; i++) {
             if (serverSumHpInEachTick[i] != clientSumHpInEachTick[i]) {
                 System.out.println("Difference at tick" + i + "ServerSumHp =" + serverSumHpInEachTick[i] + " UserSumHp=" + clientSumHpInEachTick[i]);
@@ -369,6 +368,7 @@ public class Room implements Runnable {
 
     // born Monster in tick
     public void addBornMonsterToTickInput(int waveIdx, int currentTick) throws BZException {
+        if (waveIdx == -1) return;
         List<Integer> monsterWaveList = this.getMonsterWave().get(waveIdx);
         for (int i = 0; i < monsterWaveList.size(); i++) {
             DataCmd bornMonsterCmd = CmdFactory.createBornMonsterCmd(this.roomId, monsterWaveList.get(i));
@@ -376,13 +376,19 @@ public class Room implements Runnable {
             System.out.println("addMonster" + tickNumber + " " + monsterWaveList.get(i));
             this.tickManager.addInputToTick(new Pair<>(null, bornMonsterCmd), tickNumber);
         }
+        SendResult.sendNextWave(this.player1.getId(), this.player2.getId(), monsterWaveList, currentTick);
     }
 
     public void updateMonsterWave(int currentTick) throws BZException {
+        System.out.println(currentTick + " " + this.battle.nextWaveTimeTick);
         if (currentTick >= this.battle.nextWaveTimeTick) {
+            this.addBornMonsterToTickInput(battle.currentWave, this.battle.nextWaveTimeTick + 10);
             this.battle.nextWaveTimeTick += GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate();
-            this.addBornMonsterToTickInput(battle.currentWave + 1, this.battle.nextWaveTimeTick);
             this.battle.currentWave += 1;
         }
+    }
+
+    public void speedUpNextWave() {
+        this.battle.setNextWaveTimeTick(this.tickManager.getCurrentTick());
     }
 }

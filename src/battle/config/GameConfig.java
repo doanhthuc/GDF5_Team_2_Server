@@ -160,7 +160,7 @@ public class GameConfig {
     }
 
     public static int WAVE_AMOUNT = 20;
-    public static int PLAYER_HP = 2;
+    public static int PLAYER_HP = 10;
     public static int PLAYER_ENERGY = 1000;
     public static int OPPONENT_ENERGY = 1000;
 
@@ -169,7 +169,7 @@ public class GameConfig {
     public static class BATTLE {
         public static long START_GAME_AFTER = 8 * 1000;
         public static long WAVE_TIME = 20 * 1000;
-        public static int AMOUNT_MONSTER_EACH_WAVE = 10;
+        public static int AMOUNT_MONSTER_EACH_WAVE = 5;
         public static int TICK_RATE = 50;
 
         public static int WINNER_TROPHY = 10;

@@ -5,12 +5,17 @@ import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
 import cmd.send.battle.ResponseEndBattle;
+import cmd.send.battle.ResponseNextWave;
+import extension.FresherExtension;
 import match.UserType;
 import model.Lobby.UserLobbyChest;
 import model.Lobby.LobbyChestDefine;
 import model.PlayerInfo;
+import service.BattleHandler;
 import service.RoomHandler;
 import util.server.ServerConstant;
+
+import java.util.List;
 
 public class SendResult {
 
@@ -64,5 +69,17 @@ public class SendResult {
             loseUserInfo.saveModel(loseUserID);
         }
         return;
+    }
+
+    public static void sendNextWave(int player1Id , int player2Id, List<Integer> nextWave, int currentTick){
+        if (FresherExtension.checkUserOnline(player1Id)){
+            User user1 = BitZeroServer.getInstance().getUserManager().getUserById(player1Id);
+            ExtensionUtility.getExtension().send(new ResponseNextWave(BattleHandler.BattleError.SUCCESS.getValue(), nextWave, currentTick),user1);
+        }
+
+        if (FresherExtension.checkUserOnline(player2Id)){
+            User user2 = BitZeroServer.getInstance().getUserManager().getUserById(player2Id);
+            ExtensionUtility.getExtension().send(new ResponseNextWave(BattleHandler.BattleError.SUCCESS.getValue(), nextWave, currentTick), user2);
+        }
     }
 }

@@ -622,8 +622,8 @@ public class Battle {
         return currentWave;
     }
 
-    public void setNextWaveTime(long nextWaveTimeTick) {
-        this.nextWaveTimeTick = Battle.this.nextWaveTimeTick;
+    public void setNextWaveTimeTick(int  nextWaveTimeTick) {
+        this.nextWaveTimeTick =  nextWaveTimeTick;
     }
 
     public void setNextBornMonsterTime(long nextBornMonsterTime) {
