@@ -2,7 +2,6 @@ package battle.tick;
 
 import battle.common.Pair;
 import battle.config.GameConfig;
-import cmd.receive.battle.tower.RequestSendCheckSum;
 import model.PlayerInfo;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;

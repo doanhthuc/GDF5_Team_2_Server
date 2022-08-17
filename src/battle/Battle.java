@@ -147,7 +147,6 @@ public class Battle {
 //            }
 //            System.out.println();
 //        }
-        this.currentWave = -1;
     }
 
     //Update

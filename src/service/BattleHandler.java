@@ -10,7 +10,7 @@ import cmd.CmdDefine;
 import cmd.HandlerId;
 import cmd.receive.battle.spell.RequestDropSpell;
 import cmd.receive.battle.tower.*;
-import cmd.receive.battle.tower.RequestSendCheckSum;
+import cmd.receive.battle.RequestSendCheckSum;
 import cmd.receive.battle.tower.RequestSpeedUpNextWave;
 import cmd.receive.battle.trap.RequestPutTrap;
 import cmd.send.battle.player.*;

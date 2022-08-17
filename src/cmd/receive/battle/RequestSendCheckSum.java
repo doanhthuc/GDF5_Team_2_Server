@@ -1,4 +1,4 @@
-package cmd.receive.battle.tower;
+package cmd.receive.battle;
 
 import bitzero.server.extensions.data.BaseCmd;
 import bitzero.server.extensions.data.DataCmd;

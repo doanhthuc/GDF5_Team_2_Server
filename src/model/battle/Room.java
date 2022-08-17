@@ -357,12 +357,17 @@ public class Room implements Runnable {
 
     public void checkClientSumHp(double[] clientSumHpInEachTick, User user) {
         double[] serverSumHpInEachTick = this.checkSum;
-        PlayerInfo playerInfo = this.getMyPlayerInBattle(user.getId());
+        int diffTick = 0,totalTick =0;
         for (int i = 0; i < clientSumHpInEachTick.length; i++) {
-            if (serverSumHpInEachTick[i] != clientSumHpInEachTick[i]) {
-                System.out.println("Difference at tick" + i + "ServerSumHp =" + serverSumHpInEachTick[i] + " UserSumHp=" + clientSumHpInEachTick[i]);
+            if (serverSumHpInEachTick[i] != clientSumHpInEachTick[i] && serverSumHpInEachTick[i] != 0 && clientSumHpInEachTick[i] != 0) {
+                System.out.println("Difference at tick" + i + " ServerSumHp = " + serverSumHpInEachTick[i] + " UserSumHp = " + clientSumHpInEachTick[i]);
+                diffTick += 1;
             }
+            totalTick+=1;
         }
+        System.out.println("---------------------");
+        System.out.println("Number of Difference Tick:" + diffTick + " TotalTick:" + totalTick);
+        System.out.println("Percent of Difference Tick:" + diffTick * 1.0 / totalTick);
         System.out.println("---------------------");
     }
 
