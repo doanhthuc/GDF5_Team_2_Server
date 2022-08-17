@@ -19,8 +19,8 @@ import java.util.List;
 public class EffectSystem extends SystemECS {
     private final static String SYSTEM_NAME = "EffectSystem";
 
-    public EffectSystem() {
-        super(GameConfig.SYSTEM_ID.EFFECT, SYSTEM_NAME);
+    public EffectSystem(long id) {
+        super(GameConfig.SYSTEM_ID.EFFECT, SYSTEM_NAME,id);
     }
 
     @Override

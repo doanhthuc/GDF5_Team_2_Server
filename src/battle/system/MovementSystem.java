@@ -19,8 +19,8 @@ import java.util.List;
 public class MovementSystem extends SystemECS {
     private static final String SYSTEM_NAME = "MovementSystem";
 
-    public MovementSystem() {
-        super(GameConfig.SYSTEM_ID.MOVEMENT, SYSTEM_NAME);
+    public MovementSystem(long id) {
+        super(GameConfig.SYSTEM_ID.MOVEMENT, SYSTEM_NAME,id);
     }
 
     @Override

@@ -16,8 +16,8 @@ import java.util.List;
 public class MonsterSystem extends SystemECS {
     private static final String SYSTEM_NAME = "MonsterSystem";
 
-    public MonsterSystem() {
-        super(GameConfig.SYSTEM_ID.MONSTER, SYSTEM_NAME);
+    public MonsterSystem(long id) {
+        super(GameConfig.SYSTEM_ID.MONSTER, SYSTEM_NAME,id);
     }
 
     @Override
