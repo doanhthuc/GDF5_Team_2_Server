@@ -16,6 +16,7 @@ import battle.manager.EntityManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class PathMonsterSystem extends SystemECS {
     private static final String SYSTEM_NAME = "PathMonsterSystem";
@@ -27,10 +28,11 @@ public class PathMonsterSystem extends SystemECS {
     @Override
     public void run(Battle battle) {
         this.tick = this.getElapseTime();
-        List<Integer> pathComponentIds = Arrays.asList(PathComponent.typeID, PositionComponent.typeID);
-        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(pathComponentIds);
-
-        for (EntityECS entity : entityList) {
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS entity = mapElement.getValue();
+            if (!entity._hasComponent(PathComponent.typeID)) continue;
+            if (!entity._hasComponent(VelocityComponent.typeID)) continue;
+            if (!entity._hasComponent(PositionComponent.typeID)) continue;
             PathComponent pathComponent = (PathComponent) entity.getComponent(PathComponent.typeID);
             PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
@@ -44,7 +46,7 @@ public class PathMonsterSystem extends SystemECS {
             Point nextPos = path.get(nextPosIdx);
 
             double speed = velocityComponent.calculateSpeed(velocityComponent.getSpeedX(), velocityComponent.getSpeedY());
-            Point newVelocity = Utils.getInstance().calculateVelocityVector(positionComponent.getPos(), nextPos, speed);
+            Point newVelocity = Utils.calculateVelocityVector(positionComponent.getPos(), nextPos, speed);
             velocityComponent.setSpeedX(newVelocity.getX());
             velocityComponent.setSpeedY(newVelocity.getY());
 

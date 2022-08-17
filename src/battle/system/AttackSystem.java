@@ -18,6 +18,7 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class AttackSystem extends SystemECS {
     private static final String SYSTEM_NAME = "AttackSystem";
@@ -30,17 +31,10 @@ public class AttackSystem extends SystemECS {
     public void run(Battle battle) {
         this.tick = this.getElapseTime();
         //Create List of Component TypeIDs
-        List<EntityECS> towerList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(AttackComponent.typeID));
 
         List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
-//        Debug Bullet
-//        List<Integer> typeIDBullet = new ArrayList<>();
-//        typeIDBullet.add(GameConfig.COMPONENT_ID.BULLET_INFO);
-//        List<EntityECS> bulletList = battle.getEntityManager().getEntitiesHasComponents(typeIDBullet);
-//        for (EntityECS bullet : bulletList) {
-//            bullet.toString();
-//        }
-        for (EntityECS tower : towerList) {
+        for (Map.Entry<Long,EntityECS> mapElement: this.getEntityStore().entrySet()) {
+            EntityECS tower = mapElement.getValue();
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
             double countDown = attackComponent.getCountdown();
             if (countDown > 0) {

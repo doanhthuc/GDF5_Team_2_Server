@@ -1,10 +1,11 @@
 package battle.component.towerskill;
 
 import battle.component.common.Component;
+import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
-public class DamageAmplifyComponent extends Component {
+public class DamageAmplifyComponent extends EffectComponent {
     private String name = "DamageAmplify Effect";
     public static int typeID = GameConfig.COMPONENT_ID.DAMAGE_AMPLIFY_COMPONENT;
     private double amplifyRate;

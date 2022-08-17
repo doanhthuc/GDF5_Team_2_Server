@@ -23,6 +23,7 @@ import battle.factory.ComponentFactory;
 import battle.factory.EntityFactory;
 import battle.manager.ComponentManager;
 import battle.manager.EntityManager;
+import battle.manager.SystemManager;
 import battle.map.BattleMap;
 import battle.newMap.BattleMapObject;
 import battle.pool.ComponentPool;
@@ -39,6 +40,7 @@ public class Battle {
     private ComponentPool componentPool;
     private EntityPool entityPool;
     private EntityManager entityManager;
+    private SystemManager systemManager;
     private UUIDGeneratorECS uuidGeneratorECS = new UUIDGeneratorECS();
 
     private ComponentManager componentManager;

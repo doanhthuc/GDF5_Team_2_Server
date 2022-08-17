@@ -1,10 +1,11 @@
 package battle.component.towerskill;
 
 import battle.component.common.Component;
+import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
-public class PoisonEffect extends Component {
+public class PoisonEffect extends EffectComponent {
     private String name = "PoisonEffect";
     public static int typeID = GameConfig.COMPONENT_ID.POISON;
     private double duration;

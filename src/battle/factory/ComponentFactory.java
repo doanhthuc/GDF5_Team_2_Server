@@ -351,12 +351,12 @@ public class ComponentFactory {
         return damageAmplifyComponent;
     }
 
-    public FrogBulletSkillComponent createFrogBulletSkillComponent() throws Exception {
+    public FrogBulletSkillComponent createFrogBulletSkillComponent(double increaseDamage) throws Exception {
         FrogBulletSkillComponent frogBulletSkillComponent = (FrogBulletSkillComponent) this.pool.checkOut(FrogBulletSkillComponent.typeID);
         if (frogBulletSkillComponent != null) {
-            frogBulletSkillComponent.reset();
+            frogBulletSkillComponent.reset(increaseDamage);
         } else {
-            frogBulletSkillComponent = new FrogBulletSkillComponent();
+            frogBulletSkillComponent = new FrogBulletSkillComponent(increaseDamage);
             frogBulletSkillComponent.setId(battle.getUuidGeneratorECS().genComponentID());
             this.componentManager.add(frogBulletSkillComponent);
         }

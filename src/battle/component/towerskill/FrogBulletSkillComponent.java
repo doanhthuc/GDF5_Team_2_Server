@@ -8,20 +8,27 @@ import battle.factory.ComponentFactory;
 public class FrogBulletSkillComponent extends EffectComponent {
     private String name = "FrogBulletSkillComponent";
     public static int typeID = GameConfig.COMPONENT_ID.FROG_BULLET_SKILL;
+    private double increaseDamage;
 
-    public FrogBulletSkillComponent() {
+    public FrogBulletSkillComponent(double increaseDamage) {
         super(GameConfig.COMPONENT_ID.FROG_BULLET_SKILL);
+        this.reset(increaseDamage);
     }
 
     public FrogBulletSkillComponent clone(ComponentFactory componentFactory) {
         try {
-            return componentFactory.createFrogBulletSkillComponent();
+            return componentFactory.createFrogBulletSkillComponent(this.increaseDamage);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public void reset() {
+    public void reset(double increaseDamage) {
+        this.increaseDamage= increaseDamage;
+    }
+
+    public double getIncreaseDamage() {
+        return increaseDamage;
     }
 }

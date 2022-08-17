@@ -9,6 +9,7 @@ import battle.manager.EntityManager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class BulletSystem extends SystemECS {
     private static final String SYSTEM_NAME = "BulletSystem";
@@ -20,10 +21,9 @@ public class BulletSystem extends SystemECS {
     @Override
     public void run(Battle battle) {
         this.tick = this.getElapseTime();
-        List<Integer> componentIdList = Arrays.asList(GameConfig.COMPONENT_ID.VELOCITY, GameConfig.COMPONENT_ID.POSITION, GameConfig.COMPONENT_ID.BULLET_INFO);
-        List<EntityECS> bulletList = battle.getEntityManager().getEntitiesHasComponents(componentIdList);
 
-        for (EntityECS bullet : bulletList) {
+        for (Map.Entry<Long, EntityECS>  mapElement : this.getEntityStore().entrySet()) {
+            EntityECS bullet = mapElement.getValue();
             PositionComponent bulletPos = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
             VelocityComponent bulletVelocity = (VelocityComponent) bullet.getComponent(VelocityComponent.typeID);
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);

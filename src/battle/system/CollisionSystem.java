@@ -9,6 +9,7 @@ import battle.component.effect.EffectComponent;
 import battle.component.info.BulletInfoComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.component.info.TrapInfoComponent;
+import battle.component.towerskill.FrogBulletSkillComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.ComponentFactory;
@@ -24,7 +25,7 @@ public class CollisionSystem extends SystemECS {
     private QuadTree quadTreeOpponent = new QuadTree(0, new Rect(-mapWidth / 2, -mapHeight / 2, mapWidth, mapHeight));
 
     public CollisionSystem(long id) {
-        super(GameConfig.SYSTEM_ID.COLLISION, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.COLLISION, SYSTEM_NAME, id);
     }
 
     @Override
@@ -124,7 +125,13 @@ public class CollisionSystem extends SystemECS {
                                 for (EffectComponent effect : bulletInfo.getEffects()) {
                                     if (effect.getTypeID() == DamageEffect.typeID) {
                                         DamageEffect newDamageEffect = (DamageEffect) effect.clone(battle.getComponentFactory());
-                                        newDamageEffect.setDamage(newDamageEffect.getDamage() * 1.5);
+
+                                        for (EffectComponent bulletEffect : bulletInfo.getEffects()) {
+                                            if (bulletEffect.getTypeID() == FrogBulletSkillComponent.typeID) {
+                                                FrogBulletSkillComponent frogBulletEffect = (FrogBulletSkillComponent) bulletEffect;
+                                                newDamageEffect.setDamage(newDamageEffect.getDamage() * frogBulletEffect.getIncreaseDamage());
+                                            }
+                                        }
                                         monster.addComponent(newDamageEffect);
                                         bulletInfo.setHitMonster(monster.getId(), GameConfig.FROG_BULLET.HIT_BOTH_TIME);
                                     }
@@ -137,7 +144,6 @@ public class CollisionSystem extends SystemECS {
                         }
                         battle.getEntityManager().destroy(bullet);
                     }
-
                     break;
                 }
             }
@@ -149,6 +155,7 @@ public class CollisionSystem extends SystemECS {
         VelocityComponent bulletVelocity = (VelocityComponent) bulletEntity.getComponent(VelocityComponent.typeID);
         BulletInfoComponent bulletInfo = (BulletInfoComponent) bulletEntity.getComponent(BulletInfoComponent.typeID);
         Point staticPosition = bulletVelocity.getStaticPosition();
+
         if ((Math.abs(staticPosition.getX() - bulletPos.getX()) <= 10) && (Math.abs(staticPosition.getY() - bulletPos.getY()) <= 10)) {
             List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID, PositionComponent.typeID));
             for (EntityECS monster : monsterList) {

@@ -15,6 +15,7 @@ import battle.entity.EntityECS;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MovementSystem extends SystemECS {
     private static final String SYSTEM_NAME = "MovementSystem";
@@ -27,18 +28,14 @@ public class MovementSystem extends SystemECS {
     public void run(Battle battle) throws Exception {
         this.tick = this.getElapseTime();
         //Get Movement Entity
-        List<Integer> movementEntityListIds = new ArrayList<>();
-        movementEntityListIds.add(VelocityComponent.typeID);
-        movementEntityListIds.add(PositionComponent.typeID);
-        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(movementEntityListIds);
-
-        for (EntityECS entity : entityList) {
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS entity = mapElement.getValue();
             PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
             FireBallEffect fireballEffect = (FireBallEffect) entity.getComponent(FireBallEffect.typeID);
 
             if ((velocityComponent.getDynamicPosition(battle) != null) && velocityComponent.getDynamicPosition(battle).getActive()) {
-                Point newVelocity = Utils.getInstance().calculateVelocityVector(positionComponent.getPos(), velocityComponent.getDynamicPosition(battle).getPos(), velocityComponent.getOriginSpeed());
+                Point newVelocity = Utils.calculateVelocityVector(positionComponent.getPos(), velocityComponent.getDynamicPosition(battle).getPos(), velocityComponent.getOriginSpeed());
                 velocityComponent.setSpeedX(newVelocity.x);
                 velocityComponent.setSpeedY(newVelocity.y);
             }

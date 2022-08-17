@@ -8,8 +8,7 @@ import battle.common.Utils;
 import battle.component.common.*;
 import battle.component.effect.*;
 import battle.component.info.*;
-import battle.component.towerskill.FrogBulletSkillComponent;
-import battle.component.towerskill.WizardBulletSkillComponent;
+import battle.component.towerskill.*;
 import battle.config.GameConfig;
 import battle.config.GameStat.TargetBuffConfigItem2;
 import battle.config.GameStat.TowerConfigItem2;
@@ -897,8 +896,8 @@ public class EntityFactory {
                 double damage = towerStat.getDamage();
                 List<EffectComponent> effectComponents = new ArrayList<>();
                 attackComponent.updateAttackStatistic(damage, attackRange, attackSpeed, effectComponents, bulletSpeed, bulletRadius);
-                if (towerLevel == GameConfig.TOWER_MAX_LEVEL){
-                    FrogBulletSkillComponent frogBulletSkillComponent = componentFactory.createFrogBulletSkillComponent();
+                if (towerLevel == GameConfig.TOWER_MAX_LEVEL) {
+                    FrogBulletSkillComponent frogBulletSkillComponent = componentFactory.createFrogBulletSkillComponent(1.5);
                     attackComponent.addEffect(frogBulletSkillComponent);
                 }
                 break;
@@ -914,7 +913,7 @@ public class EntityFactory {
                 double damage = towerStat.getDamage();
                 List<EffectComponent> effectComponents = new ArrayList<>();
                 attackComponent.updateAttackStatistic(damage, attackRange, attackSpeed, effectComponents, bulletSpeed, bulletRadius);
-                if (towerLevel == GameConfig.TOWER_MAX_LEVEL){
+                if (towerLevel == GameConfig.TOWER_MAX_LEVEL) {
                     WizardBulletSkillComponent wizardBulletSkillComponent = componentFactory.createWizardBulletSkillComponent(5);
                     attackComponent.addEffect(wizardBulletSkillComponent);
                 }
@@ -938,6 +937,10 @@ public class EntityFactory {
                 List<EffectComponent> effectComponents = Arrays.asList(frozenEffect);
 
                 attackComponent.updateAttackStatistic(damage, attackRange, attackSpeed, effectComponents, bulletSpeed, bulletRadius);
+                if (towerLevel == GameConfig.TOWER_MAX_LEVEL) {
+                    DamageAmplifyComponent damageAmplifyComponent = componentFactory.createDamageAmplifyComponent(1.5);
+                    attackComponent.addEffect(damageAmplifyComponent);
+                }
                 break;
             }
             case GameConfig.ENTITY_ID.BUNNY_TOWER: {
@@ -956,6 +959,10 @@ public class EntityFactory {
                 SlowEffect slowEffect = this.componentFactory.createSlowEffect(duration, slowPercentage);
                 List<EffectComponent> effectComponents = Arrays.asList(slowEffect);
                 attackComponent.updateAttackStatistic(damage, attackRange, attackSpeed, effectComponents, bulletSpeed, bulletRadius);
+                if (towerLevel == GameConfig.TOWER_MAX_LEVEL) {
+                    PoisonEffect poisonEffect = componentFactory.createPoisonEffect(2, 3);
+                    attackComponent.addEffect(poisonEffect);
+                }
                 break;
             }
             case GameConfig.ENTITY_ID.GOAT_TOWER: {
@@ -968,6 +975,11 @@ public class EntityFactory {
 
                 EffectComponent buffAttackDamageEffect = this.componentFactory.createBuffAttackDamageEffect(buffAttackDamageEffectPercentage);
                 towerAbilityComponent.reset(attackRange, buffAttackDamageEffect);
+
+                if (towerLevel == GameConfig.TOWER_MAX_LEVEL) {
+                    GoatSlowAuraComponent goatSlowAuraComponent = componentFactory.createGoatSlowAuraComponent(0.2, attackRange);
+                    entity.addComponent(goatSlowAuraComponent);
+                }
                 break;
             }
             case GameConfig.ENTITY_ID.SNAKE_TOWER: {
@@ -980,6 +992,11 @@ public class EntityFactory {
 
                 EffectComponent buffAttackSpeedEffect = this.componentFactory.createBuffAttackSpeedEffect(buffAttackSpeedEffectPercentage);
                 towerAbilityComponent.reset(attackRange, buffAttackSpeedEffect);
+
+                if (towerLevel == GameConfig.TOWER_MAX_LEVEL) {
+                    SnakeBurnHpAuraComponent snakeBurnHpAuraComponent = componentFactory.createSnakeBurnHpAuraComponent(0.01, 5, attackRange);
+                    entity.addComponent(snakeBurnHpAuraComponent);
+                }
                 break;
             }
         }

@@ -10,6 +10,7 @@ import battle.manager.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LifeSystem extends SystemECS {
     private static final String SYSTEM_NAME = "LifeSystem";
@@ -20,15 +21,14 @@ public class LifeSystem extends SystemECS {
 
     @Override
     public void run(Battle battle) {
-        List<Integer> lifeComponentIDs = new ArrayList<>();
-        lifeComponentIDs.add(LifeComponent.typeID);
-        List<EntityECS> lifeEntity = battle.getEntityManager().getEntitiesHasComponents(lifeComponentIDs);
-        for (EntityECS entity : lifeEntity) {
-            LifeComponent lifeComponent = (LifeComponent) entity.getComponent(LifeComponent.typeID);
-            MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) entity.getComponent(MonsterInfoComponent.typeID);
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS monster = mapElement.getValue();
+            if (!monster._hasComponent(LifeComponent.typeID)) continue;
+            LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
+            MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
             if (lifeComponent.getHp() <= 0) {
-                battle.addPlayerEnergy(monsterInfoComponent.getGainEnergy(), entity.getMode());
-                battle.getEntityManager().remove(entity);
+                battle.addPlayerEnergy(monsterInfoComponent.getGainEnergy(), monster.getMode());
+                battle.getEntityManager().remove(monster);
             }
         }
     }

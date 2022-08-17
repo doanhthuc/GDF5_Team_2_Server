@@ -17,6 +17,7 @@ import battle.entity.EntityECS;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class SpellSystem extends SystemECS {
     private static final String SYSTEM_NAME = "SpellSystem";
@@ -28,14 +29,15 @@ public class SpellSystem extends SystemECS {
     @Override
     public void run(Battle battle) throws Exception {
         this.tick = this.getElapseTime();
-        List<EntityECS> spellList = battle.getEntityManager().getEntitiesHasComponents
-                (Collections.singletonList(SpellInfoComponent.typeID));
-        for (EntityECS spellEntity : spellList) {
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS spellEntity = mapElement.getValue();
+
             SpellInfoComponent spellInfoComponent = (SpellInfoComponent) spellEntity.getComponent(SpellInfoComponent.typeID);
             spellInfoComponent.setCountdown(spellInfoComponent.getCountdown() - (tick / 1000));
 
             if (spellInfoComponent.getCountdown() <= 0) {
                 List<Integer> monsterIds = Arrays.asList(MonsterInfoComponent.typeID);
+                //TODO : Update MonsterList
                 List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(monsterIds);
 
                 for (EntityECS monster : monsterList) {

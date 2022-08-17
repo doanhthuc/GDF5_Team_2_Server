@@ -24,7 +24,7 @@ public class AbilitySystem extends SystemECS {
     private static final String SYSTEM_NAME = "AbilitySystem";
 
     public AbilitySystem(long id) {
-        super(GameConfig.SYSTEM_ID.ABILITY, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.ABILITY, SYSTEM_NAME, id);
     }
 
     @Override
@@ -49,7 +49,8 @@ public class AbilitySystem extends SystemECS {
     private void handleUnderGroundComponent(double tick, Battle battle) {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS entity = mapElement.getValue();
-            if (!entity._hasComponent(UnderGroundComponent.typeID)) continue;;
+            if (!entity._hasComponent(UnderGroundComponent.typeID)) continue;
+            ;
 
             LifeComponent lifeComponent = (LifeComponent) entity.getComponent(LifeComponent.typeID);
             UnderGroundComponent underGroundComponent = (UnderGroundComponent) entity.getComponent(UnderGroundComponent.typeID);
@@ -80,7 +81,8 @@ public class AbilitySystem extends SystemECS {
     private void handleSpawnMinionComponent(double tick, Battle battle) throws Exception {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS entity = mapElement.getValue();
-            if (!entity._hasComponent(SpawnMinionComponent.typeID)) continue;;
+            if (!entity._hasComponent(SpawnMinionComponent.typeID)) continue;
+            ;
 
             SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(SpawnMinionComponent.typeID);
 
@@ -91,8 +93,7 @@ public class AbilitySystem extends SystemECS {
                 PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
 
                 if (spawnMinionComponent.getSpawnAmount() < spawnMinionComponent.getMaxAmount()) {
-                    battle.getEntityFactory().createDemonTreeMinion(
-                            new Point(positionComponent.getX(), positionComponent.getY()), entity.getMode());
+                    battle.getEntityFactory().createDemonTreeMinion(positionComponent.getPos(), entity.getMode());
                     spawnMinionComponent.setSpawnAmount(spawnMinionComponent.getSpawnAmount() + 1);
                 }
             }
@@ -118,7 +119,7 @@ public class AbilitySystem extends SystemECS {
                     EntityECS monster = mapElement2.getValue();
                     if (!monster._hasComponent(PositionComponent.typeID)) continue;
 
-                    if (monster.getActive() && monster.getMode() == satyr.getMode()) {
+                    if (monster.getActive() && monster.getMode() == satyr.getMode() && monster.getId() != satyr.getId()) {
                         PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
 
                         if (monsterPos != null) {
