@@ -1,22 +1,23 @@
 package battle.common;
 
 public class UUIDGeneratorECS {
-    private long entityID = 0;
-    private long componentID = 0;
-    private long systemID = 0;
+    private static long entityID = 0;
+    private static long componentID = 0;
+    private static long systemID = 0;
 
-    public UUIDGeneratorECS(){
+    public UUIDGeneratorECS() {
 
     }
-    public  long genEntityID() {
+
+    public static long genEntityID() {
         return ++entityID;
     }
 
-    public  long genComponentID() {
+    public static long genComponentID() {
         return ++componentID;
     }
 
-    public  long genSystemID() {
+    public static long genSystemID() {
         return ++systemID;
     }
 }

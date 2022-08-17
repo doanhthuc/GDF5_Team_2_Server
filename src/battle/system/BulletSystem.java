@@ -1,10 +1,8 @@
 package battle.system;
 
 import battle.Battle;
-import battle.component.common.CollisionComponent;
-import battle.component.common.PathComponent;
-import battle.component.common.PositionComponent;
-import battle.component.common.VelocityComponent;
+import battle.component.common.*;
+import battle.component.info.BulletInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
@@ -13,11 +11,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BulletSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.BULLET;
-    public String name = "BulletSystem";
+    private static final String SYSTEM_NAME = "BulletSystem";
 
     public BulletSystem() {
-        super(GameConfig.SYSTEM_ID.BULLET);
+        super(GameConfig.SYSTEM_ID.BULLET, SYSTEM_NAME);
     }
 
     @Override
@@ -54,5 +51,10 @@ public class BulletSystem extends SystemECS {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == BulletInfoComponent.typeID;
     }
 }

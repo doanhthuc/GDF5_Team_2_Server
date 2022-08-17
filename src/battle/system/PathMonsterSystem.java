@@ -3,6 +3,7 @@ package battle.system;
 import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
+import battle.component.common.Component;
 import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
 import battle.component.common.VelocityComponent;
@@ -17,11 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PathMonsterSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.PATH_MONSTER;
+    private static final String SYSTEM_NAME = "PathMonsterSystem";
 
     public PathMonsterSystem() {
-        super(GameConfig.SYSTEM_ID.PATH_MONSTER);
-        java.lang.System.out.println("new PathMonsterSystem");
+        super(GameConfig.SYSTEM_ID.PATH_MONSTER, SYSTEM_NAME);
     }
 
     @Override
@@ -49,6 +49,11 @@ public class PathMonsterSystem extends SystemECS {
             velocityComponent.setSpeedY(newVelocity.getY());
 
         }
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == PathComponent.typeID;
     }
 
     public int _findNextPath(List<Point> path, PositionComponent positionComponent, int currentPathIdx) {

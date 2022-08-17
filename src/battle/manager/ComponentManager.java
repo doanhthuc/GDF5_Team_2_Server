@@ -6,7 +6,7 @@ import battle.component.common.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ComponentManager extends battle.manager.ManagerECS {
+public class ComponentManager extends ManagerECS {
     private static final String name = "ComponentManager";
     private static ComponentManager instance = null;
     private final Map<Long, Component> storeInstance;

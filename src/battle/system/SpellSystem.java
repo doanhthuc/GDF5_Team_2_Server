@@ -1,32 +1,28 @@
 package battle.system;
 
 import battle.Battle;
-import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
+import battle.component.common.Component;
 import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
 import battle.component.common.VelocityComponent;
 import battle.component.effect.EffectComponent;
 import battle.component.effect.FireBallEffect;
-import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.component.info.SpellInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.manager.EntityManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class SpellSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.SPELL;
+    private static final String SYSTEM_NAME = "SpellSystem";
 
     public SpellSystem() {
-        super(GameConfig.SYSTEM_ID.SPELL);
-        java.lang.System.out.println("new SpellSystem");
+        super(GameConfig.SYSTEM_ID.SPELL, SYSTEM_NAME);
     }
 
     @Override
@@ -94,5 +90,11 @@ public class SpellSystem extends SystemECS {
                 battle.getEntityManager().remove(spellEntity);
             }
         }
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == SpellInfoComponent.typeID
+                || component.getTypeID() == MonsterInfoComponent.typeID;
     }
 }

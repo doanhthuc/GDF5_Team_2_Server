@@ -17,16 +17,14 @@ import battle.manager.EntityManager;
 import java.util.*;
 
 public class CollisionSystem extends SystemECS {
-    public static int typeID = GameConfig.SYSTEM_ID.COLLISION;
-    private String name = "CollisionSystem";
+    private static final String SYSTEM_NAME = "CollisionSystem";
     private final double mapWidth = GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH;
     private final double mapHeight = GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT;
     private QuadTree quadTreePlayer = new QuadTree(0, new Rect(-mapWidth / 2, -mapHeight / 2, mapWidth, mapHeight));
     private QuadTree quadTreeOpponent = new QuadTree(0, new Rect(-mapWidth / 2, -mapHeight / 2, mapWidth, mapHeight));
 
     public CollisionSystem() {
-        super(GameConfig.SYSTEM_ID.COLLISION);
-        java.lang.System.out.println(this.name);
+        super(GameConfig.SYSTEM_ID.COLLISION, SYSTEM_NAME);
     }
 
     @Override
@@ -68,6 +66,11 @@ public class CollisionSystem extends SystemECS {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == CollisionComponent.typeID;
     }
 
     private void handleCollisionBullet(EntityECS bulletEntity, Battle battle) throws Exception {

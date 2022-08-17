@@ -4,6 +4,7 @@ import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.common.ValidatorECS;
+import battle.component.common.Component;
 import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
 import battle.component.common.VelocityComponent;
@@ -16,11 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovementSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.MOVEMENT;
+    private static final String SYSTEM_NAME = "MovementSystem";
 
     public MovementSystem() {
-        super(GameConfig.SYSTEM_ID.MOVEMENT);
-        java.lang.System.out.println("new LifeSystem");
+        super(GameConfig.SYSTEM_ID.MOVEMENT, SYSTEM_NAME);
     }
 
     @Override
@@ -111,5 +111,10 @@ public class MovementSystem extends SystemECS {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == VelocityComponent.typeID;
     }
 }

@@ -4,6 +4,7 @@ import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.AttackComponent;
+import battle.component.common.Component;
 import battle.component.common.PositionComponent;
 import battle.component.common.UnderGroundComponent;
 import battle.component.info.LifeComponent;
@@ -19,12 +20,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AttackSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.ATTACK;
-    public String name = "AttackSystem";
+    private static final String SYSTEM_NAME = "AttackSystem";
 
     public AttackSystem() {
-        super(GameConfig.SYSTEM_ID.ATTACK);
-//        java.lang.System.out.println("AttackSystem");
+        super(GameConfig.SYSTEM_ID.ATTACK, SYSTEM_NAME);
     }
 
     @Override
@@ -84,6 +83,11 @@ public class AttackSystem extends SystemECS {
 
         }
 
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == AttackComponent.typeID;
     }
 
     public double _distanceFrom(EntityECS tower, EntityECS monster) {

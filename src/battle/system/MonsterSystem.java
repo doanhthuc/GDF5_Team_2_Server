@@ -1,26 +1,23 @@
 package battle.system;
 
 import battle.Battle;
-import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
+import battle.component.common.Component;
 import battle.component.common.PositionComponent;
-import battle.component.info.LifeComponent;
+import battle.component.common.VelocityComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.manager.EntityManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MonsterSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.MONSTER;
+    private static final String SYSTEM_NAME = "MonsterSystem";
 
     public MonsterSystem() {
-        super(GameConfig.SYSTEM_ID.MONSTER);
-        java.lang.System.out.println("new MonsterSystem");
+        super(GameConfig.SYSTEM_ID.MONSTER, SYSTEM_NAME);
     }
 
     @Override
@@ -39,5 +36,10 @@ public class MonsterSystem extends SystemECS {
                 battle.getEntityManager().destroy(monster);
             }
         }
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == MonsterInfoComponent.typeID;
     }
 }

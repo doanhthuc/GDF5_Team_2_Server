@@ -20,11 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class AbilitySystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.ABILITY;
-    public String name = "AbilitySystem";
+    private static final String SYSTEM_NAME = "AbilitySystem";
 
     public AbilitySystem() {
-        super(GameConfig.SYSTEM_ID.ABILITY);
+        super(GameConfig.SYSTEM_ID.ABILITY, SYSTEM_NAME);
     }
 
     @Override
@@ -38,6 +37,11 @@ public class AbilitySystem extends SystemECS {
         }
         this.handleHealingAbility(tick, battle);
         this.handleBuffAbility(tick, battle);
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == MonsterInfoComponent.typeID;
     }
 
     private void handleUnderGroundComponent(double tick, Battle battle) {

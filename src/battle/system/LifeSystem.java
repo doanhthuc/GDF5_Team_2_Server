@@ -1,6 +1,7 @@
 package battle.system;
 
 import battle.Battle;
+import battle.component.common.Component;
 import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
@@ -11,11 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LifeSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.LIFE;
+    private static final String SYSTEM_NAME = "LifeSystem";
 
     public LifeSystem() {
-        super(GameConfig.SYSTEM_ID.LIFE);
-        java.lang.System.out.println("new LifeSystem");
+        super(GameConfig.SYSTEM_ID.LIFE, SYSTEM_NAME);
     }
 
     @Override
@@ -31,5 +31,10 @@ public class LifeSystem extends SystemECS {
                 battle.getEntityManager().remove(entity);
             }
         }
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == LifeComponent.typeID;
     }
 }

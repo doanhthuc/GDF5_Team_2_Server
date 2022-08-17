@@ -1,31 +1,19 @@
 package battle.system;
 
 import battle.Battle;
-import battle.common.EntityMode;
-import battle.common.Point;
-import battle.common.Utils;
 import battle.component.common.AttackComponent;
-import battle.component.common.PositionComponent;
-import battle.component.common.VelocityComponent;
-import battle.component.effect.EffectComponent;
-import battle.component.info.LifeComponent;
-import battle.component.info.MonsterInfoComponent;
-import battle.component.info.SpellInfoComponent;
+import battle.component.common.Component;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.manager.EntityManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class ResetSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.RESET_SYSTEM;
+    private static final String SYSTEM_NAME = "ResetSystem";
 
     public ResetSystem() {
-        super(GameConfig.SYSTEM_ID.RESET_SYSTEM);
-        java.lang.System.out.println("new SpellSystem");
+        super(GameConfig.SYSTEM_ID.RESET_SYSTEM, SYSTEM_NAME);
     }
 
     @Override
@@ -33,6 +21,12 @@ public class ResetSystem extends SystemECS {
         this.tick = this.getElapseTime();
         this.handleResetDamageEffect(battle);
     }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return false;
+    }
+
     public void handleResetDamageEffect(Battle battle) {
         List<EntityECS> towerList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(AttackComponent.typeID));
         for(EntityECS tower: towerList)
