@@ -14,6 +14,10 @@ import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
+import battle.map.BattleMap;
+import battle.newMap.BattleMapObject;
+import battle.newMap.TileObject;
+import battle.newMap.Tower;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -144,30 +148,37 @@ public class AbilitySystem extends SystemECS {
         List<EntityECS> buffTowerList = battle.getEntityManager()
                 .getEntitiesHasComponents(Collections
                         .singletonList(TowerAbilityComponent.typeID));
-        List<EntityECS> damageTowerList = null;
-        if (buffTowerList.size() > 0) {
-            damageTowerList = battle.getEntityManager().getEntitiesHasComponents(Collections.singletonList(AttackComponent.typeID));
+        if (buffTowerList == null || buffTowerList.size() == 0) {
+            return;
         }
         for (EntityECS buffTower : buffTowerList) {
             TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(TowerAbilityComponent.typeID);
-            for (EntityECS damageTower : damageTowerList) {
-                if (this.distanceFrom(buffTower, damageTower) < towerAbilityComponent.getRange()) {
-                    int typeId = towerAbilityComponent.getEffect().getTypeID();
-                    if (typeId == BuffAttackDamageEffect.typeID) {
-                        BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) towerAbilityComponent.getEffect();
-                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(AttackComponent.typeID);
-                        attackComponent.setDamage(attackComponent.getDamage() + attackComponent.getOriginDamage() * buffAttackDamageEffect.getPercent());
-                    } else if (typeId == BuffAttackSpeedEffect.typeID) {
-                        BuffAttackSpeedEffect buffAttackSpeedEffect = (BuffAttackSpeedEffect) towerAbilityComponent.getEffect();
-                        AttackComponent attackComponent = (AttackComponent) damageTower.getComponent(AttackComponent.typeID);
-                        attackComponent.setSpeed(attackComponent.getSpeed() - (attackComponent.getOriginSpeed() * buffAttackSpeedEffect.getPercent()));
-                    }
-                }
+            PositionComponent positionComponent = (PositionComponent) buffTower.getComponent(PositionComponent.typeID);
+            Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), buffTower.getMode());
+            BattleMap battleMap = battle.getBattleMapByEntityMode(buffTower.getMode());
+            BattleMapObject battleMapObject = battleMap.battleMapObject;
+            int[] direction = {0, -1, 0, 1, 0};
+            for (int i = 0; i < direction.length - 1; i++) {
+                TileObject tileObject = battleMapObject.getTileObject((int) tilePos.x + direction[i], (int) tilePos.y + direction[i + 1]);
+                if (tileObject == null) continue;
 
+                Tower towerInTile = tileObject.getTower();
+                if (towerInTile == null) continue;
+
+                EntityECS towerEntity = battle.getEntityManager().getEntity(towerInTile.getId());
+                AttackComponent attackComponent = (AttackComponent) towerEntity.getComponent(AttackComponent.typeID);
+                if (attackComponent == null) continue;
+
+                int typeId = towerAbilityComponent.getEffect().getTypeID();
+                if (typeId == BuffAttackDamageEffect.typeID) {
+                    BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) towerAbilityComponent.getEffect();
+                    attackComponent.setDamage(attackComponent.getDamage() + attackComponent.getOriginDamage() * buffAttackDamageEffect.getPercent());
+                } else if (typeId == BuffAttackSpeedEffect.typeID) {
+                    BuffAttackSpeedEffect buffAttackSpeedEffect = (BuffAttackSpeedEffect) towerAbilityComponent.getEffect();
+                    attackComponent.setSpeed(attackComponent.getSpeed() - (attackComponent.getOriginSpeed() * buffAttackSpeedEffect.getPercent()));
+                }
             }
         }
-
-
     }
 
     private double distanceFrom(EntityECS tower, EntityECS monster) {

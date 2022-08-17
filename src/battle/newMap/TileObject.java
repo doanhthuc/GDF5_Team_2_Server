@@ -44,6 +44,13 @@ public class TileObject {
         return this.objectInTile.getObjectInCellType() == ObjectInTileType.TOWER;
     }
 
+    public Tower getTower() {
+        if (!this.isHavingTower()) {
+            return null;
+        }
+        return (Tower) this.objectInTile;
+    }
+
     public Point getTilePos() {
         return tilePos;
     }
@@ -60,7 +67,7 @@ public class TileObject {
         this.tileType = tileType;
     }
 
-    public ObjectInTile getObjectInCell() {
+    public ObjectInTile getObjectInTile() {
         return objectInTile;
     }
 
