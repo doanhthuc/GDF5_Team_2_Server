@@ -88,8 +88,9 @@ public class TickInternalHandler {
             }
             case CmdDefine.BORN_MONSTER:{
                 Room room = RoomManager.getInstance().getRoom(dataCmd.readInt());
-                room.getBattle().bornMonsterByMonsterID(dataCmd.readInt(),EntityMode.PLAYER);
-                room.getBattle().bornMonsterByMonsterID(dataCmd.readInt(),EntityMode.OPPONENT);
+                int monsterTypeId = dataCmd.readInt();
+                room.getBattle().bornMonsterByMonsterID(monsterTypeId,EntityMode.PLAYER);
+                room.getBattle().bornMonsterByMonsterID(monsterTypeId,EntityMode.OPPONENT);
             }
         }
     }

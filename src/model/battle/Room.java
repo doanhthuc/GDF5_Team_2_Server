@@ -48,7 +48,6 @@ public class Room implements Runnable {
         this.endBattle = false;
         this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
         this.botActionTime = this.startTime + 1000;
-        this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
 
         if (GameConfig.DEBUG) {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
@@ -56,6 +55,8 @@ public class Room implements Runnable {
         }
 
         this.tickManager = new TickManager(this.startTime);
+        this.battle.setNextWaveTime(this.tickManager.getCurrentTick());
+
     }
 
     public void addInput(PlayerInfo playerInfo, DataCmd dataCmd) {
@@ -79,7 +80,7 @@ public class Room implements Runnable {
                         this.tickManager.addInput(data);
                     }
                     // handle the inputs in the current tick
-                    //this.battle.updateMonsterWave();
+                    this.updateMonsterWave(currentTick);
                     this.battle.updateSystem();
                     this.tickManager.handleInternalInputTick(currentTick);
                     this.updatePlayerCheckSum(currentTick);
@@ -122,8 +123,9 @@ public class Room implements Runnable {
 
         if (this.endBattle) {
             if (winUserID != -1)
-                SendResult.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP));
-            else SendResult.sendDrawBattle(player1.getId(), player2.getId(), this.battle.getPlayer1HP());
+                SendResult.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP), tickManager.getCurrentTick());
+            else
+                SendResult.sendDrawBattle(player1.getId(), player2.getId(), this.battle.getPlayer1HP(), tickManager.getCurrentTick());
             this.endRoom();
         }
 
@@ -365,11 +367,22 @@ public class Room implements Runnable {
         System.out.println("---------------------");
     }
 
-    public void addBornMonsterToTick(List<Integer> monsterWaveList, int currentWave, int currentTick) throws BZException {
+    // born Monster in tick
+    public void addBornMonsterToTickInput(int waveIdx, int currentTick) throws BZException {
+        List<Integer> monsterWaveList = this.getMonsterWave().get(waveIdx);
         for (int i = 0; i < monsterWaveList.size(); i++) {
             DataCmd bornMonsterCmd = CmdFactory.createBornMonsterCmd(this.roomId, monsterWaveList.get(i));
-            int tickNumber = (int) ((currentWave + 1) * GameConfig.BATTLE.WAVE_TIME + i * 1000) / GameConfig.BATTLE.TICK_RATE;
+            int tickNumber = (i * 1000) / GameConfig.BATTLE.TICK_RATE + currentTick;
+            System.out.println("addMonster" + tickNumber + " " + monsterWaveList.get(i));
             this.tickManager.addInputToTick(new Pair<>(null, bornMonsterCmd), tickNumber);
+        }
+    }
+
+    public void updateMonsterWave(int currentTick) throws BZException {
+        if (currentTick >= this.battle.nextWaveTimeTick) {
+            this.battle.nextWaveTimeTick += GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate();
+            this.addBornMonsterToTickInput(battle.currentWave + 1, this.battle.nextWaveTimeTick);
+            this.battle.currentWave += 1;
         }
     }
 }

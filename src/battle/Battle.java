@@ -63,10 +63,10 @@ public class Battle {
     public List<Point>[][] player2ShortestPath;
     //MonsterWave
     private final int waveAmount = GameConfig.WAVE_AMOUNT;
-    private int currentWave = 0;
+    public int currentWave = 0;
     private List<List<Integer>> monsterWave;
-    private long nextWaveTime;
-    private long nextBornMonsterTime;
+    public int nextWaveTimeTick;
+    public long nextBornMonsterTime;
     //PlayerHp and Energy
     public int player1HP = GameConfig.PLAYER_HP;
     public int player2HP = GameConfig.PLAYER_HP;
@@ -167,22 +167,22 @@ public class Battle {
         movementSystem.run(this);
     }
 
-    public void updateMonsterWave() throws Exception {
-        long currentTime = System.currentTimeMillis()+1;
-        if (currentTime >= this.nextWaveTime) {
-            this.currentWave += 1;
-            this.nextWaveTime += GameConfig.BATTLE.WAVE_TIME;
-        }
-        if ((this.currentWave < 0) || (this.currentWave >= this.waveAmount)) return;
-        List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
-        //System.out.println(this.nextBornMonsterTime - currentTime);
-        if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
-            this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(0), EntityMode.PLAYER);
-            this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(0), EntityMode.OPPONENT);
-            this.monsterWave.get(currentWave).remove(0);
-            this.nextBornMonsterTime = currentTime + 1000;
-        }
-    }
+//    public void updateMonsterWave() throws Exception {
+//        long currentTime = System.currentTimeMillis() + 1;
+//        if (currentTime >= this.nextWaveTime) {
+//            this.currentWave += 1;
+//            this.nextWaveTime += GameConfig.BATTLE.WAVE_TIME;
+//        }
+//        if ((this.currentWave < 0) || (this.currentWave >= this.waveAmount)) return;
+//        List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
+//        //System.out.println(this.nextBornMonsterTime - currentTime);
+//        if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
+//            this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(0), EntityMode.PLAYER);
+//            this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(0), EntityMode.OPPONENT);
+//            this.monsterWave.get(currentWave).remove(0);
+//            this.nextBornMonsterTime = currentTime + 1000;
+//        }
+//    }
 
     //PlayerHp and Energy
 
@@ -622,8 +622,8 @@ public class Battle {
         return currentWave;
     }
 
-    public void setNextWaveTime(long nextWaveTime) {
-        this.nextWaveTime = nextWaveTime;
+    public void setNextWaveTime(long nextWaveTimeTick) {
+        this.nextWaveTimeTick = Battle.this.nextWaveTimeTick;
     }
 
     public void setNextBornMonsterTime(long nextBornMonsterTime) {
