@@ -135,7 +135,7 @@ public class Room implements Runnable {
         if (currentTick < 0) return;
         //TODO: FIX HARD CODE +400 (TREE)
         this.checkSum[currentTick] = battle.getSumHp() + 400;
-        System.out.println("currentTick = " + currentTick + " SumHp = " + this.checkSum[currentTick]);
+//        System.out.println("currentTick = " + currentTick + " SumHp = " + this.checkSum[currentTick]);
     }
 
     public void checkAllUserDisconnect() throws InterruptedException {

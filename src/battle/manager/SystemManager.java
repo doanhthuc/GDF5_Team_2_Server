@@ -13,8 +13,8 @@ public class SystemManager extends ManagerECS{
     }
 
     public void add(SystemECS system) throws Exception {
-        if (this.storeInstance[system.getTypeId()] == null) {
-            throw new Exception("System name = " + system.getName() + ", id = " + system.getId() + " exists");
+        if (this.storeInstance[system.getTypeId()] != null) {
+            throw new Exception("System with typeID = " + system.getTypeId() + ", name = " + system.getName() + ", id = " + system.getId() + " exists");
         }
         this.storeInstance[system.getTypeId()] = system;
     }
@@ -25,16 +25,20 @@ public class SystemManager extends ManagerECS{
 
     public void addEntityIntoSystem(EntityECS entity, Component component) {
         for (SystemECS systemECS : this.storeInstance) {
-            systemECS.addEntity(entity, component);
+            if (systemECS != null) {
+                systemECS.addEntity(entity, component);
+            }
         }
     }
 
     public void removeEntityFromSystem(EntityECS entity, Component component) {
         for (SystemECS systemECS : this.storeInstance) {
-            try {
-                systemECS.removeEntity(entity, component);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (systemECS != null) {
+                try {
+                    systemECS.removeEntity(entity, component);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

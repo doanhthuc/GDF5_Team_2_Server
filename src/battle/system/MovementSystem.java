@@ -21,7 +21,7 @@ public class MovementSystem extends SystemECS {
     private static final String SYSTEM_NAME = "MovementSystem";
 
     public MovementSystem(long id) {
-        super(GameConfig.SYSTEM_ID.MOVEMENT, SYSTEM_NAME,id);
+        super(GameConfig.SYSTEM_ID.MOVEMENT, SYSTEM_NAME, id);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class MovementSystem extends SystemECS {
                     velocityComponent.setSpeedX(newVelocity.x);
                     velocityComponent.setSpeedY(newVelocity.y);
                 } else {
-                    entity.removeComponent(fireballEffect, battle.getComponentManager());
+                    entity.removeComponent(fireballEffect);
                     if (ValidatorECS.isEntityInGroupId(entity, GameConfig.GROUP_ID.MONSTER_ENTITY)) {
                         PositionComponent monsterPos =
                                 (PositionComponent) entity.getComponent(PositionComponent.typeID);

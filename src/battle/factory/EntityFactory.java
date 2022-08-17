@@ -23,6 +23,7 @@ import battle.config.conf.tower.TowerStat;
 import battle.config.conf.towerBuff.TowerBuffConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
+import battle.manager.SystemManager;
 import battle.pool.EntityPool;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
@@ -43,23 +44,19 @@ public class EntityFactory {
     private ComponentFactory componentFactory;
     private Battle battle;
 
-    public EntityFactory(EntityManager entityManager, ComponentFactory componentFactory, EntityPool pool, Battle battle) {
-        this.pool = pool;
+    public EntityFactory(EntityManager entityManager, ComponentFactory componentFactory, EntityPool entityPool, Battle battle) {
+        this.pool = entityPool;
         this.entityManager = entityManager;
         this.componentFactory = componentFactory;
         this.battle = battle;
-//        ReadConfigUtil.readTowerConfig();
-//        ReadConfigUtil.readMonsterConfig();
-//        ReadConfigUtil.readTargetBuffConfig();
-//        ReadConfigUtil.readTowerBuffConfig();
     }
 
     public EntityECS _createEntity(int typeID, EntityMode mode) {
         EntityECS entity = null;
         if (entity == null) {
             long id = this.battle.getUuidGeneratorECS().genEntityID();
-            entity = new EntityECS(typeID, mode, id);
-            this.pool.push(entity);
+            entity = new EntityECS(typeID, mode, id, this.battle.getComponentManager(), this.battle.getSystemManager());
+//            this.pool.push(entity);
             this.entityManager.addEntity(entity);
         }
         return entity;

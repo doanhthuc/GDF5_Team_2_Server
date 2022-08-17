@@ -21,6 +21,7 @@ import battle.config.conf.towerBuff.TowerBuffConfig;
 import battle.entity.EntityECS;
 import battle.factory.ComponentFactory;
 import battle.factory.EntityFactory;
+import battle.factory.SystemFactory;
 import battle.manager.ComponentManager;
 import battle.manager.EntityManager;
 import battle.manager.SystemManager;
@@ -46,6 +47,8 @@ public class Battle {
     private ComponentManager componentManager;
     private ComponentFactory componentFactory;
     private EntityFactory entityFactory;
+    private SystemManager systemManager;
+    private SystemFactory systemFactory;
     //System
     public AttackSystem attackSystem;
     public MovementSystem movementSystem;
@@ -93,20 +96,26 @@ public class Battle {
         this.componentManager = new ComponentManager();
         this.componentFactory = new ComponentFactory(this.componentManager, this.componentPool, this);
         this.entityFactory = new EntityFactory(this.entityManager, this.componentFactory, this.entityPool, this);
+        this.systemManager = new SystemManager();
+        this.systemFactory = new SystemFactory(this.systemManager, this.uuidGeneratorECS);
     }
 
     public void initSystem() {
-        this.attackSystem = new AttackSystem(this.uuidGeneratorECS.genSystemID());
-        this.pathMonsterSystem = new PathMonsterSystem(this.uuidGeneratorECS.genSystemID());
-        this.movementSystem = new MovementSystem(this.uuidGeneratorECS.genSystemID());
-        this.collisionSystem = new CollisionSystem(this.uuidGeneratorECS.genSystemID());
-        this.effectSystem = new EffectSystem(this.uuidGeneratorECS.genSystemID());
-        this.lifeSystem = new LifeSystem(this.uuidGeneratorECS.genSystemID());
-        this.abilitySystem = new AbilitySystem(this.uuidGeneratorECS.genSystemID());
-        this.bulletSystem = new BulletSystem(this.uuidGeneratorECS.genSystemID());
-        this.resetSystem = new ResetSystem(this.uuidGeneratorECS.genSystemID());
-        this.monsterSystem = new MonsterSystem(this.uuidGeneratorECS.genSystemID());
-        this.spellSystem = new SpellSystem(this.uuidGeneratorECS.genSystemID());
+        try {
+            this.attackSystem = this.systemFactory.createAttackSystem();
+            this.pathMonsterSystem = this.systemFactory.createPathSystem();
+            this.movementSystem = this.systemFactory.createMovementSystem();
+            this.collisionSystem = this.systemFactory.createCollisionSystem();
+            this.effectSystem = this.systemFactory.createEffectSystem();
+            this.lifeSystem = this.systemFactory.createLifeSystem();
+            this.abilitySystem = this.systemFactory.createAbilitySystem();
+            this.bulletSystem = this.systemFactory.createBulletSystem();
+            this.resetSystem = this.systemFactory.createResetSystem();
+            this.monsterSystem = this.systemFactory.createMonsterSystem();
+            this.spellSystem = this.systemFactory.createSpellSystem();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void initMap(PlayerInfo user1, PlayerInfo user2) {
@@ -511,5 +520,13 @@ public class Battle {
 
     public void setBattleMapListByPlayerId(HashMap<Integer, BattleMap> battleMapListByPlayerId) {
         this.battleMapListByPlayerId = battleMapListByPlayerId;
+    }
+
+    public EntityPool getEntityPool() {
+        return this.entityPool;
+    }
+
+    public SystemManager getSystemManager() {
+        return this.systemManager;
     }
 }

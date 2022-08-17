@@ -31,6 +31,7 @@ public class Component {
     }
 
     public void setId(long id) {
+        System.out.println("set component id = " + id);
         this.id = id;
     }
 
@@ -42,6 +43,15 @@ public class Component {
         this.active = active;
     }
 
+    @Override
+    public String toString() {
+        return "Component{" +
+                "typeID=" + typeID +
+                ", name='" + this.getName() + '\'' +
+                ", id=" + id +
+                ", active=" + active +
+                '}';
+    }
 }
 
 
