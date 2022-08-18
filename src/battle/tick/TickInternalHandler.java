@@ -1,6 +1,7 @@
 package battle.tick;
 
 import battle.Battle;
+import battle.common.Point;
 import battle.map.BattleMap;
 import battle.common.EntityMode;
 import battle.config.GameConfig;
@@ -59,7 +60,8 @@ public class TickInternalHandler {
                 Battle battle = room.getBattle();
                 Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, playerInfo);
                 tower.upgradeTower();
-                room.getBattle().handleUpgradeTower(tower.getEntityId(), tower.getLevel());
+                Point tilePos = new Point(req.getTilePos().x, req.getTilePos().y);
+                room.getBattle().handleUpgradeTower(tower.getEntityId(), tower.getLevel(), tilePos);
                 break;
             }
             case CmdDefine.DESTROY_TOWER: {

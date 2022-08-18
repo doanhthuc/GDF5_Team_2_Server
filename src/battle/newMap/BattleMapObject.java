@@ -82,6 +82,10 @@ public class BattleMapObject {
         return (Tower) tileObject.getObjectInTile();
     }
 
+    public TileType getTileTypeByTilePos(int x, int y) {
+        return this.battleMap.get(x).get(y).getBuffCellType();
+    }
+
     public int getWidth() {
         return width;
     }
