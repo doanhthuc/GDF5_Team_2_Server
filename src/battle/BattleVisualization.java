@@ -150,6 +150,7 @@ public class BattleVisualization extends JFrame implements MouseListener {
             if (monster.getMode() != this.entityMode) continue;
             if (!monster._hasComponent(PositionComponent.typeID)) continue;
             if (!monster._hasComponent(CollisionComponent.typeID)) continue;
+            if (!monster._hasComponent(LifeComponent.typeID)) continue;
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) monster.getComponent(CollisionComponent.typeID);
             LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);

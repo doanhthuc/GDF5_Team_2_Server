@@ -32,7 +32,6 @@ public class TowerSpecialSkillSystem extends SystemECS {
         this.tick = this.getElapseTime();
         this._handleSnakeSpecialSkill(tick, battle);
         this._handleBuffAbility(tick, battle);
-        this._handleSnakeSpecialSkill(tick, battle);
 
     }
 
