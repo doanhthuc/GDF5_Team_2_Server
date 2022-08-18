@@ -679,7 +679,7 @@ public class EntityFactory {
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
         double duration = targetBuffConfigItem.getDuration().get(level) / 1000.0;
-        double slowPercentage = targetBuffConfigItem.getEffects().get(level).get(0).getValue();
+        double slowPercentage = targetBuffConfigItem.getEffects().get(level).get(0).getValue() * (-1);
         SlowEffect slowEffect = this.componentFactory.createSlowEffect(duration, slowPercentage);
         List<EffectComponent> effectList = Collections.singletonList(slowEffect);
 
@@ -967,7 +967,7 @@ public class EntityFactory {
 
                 TargetBuffConfigItem targetBuffConfigItem = TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_OIL_GUN);
                 double duration = targetBuffConfigItem.getDuration().get(level) / 1000.0;
-                double slowPercentage = targetBuffConfigItem.getEffects().get(level).get(0).getValue();
+                double slowPercentage = targetBuffConfigItem.getEffects().get(level).get(0).getValue() * (-1);
                 SlowEffect slowEffect = this.componentFactory.createSlowEffect(duration, slowPercentage);
                 List<EffectComponent> effectComponents = Arrays.asList(slowEffect);
                 attackComponent.updateAttackStatistic(damage, attackRange, attackSpeed, effectComponents, bulletSpeed, bulletRadius);

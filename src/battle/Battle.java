@@ -148,7 +148,7 @@ public class Battle {
     }
 
     public void initMonsterWave() {
-        this.monsterWave = this.createNewMonsterWave2();
+        this.monsterWave = this.createNewMonsterWave();
     }
 
     //Update
@@ -276,18 +276,21 @@ public class Battle {
             ninjaAmount = (int) Math.floor(Math.random() * (monsterAmountInWave - swordManAmount - batAmount));
             assassinAmount = (monsterAmountInWave - swordManAmount - batAmount - ninjaAmount);
 
-            for (int i = 1; i <= batAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.BAT);
-
-            for (int i = 1; i <= ninjaAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.NINJA);
-
-            for (int i = 1; i <= assassinAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.ASSASSIN);
+//            for (int i = 1; i <= batAmount; i++)
+//                wave.add(GameConfig.ENTITY_ID.BAT);
+//
+//            for (int i = 1; i <= ninjaAmount; i++)
+//                wave.add(GameConfig.ENTITY_ID.NINJA);
+//
+//            for (int i = 1; i <= assassinAmount; i++)
+//                wave.add(GameConfig.ENTITY_ID.ASSASSIN);
+//
+//            for (int i = 1; i <= swordManAmount; i++)
+//                wave.add(GameConfig.ENTITY_ID.SWORD_MAN);
+            wave.add(GameConfig.ENTITY_ID.DARK_GIANT);
 
             for (int i = 1; i <= swordManAmount; i++)
                 wave.add(GameConfig.ENTITY_ID.SWORD_MAN);
-
             if (waveIdx == 5) {
                 wave.add(GameConfig.ENTITY_ID.SATYR);
             }

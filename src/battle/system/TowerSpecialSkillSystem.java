@@ -32,7 +32,6 @@ public class TowerSpecialSkillSystem extends SystemECS {
         this.tick = this.getElapseTime();
         this._handleSnakeSpecialSkill(tick, battle);
         this._handleBuffAbility(tick, battle);
-
     }
 
     public void _handleSnakeSpecialSkill(double tick, Battle battle) {
@@ -41,6 +40,7 @@ public class TowerSpecialSkillSystem extends SystemECS {
             if (!tower._hasComponent(SnakeBurnHpAuraComponent.typeID)) continue;
 
             SnakeBurnHpAuraComponent snakeBurnHpAuraComponent = (SnakeBurnHpAuraComponent) tower.getComponent(SnakeBurnHpAuraComponent.typeID);
+
             for (Map.Entry<Long, EntityECS> mapElementMonster : this.getEntityStore().entrySet()) {
                 EntityECS monster = mapElementMonster.getValue();
                 if (!monster._hasComponent(LifeComponent.typeID)) continue;
@@ -62,29 +62,30 @@ public class TowerSpecialSkillSystem extends SystemECS {
             if (!buffTower._hasComponent(TowerAbilityComponent.typeID)) continue;
 
             TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) buffTower.getComponent(TowerAbilityComponent.typeID);
-            PositionComponent positionComponent = (PositionComponent) buffTower.getComponent(PositionComponent.typeID);
-            Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), buffTower.getMode());
+
+            PositionComponent towerPosition = (PositionComponent) buffTower.getComponent(PositionComponent.typeID);
+            Point tilePos = Utils.pixel2Tile(towerPosition.getX(), towerPosition.getY(), buffTower.getMode());
             BattleMap battleMap = battle.getBattleMapByEntityMode(buffTower.getMode());
             BattleMapObject battleMapObject = battleMap.battleMapObject;
             int[] direction = {0, -1, 0, 1, 0};
             for (int i = 0; i < direction.length - 1; i++) {
-                TileObject tileObject = battleMapObject.getTileObject((int) tilePos.x + direction[i], (int) tilePos.y + direction[i + 1]);
-                if (tileObject == null) continue;
-
-                Tower towerInTile = tileObject.getTower();
-                if (towerInTile == null) continue;
-
-                EntityECS towerEntity = battle.getEntityManager().getEntity(towerInTile.getId());
-                AttackComponent attackComponent = (AttackComponent) towerEntity.getComponent(AttackComponent.typeID);
-                if (attackComponent == null) continue;
-
-                int typeId = towerAbilityComponent.getEffect().getTypeID();
-                if (typeId == BuffAttackDamageEffect.typeID) {
-                    BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) towerAbilityComponent.getEffect();
-                    attackComponent.setDamage(attackComponent.getDamage() + attackComponent.getOriginDamage() * buffAttackDamageEffect.getPercent());
-                } else if (typeId == BuffAttackSpeedEffect.typeID) {
-                    BuffAttackSpeedEffect buffAttackSpeedEffect = (BuffAttackSpeedEffect) towerAbilityComponent.getEffect();
-                    attackComponent.setSpeed(attackComponent.getSpeed() - (attackComponent.getOriginSpeed() * buffAttackSpeedEffect.getPercent()));
+                TileObject tile = battleMapObject.getTileObject((int) tilePos.x + direction[i], (int) tilePos.y + direction[i + 1]);
+                if (tile != null) {
+                    Tower towerInTileObject = tile.getTower();
+                    if (towerInTileObject != null) {
+                        EntityECS towerEntity = battle.getEntityManager().getEntity(towerInTileObject.getId());
+                        AttackComponent attackComponent = (AttackComponent) towerEntity.getComponent(AttackComponent.typeID);
+                        if (attackComponent != null) {
+                            int typeId = towerAbilityComponent.getEffect().getTypeID();
+                            if (typeId == BuffAttackDamageEffect.typeID) {
+                                BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) towerAbilityComponent.getEffect();
+                                attackComponent.setDamage(attackComponent.getDamage() + attackComponent.getOriginDamage() * buffAttackDamageEffect.getPercent());
+                            } else if (typeId == BuffAttackSpeedEffect.typeID) {
+                                BuffAttackSpeedEffect buffAttackSpeedEffect = (BuffAttackSpeedEffect) towerAbilityComponent.getEffect();
+                                attackComponent.setSpeed(attackComponent.getSpeed() - (attackComponent.getOriginSpeed() * buffAttackSpeedEffect.getPercent()));
+                            }
+                        }
+                    }
                 }
             }
         }

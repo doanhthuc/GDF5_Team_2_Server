@@ -31,33 +31,39 @@ public class SpellSystem extends SystemECS {
             if (!spellEntity._hasComponent(SpellInfoComponent.typeID)) continue;
 
             SpellInfoComponent spellInfoComponent = (SpellInfoComponent) spellEntity.getComponent(SpellInfoComponent.typeID);
+
             spellInfoComponent.setCountdown(spellInfoComponent.getCountdown() - (tick / 1000));
 
             if (spellInfoComponent.getCountdown() <= 0) {
                 for (Map.Entry<Long, EntityECS> mapElementMonster : this.getEntityStore().entrySet()) {
                     EntityECS monster = mapElementMonster.getValue();
+
                     if (monster.getId() == spellEntity.getId()) continue;
                     if (!monster._hasComponent(MonsterInfoComponent.typeID)) continue;
                     if (!monster._hasComponent(PositionComponent.typeID)) continue;
+
+                    // The spell can't reach the under ground monsters
                     UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(UnderGroundComponent.typeID);
-                    if ((underGroundComponent != null) && underGroundComponent.isInGround()) continue;
+                    if ((underGroundComponent != null) && underGroundComponent.isInGround()) {
+                        continue;
+                    }
 
                     if (monster.getMode() == spellEntity.getMode()) {
                         PositionComponent monsterPosition = (PositionComponent) monster.getComponent(PositionComponent.typeID);
-                        double distance = Utils.euclidDistance(monsterPosition, spellInfoComponent.getPosition());
+                        if (monsterPosition == null) continue;;
 
+                        double distance = Utils.euclidDistance(monsterPosition, spellInfoComponent.getPosition());
                         if (distance <= spellInfoComponent.getRange()) {
                             for (EffectComponent effect : spellInfoComponent.getEffects()) {
                                 monster.addComponent(effect.clone(battle.getComponentFactory()));
 
                                 if (spellEntity.getTypeID() == GameConfig.ENTITY_ID.FIRE_SPELL) {
-                                    VelocityComponent oldVelocity = (VelocityComponent) spellEntity.getComponent(VelocityComponent.typeID);
+                                    VelocityComponent oldVelocity = (VelocityComponent) monster.getComponent(VelocityComponent.typeID);
                                     MonsterInfoComponent monsterInfo = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
 
-                                    if (monsterInfo != null)
-                                        if (monsterInfo.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
-                                            continue;
-                                        }
+                                    if (monsterInfo.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
+                                        continue;
+                                    }
 
                                     if (oldVelocity == null || monsterInfo == null) {
                                         continue;
@@ -70,7 +76,6 @@ public class SpellSystem extends SystemECS {
                                     final double mass = monsterInfo.getWeight();
                                     double A = 40 + (force / mass);
                                     final int T = 1;
-
                                     final double v0 = Math.abs(A * T);
 
                                     Point newVectorVelocity = Utils.calculateVelocityVector(
@@ -80,7 +85,8 @@ public class SpellSystem extends SystemECS {
                                     oldVelocity.setSpeedY(newVectorVelocity.getY());
 
                                     FireBallEffect fireBallEffect = battle.getComponentFactory().createFireBallEffect(
-                                            A, T, spellPos, monsterPos.getPos(), v0);
+                                            A, T, new Point(spellPos), new Point(monsterPos.getPos()), v0);
+
                                     monster.addComponent(fireBallEffect);
                                     PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
                                     monster.removeComponent(pathComponent);
@@ -89,7 +95,12 @@ public class SpellSystem extends SystemECS {
                         }
                     }
                 }
-                battle.getEntityManager().destroy(spellEntity);
+                VelocityComponent velocityComponent = (VelocityComponent) spellEntity.getComponent(VelocityComponent.typeID);
+                PositionComponent positionComponent = (PositionComponent) spellEntity.getComponent(PositionComponent.typeID);
+
+                spellEntity.removeComponent(velocityComponent);
+                spellEntity.removeComponent(positionComponent);
+                spellEntity.removeComponent(spellInfoComponent);
             }
         }
     }
