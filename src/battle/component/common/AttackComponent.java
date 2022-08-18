@@ -178,4 +178,12 @@ public class AttackComponent extends Component {
     public boolean canTargetAirMonster() {
         return this.canTargetAirMonster;
     }
+
+    public void setOriginDamage(double originDamage) {
+        this.originDamage = originDamage;
+    }
+
+    public void setOriginSpeed(double originSpeed) {
+        this.originSpeed = originSpeed;
+    }
 }

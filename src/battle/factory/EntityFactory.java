@@ -24,6 +24,9 @@ import battle.config.conf.towerBuff.TowerBuffConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.manager.SystemManager;
+import battle.map.BattleMap;
+import battle.newMap.BattleMapObject;
+import battle.newMap.TileType;
 import battle.pool.EntityPool;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
@@ -37,6 +40,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static battle.newMap.TileType.ATTACK_RANGE_UP;
 
 public class EntityFactory {
     public EntityPool pool;
@@ -859,7 +864,7 @@ public class EntityFactory {
         return path;
     }
 
-    public void onUpgradeTower(long entityId, int towerLevel) throws Exception {
+    public void onUpgradeTower(long entityId, int towerLevel, Point tilePos) throws Exception {
         System.out.println("[Battle.java line 456] onUpgradeTower: " + entityId + " " + towerLevel);
         short level = (short) towerLevel;
         EntityECS entity = this.entityManager.getEntity(entityId);
@@ -998,7 +1003,31 @@ public class EntityFactory {
                 break;
             }
         }
+        BattleMap battleMap = this.battle.getBattleMapByEntityMode(entity.getMode());
+        TileType tileType = battleMap.battleMapObject.getTileTypeByTilePos((int) tilePos.x, (int) tilePos.y);
+        this.buffTower(entity, tileType);
     }
 
+    public void buffTower(EntityECS towerEntity, TileType tileType) {
+        AttackComponent attackComponent = (AttackComponent) towerEntity.getComponent(AttackComponent.typeID);
+        if (attackComponent == null) {
+            return;
+        }
+        switch (tileType) {
+            case ATTACK_RANGE_UP: {
+                attackComponent.setOriginRange(attackComponent.getOriginRange() * 1.25);
+                attackComponent.setRange(Math.max(attackComponent.getOriginRange(), attackComponent.getRange()));
+                break;
+            } case ATTACK_SPEED_UP:{
+                attackComponent.setOriginSpeed(attackComponent.getOriginSpeed() * 0.75);
+                attackComponent.setSpeed(Math.max(attackComponent.getOriginSpeed(), attackComponent.getSpeed()));
+                break;
+            } case DAMAGE_UP: {
+                attackComponent.setOriginDamage(attackComponent.getOriginDamage() * 1.25);
+                attackComponent.setDamage(Math.max(attackComponent.getOriginDamage(), attackComponent.getDamage()));
+                break;
+            }
+        }
+    }
 }
 

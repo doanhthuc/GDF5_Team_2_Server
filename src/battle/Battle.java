@@ -27,6 +27,7 @@ import battle.manager.EntityManager;
 import battle.manager.SystemManager;
 import battle.map.BattleMap;
 import battle.newMap.BattleMapObject;
+import battle.newMap.TileType;
 import battle.pool.ComponentPool;
 import battle.pool.EntityPool;
 import battle.system.*;
@@ -351,7 +352,12 @@ public class Battle {
                 break;
         }
 
+        assert tower != null;
         long entityID = tower.getId();
+
+        BattleMap battleMap = this.getBattleMapByEntityMode(mode);
+        TileType tileType = battleMap.battleMapObject.getTileTypeByTilePos(tilePosX, tilePosY);
+        this.entityFactory.buffTower(tower, tileType);
         this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
         this.handlerPutTower(mode);
     }
@@ -411,8 +417,8 @@ public class Battle {
         }
     }
 
-    public void handleUpgradeTower(long entityId, int towerLevel) throws Exception {
-        this.entityFactory.onUpgradeTower(entityId, towerLevel);
+    public void handleUpgradeTower(long entityId, int towerLevel, Point tilePos) throws Exception {
+        this.entityFactory.onUpgradeTower(entityId, towerLevel, tilePos);
     }
 
 
