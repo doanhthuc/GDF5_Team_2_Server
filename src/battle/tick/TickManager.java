@@ -6,10 +6,7 @@ import model.PlayerInfo;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class TickManager {
     private int currentTick = 0;
@@ -66,9 +63,14 @@ public class TickManager {
                 this.inputTick.put(futureTick, queue);
                 this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
-            }//                System.out.println("xx Future Tick put tower = " + futureTick);
-//                this.inputTick.put(futureTick, queue);
+            }
+
         }
+    }
+
+    public void addInputToTick(Pair<PlayerInfo, DataCmd> input , int tickNumber) {
+        Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(tickNumber);
+        queue.add(input);
     }
 
     public void handleInternalInputTick(int tickNumber) throws Exception {
@@ -101,4 +103,5 @@ public class TickManager {
         }
         return queue;
     }
+
 }

@@ -9,10 +9,9 @@ import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.HandlerId;
 import cmd.receive.battle.spell.RequestDropSpell;
-import cmd.receive.battle.tower.RequestChangeTowerStrategy;
-import cmd.receive.battle.tower.RequestDestroyTower;
-import cmd.receive.battle.tower.RequestPutTower;
-import cmd.receive.battle.tower.RequestUpgradeTower;
+import cmd.receive.battle.tower.*;
+import cmd.receive.battle.RequestSendCheckSum;
+import cmd.receive.battle.tower.RequestSpeedUpNextWave;
 import cmd.receive.battle.trap.RequestPutTrap;
 import cmd.send.battle.player.*;
 import event.eventType.DemoEventType;
@@ -94,6 +93,18 @@ public class BattleHandler extends BaseClientRequestHandler {
                     RequestDestroyTower requestDestroyTower = new RequestDestroyTower(dataCmd);
                     Room room = RoomManager.getInstance().getRoom(requestDestroyTower.getRoomId());
                     room.addInput(playerInfo, dataCmd);
+                    break;
+                }
+                case CmdDefine.SEND_CHECK_SUM: {
+                    RequestSendCheckSum requestSendCheckSum = new RequestSendCheckSum(dataCmd);
+                    Room room = RoomManager.getInstance().getRoom(requestSendCheckSum.getRoomId());
+                    room.checkClientSumHp(requestSendCheckSum.getSumHpInTick(),user);
+                    break;
+                }
+                case CmdDefine.SPEEDUP_NEXT_WAVE: {
+                    RequestSpeedUpNextWave requestSpeedUpNextWave = new RequestSpeedUpNextWave(dataCmd);
+                    Room room = RoomManager.getInstance().getRoom(requestSpeedUpNextWave.getRoomId());
+                    room.speedUpNextWave();
                     break;
                 }
                 default:

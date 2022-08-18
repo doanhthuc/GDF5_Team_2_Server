@@ -3,6 +3,7 @@ package battle.system;
 import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
+import battle.component.common.Component;
 import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
 import battle.component.common.VelocityComponent;
@@ -15,28 +16,28 @@ import battle.manager.EntityManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class PathMonsterSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.PATH_MONSTER;
+    private static final String SYSTEM_NAME = "PathMonsterSystem";
 
-    public PathMonsterSystem() {
-        super(GameConfig.SYSTEM_ID.PATH_MONSTER);
-        java.lang.System.out.println("new PathMonsterSystem");
+    public PathMonsterSystem(long id) {
+        super(GameConfig.SYSTEM_ID.PATH_MONSTER, SYSTEM_NAME, id);
     }
 
     @Override
     public void run(Battle battle) {
         this.tick = this.getElapseTime();
-        List<Integer> pathComponentIds = Arrays.asList(PathComponent.typeID, PositionComponent.typeID);
-        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(pathComponentIds);
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS entity = mapElement.getValue();
+            if (!entity._hasComponent(VelocityComponent.typeID)) continue;
+            if (!entity._hasComponent(PositionComponent.typeID)) continue;
 
-        for (EntityECS entity : entityList) {
             PathComponent pathComponent = (PathComponent) entity.getComponent(PathComponent.typeID);
             PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
-            List<Point> path = pathComponent.getPath();
-            if (path == null) continue;
-            int currentPathIdx = pathComponent.getCurrentPathIDx();
+
+            List<Point> path = pathComponent.getPath(); int currentPathIdx = pathComponent.getCurrentPathIDx();
 
             int nextPosIdx = this._findNextPath(path, positionComponent, currentPathIdx);
             if (nextPosIdx > 1) pathComponent.setCurrentPathIDx(nextPosIdx - 1);
@@ -44,11 +45,16 @@ public class PathMonsterSystem extends SystemECS {
             Point nextPos = path.get(nextPosIdx);
 
             double speed = velocityComponent.calculateSpeed(velocityComponent.getSpeedX(), velocityComponent.getSpeedY());
-            Point newVelocity = Utils.getInstance().calculateVelocityVector(positionComponent.getPos(), nextPos, speed);
+            Point newVelocity = Utils.calculateVelocityVector(positionComponent.getPos(), nextPos, speed);
             velocityComponent.setSpeedX(newVelocity.getX());
             velocityComponent.setSpeedY(newVelocity.getY());
 
         }
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == PathComponent.typeID;
     }
 
     public int _findNextPath(List<Point> path, PositionComponent positionComponent, int currentPathIdx) {

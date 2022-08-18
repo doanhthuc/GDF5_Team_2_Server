@@ -46,11 +46,14 @@ public class BattleMapObject {
         }
     }
 
-    public TileObject getCellObject(int x, int y) {
+    public TileObject getTileObject(int x, int y) {
+        if (x < 0 || x >= this.height || y < 0 || y >= this.width) {
+            return null;
+        }
         return battleMap.get(x).get(y);
     }
 
-    public TileObject getCellObject(Point pos) {
+    public TileObject getTileObject(Point pos) {
         return battleMap.get(pos.x).get(pos.y);
     }
 
@@ -76,7 +79,11 @@ public class BattleMapObject {
 
     public Tower getTowerInTile(int x, int y) {
         TileObject tileObject = this.battleMap.get(x).get(y);
-        return (Tower) tileObject.getObjectInCell();
+        return (Tower) tileObject.getObjectInTile();
+    }
+
+    public TileType getTileTypeByTilePos(int x, int y) {
+        return this.battleMap.get(x).get(y).getBuffCellType();
     }
 
     public int getWidth() {
@@ -98,10 +105,10 @@ public class BattleMapObject {
                     System.out.print(battleMap.get(i).get(j).getBuffCellType().value + " ");
                     continue;
                 }
-                if (battleMap.get(i).get(j).getObjectInCell() == null) {
+                if (battleMap.get(i).get(j).getObjectInTile() == null) {
                     System.out.print("0 ");
                 } else {
-                    System.out.println(battleMap.get(i).get(j).getObjectInCell() + " ");
+                    System.out.println(battleMap.get(i).get(j).getObjectInTile() + " ");
                 }
             }
             System.out.println();

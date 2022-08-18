@@ -59,22 +59,6 @@ public class RoomHandler extends BaseClientRequestHandler {
 
     }
 
-    private void processGetRoomInfo(User user, RequestRoomInfo rq) {
-        try {
-            PlayerInfo userInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
-            if (userInfo == null) {
-                logger.info("PlayerInfo null");
-                send(new ResponseRequestGetRoomInfo(RoomError.FAIL.getValue()), user);
-            }
-            int roomId = rq.getRoomID();
-            PlayerInfo user2 = (PlayerInfo) PlayerInfo.getModel(1, PlayerInfo.class);
-            Room room = new Room(userInfo, user2);
-            RoomManager.getInstance().addRoom(room);
-            send(new ResponseRequestGetRoomInfo(RoomError.SUCCESS.getValue(), room, (int) user2.getId()), user);
-        } catch (Exception e) {
-            logger.info("processAddUserGold exception");
-        }
-    }
 
     public enum RoomError {
         SUCCESS((short) 0),

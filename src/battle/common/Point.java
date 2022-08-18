@@ -1,7 +1,5 @@
 package battle.common;
 
-import bitzero.core.P;
-
 public class Point {
     public double x;
     public double y;
@@ -10,6 +8,11 @@ public class Point {
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Point(Point o) {
+        this.x = o.x;
+        this.y = o.y;
     }
 
     public double getX() {

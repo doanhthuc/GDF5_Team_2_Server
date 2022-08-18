@@ -28,6 +28,7 @@ import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
+import model.battle.Room;
 import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;

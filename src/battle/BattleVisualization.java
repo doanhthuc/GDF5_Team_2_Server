@@ -148,6 +148,9 @@ public class BattleVisualization extends JFrame implements MouseListener {
         //System.out.println(" monsterSize" + monsterList.size());
         for (EntityECS monster : monsterList) {
             if (monster.getMode() != this.entityMode) continue;
+            if (!monster._hasComponent(PositionComponent.typeID)) continue;
+            if (!monster._hasComponent(CollisionComponent.typeID)) continue;
+            if (!monster._hasComponent(LifeComponent.typeID)) continue;
             PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) monster.getComponent(CollisionComponent.typeID);
             LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
@@ -174,6 +177,8 @@ public class BattleVisualization extends JFrame implements MouseListener {
         //System.out.println(bulletList.size());
         for (EntityECS bullet : bulletList) {
             if (bullet.getMode() != this.entityMode) continue;
+            if (!bullet._hasComponent(PositionComponent.typeID)) continue;
+            if (!bullet._hasComponent(CollisionComponent.typeID)) continue;
             PositionComponent positionComponent = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
             CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(CollisionComponent.typeID);
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);

@@ -5,40 +5,57 @@ import battle.common.EntityMode;
 import battle.common.UUIDGeneratorECS;
 import battle.component.common.Component;
 import battle.manager.ComponentManager;
+import battle.manager.SystemManager;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityECS {
+    private static final int MAX_ENTITY_TYPE = 100;
     private int typeID;
-
     private Map<Integer, Component> components;
     private long id;
     private boolean active;
     private EntityMode mode;
-    public EntityECS(int typeID, EntityMode mode , long id) {
+    private int[] bitmask;
+    private ComponentManager componentManager;
+    private SystemManager systemManager;
+
+    public EntityECS(int typeID, EntityMode mode, long id, ComponentManager componentManager, SystemManager systemManager) {
         this.typeID = typeID;
-        this.components = new HashMap<>();
+        this.components = new ConcurrentHashMap<>();
         this.id = id;
         this.active = true;
         this.mode = mode;
+        this.bitmask = new int[MAX_ENTITY_TYPE];
+        this.componentManager = componentManager;
+        this.systemManager = systemManager;
     }
 
-    public EntityECS addComponent(Component component) {
+    public EntityECS addComponent(Component component) throws Exception {
+        System.out.println("EntityECS: before add component: " + component.toString());
         if (this.components.get(component.getTypeID()) != null) {
-            //TODO: check override or not
+            this.componentManager.remove(component);
+            System.out.println("EntityECS: add component exist: " + component.toString());
         }
         component.setActive(true);
         this.components.put(component.getTypeID(), component);
+        this.componentManager.add(component);
+        this.bitmask[component.getTypeID()] = 1;
+        this.systemManager.addEntityIntoSystem(this, component);
+        System.out.println("EntityECS: add component: " + component.toString());
         return this;
     }
 
-    public void removeComponent(Component cpn, ComponentManager componentManager) {
+    public void removeComponent(Component cpn) {
         Component component = this.components.get(cpn.getTypeID());
         if (component != null) {
-            componentManager.remove(component);
+            this.systemManager.removeEntityFromSystem(this, cpn);
+            this.componentManager.remove(component);
             this.components.remove(component.typeID);
+            this.bitmask[component.getTypeID()] = 0;
         }
     }
 
@@ -49,13 +66,18 @@ public class EntityECS {
     public boolean hasAllComponent(List<Integer> typeIDs) {
         int c = 0;
         for (Integer typeID : typeIDs) {
-            if (this.getComponent(typeID) != null) {
+            if (this._hasComponent(typeID)) {
                 c++;
+            } else {
+                return false;
             }
         }
         return (c == typeIDs.size());
     }
 
+    public boolean _hasComponent(int typeID){
+        return this.bitmask[typeID] == 1;
+    }
 
     @Override
     public String toString() {
@@ -73,7 +95,7 @@ public class EntityECS {
     }
 
     public Map<Integer, Component> getComponents() {
-        return components;
+        return this.components;
     }
 
     public long getId() {
@@ -101,7 +123,7 @@ public class EntityECS {
         for (int i = 1; i <= 100; i++) {
             component = this.getComponent(i);
             if (component != null) {
-                System.out.print(component.getTypeID()+" ");
+                System.out.print(component.getTypeID() + " ");
             }
         }
     }

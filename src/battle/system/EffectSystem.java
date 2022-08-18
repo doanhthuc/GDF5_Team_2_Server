@@ -3,92 +3,74 @@ package battle.system;
 import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
-import battle.component.common.AttackComponent;
-import battle.component.common.PathComponent;
-import battle.component.common.PositionComponent;
-import battle.component.common.VelocityComponent;
+import battle.component.common.*;
 import battle.component.effect.*;
 import battle.component.info.LifeComponent;
+import battle.component.info.MonsterInfoComponent;
+import battle.component.towerskill.DamageAmplifyComponent;
+import battle.component.towerskill.PoisonEffect;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class EffectSystem extends SystemECS {
-    int id = GameConfig.SYSTEM_ID.EFFECT;
-    private String name = "EffectSystem";
+    private final static String SYSTEM_NAME = "EffectSystem";
 
-    public EffectSystem() {
-        super(GameConfig.SYSTEM_ID.EFFECT);
-        java.lang.System.out.println("new EffectSystem");
+    public EffectSystem(long id) {
+        super(GameConfig.SYSTEM_ID.EFFECT, SYSTEM_NAME, id);
     }
 
     @Override
     public void run(Battle battle) throws Exception {
         this.tick = this.getElapseTime();
-        this.handleBuffAttackRangeEffect(battle);
-        this.handleBuffAttackSpeedEffect(tick, battle);
-        this.handleBuffAttackDamageEffect(tick, battle);
         this.handleDamageEffect(tick, battle);
         this.handleSlowEffect(tick, battle);
         this.handleFrozenEffect(tick, battle);
         this.handleTrapEffect(tick, battle);
+        this.handlePoisonEffect(tick, battle);
     }
 
-    private void handleBuffAttackSpeedEffect(double tick, Battle battle) {
-        List<Integer> componentIdList = Arrays.asList(
-                GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED, GameConfig.COMPONENT_ID.ATTACK);
-        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity : entityList) {
-            AttackComponent attackComponent = (AttackComponent) entity.getComponent(GameConfig.COMPONENT_ID.ATTACK);
-            BuffAttackSpeedEffect buffAttackSpeedComponent = (BuffAttackSpeedEffect) entity.getComponent(GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED);
-
-            attackComponent.setSpeed(attackComponent.getOriginSpeed() * (1 - (buffAttackSpeedComponent.getPercent() - 1)));
-        }
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == MonsterInfoComponent.typeID;
     }
 
-    private void handleBuffAttackDamageEffect(double tick, Battle battle) {
-        List<Integer> componentIdList = Arrays.asList(
-                GameConfig.COMPONENT_ID.BUFF_ATTACK_DAMAGE, GameConfig.COMPONENT_ID.ATTACK);
-        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity : entityList) {
-            AttackComponent attackComponent = (AttackComponent) entity.getComponent(GameConfig.COMPONENT_ID.ATTACK);
-            BuffAttackDamageEffect buffAttackDamageEffect = (BuffAttackDamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED);
-
-            attackComponent.setDamage(attackComponent.getDamage() +
-                    attackComponent.getOriginDamage() * buffAttackDamageEffect.getPercent());
-        }
-    }
 
     private void handleDamageEffect(double tick, Battle battle) {
-        List<Integer> damageEffectID = new ArrayList<>();
-        damageEffectID.add(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-        List<EntityECS> damagedEntity = battle.getEntityManager().getEntitiesHasComponents(damageEffectID);
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS monster = mapElement.getValue();
+            if (!monster._hasComponent(DamageEffect.typeID)) continue;
 
-        for (EntityECS entity : damagedEntity) {
-            LifeComponent life = (LifeComponent) entity.getComponent(GameConfig.COMPONENT_ID.LIFE);
+            LifeComponent life = (LifeComponent) monster.getComponent(LifeComponent.typeID);
             if (life != null) {
-                DamageEffect damageEffect = (DamageEffect) entity.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-                life.setHp(life.getHp() - damageEffect.getDamage());
-                entity.removeComponent(damageEffect, battle.getComponentManager());
+                DamageEffect damageEffect = (DamageEffect) monster.getComponent(DamageEffect.typeID);
+                if (monster._hasComponent(DamageAmplifyComponent.typeID)) {
+                    DamageAmplifyComponent damageAmplify = (DamageAmplifyComponent) monster.getComponent(DamageAmplifyComponent.typeID);
+                    life.setHp(life.getHp() - damageEffect.getDamage() * damageAmplify.getAmplifyRate());
+                } else {
+                    life.setHp(life.getHp() - damageEffect.getDamage());
+                }
+                monster.removeComponent(damageEffect);
             }
         }
     }
 
     private void handleFrozenEffect(double tick, Battle battle) {
-        List<Integer> componentIdList = Arrays.asList(FrozenEffect.typeID);
-        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity : entityList) {
-            VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
-            FrozenEffect frozenComponent = (FrozenEffect) entity.getComponent(FrozenEffect.typeID);
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS monster = mapElement.getValue();
+            if (!monster._hasComponent(FrozenEffect.typeID)) continue;
+
+            VelocityComponent velocityComponent = (VelocityComponent) monster.getComponent(VelocityComponent.typeID);
+            FrozenEffect frozenComponent = (FrozenEffect) monster.getComponent(FrozenEffect.typeID);
 
             frozenComponent.setCountdown(frozenComponent.getCountdown() - tick / 1000);
+
             if (frozenComponent.getCountdown() <= 0) {
-                entity.removeComponent(frozenComponent, battle.getComponentManager());
+                DamageAmplifyComponent damageAmplify = (DamageAmplifyComponent) monster.getComponent(DamageAmplifyComponent.typeID);
+                if (damageAmplify != null) monster.removeComponent(damageAmplify);
+                monster.removeComponent(frozenComponent);
                 this.updateOriginVelocity(velocityComponent);
             } else {
                 velocityComponent.setSpeedX(0);
@@ -98,67 +80,59 @@ public class EffectSystem extends SystemECS {
     }
 
     private void handleSlowEffect(double tick, Battle battle) {
-        List<Integer> componentIdList = Arrays.asList(SlowEffect.typeID);
-        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity : entityList) {
-            VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
-            SlowEffect slowComponent = (SlowEffect) entity.getComponent(SlowEffect.typeID);
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS monster = mapElement.getValue();
+            if (!monster._hasComponent(SlowEffect.typeID)) continue;
+
+            VelocityComponent velocityComponent = (VelocityComponent) monster.getComponent(VelocityComponent.typeID);
+            SlowEffect slowComponent = (SlowEffect) monster.getComponent(SlowEffect.typeID);
+
             slowComponent.setCountdown(slowComponent.getCountdown() - tick / 1000);
             if (slowComponent.getCountdown() <= 0) {
+
                 this.updateOriginVelocity(velocityComponent);
-                entity.removeComponent(slowComponent, battle.getComponentManager());
+                monster.removeComponent(slowComponent);
             } else {
-                velocityComponent.setSpeedX(velocityComponent.getOriginSpeedX() * slowComponent.getPercent());
-                velocityComponent.setSpeedY(velocityComponent.getOriginSpeedY() * slowComponent.getPercent());
+                velocityComponent.setSpeedX(Math.min(velocityComponent.getOriginSpeedX() * slowComponent.getPercent(), velocityComponent.getSpeedX()));
+                velocityComponent.setSpeedY(Math.min(velocityComponent.getOriginSpeedY() * slowComponent.getPercent(), velocityComponent.getSpeedY()));
             }
         }
     }
 
-    private void handleBuffAttackRangeEffect(Battle battle) {
-        List<Integer> componentIdList = Arrays.asList(
-                GameConfig.COMPONENT_ID.BUFF_ATTACK_RANGE, GameConfig.COMPONENT_ID.ATTACK);
-        List<EntityECS> entityList = battle.getEntityManager().getEntitiesHasComponents(componentIdList);
-        for (EntityECS entity : entityList) {
-            AttackComponent attackComponent = (AttackComponent) entity.getComponent(GameConfig.COMPONENT_ID.ATTACK);
-            BuffAttackRangeEffect buffAttackRangeEffect = (BuffAttackRangeEffect) entity.getComponent(GameConfig.COMPONENT_ID.BUFF_ATTACK_RANGE);
+    private void handleTrapEffect(double tick, Battle battle) throws Exception {
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS monster = mapElement.getValue();
+            if (!monster._hasComponent(TrapEffect.typeID)) continue;
 
-            attackComponent.setRange(attackComponent.getOriginRange() + attackComponent.getOriginRange() * buffAttackRangeEffect.getPercent());
-        }
-    }
-
-    private void handleTrapEffect (double tick, Battle battle) throws Exception {
-        List<Integer> componentIdList = Collections.singletonList(GameConfig.COMPONENT_ID.TRAP_EFFECT);
-        List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(componentIdList);
-
-        for (EntityECS entity: monsterList) {
-            TrapEffect trapEffect = (TrapEffect) entity.getComponent(GameConfig.COMPONENT_ID.TRAP_EFFECT);
+            TrapEffect trapEffect = (TrapEffect) monster.getComponent(GameConfig.COMPONENT_ID.TRAP_EFFECT);
 
             if (trapEffect.isExecuted()) {
                 if (trapEffect.getCountdown() > 0) {
                     trapEffect.setCountdown(trapEffect.getCountdown() - tick / 1000);
                 } else {
-                    Point bornPos = Utils.tile2Pixel(GameConfig.MONSTER_BORN_POSITION.x, GameConfig.MONSTER_BORN_POSITION.y, entity.getMode());
+                    Point bornPos = Utils.tile2Pixel(GameConfig.MONSTER_BORN_POSITION.x, GameConfig.MONSTER_BORN_POSITION.y, monster.getMode());
                     PositionComponent newPos = battle.getComponentFactory().createPositionComponent(bornPos.x, bornPos.y);
-                    entity.addComponent(newPos);
+                    monster.addComponent(newPos);
 
-                    List<Point> path = battle.getEntityFactory().getShortestPathInTile(entity.getMode(),
+                    List<Point> path = battle.getEntityFactory().getShortestPathInTile(monster.getMode(),
                             (int) GameConfig.MONSTER_BORN_POSITION.x,
                             (int) GameConfig.MONSTER_BORN_POSITION.y);
                     PathComponent pathComponent = battle.getComponentFactory()
-                            .createPathComponent(path, entity.getMode(), true);
+                            .createPathComponent(path, monster.getMode(), true);
+                    monster.addComponent(pathComponent);
 
-                    entity.addComponent(pathComponent);
-                    entity.removeComponent(trapEffect, battle.getComponentManager());
+                    monster.removeComponent(trapEffect);
                 }
             } else {
-                PositionComponent pos = (PositionComponent) entity.getComponent(GameConfig.COMPONENT_ID.POSITION);
-                PathComponent pathComponent = (PathComponent) entity.getComponent(GameConfig.COMPONENT_ID.PATH);
+                PositionComponent pos = (PositionComponent) monster.getComponent(GameConfig.COMPONENT_ID.POSITION);
+
+                PathComponent pathComponent = (PathComponent) monster.getComponent(GameConfig.COMPONENT_ID.PATH);
 
                 pathComponent.setCurrentPathIDx(0);
-                entity.removeComponent(pos, battle.getComponentManager());
+                monster.removeComponent(pos);
 
                 Point bornPos = Utils.tile2Pixel(GameConfig.MONSTER_BORN_POSITION.x,
-                        GameConfig.MONSTER_BORN_POSITION.y, entity.getMode());
+                        GameConfig.MONSTER_BORN_POSITION.y, monster.getMode());
                 double time = Utils.euclidDistance(pos, bornPos) / (2 * GameConfig.TILE_WIDTH);
 
                 trapEffect.setCountdown(time + 0.5);
@@ -166,8 +140,26 @@ public class EffectSystem extends SystemECS {
         }
     }
 
+    private void handlePoisonEffect(double tick, Battle battle) {
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS monster = mapElement.getValue();
+            if (!monster._hasComponent(PoisonEffect.typeID)) continue;
+            if (!monster._hasComponent(LifeComponent.typeID)) continue;
+
+            PoisonEffect poisonEffect = (PoisonEffect) monster.getComponent(PoisonEffect.typeID);
+
+            if (poisonEffect.getDuration() > 0) {
+                poisonEffect.setDuration(poisonEffect.getDuration() - tick / 1000);
+                LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
+                lifeComponent.setHp(lifeComponent.getHp() - poisonEffect.getHealthPerSecond() * tick / 1000);
+            } else {
+                monster.removeComponent(poisonEffect);
+            }
+        }
+    }
+
     private void updateOriginVelocity(VelocityComponent velocityComponent) {
         velocityComponent.setSpeedX(velocityComponent.getOriginSpeedX());
-        velocityComponent.setOriginSpeedY(velocityComponent.getSpeedY());
+        velocityComponent.setSpeedY(velocityComponent.getOriginSpeedY());
     }
 }

@@ -12,11 +12,9 @@ import battle.map.BattleMap;
 import battle.newMap.Tower;
 import battle.tick.TickManager;
 import bitzero.server.BitZeroServer;
+import bitzero.server.entities.User;
 import bitzero.server.exceptions.BZException;
 import bitzero.server.extensions.data.DataCmd;
-import bitzero.server.util.ByteArray;
-import cmd.CmdDefine;
-import cmd.receive.battle.tower.RequestPutTower;
 
 import match.UserType;
 import model.Inventory.Card;
@@ -36,29 +34,36 @@ public class Room implements Runnable {
     private final long startTime;
     private boolean endBattle;
     private ScheduledFuture roomRun;
-    private long botActionTime = 0;
+    private long botActionTime;
     private final TickManager tickManager;
+    private int maxTick = 100000;
     private final Queue<Pair<PlayerInfo, DataCmd>> waitingInputQueue = new ConcurrentLinkedQueue<>();
+    private double[] checkSum = new double[maxTick];
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
+        this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
+        this.tickManager = new TickManager(this.startTime);
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
-        this.battle = new Battle(player1, player2);
+        this.battle = new Battle(player1, player2, tickManager);
         this.endBattle = false;
-        this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
         this.botActionTime = this.startTime + 1000;
-        this.battle.setNextWaveTime(this.startTime + GameConfig.BATTLE.WAVE_TIME);
+
         if (GameConfig.DEBUG) {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
-             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
+            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
         }
-
-        this.tickManager = new TickManager(this.startTime);
+        this.battle.setNextWaveTimeTick((int) (GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate()));
     }
 
     public void addInput(PlayerInfo playerInfo, DataCmd dataCmd) {
         this.waitingInputQueue.add(new Pair<>(playerInfo, dataCmd));
+    }
+
+    public void addBornMonsterCommandToTick() {
+//        List<List<Integer>> monsterWave = this.getMonsterWave();
+//        for(int i=0;i=)
     }
 
     @Override
@@ -68,18 +73,16 @@ public class Room implements Runnable {
                 if (!this.endBattle) {
                     int currentTick = this.tickManager.getCurrentTick();
                     this.handleBotAction();
-
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<PlayerInfo, DataCmd> data = this.waitingInputQueue.poll();
                         this.tickManager.addInput(data);
                     }
                     // handle the inputs in the current tick
-                    this.battle.updateMonsterWave();
+                    this.updateMonsterWave(currentTick);
                     this.battle.updateSystem();
                     this.tickManager.handleInternalInputTick(currentTick);
-                    //this.handlerClientCommand();
+                    this.updatePlayerCheckSum(currentTick);
                     this.checkEndBattle();
-                    this.checkAllUserDisconnect();
                     this.tickManager.increaseTick();
                 }
             } catch (Exception e) {
@@ -90,6 +93,7 @@ public class Room implements Runnable {
 
 
     public void checkEndBattle() throws Exception {
+        this.checkAllUserDisconnect();
         int player1HP = this.battle.getPlayer1HP();
         int player2HP = this.battle.getPlayer2HP();
         int winUserID = -1;
@@ -117,26 +121,34 @@ public class Room implements Runnable {
 
         if (this.endBattle) {
             if (winUserID != -1)
-                SendResult.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP));
-            else SendResult.sendDrawBattle(player1.getId(), player2.getId(), this.battle.getPlayer1HP());
+                SendResult.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP), tickManager.getCurrentTick());
+            else
+                SendResult.sendDrawBattle(player1.getId(), player2.getId(), this.battle.getPlayer1HP(), tickManager.getCurrentTick());
             this.endRoom();
-            RoomManager.getInstance().removeRoom(this.roomId);
         }
 
     }
 
-    public void checkAllUserDisconnect() {
+    public void updatePlayerCheckSum(int currentTick) {
+        if (currentTick < 0) return;
+        //TODO: FIX HARD CODE +400 (TREE)
+        this.checkSum[currentTick] = battle.getSumHp() + 400;
+//        System.out.println("currentTick = " + currentTick + " SumHp = " + this.checkSum[currentTick]);
+    }
+
+    public void checkAllUserDisconnect() throws InterruptedException {
         boolean user1Connection = BitZeroServer.getInstance().getUserManager().containsId(player1.getId());
         boolean user2Connection = BitZeroServer.getInstance().getUserManager().containsId(player2.getId());
         if (!user1Connection && !user2Connection) {
             this.endRoom();
-            RoomManager.getInstance().removeRoom(this.roomId);
             System.out.println("allUserDisconnect");
         }
     }
 
-    public void endRoom() {
+    public void endRoom() throws InterruptedException {
+        Thread.sleep(10000);
         this.roomRun.cancel(true);
+        RoomManager.getInstance().removeRoom(this.roomId);
     }
 
     public void handleBotAction() throws BZException {
@@ -180,7 +192,7 @@ public class Room implements Runnable {
                                         && botBattleMap.map[tilePosX][tilePosY] != GameConfig.MAP.TOWER) {
                                     //Create Bot Command
                                     player2.moveCardToEnd(cardToUseID);
-                                    DataCmd reqPutTowerCmd = BotCmd.createRequestPutTower(roomId, towerID, tilePosX, tilePosY);
+                                    DataCmd reqPutTowerCmd = CmdFactory.createRequestPutTower(roomId, towerID, tilePosX, tilePosY);
                                     this.tickManager.addInput(new Pair<>(player2, reqPutTowerCmd));
                                     return;
                                 }
@@ -217,7 +229,7 @@ public class Room implements Runnable {
                     if (maxMonsterInSpellRange < 2) break;
                     //createBotCommand
                     player2.moveCardToEnd(cardToUseID);
-                    DataCmd requestDropSpellCmd = BotCmd.createRequestDropSpell(roomId, spellID, spellX, spellY);
+                    DataCmd requestDropSpellCmd = CmdFactory.createRequestDropSpell(roomId, spellID, spellX, spellY);
                     this.tickManager.addInput(new Pair<>(player2, requestDropSpellCmd));
                     return;
                 }
@@ -244,7 +256,7 @@ public class Room implements Runnable {
                             }
                             if (countTower >= 1) {
                                 player2.moveCardToEnd(cardToUseID);
-                                DataCmd reqPutTowerCmd = BotCmd.createRequestPutTower(roomId, towerID, tilePosX, tilePosY);
+                                DataCmd reqPutTowerCmd = CmdFactory.createRequestPutTower(roomId, towerID, tilePosX, tilePosY);
                                 this.tickManager.addInput(new Pair<>(player2, reqPutTowerCmd));
                                 return;
                             }
@@ -259,9 +271,9 @@ public class Room implements Runnable {
                     for (int tilePosY = 0; tilePosY < GameConfig.MAP_HEIGHT; tilePosY++) {
                         if (botBattleMap.battleMapObject.isHavingTowerInTile(tilePosX, tilePosY)) {
                             Tower tower = botBattleMap.battleMapObject.getTowerInTile(tilePosX, tilePosY);
-                            if (tower.getId() == cardID && tower.getLevel() <= 2) {
+                            if (tower.getId() == cardID && tower.getLevel() <= 1) {
                                 player2.moveCardToEnd(cardToUseID);
-                                DataCmd reqUpgradeTowerCmd = BotCmd.createRequestUpgradeTower(roomId, cardID, tilePosX, tilePosY);
+                                DataCmd reqUpgradeTowerCmd = CmdFactory.createRequestUpgradeTower(roomId, cardID, tilePosX, tilePosY);
                                 this.tickManager.addInput(new Pair<>(player2, reqUpgradeTowerCmd));
                                 this.battle.minusPlayerEnergy(energy, EntityMode.OPPONENT);
                                 return;
@@ -281,14 +293,6 @@ public class Room implements Runnable {
             return player2;
     }
 
-    public PlayerInfo getOpponentPlayer(int playerId) {
-        if (playerId == player1.getId()) {
-            return player1;
-        } else {
-            return player2;
-        }
-    }
-
     public PlayerInfo getOpponentPlayerByMyPlayerId(int playerId) {
         if (playerId == player1.getId()) {
             return player2;
@@ -297,11 +301,11 @@ public class Room implements Runnable {
         }
     }
 
-    public PlayerInBattle getMyPlayerInBattle(int opponentId) {
-        if (opponentId == player1.getId()) {
-            return player2;
-        } else {
+    public PlayerInBattle getMyPlayerInBattle(int playerID) {
+        if (playerID == player1.getId()) {
             return player1;
+        } else {
+            return player2;
         }
     }
 
@@ -349,4 +353,43 @@ public class Room implements Runnable {
         return startTime;
     }
 
+    public void checkClientSumHp(double[] clientSumHpInEachTick, User user) {
+        double[] serverSumHpInEachTick = this.checkSum;
+        int diffTick = 0, totalTick = 0;
+        for (int i = 0; i < clientSumHpInEachTick.length; i++) {
+            if (serverSumHpInEachTick[i] != clientSumHpInEachTick[i] && serverSumHpInEachTick[i] != 0 && clientSumHpInEachTick[i    ] != 0) {
+                System.out.println("Difference at tick" + i + " ServerSumHp = " + serverSumHpInEachTick[i] + " UserSumHp = " + clientSumHpInEachTick[i]);
+                diffTick += 1;
+            }
+            totalTick += 1;
+        }
+        System.out.println("---------------------");
+        System.out.println("Number of Difference Tick:" + diffTick + " TotalTick:" + totalTick);
+        System.out.println("Percent of Difference Tick:" + diffTick * 1.0 / totalTick);
+        System.out.println("---------------------");
+    }
+
+    // born Monster in tick
+    public void addBornMonsterToTickInput(int waveIdx, int currentTick) throws BZException {
+        if (waveIdx == -1) return;
+        List<Integer> monsterWaveList = this.getMonsterWave().get(waveIdx);
+        for (int i = 0; i < monsterWaveList.size(); i++) {
+            DataCmd bornMonsterCmd = CmdFactory.createBornMonsterCmd(this.roomId, monsterWaveList.get(i));
+            int tickNumber = (i * 1000) / GameConfig.BATTLE.TICK_RATE + currentTick;
+            this.tickManager.addInputToTick(new Pair<>(null, bornMonsterCmd), tickNumber);
+        }
+        SendResult.sendNextWave(this.player1.getId(), this.player2.getId(), monsterWaveList, currentTick);
+    }
+
+    public void updateMonsterWave(int currentTick) throws BZException {
+        if (currentTick >= this.battle.nextWaveTimeTick) {
+            this.addBornMonsterToTickInput(battle.currentWave, this.battle.nextWaveTimeTick + 10);
+            this.battle.nextWaveTimeTick += GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate();
+            this.battle.currentWave += 1;
+        }
+    }
+
+    public void speedUpNextWave() {
+        this.battle.setNextWaveTimeTick(this.tickManager.getCurrentTick());
+    }
 }

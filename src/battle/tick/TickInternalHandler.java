@@ -1,6 +1,7 @@
 package battle.tick;
 
 import battle.Battle;
+import battle.common.Point;
 import battle.map.BattleMap;
 import battle.common.EntityMode;
 import battle.config.GameConfig;
@@ -59,7 +60,8 @@ public class TickInternalHandler {
                 Battle battle = room.getBattle();
                 Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, playerInfo);
                 tower.upgradeTower();
-                room.getBattle().handleUpgradeTower(tower.getEntityId(), tower.getLevel());
+                Point tilePos = new Point(req.getTilePos().x, req.getTilePos().y);
+                room.getBattle().handleUpgradeTower(tower.getEntityId(), tower.getLevel(), tilePos);
                 break;
             }
             case CmdDefine.DESTROY_TOWER: {
@@ -67,9 +69,13 @@ public class TickInternalHandler {
                 RequestDestroyTower req = new RequestDestroyTower(dataCmd);
                 Room room = RoomManager.getInstance().getRoom(req.getRoomId());
                 Battle battle = room.getBattle();
-                Tower tower = getTowerByTilePosAndUser(battle, req.getTilePos().x, req.getTilePos().y, playerInfo);
-                TileObject tileObject = battle.getBattleMapByPlayerId(playerInfo.getId()).battleMapObject.getCellObject(req.getTilePos());
+                int tilePosX = req.getTilePos().x;
+                int tilePosY = req.getTilePos().y;
+                Tower tower = getTowerByTilePosAndUser(battle, tilePosX, tilePosY, playerInfo);
+                BattleMap battleMap = battle.getBattleMapByPlayerId(playerInfo.getId());
+                TileObject tileObject = battleMap.battleMapObject.getTileObject(req.getTilePos());
                 tileObject.destroyTower();
+                battleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
                 battle.handleDestroyTower(tower.getEntityId());
                 break;
             }
@@ -82,6 +88,12 @@ public class TickInternalHandler {
                 battle.handleTowerChangeTargetStrategy((int) tower.getEntityId(), req.getStrategyId());
                 break;
             }
+            case CmdDefine.BORN_MONSTER:{
+                Room room = RoomManager.getInstance().getRoom(dataCmd.readInt());
+                int monsterTypeId = dataCmd.readInt();
+                room.getBattle().bornMonsterByMonsterID(monsterTypeId,EntityMode.PLAYER);
+                room.getBattle().bornMonsterByMonsterID(monsterTypeId,EntityMode.OPPONENT);
+            }
         }
     }
 
@@ -89,6 +101,6 @@ public class TickInternalHandler {
         EntityMode entityMode = battle.getEntityModeByPlayerID(playerInfo.getId());
         BattleMap battleMap = battle.getBattleMapByEntityMode(entityMode);
         BattleMapObject battleMapObject = battleMap.battleMapObject;
-        return (Tower) battleMapObject.getCellObject(x, y).getObjectInCell();
+        return (Tower) battleMapObject.getTileObject(x, y).getObjectInTile();
     }
 }

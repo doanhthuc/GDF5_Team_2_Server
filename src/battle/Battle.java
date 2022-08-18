@@ -8,6 +8,7 @@ import battle.component.effect.EffectComponent;
 import battle.component.effect.FrozenEffect;
 import battle.component.effect.SlowEffect;
 import battle.component.effect.TowerAbilityComponent;
+import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.config.MonsterWaveConfig;
@@ -20,13 +21,17 @@ import battle.config.conf.towerBuff.TowerBuffConfig;
 import battle.entity.EntityECS;
 import battle.factory.ComponentFactory;
 import battle.factory.EntityFactory;
+import battle.factory.SystemFactory;
 import battle.manager.ComponentManager;
 import battle.manager.EntityManager;
+import battle.manager.SystemManager;
 import battle.map.BattleMap;
 import battle.newMap.BattleMapObject;
+import battle.newMap.TileType;
 import battle.pool.ComponentPool;
 import battle.pool.EntityPool;
 import battle.system.*;
+import battle.tick.TickManager;
 import model.PlayerInfo;
 
 import java.util.*;
@@ -38,11 +43,13 @@ public class Battle {
     private ComponentPool componentPool;
     private EntityPool entityPool;
     private EntityManager entityManager;
+    private SystemManager systemManager;
     private UUIDGeneratorECS uuidGeneratorECS = new UUIDGeneratorECS();
 
     private ComponentManager componentManager;
     private ComponentFactory componentFactory;
     private EntityFactory entityFactory;
+    private SystemFactory systemFactory;
     //System
     public AttackSystem attackSystem;
     public MovementSystem movementSystem;
@@ -62,10 +69,10 @@ public class Battle {
     public List<Point>[][] player2ShortestPath;
     //MonsterWave
     private final int waveAmount = GameConfig.WAVE_AMOUNT;
-    private int currentWave = 0;
+    public int currentWave = 0;
     private List<List<Integer>> monsterWave;
-    private long nextWaveTime;
-    private long nextBornMonsterTime;
+    public int nextWaveTimeTick;
+    public long nextBornMonsterTime;
     //PlayerHp and Energy
     public int player1HP = GameConfig.PLAYER_HP;
     public int player2HP = GameConfig.PLAYER_HP;
@@ -73,12 +80,22 @@ public class Battle {
     private int player2energy = GameConfig.OPPONENT_ENERGY;
     public PlayerInfo user1;
     public PlayerInfo user2;
+    public TickManager tickManager;
 
-    public Battle(PlayerInfo userId1, PlayerInfo userId2) {
+    public TickManager getTickManager() {
+        return tickManager;
+    }
+
+    public void setTickManager(TickManager tickManager) {
+        this.tickManager = tickManager;
+    }
+
+    public Battle(PlayerInfo userId1, PlayerInfo userId2, TickManager tickManager) {
         this.initPoolAndManager();
         this.initSystem();
         this.initMap(userId1, userId2);
         this.initMonsterWave();
+        this.tickManager = tickManager;
     }
 
 
@@ -86,24 +103,31 @@ public class Battle {
     public void initPoolAndManager() {
         this.entityPool = new EntityPool();
         this.componentPool = new ComponentPool();
-        this.entityManager = new EntityManager();
         this.componentManager = new ComponentManager();
         this.componentFactory = new ComponentFactory(this.componentManager, this.componentPool, this);
+        this.systemManager = new SystemManager();
+        this.systemFactory = new SystemFactory(this.systemManager, this.uuidGeneratorECS);
+        this.entityManager = new EntityManager(this);
         this.entityFactory = new EntityFactory(this.entityManager, this.componentFactory, this.entityPool, this);
+
     }
 
     public void initSystem() {
-        this.attackSystem = new AttackSystem();
-        this.pathMonsterSystem = new PathMonsterSystem();
-        this.movementSystem = new MovementSystem();
-        this.collisionSystem = new CollisionSystem();
-        this.effectSystem = new EffectSystem();
-        this.lifeSystem = new LifeSystem();
-        this.abilitySystem = new AbilitySystem();
-        this.bulletSystem = new BulletSystem();
-        this.resetSystem = new ResetSystem();
-        this.monsterSystem = new MonsterSystem();
-        this.spellSystem = new SpellSystem();
+        try {
+            this.attackSystem = this.systemFactory.createAttackSystem();
+            this.pathMonsterSystem = this.systemFactory.createPathSystem();
+            this.movementSystem = this.systemFactory.createMovementSystem();
+            this.collisionSystem = this.systemFactory.createCollisionSystem();
+            this.effectSystem = this.systemFactory.createEffectSystem();
+            this.lifeSystem = this.systemFactory.createLifeSystem();
+            this.abilitySystem = this.systemFactory.createAbilitySystem();
+            this.bulletSystem = this.systemFactory.createBulletSystem();
+            this.resetSystem = this.systemFactory.createResetSystem();
+            this.monsterSystem = this.systemFactory.createMonsterSystem();
+            this.spellSystem = this.systemFactory.createSpellSystem();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void initMap(PlayerInfo user1, PlayerInfo user2) {
@@ -121,38 +145,15 @@ public class Battle {
 
         this.user1 = user1;
         this.user2 = user2;
-        // DEBUG
-//        for (int j = BattleMap.mapH-1; j >= 0; j--)
-//        {
-//            for (int i = 0; i < BattleMap.mapW; i++) {
-//                if (FindPathUtils.findPathAble(battleMap.map[i][j]))
-//                {
-//                    for (Point point : shortestPath[i][j]){
-//                        System.out.print((int)point.getX()+" "+(int)point.getY()+"||");
-//                    }
-//                }
-//                System.out.println();
-//            }
-//            System.out.println("================================");
-//        }
     }
 
     public void initMonsterWave() {
-        this.monsterWave = this.createNewMonsterWave();
-        //  System.out.println("monsterWave:" + this.monsterWave);
-//        for (int i = 0; i < MonsterWaveConfig.monsterWaveScriptHashMap.size(); i++) {
-//            for (int j = 0; j < this.monsterWave.get(i).size(); j++) {
-//                System.out.print(this.monsterWave.get(i).get(j) + " ");
-//            }
-//            System.out.println();
-//        }
-        this.currentWave = -1;
+        this.monsterWave = this.createNewMonsterWave2();
     }
 
     //Update
 
     public void updateSystem() throws Exception {
-        if (GameConfig.DEBUG) this.debug();
         resetSystem.run(this);
         abilitySystem.run(this);
         effectSystem.run(this);
@@ -165,25 +166,6 @@ public class Battle {
         bulletSystem.run(this);
         movementSystem.run(this);
     }
-
-    public void updateMonsterWave() throws Exception {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime >= this.nextWaveTime) {
-            this.currentWave += 1;
-            this.nextWaveTime += GameConfig.BATTLE.WAVE_TIME;
-        }
-        if ((this.currentWave < 0) || (this.currentWave >= this.waveAmount)) return;
-        List<Integer> currentWaveList = this.monsterWave.get(this.currentWave);
-        //System.out.println(this.nextBornMonsterTime - currentTime);
-        if (currentTime >= this.nextBornMonsterTime && (currentWaveList.size() > 0)) {
-            this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.PLAYER);
-            this.bornMonsterByMonsterID(this.monsterWave.get(this.currentWave).get(currentWaveList.size() - 1), EntityMode.OPPONENT);
-            this.monsterWave.get(currentWave).remove(currentWaveList.size() - 1);
-            this.nextBornMonsterTime = currentTime + 1000;
-        }
-    }
-
-    //PlayerHp and Energy
 
     public void minusPlayerHP(int hp, EntityMode mode) {
         if (mode == EntityMode.PLAYER) this.player1HP -= hp;
@@ -297,15 +279,18 @@ public class Battle {
             for (int i = 1; i <= batAmount; i++)
                 wave.add(GameConfig.ENTITY_ID.BAT);
 
-            for (int i = 1; i <= ninjaAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.NINJA);
-
-            for (int i = 1; i <= assassinAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.ASSASSIN);
-
-            for (int i = 1; i <= swordManAmount; i++)
-                wave.add(GameConfig.ENTITY_ID.SWORD_MAN);
-
+//            for (int i = 1; i <= ninjaAmount; i++)
+//                wave.add(GameConfig.ENTITY_ID.NINJA);
+//
+//            for (int i = 1; i <= assassinAmount; i++)
+//                wave.add(GameConfig.ENTITY_ID.ASSASSIN);
+//
+//            for (int i = 1; i <= swordManAmount; i++)
+//                wave.add(GameConfig.ENTITY_ID.SWORD_MAN);
+//            wave.add(GameConfig.ENTITY_ID.DARK_GIANT);
+//
+//            for (int i = 1; i <= swordManAmount; i++)
+//                wave.add(GameConfig.ENTITY_ID.SWORD_MAN);
             if (waveIdx == 5) {
                 wave.add(GameConfig.ENTITY_ID.SATYR);
             }
@@ -382,7 +367,12 @@ public class Battle {
                 break;
         }
 
+        assert tower != null;
         long entityID = tower.getId();
+
+        BattleMap battleMap = this.getBattleMapByEntityMode(mode);
+        TileType tileType = battleMap.battleMapObject.getTileTypeByTilePos(tilePosX, tilePosY);
+        this.entityFactory.buffTower(tower, tileType);
         this.updateMapWhenPutTower(entityID, towerID, tilePosX, tilePosY, mode);
         this.handlerPutTower(mode);
     }
@@ -412,19 +402,6 @@ public class Battle {
 
     }
 
-    public void handlerDesTroyTower(int tilePosX, int tilePosY, EntityMode mode) {
-        BattleMap battleMap = null;
-        if (mode == EntityMode.PLAYER) {
-            this.player1BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
-            battleMap = this.player1BattleMap;
-        } else {
-            this.player2BattleMap.map[tilePosX][tilePosY] = GameConfig.MAP.NONE;
-            battleMap = this.player2BattleMap;
-        }
-        BattleMapObject battleMapObject = battleMap.battleMapObject;
-        //TODO: DestroyTower in BattleMapObject
-    }
-
 
     public void handlerPutTower(EntityMode mode) {
         if (mode == EntityMode.PLAYER)
@@ -437,7 +414,8 @@ public class Battle {
             if (monster.getMode() == mode) {
                 PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
                 PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
-                if (positionComponent != null) {
+                MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
+                if (positionComponent != null && !monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
                     List<Point> path;
                     Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), mode);
                     if (monster.getMode() == EntityMode.PLAYER) {
@@ -455,99 +433,16 @@ public class Battle {
         }
     }
 
-    public void handleUpgradeTower(long entityId, int towerLevel) throws Exception {
-        this.onUpgradeTower(entityId, towerLevel);
+    public void handleUpgradeTower(long entityId, int towerLevel, Point tilePos) throws Exception {
+        this.entityFactory.onUpgradeTower(entityId, towerLevel, tilePos);
     }
 
-    public void onUpgradeTower(long entityId, int towerLevel) throws Exception {
-        System.out.println("[Battle.java line 456] onUpgradeTower: " + entityId + " " + towerLevel);
-        short level = (short) towerLevel;
+
+    public void handleDestroyTower(long entityId) {
         EntityECS entity = this.entityManager.getEntity(entityId);
-        switch (entity.getTypeID()) {
-            case GameConfig.ENTITY_ID.CANNON_TOWER:
-            case GameConfig.ENTITY_ID.FROG_TOWER:
-            case GameConfig.ENTITY_ID.WIZARD_TOWER: {
-                AttackComponent attackComponent = (AttackComponent) entity.getComponent(AttackComponent.typeID);
-                TowerConfigItem bunnyOilConfig = TowerConfig.INS.getTowerConfig((short) entity.getTypeID());
-                TowerStat towerStat = bunnyOilConfig.getStat().get(level);
-                double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
-                double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
-                double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
-                double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
-                double damage = towerStat.getDamage();
-                List<EffectComponent> effectComponents = new ArrayList<>();
-                attackComponent.updateAttackStatistic(damage, attackRange, attackSpeed, effectComponents, bulletSpeed, bulletRadius);
-                break;
-            }
-            case GameConfig.ENTITY_ID.BEAR_TOWER: {
-                AttackComponent attackComponent = (AttackComponent) entity.getComponent(AttackComponent.typeID);
-                TowerConfigItem bunnyOilConfig = TowerConfig.INS.getTowerConfig((short) entity.getTypeID());
-                TowerStat towerStat = bunnyOilConfig.getStat().get(level);
-                double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
-                double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
-                double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
-                double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
-                double damage = towerStat.getDamage();
-
-                TargetBuffConfigItem targetBuffConfigItem = TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_OIL_GUN);
-                double duration = targetBuffConfigItem.getDuration().get(level) / 1000.0;
-
-                FrozenEffect frozenEffect = this.componentFactory.createFrozenEffect(duration);
-
-                List<EffectComponent> effectComponents = Arrays.asList(frozenEffect);
-
-                attackComponent.updateAttackStatistic(damage, attackRange, attackSpeed, effectComponents, bulletSpeed, bulletRadius);
-                break;
-            }
-            case GameConfig.ENTITY_ID.BUNNY_TOWER: {
-                AttackComponent attackComponent = (AttackComponent) entity.getComponent(AttackComponent.typeID);
-                TowerConfigItem bunnyOilConfig = TowerConfig.INS.getTowerConfig((short) entity.getTypeID());
-                TowerStat towerStat = bunnyOilConfig.getStat().get(level);
-                double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
-                double bulletSpeed = towerStat.getBulletSpeed() * (GameConfig.TILE_WIDTH / 10.0);
-                double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
-                double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
-                double damage = towerStat.getDamage();
-
-                TargetBuffConfigItem targetBuffConfigItem = TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_OIL_GUN);
-                double duration = targetBuffConfigItem.getDuration().get(level) / 1000.0;
-                double slowPercentage = targetBuffConfigItem.getEffects().get(level).get(0).getValue();
-                SlowEffect slowEffect = this.componentFactory.createSlowEffect(duration, slowPercentage);
-                List<EffectComponent> effectComponents = Arrays.asList(slowEffect);
-                attackComponent.updateAttackStatistic(damage, attackRange, attackSpeed, effectComponents, bulletSpeed, bulletRadius);
-                break;
-            }
-            case GameConfig.ENTITY_ID.GOAT_TOWER: {
-                TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) entity.getComponent(TowerAbilityComponent.typeID);
-                TowerConfigItem goatDamageConfig = TowerConfig.INS.getTowerConfig(TowerConfig.GOAT);
-
-                TowerStat towerStat = goatDamageConfig.getStat().get(level);
-                double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
-                double buffAttackDamageEffectPercentage = TowerBuffConfig.INS.getTowerBuffConfig(TowerBuffConfig.ATTACK_AURA).getEffects().get(level).get(0).getValue();
-
-                EffectComponent buffAttackDamageEffect = this.componentFactory.createBuffAttackDamageEffect(buffAttackDamageEffectPercentage);
-                towerAbilityComponent.reset(attackRange, buffAttackDamageEffect);
-                break;
-            }
-            case GameConfig.ENTITY_ID.SNAKE_TOWER: {
-                TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) entity.getComponent(TowerAbilityComponent.typeID);
-                TowerConfigItem snakeAttackSpeedConfig = TowerConfig.INS.getTowerConfig(TowerConfig.SNAKE);
-                ;
-
-                TowerStat towerStat = snakeAttackSpeedConfig.getStat().get(level);
-                double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;
-                double buffAttackSpeedEffectPercentage = TowerBuffConfig.INS.getTowerBuffConfig(TowerBuffConfig.ATTACK_SPEED_AURA).getEffects().get(level).get(0).getValue();
-
-                EffectComponent buffAttackSpeedEffect = this.componentFactory.createBuffAttackSpeedEffect(buffAttackSpeedEffectPercentage);
-                towerAbilityComponent.reset(attackRange, buffAttackSpeedEffect);
-                break;
-            }
-        }
-    }
-
-    public void handleDestroyTower(long entityId) throws Exception {
-        EntityECS entity = this.entityManager.getEntity(entityId);
+        EntityMode mode = entity.getMode();
         this.entityManager.remove(entity);
+        handlerPutTower(mode);
     }
 
     public void handleTowerChangeTargetStrategy(int entityId, int strategyId) throws Exception {
@@ -556,15 +451,14 @@ public class Battle {
         attackComponent.setTargetStrategy(strategyId);
     }
 
-    public void debug() {
-//        List<EntityECS> monsterList = this.entityManager.getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID));
-//        if (GameConfig.DEBUG) System.out.println("MonsterSize=" + monsterList.size());
-//
-//        List<EntityECS> towerList = this.entityManager.getEntitiesHasComponents(Arrays.asList(TowerInfoComponent.typeID));
-//        if (GameConfig.DEBUG) System.out.println("TowerSize=" + towerList.size());
-//
-//        System.out.println("Player1 Hp= " + this.player1HP + " Player1 Energy=" + this.player1energy);
-//        System.out.println("Player2 Hp= " + this.player2HP + " Player2 Energy=" + this.player2energy);
+    public double getSumHp() {
+        int sumHp = 0;
+        List<EntityECS> monsterList = this.getEntityManager().getEntitiesHasComponents(Arrays.asList(LifeComponent.typeID));
+        for (EntityECS monster : monsterList) {
+            LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
+            sumHp += lifeComponent.getHp();
+        }
+        return sumHp;
     }
 
     public BattleMap getBattleMapByEntityMode(EntityMode mode) {
@@ -621,8 +515,12 @@ public class Battle {
         return currentWave;
     }
 
-    public void setNextWaveTime(long nextWaveTime) {
-        this.nextWaveTime = nextWaveTime;
+    public void setNextWaveTimeTick(int nextWaveTimeTick) {
+        this.nextWaveTimeTick = nextWaveTimeTick;
+    }
+
+    public void setNextBornMonsterTime(long nextBornMonsterTime) {
+        this.nextBornMonsterTime = nextBornMonsterTime;
     }
 
     public int getPlayer1energy() {
@@ -643,5 +541,13 @@ public class Battle {
 
     public void setBattleMapListByPlayerId(HashMap<Integer, BattleMap> battleMapListByPlayerId) {
         this.battleMapListByPlayerId = battleMapListByPlayerId;
+    }
+
+    public EntityPool getEntityPool() {
+        return this.entityPool;
+    }
+
+    public SystemManager getSystemManager() {
+        return this.systemManager;
     }
 }
