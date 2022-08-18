@@ -129,7 +129,7 @@ public class AttackSystem extends SystemECS {
                     if (hp > maxHP) {
                         maxHP = hp;
                         maxHPIndex = i;
-                    } else if (hp == maxHP && maxHPIndex > i) {
+                    } else if (hp == maxHP && monsterInRange.get(maxHPIndex).getId() > monsterInRange.get(i).getId()) {
                         maxHPIndex = i;
                     }
                 }
@@ -145,7 +145,7 @@ public class AttackSystem extends SystemECS {
                     if (hp < minHP) {
                         minHP = hp;
                         minHPIndex = i;
-                    } else if (hp == minHP && minHPIndex > i) {
+                    } else if (hp == minHP && monsterInRange.get(minHPIndex).getId() > monsterInRange.get(i).getId()) {
                         minHPIndex = i;
                     }
                 }
@@ -159,7 +159,7 @@ public class AttackSystem extends SystemECS {
                     if (distance > maxDistance) {
                         maxDistance = distance;
                         maxDistanceIndex = i;
-                    } else if (distance == maxDistance && maxDistanceIndex > i) {
+                    } else if (distance == maxDistance && monsterInRange.get(maxDistanceIndex).getId() > monsterInRange.get(i).getId()) {
                         maxDistanceIndex = i;
                     }
                 }
@@ -173,7 +173,7 @@ public class AttackSystem extends SystemECS {
                     if (distance < minDistance) {
                         minDistance = distance;
                         minDistanceIndex = i;
-                    } else if (distance == minDistance && minDistance > i) {
+                    } else if (distance == minDistance && monsterInRange.get(minDistanceIndex).getId() > monsterInRange.get(i).getId()) {
                         minDistanceIndex = i;
                     }
                 }
