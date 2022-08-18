@@ -566,13 +566,14 @@ public class EntityFactory {
         double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
+        boolean canTargetAirMonster = false;
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
 
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius, canTargetAirMonster);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -600,7 +601,7 @@ public class EntityFactory {
         double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
-
+        boolean canTargetAirMonster = false;
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
@@ -610,8 +611,7 @@ public class EntityFactory {
         List<EffectComponent> effectList = Arrays.asList(frozenEffect);
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, effectList, bulletSpeed, bulletRadius);
-        attackComponent.setCanTargetAirMonster(false);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, effectList, bulletSpeed, bulletRadius, canTargetAirMonster);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -640,12 +640,13 @@ public class EntityFactory {
         double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
+        boolean canTargetAirMonster = false;
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius, canTargetAirMonster);
 
 
         entity.addComponent(towerInfoComponent);
@@ -675,6 +676,8 @@ public class EntityFactory {
         double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
+        boolean canTargetAirMonster = true;
+
         TargetBuffConfigItem targetBuffConfigItem = TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_OIL_GUN);
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
@@ -685,7 +688,7 @@ public class EntityFactory {
 
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, effectList, bulletSpeed, bulletRadius);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, effectList, bulletSpeed, bulletRadius, canTargetAirMonster);
 
         entity.addComponent(towerInfoComponent);
         entity.addComponent(positionComponent);
@@ -714,12 +717,12 @@ public class EntityFactory {
         double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
+        boolean canTargetAirMonster = false;
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
         TowerInfoComponent towerInfoComponent = this.componentFactory.createTowerInfoComponent(energy, "bulletTargetType", archType, targetType, bulletType);
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.x, pixelPos.y);
-        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius);
-        attackComponent.setCanTargetAirMonster(false);
+        AttackComponent attackComponent = this.componentFactory.createAttackComponent(damage, GameConfig.TOWER_TARGET_STRATEGY.MAX_HP, attackRange, attackSpeed, 0, null, bulletSpeed, bulletRadius, canTargetAirMonster);
 
         entity.addComponent(towerInfoComponent)
                 .addComponent(positionComponent)

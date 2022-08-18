@@ -28,12 +28,12 @@ public class AttackComponent extends Component {
     private List<EffectComponent> effects = new ArrayList<>();
     private int _latestTick;
 
-    public AttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects, double bulletSpeed, double bulletRadius) {
+    public AttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects, double bulletSpeed, double bulletRadius, boolean canTargetAirMonster) {
         super(GameConfig.COMPONENT_ID.ATTACK);
-        this.reset(damage, targetStrategy, range, speed, countdown, effects, bulletSpeed, bulletRadius);
+        this.reset(damage, targetStrategy, range, speed, countdown, effects, bulletSpeed, bulletRadius, canTargetAirMonster);
     }
 
-    public void reset(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects, double bulletSpeed, double bulletRadius) {
+    public void reset(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects, double bulletSpeed, double bulletRadius, boolean canTargetAirMonster) {
         this.originDamage = damage;
         this.damage = damage;
         this.targetStrategy = targetStrategy;
@@ -50,6 +50,7 @@ public class AttackComponent extends Component {
         this.bulletSpeed = bulletSpeed;
         this.bulletRadius = bulletRadius;
         this._latestTick = -1;
+        this.canTargetAirMonster = canTargetAirMonster;
     }
 
     public double getDamage() {
@@ -76,7 +77,7 @@ public class AttackComponent extends Component {
 
     public AttackComponent clone(ComponentFactory componentFactory) {
         try {
-            return componentFactory.createAttackComponent(this.damage, this.targetStrategy, this.range, this.speed, this.countdown, this.effects, this.bulletSpeed, this.bulletRadius);
+            return componentFactory.createAttackComponent(this.damage, this.targetStrategy, this.range, this.speed, this.countdown, this.effects, this.bulletSpeed, this.bulletRadius, this.canTargetAirMonster);
         } catch (Exception e) {
             e.printStackTrace();
         }
