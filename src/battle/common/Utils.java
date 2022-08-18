@@ -136,8 +136,8 @@ public class Utils {
             int direction = Utils.getDirectionOf2Tile(tileArr.get(i), tileArr.get(i + 1));
 
             if (i == 0) {
-                beforeCellX = Math.floor(Math.random() * moduleCellRange) + cellBound;
-                beforeCellY = Math.floor(Math.random() * moduleCellRange) + cellBound;
+                beforeCellX = cellBound;
+                beforeCellY = cellBound;
             }
 
             if (cellArr.size() == 0) cellArr.add(Utils.cell2Pixel(tileArr.get(i).getX() * cellsEachTile + beforeCellX,
@@ -234,6 +234,13 @@ public class Utils {
         }
         return cellArr;
     }
+
+    public static double _distanceFrom(EntityECS tower, EntityECS monster) {
+        PositionComponent towerPos = (PositionComponent) tower.getComponent(PositionComponent.typeID);
+        PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
+        return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
+    }
+
 
     public static boolean validateTilePos(Point tilePos) {
         return tilePos.getX() >= 0 && tilePos.getX() < GameConfig.MAP_WIDTH

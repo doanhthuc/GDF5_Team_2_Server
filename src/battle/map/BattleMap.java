@@ -1,4 +1,4 @@
-package battle;
+package battle.map;
 
 import battle.config.GameConfig;
 import battle.newMap.BattleMapObject;
@@ -129,11 +129,13 @@ public class BattleMap {
     }
 
     public void show() {
+        System.out.println("BattleMap");
         for (int j = mapH - 1; j >= 0; j--) {
             for (int i = 0; i < mapW; i++)
                 System.out.print(this.map[i][j] + " ");
             System.out.println();
         }
+        System.out.println("----------------");
     }
 
     public void removePath() {

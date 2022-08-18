@@ -1,6 +1,6 @@
 package battle.common;
 
-import battle.BattleMap;
+import battle.map.BattleMap;
 import battle.config.GameConfig;
 
 import java.util.*;
@@ -23,7 +23,7 @@ public class FindPathUtils {
         List<Point> storePath = new ArrayList<>();
         storePath.clear();
         deque.add(start);
-        visited.put((int)(start.getX()*1000+start.getY()), true);
+        visited.put((int) (start.getX() * 1000 + start.getY()), true);
 
         Point top = null;
         boolean find = false;
@@ -40,14 +40,14 @@ public class FindPathUtils {
                 //Check children in Map
                 if ((childrenX < 0) || (childrenX >= mapWidth) || (childrenY < 0) || (childrenY >= mapHeight)) continue;
                 //Check Visited
-                if (visited.containsKey(childrenX*1000+childrenY)) continue;
+                if (visited.containsKey(childrenX * 1000 + childrenY)) continue;
                 //Check Movable
                 if ((map[childrenX][childrenY] != GameConfig.MAP.NONE)
                         && (map[childrenX][childrenY] != GameConfig.MAP.ATTACK_SPEED)
                         && (map[childrenX][childrenY] != GameConfig.MAP.ATTACK_RANGE)
                         && (map[childrenX][childrenY] != GameConfig.MAP.ATTACK_DAMAGE)) continue;
 
-                visited.put(childrenX*1000+childrenY, true);
+                visited.put(childrenX * 1000 + childrenY, true);
                 Point children = new Point(childrenX, childrenY);
                 deque.add(children);
                 children.setFather(top);

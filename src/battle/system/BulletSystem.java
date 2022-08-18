@@ -1,32 +1,30 @@
 package battle.system;
 
 import battle.Battle;
-import battle.component.common.CollisionComponent;
-import battle.component.common.PathComponent;
-import battle.component.common.PositionComponent;
-import battle.component.common.VelocityComponent;
+import battle.component.common.*;
+import battle.component.info.BulletInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class BulletSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.BULLET;
-    public String name = "BulletSystem";
+    private static final String SYSTEM_NAME = "BulletSystem";
 
-    public BulletSystem() {
-        super(GameConfig.SYSTEM_ID.BULLET);
+    public BulletSystem(long id) {
+        super(GameConfig.SYSTEM_ID.BULLET, SYSTEM_NAME, id);
     }
 
     @Override
     public void run(Battle battle) {
         this.tick = this.getElapseTime();
-        List<Integer> componentIdList = Arrays.asList(GameConfig.COMPONENT_ID.VELOCITY, GameConfig.COMPONENT_ID.POSITION, GameConfig.COMPONENT_ID.BULLET_INFO);
-        List<EntityECS> bulletList = battle.getEntityManager().getEntitiesHasComponents(componentIdList);
 
-        for (EntityECS bullet : bulletList) {
+        for (Map.Entry<Long, EntityECS>  mapElement : this.getEntityStore().entrySet()) {
+            EntityECS bullet = mapElement.getValue();
+
             PositionComponent bulletPos = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
             VelocityComponent bulletVelocity = (VelocityComponent) bullet.getComponent(VelocityComponent.typeID);
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
@@ -35,25 +33,34 @@ public class BulletSystem extends SystemECS {
                 if (pathComponent.getCurrentPathIDx() == pathComponent.getPath().size() - 2) {
                     battle.getEntityManager().destroy(bullet);
                 }
+
                 continue;
             }
 
-            if (bulletVelocity.getDynamicPosition() == null) continue;
-
-            if (!bulletVelocity.getDynamicPosition().getActive()) {
-                bulletVelocity.setDynamicPosition(null);
+            //destroy bullet when target monster are died before the bullet can reach them
+            if (bulletVelocity.getDynamicPosition(battle) == null && bulletVelocity.hasDynamicEntityId()) {
                 battle.getEntityManager().destroy(bullet);
                 continue;
             }
 
-            if (Math.abs(bulletVelocity.getDynamicPosition().getX() - bulletPos.getX()) <= 3
-                    && Math.abs(bulletVelocity.getDynamicPosition().getY() - bulletPos.getY()) <= 3) {
-                CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(GameConfig.COMPONENT_ID.COLLISION);
-                if (collisionComponent != null) {
-                    collisionComponent.setWidth(collisionComponent.getOriginWidth());
-                    collisionComponent.setHeight(collisionComponent.getOriginHeight());
+
+
+            if (bulletVelocity.getDynamicPosition(battle) != null) {
+                if (Math.abs(bulletVelocity.getDynamicPosition(battle).getX() - bulletPos.getX()) <= 10
+                        || Math.abs(bulletVelocity.getDynamicPosition(battle).getY() - bulletPos.getY()) <= 10) {
+                    CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(CollisionComponent.typeID);
+
+                    if (collisionComponent != null) {
+                        collisionComponent.setWidth(collisionComponent.getOriginWidth());
+                        collisionComponent.setHeight(collisionComponent.getOriginHeight());
+                    }
                 }
             }
         }
+    }
+
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == BulletInfoComponent.typeID;
     }
 }

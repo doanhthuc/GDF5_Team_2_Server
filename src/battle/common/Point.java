@@ -10,6 +10,11 @@ public class Point {
         this.y = y;
     }
 
+    public Point(Point o) {
+        this.x = o.x;
+        this.y = o.y;
+    }
+
     public double getX() {
         return this.x;
     }
@@ -24,6 +29,10 @@ public class Point {
 
     public Point getFather() {
         return this.father;
+    }
+
+    public Point oppositePoint() {
+        return new Point(-this.x, -this.y);
     }
 }
 

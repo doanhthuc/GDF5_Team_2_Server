@@ -11,6 +11,7 @@ public class TowerInfoComponent extends InfoComponent {
     private String archType;
     private String targetType;
     private String bulletType;
+    private short level;
 
     public TowerInfoComponent(int energy, String bulletTargetType, String archType, String targetType, String bulletType) {
         super(GameConfig.COMPONENT_ID.TOWER_INFO);
@@ -31,6 +32,10 @@ public class TowerInfoComponent extends InfoComponent {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public void setLevel(short level) {
+        this.level = level;
     }
 
     public int getEnergy() {

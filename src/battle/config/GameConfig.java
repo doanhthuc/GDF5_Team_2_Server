@@ -52,7 +52,13 @@ public class GameConfig {
         public static int TOWER_ABILITY = 24;
         public static int BUFF_ATTACK_RANGE = 25;
         public static int ACCELERATION = 26;
-
+        public static int FROG_BULLET_SKILL = 27;
+        public static int WIZARD_BULLET_SKILL = 28;
+        public static int DAMAGE_AMPLIFY_COMPONENT = 29;
+        public static int POISON = 30;
+        public static int SNAKE_BURN_HP_AURA = 31;
+        public static int GOAT_SLOW_EFFECT = 32;
+        public static int GOAT_SLOW_AURA = 33;
     }
 
     public static class HOUSE_POSITION {
@@ -115,7 +121,9 @@ public class GameConfig {
     }
 
     public static class GROUP_ID {
-        public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.SNAKE_TOWER, ENTITY_ID.GOAT_TOWER);
+        public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.SNAKE_TOWER, ENTITY_ID.GOAT_TOWER, ENTITY_ID.BEAR_TOWER);
+        public static List<Integer> ATTACK_TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.BEAR_TOWER);
+
         public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.DEMON_TREE, ENTITY_ID.DEMON_TREE_MINION, ENTITY_ID.ASSASSIN,
                 ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
         public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET);
@@ -148,7 +156,6 @@ public class GameConfig {
         public static int HIT_FIRST_TIME = 1;
         public static int HIT_SECOND_TIME = 2;
         public static int HIT_BOTH_TIME = 3;
-
     }
 
     public static class BATTLE_RESULT {
@@ -158,7 +165,7 @@ public class GameConfig {
     }
 
     public static int WAVE_AMOUNT = 20;
-    public static int PLAYER_HP = 1000;
+    public static int PLAYER_HP = 20;
     public static int PLAYER_ENERGY = 30;
     public static int OPPONENT_ENERGY = 30;
 
@@ -167,7 +174,7 @@ public class GameConfig {
     public static class BATTLE {
         public static long START_GAME_AFTER = 8 * 1000;
         public static long WAVE_TIME = 20 * 1000;
-        public static int AMOUNT_MONSTER_EACH_WAVE = 10;
+        public static int AMOUNT_MONSTER_EACH_WAVE = 5;
         public static int TICK_RATE = 50;
 
         public static int WINNER_TROPHY = 10;
@@ -176,5 +183,7 @@ public class GameConfig {
         public static int DELAY_BUILD_TOWER = 1 * 1000;
         public static int TIME_MATCHING_BOT = 5 * 1000;
     }
+
+    public static int TOWER_MAX_LEVEL = 3;
 }
 

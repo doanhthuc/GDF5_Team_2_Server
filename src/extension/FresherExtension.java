@@ -1,9 +1,8 @@
 package extension;
 
 
-import battle.BattleMap;
 import battle.config.MonsterWaveConfig;
-import battle.config.conf.tower.TowerConfig;
+import battle.config.conf.targetBuff.TargetBuffConfig;
 import bitzero.engine.sessions.ISession;
 import bitzero.server.BitZeroServer;
 import bitzero.server.config.ConfigHandle;
@@ -17,6 +16,7 @@ import bitzero.util.common.business.Debug;
 import bitzero.util.datacontroller.business.DataController;
 import bitzero.util.socialcontroller.bean.UserInfo;
 import cmd.receive.authen.RequestLogin;
+import cmd.send.login.ResponseFailLogin;
 import cmd.send.user.ResponseLogout;
 import event.eventType.DemoEventType;
 import event.handler.LoginSuccessHandler;
@@ -28,6 +28,7 @@ import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
+import model.battle.Room;
 import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
@@ -37,7 +38,9 @@ import util.metric.LogObject;
 import util.metric.MetricLog;
 import util.server.ServerConstant;
 import util.server.ServerLoop;
+import util.validate.ValidateString;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -60,7 +63,8 @@ public class FresherExtension extends BZExtension {
         try {
             RoomManager.getInstance().clearRoom();
             MonsterWaveConfig.readMonsterWaveConfigFromJson();
-            System.out.println(TowerConfig.INS.getTowerConfig((short)0).getArchetype());
+            System.out.println(TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_ICE_GUN).getEffects().get((short)1).get(0).getValue());
+
 //            ReadConfigUtil.readMonsterConfig();
 //            ReadConfigUtil.readTargetBuffConfig();
 //            ReadConfigUtil.readTowerBuffConfig();
@@ -169,41 +173,45 @@ public class FresherExtension extends BZExtension {
     public void doLogin(short cmdId, ISession session, DataCmd objData) {
         RequestLogin reqGet = new RequestLogin(objData);
         reqGet.unpackData();
-        System.out.println(reqGet.userIDStr);
-        try {
-            PlayerInfo userInfo;
-            if (PlayerID.getModel(reqGet.userIDStr, PlayerID.class) == null) {
-                UserIncrementID newID = (UserIncrementID) UserIncrementID.getModel(0, UserIncrementID.class);
-                if (newID == null) {
-                    newID = new UserIncrementID();
+        if (!validateUserIDStr(reqGet.userIDStr, session)) {
+            return;
+        } else {
+            try {
+                PlayerInfo userInfo;
+                if (PlayerID.getModel(reqGet.userIDStr, PlayerID.class) == null) {
+                    UserIncrementID newID = (UserIncrementID) UserIncrementID.getModel(0, UserIncrementID.class);
+                    if (newID == null) {
+                        newID = new UserIncrementID();
+                        newID.saveModel(0);
+                    }
+                    int newUserID = newID.genIncrementID();
                     newID.saveModel(0);
+                    userInfo = new PlayerInfo(newUserID, reqGet.userIDStr, 0, 0, 0);
+                    userInfo.show();
+                    userInfo.saveModel(userInfo.getId());
+                    PlayerID newPID = new PlayerID(newUserID, reqGet.userIDStr);
+                    newPID.saveModel(reqGet.userIDStr);
+                    initUserData(userInfo.getId());
+                } else {
+                    PlayerID pID = (PlayerID) PlayerID.getModel(reqGet.userIDStr, PlayerID.class);
+                    //check If there is UserOnline
+                    User user = BitZeroServer.getInstance().getUserManager().getUserById(pID.userID);
+                    if (user != null) { //Send Logout to Old user
+                        send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()), user);
+                    }
+                    userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
                 }
-                int newUserID = newID.genIncrementID();
-                newID.saveModel(0);
-                userInfo = new PlayerInfo(newUserID, reqGet.userIDStr, 0, 0, 0);
-                userInfo.show();
-                userInfo.saveModel(userInfo.getId());
-                PlayerID newPID = new PlayerID(newUserID, reqGet.userIDStr);
-                newPID.saveModel(reqGet.userIDStr);
-                initUserData(userInfo.getId());
-            } else {
-                PlayerID pID = (PlayerID) PlayerID.getModel(reqGet.userIDStr, PlayerID.class);
-                //check If there is UserOnline
-                User user = BitZeroServer.getInstance().getUserManager().getUserById(pID.userID);
-                if (user != null) { //Send Logout to Old user
-                    send(new ResponseLogout(UserHandler.UserError.SUCCESS.getValue()), user);
-                }
-                userInfo = (PlayerInfo) PlayerInfo.getModel(pID.userID, PlayerInfo.class);
+                UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
+                User u = ExtensionUtility.instance().canLogin(uInfo, "", session);
+                if (u != null)
+                    u.setProperty("userId", uInfo.getUserId());
+            } catch (Exception e) {
+                e.printStackTrace();
+                Debug.warn("DO LOGIN EXCEPTION " + e.getMessage());
+                Debug.warn(ExceptionUtils.getStackTrace(e));
             }
-            UserInfo uInfo = getUserInfo(reqGet.sessionKey, userInfo.getId(), session.getAddress());
-            User u = ExtensionUtility.instance().canLogin(uInfo, "", session);
-            if (u != null)
-                u.setProperty("userId", uInfo.getUserId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Debug.warn("DO LOGIN EXCEPTION " + e.getMessage());
-            Debug.warn(ExceptionUtils.getStackTrace(e));
         }
+
     }
 
     public UserInfo getUserInfo(String username, long userId, String ipAddress) throws Exception {
@@ -230,6 +238,18 @@ public class FresherExtension extends BZExtension {
 
     private int genNewID() {
         return GuestLogin.guestCount.incrementAndGet();
+    }
+
+    private boolean validateUserIDStr(String userIDStr, ISession session) {
+        if (userIDStr.length() > 15) {
+            ExtensionUtility.getExtension().send(new ResponseFailLogin((short) 1, "Username is too long"), session);
+            return false;
+        }
+        if (ValidateString.isContainSpecialChar(userIDStr)) {
+            ExtensionUtility.getExtension().send(new ResponseFailLogin((short) 1, "Username contains invalid characters"), session);
+            return false;
+        }
+        return true;
     }
     public static boolean checkUserOnline(int userID){
         return BitZeroServer.getInstance().getUserManager().containsId(userID);

@@ -5,17 +5,17 @@ import battle.component.common.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class ComponentManager extends battle.manager.ManagerECS {
+public class ComponentManager extends ManagerECS {
     private static final String name = "ComponentManager";
-    private static ComponentManager instance = null;
     private final Map<Long, Component> storeInstance;
     private final Map<Integer, Class> storeCls;
 
     public ComponentManager() {
         super();
-        this.storeCls = new HashMap<>();
-        this.storeInstance = new HashMap<>();
+        this.storeCls = new ConcurrentHashMap<>();
+        this.storeInstance = new ConcurrentHashMap<>();
     }
 
     public void registerClass(Component cpn) {
@@ -31,8 +31,10 @@ public class ComponentManager extends battle.manager.ManagerECS {
 
     public void add(Component component) throws Exception {
         if (this.storeInstance.get(component.getId()) != null) {
+            System.out.println(this.storeInstance.toString());
             throw new Exception("Component with typeID = " + component.getTypeID() + ", id = " + component.getId() + " exists.");
         }
+        System.out.println("Add component id = " + component.getId());
         this.storeInstance.put(component.getId(), component);
     }
 

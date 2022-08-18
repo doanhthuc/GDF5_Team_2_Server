@@ -34,7 +34,7 @@ public class ResponseRequestBattleMapObject extends BaseMsg {
         bf.putInt(battleMapObject.getWidth());
         for (int i = 0; i < battleMapObject.getHeight(); i++) {
             for (int j = 0; j < battleMapObject.getWidth(); j++) {
-                TileObject tileObject = battleMapObject.getCellObject(i, j);
+                TileObject tileObject = battleMapObject.getTileObject(i, j);
                 packCellPacket(tileObject, bf);
             }
         }
@@ -44,15 +44,15 @@ public class ResponseRequestBattleMapObject extends BaseMsg {
         bf.putInt(tileObject.getTilePos().x);
         bf.putInt(tileObject.getTilePos().y);
         bf.putInt(tileObject.getBuffCellType().value);
-        bf.putInt(tileObject.getObjectInCell().getObjectInCellType().value);
-        switch (tileObject.getObjectInCell().getObjectInCellType()) {
+        bf.putInt(tileObject.getObjectInTile().getObjectInCellType().value);
+        switch (tileObject.getObjectInTile().getObjectInCellType()) {
             case TOWER:
-                Tower tower = (Tower) tileObject.getObjectInCell();
+                Tower tower = (Tower) tileObject.getObjectInTile();
                 bf.putInt(tower.getId());
                 bf.putInt(tower.getLevel());
                 break;
             case TREE:
-                Tree tree = (Tree) tileObject.getObjectInCell();
+                Tree tree = (Tree) tileObject.getObjectInTile();
                 bf.putDouble(tree.getHp());
                 break;
             case PIT:

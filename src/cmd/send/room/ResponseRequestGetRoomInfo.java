@@ -45,15 +45,7 @@ public class ResponseRequestGetRoomInfo extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        PlayerInfo opponentPlayer = room.getOpponentPlayer(opponentId);
-        putStr(bf, opponentPlayer.getUserName());
-        bf.putInt(opponentPlayer.getTrophy());
-        PlayerInBattle myPlayerInBattle = room.getMyPlayerInBattle(opponentId);
-        bf.putInt(myPlayerInBattle.getBattleDeck().size());
-        for (Card card: myPlayerInBattle.getBattleDeck()) {
-            bf.putInt(card.getCardType());
-            bf.putInt(card.getLevel());
-        }
+
         return packBuffer(bf);
     }
 }

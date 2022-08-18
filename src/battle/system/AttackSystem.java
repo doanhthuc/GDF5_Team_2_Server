@@ -4,75 +4,89 @@ import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.AttackComponent;
+import battle.component.common.Component;
 import battle.component.common.PositionComponent;
 import battle.component.common.UnderGroundComponent;
+import battle.component.effect.EffectComponent;
 import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
+import javafx.geometry.Pos;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class AttackSystem extends SystemECS {
-    public int id = GameConfig.SYSTEM_ID.ATTACK;
-    public String name = "AttackSystem";
+    private static final String SYSTEM_NAME = "AttackSystem";
 
-    public AttackSystem() {
-        super(GameConfig.SYSTEM_ID.ATTACK);
-//        java.lang.System.out.println("AttackSystem");
+    public AttackSystem(long id) {
+        super(GameConfig.SYSTEM_ID.ATTACK, SYSTEM_NAME, id);
     }
 
     @Override
-    public void run(Battle battle) {
+    public void run(Battle battle) throws Exception {
         this.tick = this.getElapseTime();
-        //Create List of Component TypeIDs
-        List<EntityECS> towerList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(AttackComponent.typeID));
+        //AbilitySystem have monster
+        SystemECS abilitySystem = battle.abilitySystem;
+        //
+        for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
+            EntityECS tower = mapElement.getValue();
 
-        List<EntityECS> monsterList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(MonsterInfoComponent.typeID,PositionComponent.typeID));
-//        Debug Bullet
-//        List<Integer> typeIDBullet = new ArrayList<>();
-//        typeIDBullet.add(GameConfig.COMPONENT_ID.BULLET_INFO);
-//        List<EntityECS> bulletList = battle.getEntityManager().getEntitiesHasComponents(typeIDBullet);
-//        for (EntityECS bullet : bulletList) {
-//            bullet.toString();
-//        }
-        for (EntityECS tower : towerList) {
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
+
+            //update count down time
             double countDown = attackComponent.getCountdown();
             if (countDown > 0) {
-                attackComponent.setCountdown(countDown - tick * 1.0 / 1000);
+                attackComponent.setCountdown(countDown - tick / 1000);
             }
+
             if (countDown <= 0) {
                 List<EntityECS> monsterInRange = new ArrayList<>();
 
-                for (EntityECS monster : monsterList) {
+                for (Map.Entry<Long, EntityECS> monsterElement : abilitySystem.getEntityStore().entrySet()) {
+                    EntityECS monster = monsterElement.getValue();
+                    if (!monster._hasComponent(PositionComponent.typeID)) continue;
+
+                    MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
+                    if (!attackComponent.canTargetAirMonster() && monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
+                        continue;
+                    }
                     UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(UnderGroundComponent.typeID);
                     if (underGroundComponent == null || (!underGroundComponent.isInGround())) {
-                        if (monster.getActive() && monster.getMode() == tower.getMode()) {
+                        if (monster.getActive() && monster.getMode() == tower.getMode()
+                                && monster._hasComponent(PositionComponent.typeID)) {
                             double distance = this._distanceFrom(tower, monster);
-                            if (distance <= attackComponent.getRange()) monsterInRange.add(monster);
+                            if (distance <= attackComponent.getRange()) {
+                                monsterInRange.add(monster);
+                            }
                         }
                     }
                 }
+
                 if (monsterInRange.size() > 0) {
-                    EntityECS targetMonster = this.findTargetMonsterByStrategy(attackComponent.getTargetStrategy(), monsterInRange);
+                    EntityECS targetMonster = this.findTargetMonsterByStrategy(tower, attackComponent.getTargetStrategy(), monsterInRange);
                     if (targetMonster != null) {
                         PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(PositionComponent.typeID);
                         PositionComponent towerPos = (PositionComponent) tower.getComponent(PositionComponent.typeID);
+
+                        List<EffectComponent> cloneEffect = new ArrayList<>();
+                        for (EffectComponent effect : attackComponent.getEffects())
+                            cloneEffect.add(effect.clone(battle.getComponentFactory()));
 
                         try {
                             if (tower.getTypeID() == GameConfig.ENTITY_ID.FROG_TOWER) {
                                 double distance = this._distanceFrom(tower, targetMonster);
                                 double k = attackComponent.getRange() / distance;
                                 PositionComponent destination = new PositionComponent(k * (monsterPos.getX() - towerPos.getX()) + towerPos.getX(), k * (monsterPos.getY() - towerPos.getY()) + towerPos.getY());
-                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, destination, attackComponent.getEffects(), tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
+                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, null, destination.getPos(), cloneEffect, tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
                             } else {
-                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, monsterPos, attackComponent.getEffects(), tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
+                                battle.getEntityFactory().createBullet(tower.getTypeID(), towerPos, targetMonster, monsterPos.getPos(), cloneEffect, tower.getMode(), attackComponent.getBulletSpeed(), attackComponent.getBulletRadius());
                             }
                         } catch (Exception e) {
 
@@ -86,29 +100,23 @@ public class AttackSystem extends SystemECS {
 
     }
 
+    @Override
+    public boolean checkEntityCondition(EntityECS entity, Component component) {
+        return component.getTypeID() == AttackComponent.typeID;
+    }
+
     public double _distanceFrom(EntityECS tower, EntityECS monster) {
         PositionComponent towerPos = (PositionComponent) tower.getComponent(PositionComponent.typeID);
         PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
-        // System.out.println("AttackSystem Position "+towerPos.getX()+" "+towerPos.getY()+" "+monsterPos.getX()+" "+monsterPos.getY());
         return Utils.euclidDistance(new Point(towerPos.getX(), towerPos.getY()), new Point(monsterPos.getX(), monsterPos.getY()));
     }
 
-    public EntityECS findTargetMonsterByStrategy(int strategy, List<EntityECS> monsterInRange) {
+    public EntityECS findTargetMonsterByStrategy(EntityECS tower, int strategy, List<EntityECS> monsterInRange) {
         for (EntityECS monster : monsterInRange) {
             if (monster.getTypeID() == GameConfig.ENTITY_ID.DARK_GIANT) {
                 return monster;
             }
         }
-
-//        return monsterInRange.get(0);
-        // TODO: Implement when have burrowed monster
-        /*for (EntityECS monster: monsterInRange) {
-            UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.
-                    getComponent(GameConfig.COMPONENT_ID.UNDER_GROUND);
-            if (underGroundComponent != null && underGroundComponent.isInGround()) {
-                return monster;
-            }
-        }*/
 
         EntityECS targetMonster = null;
         switch (strategy) {
@@ -121,9 +129,11 @@ public class AttackSystem extends SystemECS {
                     if (hp > maxHP) {
                         maxHP = hp;
                         maxHPIndex = i;
+                    } else if (hp == maxHP && monsterInRange.get(maxHPIndex).getId() > monsterInRange.get(i).getId()) {
+                        maxHPIndex = i;
                     }
                 }
-                if (maxHPIndex!=-1) targetMonster = monsterInRange.get(maxHPIndex);
+                if (maxHPIndex != -1) targetMonster = monsterInRange.get(maxHPIndex);
                 break;
             }
             case GameConfig.TOWER_TARGET_STRATEGY.MIN_HP:
@@ -135,33 +145,39 @@ public class AttackSystem extends SystemECS {
                     if (hp < minHP) {
                         minHP = hp;
                         minHPIndex = i;
+                    } else if (hp == minHP && monsterInRange.get(minHPIndex).getId() > monsterInRange.get(i).getId()) {
+                        minHPIndex = i;
                     }
                 }
-                if (minHPIndex!=-1) targetMonster = monsterInRange.get(minHPIndex);
+                if (minHPIndex != -1) targetMonster = monsterInRange.get(minHPIndex);
                 break;
             case GameConfig.TOWER_TARGET_STRATEGY.MAX_DISTANCE:
                 double maxDistance = -1;
                 int maxDistanceIndex = -1;
                 for (int i = 0; i < monsterInRange.size(); i++) {
-                    double distance = this._distanceFrom(monsterInRange.get(i), monsterInRange.get(i));
+                    double distance = this._distanceFrom(monsterInRange.get(i), tower);
                     if (distance > maxDistance) {
                         maxDistance = distance;
                         maxDistanceIndex = i;
+                    } else if (distance == maxDistance && monsterInRange.get(maxDistanceIndex).getId() > monsterInRange.get(i).getId()) {
+                        maxDistanceIndex = i;
                     }
                 }
-                if (maxDistanceIndex!=-1) targetMonster = monsterInRange.get(maxDistanceIndex);
+                if (maxDistanceIndex != -1) targetMonster = monsterInRange.get(maxDistanceIndex);
                 break;
             case GameConfig.TOWER_TARGET_STRATEGY.MIN_DISTANCE:
                 double minDistance = Double.MAX_VALUE;
                 int minDistanceIndex = -1;
                 for (int i = 0; i < monsterInRange.size(); i++) {
-                    double distance = this._distanceFrom(monsterInRange.get(i), monsterInRange.get(i));
+                    double distance = this._distanceFrom(monsterInRange.get(i), tower);
                     if (distance < minDistance) {
                         minDistance = distance;
                         minDistanceIndex = i;
+                    } else if (distance == minDistance && monsterInRange.get(minDistanceIndex).getId() > monsterInRange.get(i).getId()) {
+                        minDistanceIndex = i;
                     }
                 }
-                if (minDistanceIndex!=-1) targetMonster = monsterInRange.get(minDistanceIndex);
+                if (minDistanceIndex != -1) targetMonster = monsterInRange.get(minDistanceIndex);
                 break;
             default:
                 throw new Error("Invalid strategy");

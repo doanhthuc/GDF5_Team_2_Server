@@ -23,15 +23,15 @@ public class ResponseRequestCellObject extends BaseMsg {
         bf.putInt(tileObject.getTilePos().x);
         bf.putInt(tileObject.getTilePos().y);
         bf.putInt(tileObject.getBuffCellType().value);
-        bf.putInt(tileObject.getObjectInCell().getObjectInCellType().value);
-        switch (tileObject.getObjectInCell().getObjectInCellType()) {
+        bf.putInt(tileObject.getObjectInTile().getObjectInCellType().value);
+        switch (tileObject.getObjectInTile().getObjectInCellType()) {
             case TOWER:
-                Tower tower = (Tower) tileObject.getObjectInCell();
+                Tower tower = (Tower) tileObject.getObjectInTile();
                 bf.putInt(tower.getId());
                 bf.putInt(tower.getLevel());
                 break;
             case TREE:
-                Tree tree = (Tree) tileObject.getObjectInCell();
+                Tree tree = (Tree) tileObject.getObjectInTile();
                 bf.putDouble(tree.getHp());
                 break;
             case PIT:

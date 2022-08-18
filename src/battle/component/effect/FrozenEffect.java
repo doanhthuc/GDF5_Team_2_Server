@@ -4,7 +4,7 @@ import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
 public class FrozenEffect extends EffectComponent {
-    private String name ="Frozen Effect";
+    private String name = "Frozen Effect";
     public static int typeID = GameConfig.COMPONENT_ID.FROZEN_EFFECT;
     private double duration;
     private double countdown;
@@ -25,14 +25,13 @@ public class FrozenEffect extends EffectComponent {
         this.countdown = countdown;
     }
 
-    public FrozenEffect(double duration)
-    {
+    public FrozenEffect(double duration) {
         super(GameConfig.COMPONENT_ID.FROZEN_EFFECT);
-        this.duration=duration;
-        this.countdown=this.duration;
+        this.duration = duration;
+        this.countdown = this.duration;
     }
-    public FrozenEffect clone(ComponentFactory componentFactory)
-    {
+
+    public FrozenEffect clone(ComponentFactory componentFactory) {
         try {
             return componentFactory.createFrozenEffect(this.duration);
         } catch (Exception e) {
@@ -41,9 +40,8 @@ public class FrozenEffect extends EffectComponent {
         return null;
     }
 
-    public void reset(double duration)
-    {
-        this.duration=duration;
-        this.countdown=this.duration;
+    public void reset(double duration) {
+        this.duration = duration;
+        this.countdown = this.duration;
     }
 }

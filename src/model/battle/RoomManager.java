@@ -4,10 +4,12 @@ import model.PlayerInfo;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomManager {
     private static final RoomManager instance = new RoomManager();
     private final Map<Integer, Room> roomMap;
+    private static int roomCount = 0;
 
     private RoomManager() {
         roomMap = new HashMap<Integer, Room>();
@@ -47,9 +49,11 @@ public class RoomManager {
     }
 
     public int getRoomCount() {
-        return roomMap.size();
+        System.out.println("CurrentRoomCount = " + roomCount);
+        return roomCount++;
     }
-    public void clearRoom(){
+
+    public void clearRoom() {
         this.roomMap.clear();
     }
 
