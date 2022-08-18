@@ -19,21 +19,10 @@ public class ResetSystem extends SystemECS {
     @Override
     public void run(Battle battle) {
         this.tick = this.getElapseTime();
-        this.handleResetDamageEffect(battle);
     }
 
     @Override
     public boolean checkEntityCondition(EntityECS entity, Component component) {
         return false;
-    }
-
-    public void handleResetDamageEffect(Battle battle) {
-        List<EntityECS> towerList = battle.getEntityManager().getEntitiesHasComponents(Arrays.asList(AttackComponent.typeID));
-        for(EntityECS tower: towerList)
-        {
-            AttackComponent attackComponent = (AttackComponent) tower.getComponent(AttackComponent.typeID);
-            attackComponent.setDamage(attackComponent.getOriginDamage());
-            attackComponent.setSpeed(attackComponent.getOriginSpeed());
-        }
     }
 }
