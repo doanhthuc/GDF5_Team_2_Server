@@ -8,7 +8,9 @@ import battle.entity.EntityECS;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public abstract class SystemECS {
     private String name;

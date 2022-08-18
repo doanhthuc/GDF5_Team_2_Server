@@ -129,6 +129,8 @@ public class AttackSystem extends SystemECS {
                     if (hp > maxHP) {
                         maxHP = hp;
                         maxHPIndex = i;
+                    } else if (hp == maxHP && maxHPIndex > i) {
+                        maxHPIndex = i;
                     }
                 }
                 if (maxHPIndex != -1) targetMonster = monsterInRange.get(maxHPIndex);
@@ -143,6 +145,8 @@ public class AttackSystem extends SystemECS {
                     if (hp < minHP) {
                         minHP = hp;
                         minHPIndex = i;
+                    } else if (hp == minHP && minHPIndex > i) {
+                        minHPIndex = i;
                     }
                 }
                 if (minHPIndex != -1) targetMonster = monsterInRange.get(minHPIndex);
@@ -155,6 +159,8 @@ public class AttackSystem extends SystemECS {
                     if (distance > maxDistance) {
                         maxDistance = distance;
                         maxDistanceIndex = i;
+                    } else if (distance == maxDistance && maxDistanceIndex > i) {
+                        maxDistanceIndex = i;
                     }
                 }
                 if (maxDistanceIndex != -1) targetMonster = monsterInRange.get(maxDistanceIndex);
@@ -166,6 +172,8 @@ public class AttackSystem extends SystemECS {
                     double distance = this._distanceFrom(monsterInRange.get(i), tower);
                     if (distance < minDistance) {
                         minDistance = distance;
+                        minDistanceIndex = i;
+                    } else if (distance == minDistance && minDistance > i) {
                         minDistanceIndex = i;
                     }
                 }

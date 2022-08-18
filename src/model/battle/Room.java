@@ -50,10 +50,10 @@ public class Room implements Runnable {
         this.endBattle = false;
         this.botActionTime = this.startTime + 1000;
 
-        if (GameConfig.DEBUG) {
-            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
-            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
-        }
+//        if (GameConfig.DEBUG) {
+//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
+//            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
+//        }
         this.battle.setNextWaveTimeTick((int) (GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate()));
     }
 
@@ -357,7 +357,7 @@ public class Room implements Runnable {
         double[] serverSumHpInEachTick = this.checkSum;
         int diffTick = 0, totalTick = 0;
         for (int i = 0; i < clientSumHpInEachTick.length; i++) {
-            if (serverSumHpInEachTick[i] != clientSumHpInEachTick[i] && serverSumHpInEachTick[i] != 0 && clientSumHpInEachTick[i] != 0) {
+            if (serverSumHpInEachTick[i] != clientSumHpInEachTick[i] && serverSumHpInEachTick[i] != 0 && clientSumHpInEachTick[i    ] != 0) {
                 System.out.println("Difference at tick" + i + " ServerSumHp = " + serverSumHpInEachTick[i] + " UserSumHp = " + clientSumHpInEachTick[i]);
                 diffTick += 1;
             }
