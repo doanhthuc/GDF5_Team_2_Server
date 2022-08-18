@@ -30,6 +30,8 @@ public class MovementSystem extends SystemECS {
         //Get Movement Entity
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS entity = mapElement.getValue();
+            if (!entity._hasComponent(PositionComponent.typeID)) continue;
+
             PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
             FireBallEffect fireballEffect = (FireBallEffect) entity.getComponent(FireBallEffect.typeID);
@@ -46,19 +48,17 @@ public class MovementSystem extends SystemECS {
                 if (fireballEffect.getAccTime() < fireballEffect.getMaxDuration()) {
                     fireballEffect.setAccTime(fireballEffect.getAccTime() + (this.tick / 1000));
                     double newSpeed = -1 * fireballEffect.getA() * fireballEffect.getAccTime() + fireballEffect.getV0();
-                    Point newVelocity = Utils.calculateVelocityVector(fireballEffect.getStartPos(),
-                            fireballEffect.getEndPos(), newSpeed);
+                    Point newVelocity = Utils.calculateVelocityVector(fireballEffect.getStartPos(), fireballEffect.getEndPos(), newSpeed);
                     velocityComponent.setSpeedX(newVelocity.x);
                     velocityComponent.setSpeedY(newVelocity.y);
+
                 } else {
                     entity.removeComponent(fireballEffect);
                     if (ValidatorECS.isEntityInGroupId(entity, GameConfig.GROUP_ID.MONSTER_ENTITY)) {
                         PositionComponent monsterPos = (PositionComponent) entity.getComponent(PositionComponent.typeID);
                         if (monsterPos != null) {
                             Point tilePos = Utils.pixel2Tile(monsterPos.getX(), monsterPos.getY(), entity.getMode());
-                            if (!Utils.validateTilePos(tilePos)) {
-                                continue;
-                            }
+                            if (!Utils.validateTilePos(tilePos)) continue;
                             int[][] map = battle.getBattleMapByEntityMode(entity.getMode()).map;
                             if (map[(int) tilePos.x][(int) tilePos.y] == GameConfig.MAP.HOLE && entity.getTypeID() != GameConfig.ENTITY_ID.BAT) {
                                 LifeComponent lifeComponent = (LifeComponent) entity.getComponent(LifeComponent.typeID);
@@ -84,8 +84,9 @@ public class MovementSystem extends SystemECS {
                 Point tmpPos = new Point(
                         positionComponent.getPos().x + moveDistanceX,
                         positionComponent.getPos().y + moveDistanceY);
-                if (ValidatorECS.isEntityInGroupId(entity, GameConfig.GROUP_ID.MONSTER_ENTITY)
-                        && entity.getComponent(FireBallEffect.typeID) != null) {
+
+                //OnlyUpdate Position of monster if the position is valid
+                if (ValidatorECS.isEntityInGroupId(entity, GameConfig.GROUP_ID.MONSTER_ENTITY) && entity._hasComponent(FireBallEffect.typeID)) {
                     Point currentTilePos = Utils.pixel2Tile(positionComponent.getPos().x, positionComponent.getPos().y, entity.getMode());
                     Point futureTilePos = Utils.pixel2Tile(tmpPos.x, tmpPos.y, entity.getMode());
                     if (Utils.validateTilePos(currentTilePos)
