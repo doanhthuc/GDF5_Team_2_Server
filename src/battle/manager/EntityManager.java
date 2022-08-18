@@ -1,6 +1,7 @@
 package battle.manager;
 
 
+import battle.Battle;
 import battle.common.UUIDGeneratorECS;
 import battle.component.common.Component;
 import battle.entity.EntityECS;
@@ -12,18 +13,26 @@ import java.util.concurrent.ConcurrentHashMap;
 public class EntityManager extends ManagerECS {
     private Map<Long, EntityECS> entities;
     private final String name = "EntityManager";
+    private Battle battle;
 
-    public EntityManager() {
+    public EntityManager(Battle battle) {
         super();
         entities = new ConcurrentHashMap<>();
+        this.battle = battle;
     }
 
     public void destroy(EntityECS entityECS) {
-        EntityECS entity = entities.get(entityECS.getId());
-        for (Map.Entry<Integer, Component> entry : entities.get(entity.getId()).getComponents().entrySet()) {
-            entry.getValue().setActive(false);
+//        System.out.println("entityID " + entityECS.getId());
+//        for (Map.Entry<Long, EntityECS> entry : entities.entrySet()) {
+//            System.out.print("map:=" + entry.getKey() + " ");
+//        }
+        if (!entities.containsKey(entityECS.getId())) return;
+        for (Map.Entry<Integer, Component> entry : entities.get(entityECS.getId()).getComponents().entrySet()) {
+            Component component = entry.getValue();
+            battle.getComponentManager().remove(component);
+            entityECS.removeComponent(component);
         }
-        entities.remove(entity.getId());
+        this.remove(entityECS);
     }
 
 

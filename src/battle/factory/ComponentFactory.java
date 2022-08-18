@@ -153,6 +153,7 @@ public class ComponentFactory {
             attackComponent.reset(damage, targetStrategy, range, speed, countdown, effects, bulletSpeed, bulletRadius);
         } else {
             attackComponent = new AttackComponent(damage, targetStrategy, range, speed, countdown, effects, bulletSpeed, bulletRadius);
+            attackComponent.setTickManager(battle.getTickManager());
             attackComponent.setId(battle.getUuidGeneratorECS().genComponentID());
         }
         return attackComponent;

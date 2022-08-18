@@ -132,7 +132,7 @@ public class AbilitySystem extends SystemECS {
 
                                 double entityHpAfterHeal = Math.min(
                                         lifeComponent.getHp() + lifeComponent.getMaxHP() * healingAbilityComponent.getHealingRate(),
-                                        lifeComponent.getMaxHP());
+                                        lifeComponent.getMaxHP()); 
                                 lifeComponent.setHp(entityHpAfterHeal);
                             }
                         }

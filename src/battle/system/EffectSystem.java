@@ -7,6 +7,7 @@ import battle.component.common.*;
 import battle.component.effect.*;
 import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
+import battle.component.towerskill.DamageAmplifyComponent;
 import battle.component.towerskill.PoisonEffect;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
@@ -41,10 +42,17 @@ public class EffectSystem extends SystemECS {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS monster = mapElement.getValue();
             if (!monster._hasComponent(DamageEffect.typeID)) continue;
-            LifeComponent life = (LifeComponent) monster.getComponent(GameConfig.COMPONENT_ID.LIFE);
+
+            LifeComponent life = (LifeComponent) monster.getComponent(LifeComponent.typeID);
             if (life != null) {
-                DamageEffect damageEffect = (DamageEffect) monster.getComponent(GameConfig.COMPONENT_ID.DAMAGE_EFFECT);
-                life.setHp(life.getHp() - damageEffect.getDamage());
+                DamageEffect damageEffect = (DamageEffect) monster.getComponent(DamageEffect.typeID);
+                // If monster has DamageAmplify Component
+                if (monster._hasComponent(DamageAmplifyComponent.typeID)) {
+                    DamageAmplifyComponent damageAmplify = (DamageAmplifyComponent) monster.getComponent(DamageAmplifyComponent.typeID);
+                    life.setHp(life.getHp() - damageEffect.getDamage() * damageAmplify.getAmplifyRate());
+                } else {
+                    life.setHp(life.getHp() - damageEffect.getDamage());
+                }
                 monster.removeComponent(damageEffect);
             }
         }
@@ -59,7 +67,10 @@ public class EffectSystem extends SystemECS {
             FrozenEffect frozenComponent = (FrozenEffect) monster.getComponent(FrozenEffect.typeID);
 
             frozenComponent.setCountdown(frozenComponent.getCountdown() - tick / 1000);
+
             if (frozenComponent.getCountdown() <= 0) {
+                DamageAmplifyComponent damageAmplify = (DamageAmplifyComponent) monster.getComponent(DamageAmplifyComponent.typeID);
+                if (damageAmplify != null) monster.removeComponent(damageAmplify);
                 monster.removeComponent(frozenComponent);
                 this.updateOriginVelocity(velocityComponent);
             } else {
@@ -73,15 +84,17 @@ public class EffectSystem extends SystemECS {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS monster = mapElement.getValue();
             if (!monster._hasComponent(SlowEffect.typeID)) continue;
+
             VelocityComponent velocityComponent = (VelocityComponent) monster.getComponent(VelocityComponent.typeID);
             SlowEffect slowComponent = (SlowEffect) monster.getComponent(SlowEffect.typeID);
             slowComponent.setCountdown(slowComponent.getCountdown() - tick / 1000);
+
             if (slowComponent.getCountdown() <= 0) {
                 this.updateOriginVelocity(velocityComponent);
                 monster.removeComponent(slowComponent);
             } else {
-                velocityComponent.setSpeedX(velocityComponent.getOriginSpeedX() * slowComponent.getPercent());
-                velocityComponent.setSpeedY(velocityComponent.getOriginSpeedY() * slowComponent.getPercent());
+                velocityComponent.setSpeedX(Math.min(velocityComponent.getOriginSpeedX() * slowComponent.getPercent(), velocityComponent.getSpeedX()));
+                velocityComponent.setSpeedY(Math.min(velocityComponent.getOriginSpeedY() * slowComponent.getPercent(), velocityComponent.getSpeedY()));
             }
         }
     }

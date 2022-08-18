@@ -42,21 +42,19 @@ public class Room implements Runnable {
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
+        this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
+        this.tickManager = new TickManager(this.startTime);
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
-        this.battle = new Battle(player1, player2);
+        this.battle = new Battle(player1, player2, tickManager);
         this.endBattle = false;
-        this.startTime = System.currentTimeMillis() + GameConfig.BATTLE.START_GAME_AFTER;
         this.botActionTime = this.startTime + 1000;
 
         if (GameConfig.DEBUG) {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
         }
-
-        this.tickManager = new TickManager(this.startTime);
         this.battle.setNextWaveTimeTick((int) (GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate()));
-
     }
 
     public void addInput(PlayerInfo playerInfo, DataCmd dataCmd) {
@@ -357,13 +355,13 @@ public class Room implements Runnable {
 
     public void checkClientSumHp(double[] clientSumHpInEachTick, User user) {
         double[] serverSumHpInEachTick = this.checkSum;
-        int diffTick = 0,totalTick =0;
+        int diffTick = 0, totalTick = 0;
         for (int i = 0; i < clientSumHpInEachTick.length; i++) {
             if (serverSumHpInEachTick[i] != clientSumHpInEachTick[i] && serverSumHpInEachTick[i] != 0 && clientSumHpInEachTick[i] != 0) {
                 System.out.println("Difference at tick" + i + " ServerSumHp = " + serverSumHpInEachTick[i] + " UserSumHp = " + clientSumHpInEachTick[i]);
                 diffTick += 1;
             }
-            totalTick+=1;
+            totalTick += 1;
         }
         System.out.println("---------------------");
         System.out.println("Number of Difference Tick:" + diffTick + " TotalTick:" + totalTick);

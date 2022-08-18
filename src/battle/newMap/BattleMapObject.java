@@ -47,7 +47,7 @@ public class BattleMapObject {
     }
 
     public TileObject getTileObject(int x, int y) {
-        if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+        if (x < 0 || x >= this.height || y < 0 || y >= this.width) {
             return null;
         }
         return battleMap.get(x).get(y);

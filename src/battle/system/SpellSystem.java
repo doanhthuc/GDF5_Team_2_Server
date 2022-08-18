@@ -89,7 +89,7 @@ public class SpellSystem extends SystemECS {
                         }
                     }
                 }
-                battle.getEntityManager().remove(spellEntity);
+                battle.getEntityManager().destroy(spellEntity);
             }
         }
     }

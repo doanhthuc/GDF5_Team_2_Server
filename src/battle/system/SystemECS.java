@@ -8,6 +8,7 @@ import battle.entity.EntityECS;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class SystemECS {
     private String name;
@@ -20,7 +21,7 @@ public abstract class SystemECS {
         this.typeId = typeId;
         this.name = name;
         this.id = systemId;
-        this.entityStore = new HashMap<>();
+        this.entityStore = new ConcurrentHashMap<>();
     }
 
     public int getTypeId() {
@@ -59,6 +60,10 @@ public abstract class SystemECS {
             throw new Exception("Entity id = " + entity.getId() + " doesn't exist - " + this.getName());
         }
 
+        this.entityStore.remove(entity.getId());
+    }
+
+    public final void removeEntity(EntityECS entity) {
         this.entityStore.remove(entity.getId());
     }
 }

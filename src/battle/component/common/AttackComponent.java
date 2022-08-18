@@ -4,6 +4,7 @@ import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
+import battle.tick.TickManager;
 import javafx.scene.effect.Effect;
 
 import java.util.ArrayList;
@@ -23,7 +24,9 @@ public class AttackComponent extends Component {
     private double bulletSpeed;
     private double bulletRadius;
     private boolean canTargetAirMonster = true;
+    private TickManager tickManager;
     private List<EffectComponent> effects = new ArrayList<>();
+    private int _latestTick;
 
     public AttackComponent(double damage, int targetStrategy, double range, double speed, double countdown, List<EffectComponent> effects, double bulletSpeed, double bulletRadius) {
         super(GameConfig.COMPONENT_ID.ATTACK);
@@ -46,13 +49,21 @@ public class AttackComponent extends Component {
         this.effects.add(new DamageEffect(this.damage));
         this.bulletSpeed = bulletSpeed;
         this.bulletRadius = bulletRadius;
+        this._latestTick = -1;
     }
 
     public double getDamage() {
+        int latestUpdateTick = tickManager.getCurrentTick();
+        if (latestUpdateTick != this._latestTick) {
+            this._latestTick = latestUpdateTick;
+            this.speed = this.originSpeed;
+            this.damage = this.originDamage;
+        }
         return this.damage;
     }
 
     public void setDamage(double damage) {
+
         this.damage = damage;
         for (int i = 0; i < this.effects.size(); i++) {
             if (effects.get(i).getTypeID() == GameConfig.COMPONENT_ID.DAMAGE_EFFECT) {
@@ -61,6 +72,7 @@ public class AttackComponent extends Component {
             }
         }
     }
+
 
     public AttackComponent clone(ComponentFactory componentFactory) {
         try {
@@ -112,6 +124,12 @@ public class AttackComponent extends Component {
     }
 
     public double getSpeed() {
+        int latestUpdateTick = tickManager.getCurrentTick();
+        if (latestUpdateTick != this._latestTick) {
+            this._latestTick = latestUpdateTick;
+            this.speed = this.originSpeed;
+            this.damage = this.originDamage;
+        }
         return speed;
     }
 
@@ -133,6 +151,14 @@ public class AttackComponent extends Component {
 
     public String getName() {
         return name;
+    }
+
+    public TickManager getTickManager() {
+        return tickManager;
+    }
+
+    public void setTickManager(TickManager tickManager) {
+        this.tickManager = tickManager;
     }
 
     public void setName(String name) {

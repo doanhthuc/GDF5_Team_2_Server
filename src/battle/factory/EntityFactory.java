@@ -174,8 +174,8 @@ public class EntityFactory {
     public EntityECS createSwordManMonster(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.SWORD_MAN;
         EntityECS entity = this._createEntity(typeID, mode);
-        this.pool.push(entity);
-        this.entityManager.addEntity(entity);
+//        this.pool.push(entity);
+//        this.entityManager.addEntity(entity);
 
         MonsterConfigItem SwordManStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.SWORDSMAN);
         String category = SwordManStat.getCategory();
@@ -213,8 +213,8 @@ public class EntityFactory {
     public EntityECS createAssassinMonster(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.ASSASSIN;
         EntityECS entity = this._createEntity(typeID, mode);
-        this.pool.push(entity);
-        this.entityManager.addEntity(entity);
+//        this.pool.push(entity);
+//        this.entityManager.addEntity(entity);
 
         MonsterConfigItem assassinStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.ASSASSIN);
         String category = assassinStat.getCategory();
@@ -252,8 +252,8 @@ public class EntityFactory {
     public EntityECS createBatMonster(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.BAT;
         EntityECS entity = this._createEntity(typeID, mode);
-        this.pool.push(entity);
-        this.entityManager.addEntity(entity);
+//        this.pool.push(entity);
+//        this.entityManager.addEntity(entity);
 
         MonsterConfigItem batMonsterStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.BAT);
         String category = batMonsterStat.getCategory();
@@ -289,8 +289,8 @@ public class EntityFactory {
     public EntityECS createGiantMonster(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.GIANT;
         EntityECS entity = this._createEntity(typeID, mode);
-        this.pool.push(entity);
-        this.entityManager.addEntity(entity);
+//        this.pool.push(entity);
+//        this.entityManager.addEntity(entity);
 
         MonsterConfigItem giant = MonsterConfig.INS.getMonsterConfig(MonsterConfig.GIANT);
         String category = giant.getCategory();
@@ -327,8 +327,8 @@ public class EntityFactory {
     public EntityECS createNinjaMonster(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.NINJA;
         EntityECS entity = this._createEntity(typeID, mode);
-        this.pool.push(entity);
-        this.entityManager.addEntity(entity);
+//        this.pool.push(entity);
+//        this.entityManager.addEntity(entity);
 
         MonsterConfigItem ninjaMonsterStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.NINJA);
         String category = ninjaMonsterStat.getCategory();
@@ -367,8 +367,8 @@ public class EntityFactory {
     public EntityECS createDemonTreeBoss(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.DEMON_TREE;
         EntityECS entity = this._createEntity(typeID, mode);
-        this.pool.push(entity);
-        this.entityManager.addEntity(entity);
+//        this.pool.push(entity);
+//        this.entityManager.addEntity(entity);
 
         MonsterConfigItem demonTreeStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.DEMON_TREE);
         String category = demonTreeStat.getCategory();
@@ -405,8 +405,8 @@ public class EntityFactory {
     public EntityECS createDemonTreeMinion(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.DEMON_TREE_MINION;
         EntityECS entity = this._createEntity(typeID, mode);
-        this.pool.push(entity);
-        this.entityManager.addEntity(entity);
+//        this.pool.push(entity);
+//        this.entityManager.addEntity(entity);
 
         MonsterConfigItem demonTreeMinionStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.DEMON_TREE_MINION);
         String category = demonTreeMinionStat.getCategory();
@@ -440,8 +440,8 @@ public class EntityFactory {
     public EntityECS createDarkGiantBoss(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.DARK_GIANT;
         EntityECS entity = this._createEntity(typeID, mode);
-        this.pool.push(entity);
-        this.entityManager.addEntity(entity);
+//        this.pool.push(entity);
+//        this.entityManager.addEntity(entity);
 
         MonsterConfigItem darkGiantStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.DARK_GIANT);
         String category = darkGiantStat.getCategory();
@@ -476,8 +476,8 @@ public class EntityFactory {
     public EntityECS createSatyrBoss(Point pixelPos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.SATYR;
         EntityECS entity = this._createEntity(typeID, mode);
-        this.pool.push(entity);
-        this.entityManager.addEntity(entity);
+//        this.pool.push(entity);
+//        this.entityManager.addEntity(entity);
 
         MonsterConfigItem satyrStat = MonsterConfig.INS.getMonsterConfig(MonsterConfig.SATYR);
         String category = satyrStat.getCategory();
@@ -570,7 +570,6 @@ public class EntityFactory {
     public EntityECS createIceGunPolarBearTower(Point tilePos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.BEAR_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
-
 
         short level = 1;
         TowerConfigItem bearIceGunConfig = TowerConfig.INS.getTowerConfig(TowerConfig.POLAR_BEAR);

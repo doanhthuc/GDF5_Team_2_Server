@@ -30,6 +30,7 @@ import battle.newMap.BattleMapObject;
 import battle.pool.ComponentPool;
 import battle.pool.EntityPool;
 import battle.system.*;
+import battle.tick.TickManager;
 import model.PlayerInfo;
 
 import java.util.*;
@@ -78,12 +79,22 @@ public class Battle {
     private int player2energy = GameConfig.OPPONENT_ENERGY;
     public PlayerInfo user1;
     public PlayerInfo user2;
+    public TickManager tickManager;
 
-    public Battle(PlayerInfo userId1, PlayerInfo userId2) {
+    public TickManager getTickManager() {
+        return tickManager;
+    }
+
+    public void setTickManager(TickManager tickManager) {
+        this.tickManager = tickManager;
+    }
+
+    public Battle(PlayerInfo userId1, PlayerInfo userId2, TickManager tickManager) {
         this.initPoolAndManager();
         this.initSystem();
         this.initMap(userId1, userId2);
         this.initMonsterWave();
+        this.tickManager = tickManager;
     }
 
 
@@ -91,12 +102,13 @@ public class Battle {
     public void initPoolAndManager() {
         this.entityPool = new EntityPool();
         this.componentPool = new ComponentPool();
-        this.entityManager = new EntityManager();
         this.componentManager = new ComponentManager();
         this.componentFactory = new ComponentFactory(this.componentManager, this.componentPool, this);
-        this.entityFactory = new EntityFactory(this.entityManager, this.componentFactory, this.entityPool, this);
         this.systemManager = new SystemManager();
         this.systemFactory = new SystemFactory(this.systemManager, this.uuidGeneratorECS);
+        this.entityManager = new EntityManager(this);
+        this.entityFactory = new EntityFactory(this.entityManager, this.componentFactory, this.entityPool, this);
+
     }
 
     public void initSystem() {
@@ -135,7 +147,7 @@ public class Battle {
     }
 
     public void initMonsterWave() {
-        this.monsterWave = this.createNewMonsterWave();
+        this.monsterWave = this.createNewMonsterWave2();
     }
 
     //Update
@@ -393,7 +405,8 @@ public class Battle {
             if (monster.getMode() == mode) {
                 PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
                 PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
-                if (positionComponent != null) {
+                MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
+                if (positionComponent != null && !monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
                     List<Point> path;
                     Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), mode);
                     if (monster.getMode() == EntityMode.PLAYER) {

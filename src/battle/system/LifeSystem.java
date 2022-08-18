@@ -28,7 +28,7 @@ public class LifeSystem extends SystemECS {
             MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
             if (lifeComponent.getHp() <= 0) {
                 battle.addPlayerEnergy(monsterInfoComponent.getGainEnergy(), monster.getMode());
-                battle.getEntityManager().remove(monster);
+                battle.getEntityManager().destroy(monster);
             }
         }
     }

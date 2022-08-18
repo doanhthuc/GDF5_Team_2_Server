@@ -10,6 +10,7 @@ import battle.manager.SystemManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityECS {
     private static final int MAX_ENTITY_TYPE = 100;
@@ -24,7 +25,7 @@ public class EntityECS {
 
     public EntityECS(int typeID, EntityMode mode, long id, ComponentManager componentManager, SystemManager systemManager) {
         this.typeID = typeID;
-        this.components = new HashMap<>();
+        this.components = new ConcurrentHashMap<>();
         this.id = id;
         this.active = true;
         this.mode = mode;
@@ -94,7 +95,7 @@ public class EntityECS {
     }
 
     public Map<Integer, Component> getComponents() {
-        return components;
+        return this.components;
     }
 
     public long getId() {
