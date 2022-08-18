@@ -7,6 +7,7 @@ import battle.component.common.Component;
 import battle.manager.ComponentManager;
 import battle.manager.SystemManager;
 
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,5 +127,13 @@ public class EntityECS {
                 System.out.print(component.getTypeID() + " ");
             }
         }
+    }
+
+    public void createSnapshot(ByteBuffer byteBuffer) {
+        short activeShort = (short) (active ? 1 : 0);
+
+        byteBuffer.putInt(typeID);
+        byteBuffer.putLong(id);
+        byteBuffer.putShort(activeShort);
     }
 }

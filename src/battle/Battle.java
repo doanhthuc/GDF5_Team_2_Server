@@ -550,4 +550,12 @@ public class Battle {
     public SystemManager getSystemManager() {
         return this.systemManager;
     }
+
+    public PlayerInfo getPlayerInfo1() {
+        return this.user1;
+    }
+
+    public PlayerInfo getPlayerInfo2() {
+        return this.user2;
+    }
 }

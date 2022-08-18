@@ -3,6 +3,8 @@ package battle.component.info;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class LifeComponent extends InfoComponent {
     private String name = "LifeComponent";
     public static int typeID = GameConfig.COMPONENT_ID.LIFE;
@@ -47,5 +49,12 @@ public class LifeComponent extends InfoComponent {
 
     public void setMaxHP(double maxHP) {
         this.maxHP = maxHP;
+    }
+
+    @Override
+    public void createSnapshot(ByteBuffer byteBuffer) {
+        super.createSnapshot(byteBuffer);
+        byteBuffer.putDouble(hp);
+        byteBuffer.putDouble(maxHP);
     }
 }

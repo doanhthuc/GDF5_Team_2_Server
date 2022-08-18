@@ -10,16 +10,24 @@ import battle.config.conf.tower.TowerConfig;
 import battle.entity.EntityECS;
 import battle.map.BattleMap;
 import battle.newMap.Tower;
+import battle.snapshot.SnapshotManager;
 import battle.tick.TickManager;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.server.exceptions.BZException;
 import bitzero.server.extensions.data.DataCmd;
 
+import bitzero.util.ExtensionUtility;
+import cmd.send.battle.player.ResponseRequestPutTower;
+import cmd.send.battle.player.ResponseRequestUpgradeTower;
+import cmd.send.battle.snapshot.ResponseSnapshot;
+import extension.FresherExtension;
 import match.UserType;
 import model.Inventory.Card;
 import model.PlayerInfo;
+import service.BattleHandler;
 
+import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -39,6 +47,8 @@ public class Room implements Runnable {
     private int maxTick = 100000;
     private final Queue<Pair<PlayerInfo, DataCmd>> waitingInputQueue = new ConcurrentLinkedQueue<>();
     private double[] checkSum = new double[maxTick];
+    private SnapshotManager snapshotManager;
+
 
     public Room(PlayerInfo player1, PlayerInfo player2) throws Exception {
         this.roomId = RoomManager.getInstance().getRoomCount();
@@ -49,6 +59,7 @@ public class Room implements Runnable {
         this.battle = new Battle(player1, player2, tickManager);
         this.endBattle = false;
         this.botActionTime = this.startTime + 1000;
+        this.snapshotManager = new SnapshotManager(this.battle);
 
         if (GameConfig.DEBUG) {
             new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
@@ -72,6 +83,12 @@ public class Room implements Runnable {
             try {
                 if (!this.endBattle) {
                     int currentTick = this.tickManager.getCurrentTick();
+
+                    if (currentTick % 60 == 0) {
+                        ByteBuffer snapshot = this.snapshotManager.createSnapshot();
+                        this.snapshotManager.sendSnapshot(snapshot);
+                    }
+
                     this.handleBotAction();
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<PlayerInfo, DataCmd> data = this.waitingInputQueue.poll();
