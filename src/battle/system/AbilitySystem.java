@@ -59,12 +59,13 @@ public class AbilitySystem extends SystemECS {
             UnderGroundComponent underGroundComponent = (UnderGroundComponent) entity.getComponent(UnderGroundComponent.typeID);
 
             PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
-            //check Frozen effect before trigger UndergroundComponent
-            if (entity._hasComponent(FrozenEffect.typeID)) {
-                FrozenEffect frozenEffect = (FrozenEffect) entity.getComponent(FrozenEffect.typeID);
-                if (frozenEffect.getCountdown() > 0) continue;
+            FrozenEffect frozenEffect = (FrozenEffect) entity.getComponent(FrozenEffect.typeID);
+            //Frozen monster => cant exec undergroundAbility
+            if (frozenEffect != null && frozenEffect.getCountdown() > 0) {
+                continue;
             }
 
+            //check if monster have position Component
             if (positionComponent != null) {
                 if (!underGroundComponent.isInGround()) {
                     if (((lifeComponent.getHp() / lifeComponent.getMaxHP()) <= 0.7 - 0.3 * underGroundComponent.getTrigger())) {
@@ -86,16 +87,20 @@ public class AbilitySystem extends SystemECS {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS entity = mapElement.getValue();
             if (!entity._hasComponent(SpawnMinionComponent.typeID)) continue;
+
             SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(SpawnMinionComponent.typeID);
 
             if (spawnMinionComponent.getPeriod() >= 0) {
-                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick);
+                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick / 1000);
             } else {
                 spawnMinionComponent.setPeriod(2);
                 PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
 
                 if (spawnMinionComponent.getSpawnAmount() < spawnMinionComponent.getMaxAmount()) {
-                    battle.getEntityFactory().createDemonTreeMinion(positionComponent.getPos(), entity.getMode());
+                    battle.getEntityFactory().createDemonTreeMinion(
+                            positionComponent.getPos(),
+                            entity.getMode());
+
                     spawnMinionComponent.setSpawnAmount(spawnMinionComponent.getSpawnAmount() + 1);
                 }
             }
@@ -109,16 +114,17 @@ public class AbilitySystem extends SystemECS {
             if (!satyr._hasComponent(HealingAbilityComponent.typeID)) continue;
             if (!satyr._hasComponent(PositionComponent.typeID)) continue;
 
-            HealingAbilityComponent healingAbilityComponent = (HealingAbilityComponent) satyr
-                    .getComponent(HealingAbilityComponent.typeID);
+            HealingAbilityComponent healingAbilityComponent = (HealingAbilityComponent) satyr.getComponent(HealingAbilityComponent.typeID);
 
             double countdown = healingAbilityComponent.getCountdown();
+
             if (countdown > 0) {
                 healingAbilityComponent.setCountdown(countdown - tick);
             } else {
                 healingAbilityComponent.setCountdown(1);
                 for (Map.Entry<Long, EntityECS> mapElement2 : this.getEntityStore().entrySet()) {
                     EntityECS monster = mapElement2.getValue();
+
                     if (!monster._hasComponent(PositionComponent.typeID)) continue;
 
                     if (monster.getActive() && monster.getMode() == satyr.getMode() && monster.getId() != satyr.getId()) {
@@ -132,7 +138,7 @@ public class AbilitySystem extends SystemECS {
 
                                 double entityHpAfterHeal = Math.min(
                                         lifeComponent.getHp() + lifeComponent.getMaxHP() * healingAbilityComponent.getHealingRate(),
-                                        lifeComponent.getMaxHP()); 
+                                        lifeComponent.getMaxHP());
                                 lifeComponent.setHp(entityHpAfterHeal);
                             }
                         }
@@ -141,7 +147,6 @@ public class AbilitySystem extends SystemECS {
             }
         }
     }
-
 
 
     private double distanceFrom(EntityECS tower, EntityECS monster) {
