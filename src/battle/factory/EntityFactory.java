@@ -566,7 +566,7 @@ public class EntityFactory {
         double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
-        boolean canTargetAirMonster = false;
+        boolean canTargetAirMonster = true;
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
@@ -640,7 +640,7 @@ public class EntityFactory {
         double attackSpeed = towerStat.getAttackSpeed() / 1000.0;
         double bulletRadius = towerStat.getBulletRadius() * GameConfig.TILE_WIDTH;
         double damage = towerStat.getDamage();
-        boolean canTargetAirMonster = false;
+        boolean canTargetAirMonster = true;
 
         Point pixelPos = Utils.tile2Pixel(tilePos.x, tilePos.y, mode);
 
