@@ -134,13 +134,13 @@ public class MatchMaking implements Runnable {
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(), room.getRoomId(),
                     room.getBattle().getBattleMapByPlayerId(user1.getId()),
                     room.getBattle().getBattleMapByPlayerId(user2.getId()),
-                    opponentInfoOfUser1, uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user1);
+                    opponentInfoOfUser1), user1);
 
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getRoomId(),
                     room.getBattle().getBattleMapByPlayerId(user2.getId()),
                     room.getBattle().getBattleMapByPlayerId(user1.getId()),
-                    opponentInfoOfUser2, uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user2);
+                    opponentInfoOfUser2), user2);
 
 
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
@@ -151,10 +151,10 @@ public class MatchMaking implements Runnable {
                     room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject), user2);
 
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user1);
 
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user2);
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getOpponentStartEntityID(), uuidGeneratorECS.getPlayerStartEntityID()), user2);
 
             ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getPlayerByID(user1.getId()).getBattleDeck()), user1);
@@ -193,10 +193,10 @@ public class MatchMaking implements Runnable {
 
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getRoomId(), room.getPlayerBattleMap(userInfo1.getId()), room.getPlayerBattleMap(dummyBot.getId()),
-                    opponentInfoOfUser1, uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user1);
+                    opponentInfoOfUser1), user1);
 
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user1);
 
 
             ExtensionUtility.getExtension().send(

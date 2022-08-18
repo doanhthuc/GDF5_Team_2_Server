@@ -13,18 +13,15 @@ public class ResponseMatching extends BaseMsg {
     public BattleMap playerMap;
     public BattleMap opponentMap;
     public OpponentInfo opponentInfo;
-    public long playerStartEntityID;
-    public long opponentStartEntityID;
 
-    public ResponseMatching(short error, int roomId, BattleMap playerMap, BattleMap opponentMap, OpponentInfo opponentInfo, long playerStartEntityID, long opponentStartEntityID) {
+    public ResponseMatching(short error, int roomId, BattleMap playerMap, BattleMap opponentMap, OpponentInfo opponentInfo) {
         super(CmdDefine.MATCHING);
         this.error = error;
         this.roomId = roomId;
         this.playerMap = playerMap;
         this.opponentMap = opponentMap;
         this.opponentInfo = opponentInfo;
-        this.playerStartEntityID = playerStartEntityID;
-        this.opponentStartEntityID = opponentStartEntityID;
+
     }
 
     @Override
@@ -37,8 +34,6 @@ public class ResponseMatching extends BaseMsg {
         bf.putInt(opponentInfo.getId());
         putStr(bf, opponentInfo.getUsername());
         bf.putInt(opponentInfo.getTrophy());
-        bf.putLong(playerStartEntityID);
-        bf.putLong(opponentStartEntityID);
         return packBuffer(bf);
     }
 
