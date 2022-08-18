@@ -1,8 +1,10 @@
 package cmd.send.battle.snapshot;
 
+import bitzero.server.BitZeroServer;
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
 
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
 public class ResponseSnapshot extends BaseMsg {
@@ -11,10 +13,18 @@ public class ResponseSnapshot extends BaseMsg {
     public ResponseSnapshot(ByteBuffer snapshotData) {
         super(CmdDefine.SEND_SNAPSHOT);
         this.snapshotData = snapshotData;
+        System.out.println(snapshotData.getInt()+" "+this.snapshotData.getInt());
     }
 
     @Override
     public byte[] createData() {
-        return packBuffer(this.snapshotData);
+        ByteBuffer bf = makeBuffer();
+        snapshotData.rewind();
+        while (snapshotData.hasRemaining()) {
+            byte a = snapshotData.get();
+//            System.out.print(a+" ");
+            bf.put(a);
+        }
+        return packBuffer(bf);
     }
 }

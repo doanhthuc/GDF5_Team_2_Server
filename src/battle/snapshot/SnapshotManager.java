@@ -30,19 +30,19 @@ public class SnapshotManager {
     }
 
     public ByteBuffer createSnapshot() {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(BitZeroServer.getInstance().getConfigurator().getCoreSettings().maxPacketBufferSize);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(BitZeroServer.getInstance().getConfigurator().getCoreSettings().maxPacketBufferSize - 4);
 
         System.out.println("Send size = " + abilitySystem.getEntityStore().size());
-        byteBuffer.putInt(0);
+        byteBuffer.putInt(abilitySystem.getEntityStore().size());
 
-//        for (Map.Entry<Long, EntityECS> entry : abilitySystem.getEntityStore().entrySet()) {
-//            EntityECS entity = entry.getValue();
-//            entity.createSnapshot(byteBuffer);
-//            byteBuffer.putInt(entity.getComponents().size());
-//            for (Map.Entry<Integer, Component> componentEntry : entity.getComponents().entrySet()) {
-//                componentEntry.getValue().createSnapshot(byteBuffer);
-//            }
-//        }
+        for (Map.Entry<Long, EntityECS> entry : abilitySystem.getEntityStore().entrySet()) {
+            EntityECS entity = entry.getValue();
+            entity.createSnapshot(byteBuffer);
+            byteBuffer.putInt(entity.getComponents().size());
+            for (Map.Entry<Integer, Component> componentEntry : entity.getComponents().entrySet()) {
+                componentEntry.getValue().createSnapshot(byteBuffer);
+            }
+        }
 
         return byteBuffer;
     }
