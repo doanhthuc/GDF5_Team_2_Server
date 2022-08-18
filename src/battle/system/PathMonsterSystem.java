@@ -30,16 +30,14 @@ public class PathMonsterSystem extends SystemECS {
         this.tick = this.getElapseTime();
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS entity = mapElement.getValue();
-            if (!entity._hasComponent(PathComponent.typeID)) continue;
             if (!entity._hasComponent(VelocityComponent.typeID)) continue;
             if (!entity._hasComponent(PositionComponent.typeID)) continue;
 
             PathComponent pathComponent = (PathComponent) entity.getComponent(PathComponent.typeID);
             PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
-            List<Point> path = pathComponent.getPath();
-            if (path == null) continue;
-            int currentPathIdx = pathComponent.getCurrentPathIDx();
+
+            List<Point> path = pathComponent.getPath(); int currentPathIdx = pathComponent.getCurrentPathIDx();
 
             int nextPosIdx = this._findNextPath(path, positionComponent, currentPathIdx);
             if (nextPosIdx > 1) pathComponent.setCurrentPathIDx(nextPosIdx - 1);

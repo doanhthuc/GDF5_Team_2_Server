@@ -24,26 +24,32 @@ public class BulletSystem extends SystemECS {
 
         for (Map.Entry<Long, EntityECS>  mapElement : this.getEntityStore().entrySet()) {
             EntityECS bullet = mapElement.getValue();
+
             PositionComponent bulletPos = (PositionComponent) bullet.getComponent(PositionComponent.typeID);
             VelocityComponent bulletVelocity = (VelocityComponent) bullet.getComponent(VelocityComponent.typeID);
             PathComponent pathComponent = (PathComponent) bullet.getComponent(PathComponent.typeID);
-            // if Frog
+
             if (pathComponent != null) {
                 if (pathComponent.getCurrentPathIDx() == pathComponent.getPath().size() - 2) {
                     battle.getEntityManager().destroy(bullet);
                 }
+
                 continue;
             }
 
+            //destroy bullet when target monster are died before the bullet can reach them
             if (bulletVelocity.getDynamicPosition(battle) == null && bulletVelocity.hasDynamicEntityId()) {
                 battle.getEntityManager().destroy(bullet);
                 continue;
             }
 
+
+
             if (bulletVelocity.getDynamicPosition(battle) != null) {
                 if (Math.abs(bulletVelocity.getDynamicPosition(battle).getX() - bulletPos.getX()) <= 10
                         || Math.abs(bulletVelocity.getDynamicPosition(battle).getY() - bulletPos.getY()) <= 10) {
                     CollisionComponent collisionComponent = (CollisionComponent) bullet.getComponent(CollisionComponent.typeID);
+
                     if (collisionComponent != null) {
                         collisionComponent.setWidth(collisionComponent.getOriginWidth());
                         collisionComponent.setHeight(collisionComponent.getOriginHeight());

@@ -24,9 +24,12 @@ public class LifeSystem extends SystemECS {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS monster = mapElement.getValue();
             if (!monster._hasComponent(LifeComponent.typeID)) continue;
+
             LifeComponent lifeComponent = (LifeComponent) monster.getComponent(LifeComponent.typeID);
-            MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
+
             if (lifeComponent.getHp() <= 0) {
+                MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
+
                 battle.addPlayerEnergy(monsterInfoComponent.getGainEnergy(), monster.getMode());
                 battle.getEntityManager().destroy(monster);
             }

@@ -46,7 +46,6 @@ public class EffectSystem extends SystemECS {
             LifeComponent life = (LifeComponent) monster.getComponent(LifeComponent.typeID);
             if (life != null) {
                 DamageEffect damageEffect = (DamageEffect) monster.getComponent(DamageEffect.typeID);
-                // If monster has DamageAmplify Component
                 if (monster._hasComponent(DamageAmplifyComponent.typeID)) {
                     DamageAmplifyComponent damageAmplify = (DamageAmplifyComponent) monster.getComponent(DamageAmplifyComponent.typeID);
                     life.setHp(life.getHp() - damageEffect.getDamage() * damageAmplify.getAmplifyRate());
@@ -87,9 +86,10 @@ public class EffectSystem extends SystemECS {
 
             VelocityComponent velocityComponent = (VelocityComponent) monster.getComponent(VelocityComponent.typeID);
             SlowEffect slowComponent = (SlowEffect) monster.getComponent(SlowEffect.typeID);
-            slowComponent.setCountdown(slowComponent.getCountdown() - tick / 1000);
 
+            slowComponent.setCountdown(slowComponent.getCountdown() - tick / 1000);
             if (slowComponent.getCountdown() <= 0) {
+
                 this.updateOriginVelocity(velocityComponent);
                 monster.removeComponent(slowComponent);
             } else {
@@ -119,12 +119,13 @@ public class EffectSystem extends SystemECS {
                             (int) GameConfig.MONSTER_BORN_POSITION.y);
                     PathComponent pathComponent = battle.getComponentFactory()
                             .createPathComponent(path, monster.getMode(), true);
-
                     monster.addComponent(pathComponent);
+
                     monster.removeComponent(trapEffect);
                 }
             } else {
                 PositionComponent pos = (PositionComponent) monster.getComponent(GameConfig.COMPONENT_ID.POSITION);
+
                 PathComponent pathComponent = (PathComponent) monster.getComponent(GameConfig.COMPONENT_ID.PATH);
 
                 pathComponent.setCurrentPathIDx(0);
@@ -159,6 +160,6 @@ public class EffectSystem extends SystemECS {
 
     private void updateOriginVelocity(VelocityComponent velocityComponent) {
         velocityComponent.setSpeedX(velocityComponent.getOriginSpeedX());
-        velocityComponent.setOriginSpeedY(velocityComponent.getSpeedY());
+        velocityComponent.setSpeedY(velocityComponent.getOriginSpeedY());
     }
 }

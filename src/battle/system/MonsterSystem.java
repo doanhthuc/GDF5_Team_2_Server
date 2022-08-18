@@ -27,11 +27,12 @@ public class MonsterSystem extends SystemECS {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS monster = mapElement.getValue();
             if (!monster._hasComponent(PositionComponent.typeID)) continue;
-
             PositionComponent monsterPos = (PositionComponent) monster.getComponent(PositionComponent.typeID);
+
             Point posTile = Utils.pixel2Tile(monsterPos.getX(), monsterPos.getY(), monster.getMode());
             if (posTile.x == GameConfig.HOUSE_POSITION.x && posTile.y == GameConfig.HOUSE_POSITION.y) {
                 MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
+
                 battle.minusPlayerHP(monsterInfoComponent.getEnergy(), monster.getMode());
                 battle.addPlayerEnergy(monsterInfoComponent.getEnergy() * 10, monster.getMode());
                 battle.getEntityManager().destroy(monster);

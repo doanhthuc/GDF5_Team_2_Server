@@ -14,6 +14,7 @@ import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.factory.EntityFactory;
 import battle.manager.EntityManager;
+import javafx.geometry.Pos;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
@@ -38,24 +39,32 @@ public class AttackSystem extends SystemECS {
             EntityECS tower = mapElement.getValue();
 
             AttackComponent attackComponent = (AttackComponent) tower.getComponent(GameConfig.COMPONENT_ID.ATTACK);
+
+            //update count down time
             double countDown = attackComponent.getCountdown();
             if (countDown > 0) {
                 attackComponent.setCountdown(countDown - tick / 1000);
             }
+
             if (countDown <= 0) {
                 List<EntityECS> monsterInRange = new ArrayList<>();
 
                 for (Map.Entry<Long, EntityECS> monsterElement : abilitySystem.getEntityStore().entrySet()) {
                     EntityECS monster = monsterElement.getValue();
                     if (!monster._hasComponent(PositionComponent.typeID)) continue;
+
                     MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
-                    if (monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR) && !attackComponent.canTargetAirMonster())
+                    if (!attackComponent.canTargetAirMonster() && monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
                         continue;
+                    }
                     UnderGroundComponent underGroundComponent = (UnderGroundComponent) monster.getComponent(UnderGroundComponent.typeID);
                     if (underGroundComponent == null || (!underGroundComponent.isInGround())) {
-                        if (monster.getActive() && monster.getMode() == tower.getMode()) {
+                        if (monster.getActive() && monster.getMode() == tower.getMode()
+                                && monster._hasComponent(PositionComponent.typeID)) {
                             double distance = this._distanceFrom(tower, monster);
-                            if (distance <= attackComponent.getRange()) monsterInRange.add(monster);
+                            if (distance <= attackComponent.getRange()) {
+                                monsterInRange.add(monster);
+                            }
                         }
                     }
                 }
@@ -65,8 +74,8 @@ public class AttackSystem extends SystemECS {
                     if (targetMonster != null) {
                         PositionComponent monsterPos = (PositionComponent) targetMonster.getComponent(PositionComponent.typeID);
                         PositionComponent towerPos = (PositionComponent) tower.getComponent(PositionComponent.typeID);
+
                         List<EffectComponent> cloneEffect = new ArrayList<>();
-                        //clone AttackComponent Effect to bulletEffect
                         for (EffectComponent effect : attackComponent.getEffects())
                             cloneEffect.add(effect.clone(battle.getComponentFactory()));
 
