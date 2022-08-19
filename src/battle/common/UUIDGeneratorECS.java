@@ -87,4 +87,36 @@ public class UUIDGeneratorECS {
     public long genSystemID() {
         return ++systemID;
     }
+
+    public long getPlayerTowerEntityId() {
+        return playerTowerEntityId;
+    }
+
+    public long getPlayerSpellEntityId() {
+        return playerSpellEntityId;
+    }
+
+    public long getPlayerMonsterEntityId() {
+        return playerMonsterEntityId;
+    }
+
+    public long getPlayerBulletEntityId() {
+        return playerBulletEntityId;
+    }
+
+    public long getOpponentTowerEntityId() {
+        return opponentTowerEntityId;
+    }
+
+    public long getOpponentSpellEntityId() {
+        return opponentSpellEntityId;
+    }
+
+    public long getOpponentMonsterEntityId() {
+        return opponentMonsterEntityId;
+    }
+
+    public long getOpponentBulletEntityId() {
+        return opponentBulletEntityId;
+    }
 }
