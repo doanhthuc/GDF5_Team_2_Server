@@ -68,10 +68,10 @@ public class PositionComponent extends Component {
     }
 
     @Override
-    public void createSnapshot(ByteBuffer byteBuffer) {
-        super.createSnapshot(byteBuffer);
-        byteBuffer.putDouble(x);
-        byteBuffer.putDouble(y);
-        byteBuffer.putDouble(moveDistance);
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(x);
+        bf.putDouble(y);
+        bf.putDouble(moveDistance);
     }
 }

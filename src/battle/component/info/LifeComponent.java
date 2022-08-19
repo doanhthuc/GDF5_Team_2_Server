@@ -1,7 +1,6 @@
 package battle.component.info;
 
 import battle.config.GameConfig;
-import battle.factory.ComponentFactory;
 
 import java.nio.ByteBuffer;
 
@@ -52,9 +51,9 @@ public class LifeComponent extends InfoComponent {
     }
 
     @Override
-    public void createSnapshot(ByteBuffer byteBuffer) {
-        super.createSnapshot(byteBuffer);
-        byteBuffer.putDouble(hp);
-        byteBuffer.putDouble(maxHP);
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(hp);
+        bf.putDouble(maxHP);
     }
 }

@@ -5,8 +5,8 @@ import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 import battle.tick.TickManager;
-import javafx.scene.effect.Effect;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -212,5 +212,10 @@ public class AttackComponent extends Component {
 
     public void setOriginSpeed(double originSpeed) {
         this.originSpeed = originSpeed;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
     }
 }

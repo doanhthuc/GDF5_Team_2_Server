@@ -1,6 +1,7 @@
 package battle.component.common;
 
 import battle.common.UUIDGeneratorECS;
+import battle.common.Utils;
 
 import java.nio.ByteBuffer;
 
@@ -33,7 +34,6 @@ public class Component {
     }
 
     public void setId(long id) {
-        System.out.println("set component id = " + id);
         this.id = id;
     }
 
@@ -55,12 +55,15 @@ public class Component {
                 '}';
     }
 
-    public void createSnapshot(ByteBuffer byteBuffer) {
-        short activeShort = (short) (active ? 1 : 0);
+    public void createData(ByteBuffer bf) {
+        short activeShort = Utils.getInstance().convertBoolean2Short(active);
 
-        byteBuffer.putInt(typeID);
-        byteBuffer.putLong(id);
-        byteBuffer.putShort(activeShort);
+        if (typeID == 0) {
+            System.out.println("XXXXXXXXXXXXXUUUUUUUUUUUUUUUUUUUUU");
+        }
+        bf.putInt(typeID);
+        bf.putLong(id);
+        bf.putShort(activeShort);
     }
 }
 

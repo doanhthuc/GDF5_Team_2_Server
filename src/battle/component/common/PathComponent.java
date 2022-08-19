@@ -4,7 +4,6 @@ import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.config.GameConfig;
-import battle.factory.ComponentFactory;
 
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -59,16 +58,16 @@ public class PathComponent extends Component {
     }
 
     @Override
-    public void createSnapshot(ByteBuffer byteBuffer) {
-        short modeShort = (short) (mode.getValue() == EntityMode.PLAYER.getValue() ? 1 : 0);
+    public void createData(ByteBuffer bf) {
+        short modeShort = Utils.getInstance().convertMode2Short(mode);
+        super.createData(bf);
 
-        super.createSnapshot(byteBuffer);
-        byteBuffer.putShort(modeShort);
-        byteBuffer.putInt(currentPathIDx);
-        byteBuffer.putInt(path.size());
+        bf.putShort(modeShort);
+        bf.putInt(currentPathIDx);
+        bf.putInt(path.size());
         for (Point p : path) {
-            byteBuffer.putDouble(p.x);
-            byteBuffer.putDouble(p.y);
+            bf.putDouble(p.x);
+            bf.putDouble(p.y);
         }
     }
 }

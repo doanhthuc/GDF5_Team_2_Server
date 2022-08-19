@@ -262,4 +262,12 @@ public class Utils {
         public static final int LEFT_TOP = 4;
         public static final int LEFT_BOTTOM = -4;
     }
+
+    public short convertMode2Short(EntityMode mode) {
+        return (short) (mode.getValue() == EntityMode.PLAYER.getValue() ? 1 : 0);
+    }
+
+    public short convertBoolean2Short(Boolean val) {
+        return (short) (val ? 1 : 0);
+    }
 }
