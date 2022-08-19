@@ -66,6 +66,7 @@ public class PathComponent extends Component {
         bf.putInt(currentPathIDx);
         bf.putInt(path.size());
         for (Point p : path) {
+            //TODO : Use Position as Int
             bf.putDouble(p.x);
             bf.putDouble(p.y);
         }
