@@ -1,24 +1,75 @@
 package battle.common;
 
+import battle.config.GameConfig;
+
 public class UUIDGeneratorECS {
-    private final long playerStartEntityID = 0;
-    private final long opponentStartEntityID = 100000;
-    private long playerEntityId;
-    private long opponentEntityId;
+    private final long PLAYER_START_ENTITY_ID = 0;
+    private final long OPPONENT_START_ENTITY_ID = 100000;
+
+    private final long TOWER_START_ENTITY_ID = 10;
+    private final long SPELL_START_ENTITY_ID = 2000;
+    private final long MONSTER_START_ENTITY_ID = 4000;
+    private final long BULLET_START_ENTITY_ID = 10000;
+
+    private long playerTowerEntityId;
+    private long playerSpellEntityId;
+    private long playerMonsterEntityId;
+    private long playerBulletEntityId;
+
+    private long opponentTowerEntityId;
+    private long opponentSpellEntityId;
+    private long opponentMonsterEntityId;
+    private long opponentBulletEntityId;
+
     private long componentID = 0;
     private long systemID = 0;
 
     public UUIDGeneratorECS() {
-        this.playerEntityId = playerStartEntityID;
-        this.opponentEntityId = opponentStartEntityID;
+        // set UUID for each type of Entity
+        playerTowerEntityId = TOWER_START_ENTITY_ID + PLAYER_START_ENTITY_ID;
+        playerSpellEntityId = SPELL_START_ENTITY_ID + PLAYER_START_ENTITY_ID;
+        playerMonsterEntityId = MONSTER_START_ENTITY_ID + PLAYER_START_ENTITY_ID;
+        playerBulletEntityId = BULLET_START_ENTITY_ID + PLAYER_START_ENTITY_ID;
+
+        opponentTowerEntityId = TOWER_START_ENTITY_ID + OPPONENT_START_ENTITY_ID;
+        opponentSpellEntityId = SPELL_START_ENTITY_ID + OPPONENT_START_ENTITY_ID;
+        opponentMonsterEntityId = MONSTER_START_ENTITY_ID + OPPONENT_START_ENTITY_ID;
+        opponentBulletEntityId = BULLET_START_ENTITY_ID + OPPONENT_START_ENTITY_ID;
     }
 
-    public long genEntityID(EntityMode entityMode) {
-        if (entityMode == EntityMode.PLAYER) {
-            return ++playerEntityId;
-        } else {
-            return ++opponentEntityId;
-        }
+    public long genEntityID(EntityMode entityMode, int entityTypeID) {
+        if (ValidatorECS.isEntityInGroupId(entityTypeID, GameConfig.GROUP_ID.TOWER_ENTITY))
+            return genTowerEntityIdByMode(entityMode);
+
+        if (ValidatorECS.isEntityInGroupId(entityTypeID, GameConfig.GROUP_ID.SPELl_ENTITY))
+            return genSpellEntityIdByMode(entityMode);
+
+        if (ValidatorECS.isEntityInGroupId(entityTypeID, GameConfig.GROUP_ID.MONSTER_ENTITY))
+            return genMonsterEntityIdByMode(entityMode);
+
+        if (ValidatorECS.isEntityInGroupId(entityTypeID, GameConfig.GROUP_ID.BULLET_ENTITY))
+            return genBulletEntityIdByMode(entityMode);
+        return 0;
+    }
+
+    public long genTowerEntityIdByMode(EntityMode entityMode) {
+        if (entityMode == EntityMode.PLAYER) return ++playerTowerEntityId;
+        else return ++opponentTowerEntityId;
+    }
+
+    public long genSpellEntityIdByMode(EntityMode entityMode) {
+        if (entityMode == EntityMode.PLAYER) return ++playerSpellEntityId;
+        else return ++opponentSpellEntityId;
+    }
+
+    public long genMonsterEntityIdByMode(EntityMode entityMode) {
+        if (entityMode == EntityMode.PLAYER) return ++playerMonsterEntityId;
+        else return ++opponentMonsterEntityId;
+    }
+
+    public long genBulletEntityIdByMode(EntityMode entityMode) {
+        if (entityMode == EntityMode.PLAYER) return ++playerBulletEntityId;
+        else return ++opponentBulletEntityId;
     }
 
     public long genComponentID() {
@@ -26,11 +77,11 @@ public class UUIDGeneratorECS {
     }
 
     public long getPlayerStartEntityID() {
-        return playerStartEntityID;
+        return PLAYER_START_ENTITY_ID;
     }
 
     public long getOpponentStartEntityID() {
-        return opponentStartEntityID;
+        return OPPONENT_START_ENTITY_ID;
     }
 
     public long genSystemID() {

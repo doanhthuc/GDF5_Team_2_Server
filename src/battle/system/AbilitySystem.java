@@ -91,7 +91,7 @@ public class AbilitySystem extends SystemECS {
             SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(SpawnMinionComponent.typeID);
 
             if (spawnMinionComponent.getPeriod() >= 0) {
-                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick / 1000);
+                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick);
             } else {
                 spawnMinionComponent.setPeriod(2);
                 PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);

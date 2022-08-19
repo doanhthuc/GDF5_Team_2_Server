@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;
@@ -94,6 +94,10 @@ public class GameConfig {
         public static final int SWORD_MAN = 19;
 
         public static final int BULLET = 20;
+        public static final int SLOW_BULLET = 21;
+        public static final int WIZARD_BULLET = 22;
+        public static final int TREE = 23;
+        public static final int HOLE = 24;
     }
 
     public static class TOWER_TARGET_STRATEGY {
@@ -122,11 +126,11 @@ public class GameConfig {
 
     public static class GROUP_ID {
         public static List<Integer> TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.SNAKE_TOWER, ENTITY_ID.GOAT_TOWER, ENTITY_ID.BEAR_TOWER);
+        public static List<Integer> SPELl_ENTITY = Arrays.asList(ENTITY_ID.FIRE_SPELL, ENTITY_ID.FROZEN_SPELL, ENTITY_ID.TRAP_SPELL);
         public static List<Integer> ATTACK_TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.BEAR_TOWER);
-
         public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.DEMON_TREE, ENTITY_ID.DEMON_TREE_MINION, ENTITY_ID.ASSASSIN,
                 ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
-        public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET);
+        public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET, ENTITY_ID.WIZARD_BULLET, ENTITY_ID.SLOW_BULLET);
         public static List<Integer> EFFECT_COMPONENT = Arrays.asList(COMPONENT_ID.DAMAGE_EFFECT, COMPONENT_ID.FROZEN_EFFECT, COMPONENT_ID.SLOW_EFFECT);
         public static List<Integer> INFO_COMPONENT = Arrays.asList(COMPONENT_ID.BULLET_INFO, COMPONENT_ID.TOWER_INFO, COMPONENT_ID.MONSTER_INFO);
     }

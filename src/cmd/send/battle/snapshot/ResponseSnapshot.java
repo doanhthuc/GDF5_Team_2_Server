@@ -10,21 +10,17 @@ import java.nio.ByteBuffer;
 public class ResponseSnapshot extends BaseMsg {
     private ByteBuffer snapshotData;
 
-    public ResponseSnapshot(ByteBuffer snapshotData) {
+    public ResponseSnapshot(ByteBuffer snapshotData, int player1HP, int player2HP, int currentTick) {
         super(CmdDefine.SEND_SNAPSHOT);
         this.snapshotData = snapshotData;
-        System.out.println(snapshotData.getInt()+" "+this.snapshotData.getInt());
+
+//        this.snapshotData.putInt(player1HP);
+//        this.snapshotData.putInt(player2HP);
+//        this.snapshotData.putInt(currentTick);
     }
 
     @Override
     public byte[] createData() {
-        ByteBuffer bf = makeBuffer();
-        snapshotData.rewind();
-        while (snapshotData.hasRemaining()) {
-            byte a = snapshotData.get();
-//            System.out.print(a+" ");
-            bf.put(a);
-        }
-        return packBuffer(bf);
+        return packBuffer(snapshotData);
     }
 }

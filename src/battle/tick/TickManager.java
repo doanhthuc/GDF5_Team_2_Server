@@ -83,7 +83,7 @@ public class TickManager {
 
     public void handleInternalInputTick(int tickNumber) throws Exception {
         Queue<Pair<PlayerInfo, DataCmd>> queue = this.inputTick.get(tickNumber);
-        if (queue != null) System.out.println("queue Internal InputTick Size " + queue.size());
+//        if (queue != null) System.out.println("queue Internal InputTick Size " + queue.size());
         while (queue != null && !queue.isEmpty()) {
             Pair<PlayerInfo, DataCmd> data = queue.poll();
             tickInternalHandler.handleCommand(data.first, data.second);

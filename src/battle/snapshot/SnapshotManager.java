@@ -30,13 +30,19 @@ public class SnapshotManager {
         this.battle = battle;
     }
 
-    public ByteBuffer createSnapshot() {
+    public ByteBuffer createAllSnapshot() {
         // should increase size buff if snapshot is big
-        ByteBuffer byteBuffer = ByteBuffer.allocate(BitZeroServer.getInstance().getConfigurator().getCoreSettings().maxPacketBufferSize - 4);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(BitZeroServer.getInstance().getConfigurator().getCoreSettings().maxPacketBufferSize);
+        Byte Error = 0;
+        byteBuffer.put(Error);
+        byteBuffer.putInt(battle.getTickManager().getCurrentTick());
+        System.out.println("tickSendSnapShot= " + battle.getTickManager().getCurrentTick());
+        this.createMonsterSnapShot(byteBuffer);
+        return byteBuffer;
+    }
 
-        // get list monsters
+    public ByteBuffer createMonsterSnapShot(ByteBuffer byteBuffer) {
         byteBuffer.putInt(abilitySystem.getEntityStore().size());
-
         for (Map.Entry<Long, EntityECS> entry : abilitySystem.getEntityStore().entrySet()) {
             EntityECS entity = entry.getValue();
             entity.createSnapshot(byteBuffer);
@@ -50,11 +56,11 @@ public class SnapshotManager {
 
             for (Map.Entry<Integer, Component> componentEntry : entity.getComponents().entrySet()) {
                 int typeID = componentEntry.getValue().getTypeID();
-                if (!(typeID == PathComponent.typeID || typeID == PositionComponent.typeID || typeID == LifeComponent.typeID) || typeID == VelocityComponent.typeID) continue;
+                if (!(typeID == PathComponent.typeID || typeID == PositionComponent.typeID || typeID == LifeComponent.typeID || typeID == VelocityComponent.typeID))
+                    continue;
                 componentEntry.getValue().createData(byteBuffer);
             }
         }
-
         return byteBuffer;
     }
 
@@ -64,12 +70,13 @@ public class SnapshotManager {
 
         if (FresherExtension.checkUserOnline(playerInfo1.getId())) {
             User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo1.getId());
-            ExtensionUtility.getExtension().send(new ResponseSnapshot(snapshot), user);
+            ExtensionUtility.getExtension().send(new ResponseSnapshot(snapshot, battle.player1HP, battle.player2HP, battle.getTickManager().getCurrentTick()), user);
         }
 
         if (FresherExtension.checkUserOnline(playerInfo2.getId())) {
             User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo2.getId());
-            ExtensionUtility.getExtension().send(new ResponseSnapshot(snapshot), user);
+            ExtensionUtility.getExtension().send(new ResponseSnapshot(snapshot, battle.player2HP, battle.player1HP, battle.getTickManager().getCurrentTick()), user);
+            ;
         }
     }
 }

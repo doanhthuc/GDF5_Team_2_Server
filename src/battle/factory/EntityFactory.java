@@ -59,9 +59,8 @@ public class EntityFactory {
     public EntityECS _createEntity(int typeID, EntityMode mode) {
         EntityECS entity = null;
         if (entity == null) {
-            long id = this.battle.getUuidGeneratorECS().genEntityID(mode);
+            long id = this.battle.getUuidGeneratorECS().genEntityID(mode, typeID);
             entity = new EntityECS(typeID, mode, id, this.battle.getComponentManager(), this.battle.getSystemManager());
-//            this.pool.push(entity);
             this.entityManager.addEntity(entity);
         }
         return entity;
@@ -151,7 +150,7 @@ public class EntityFactory {
                 entity.addComponent(pathComponent);
                 return entity;
             case GameConfig.ENTITY_ID.BUNNY_TOWER:
-                typeID = GameConfig.ENTITY_ID.BULLET;
+                typeID = GameConfig.ENTITY_ID.SLOW_BULLET;
                 entity = this._createEntity(typeID, mode);
 
                 infoComponent = this.componentFactory.createBulletInfoComponent(effects, "bunny", bulletRadius);
@@ -167,7 +166,7 @@ public class EntityFactory {
                 entity.addComponent(collisionComponent);
                 return entity;
             case GameConfig.ENTITY_ID.WIZARD_TOWER:
-                typeID = GameConfig.ENTITY_ID.BULLET;
+                typeID = GameConfig.ENTITY_ID.WIZARD_BULLET;
                 entity = this._createEntity(typeID, mode);
 
 
