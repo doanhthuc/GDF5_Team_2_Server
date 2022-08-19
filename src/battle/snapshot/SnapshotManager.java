@@ -38,7 +38,7 @@ public class SnapshotManager {
         byteBuffer.put(Error);
         System.out.println("tickSendSnapShot = " + battle.getTickManager().getCurrentTick());
         this.createMonsterSnapShot(byteBuffer);
-        this.createUserInfoSnapShot(byteBuffer);
+        this.createBattleInfoSnapShot(byteBuffer);
         return byteBuffer;
     }
 
@@ -64,7 +64,7 @@ public class SnapshotManager {
         return byteBuffer;
     }
 
-    public void createUserInfoSnapShot(ByteBuffer byteBuffer)
+    public void createBattleInfoSnapShot(ByteBuffer byteBuffer)
     {
         byteBuffer.putInt(battle.player1HP);
         byteBuffer.putInt(battle.player2HP);
