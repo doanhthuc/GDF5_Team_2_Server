@@ -130,7 +130,6 @@ public class EntityECS {
     public void createSnapshot(ByteBuffer byteBuffer) {
         short activeShort = Utils.getInstance().convertBoolean2Short(active);
         short modeShort = Utils.getInstance().convertMode2Short(mode);
-
         byteBuffer.putInt(typeID);
         byteBuffer.putLong(id);
         byteBuffer.putShort(activeShort);

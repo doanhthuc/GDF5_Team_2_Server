@@ -35,7 +35,7 @@
       "category": "normal",
       "monsterClass": "land",
       "hp": 30,
-      "speed": 0.8,
+      "speed": 2,
       "hitRadius": 0.2,
       "weight": 30,
       "ability": -1,

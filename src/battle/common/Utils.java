@@ -125,7 +125,6 @@ public class Utils {
     }
 
     public static List<Point> tileArray2PixelCellArray(List<Point> tileArr, EntityMode mode) {
-        if (tileArr.size() < 2) return null;
         List<Point> cellArr = new ArrayList<>();
         double cellX, cellY, beforeCellX = 0, beforeCellY = 0;
         int magicNumber = 27;
