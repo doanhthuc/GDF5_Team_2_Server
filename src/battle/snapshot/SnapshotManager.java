@@ -32,7 +32,6 @@ public class SnapshotManager {
     public ByteBuffer createSnapshot() {
         ByteBuffer byteBuffer = ByteBuffer.allocate(BitZeroServer.getInstance().getConfigurator().getCoreSettings().maxPacketBufferSize - 4);
 
-        System.out.println("Send size = " + abilitySystem.getEntityStore().size());
         byteBuffer.putInt(abilitySystem.getEntityStore().size());
 
         for (Map.Entry<Long, EntityECS> entry : abilitySystem.getEntityStore().entrySet()) {
