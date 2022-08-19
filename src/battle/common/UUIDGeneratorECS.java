@@ -1,22 +1,36 @@
 package battle.common;
 
 public class UUIDGeneratorECS {
-    private long entityID = 0;
+    private final long playerStartEntityID = 0;
+    private final long opponentStartEntityID = 100000;
+    private long playerEntityId;
+    private long opponentEntityId;
     private long componentID = 0;
     private long systemID = 0;
 
     public UUIDGeneratorECS() {
-
+        this.playerEntityId = playerStartEntityID;
+        this.opponentEntityId = opponentStartEntityID;
     }
 
-    public long genEntityID() {
-        return ++entityID;
+    public long genEntityID(EntityMode entityMode) {
+        if (entityMode == EntityMode.PLAYER) {
+            return ++playerEntityId;
+        } else {
+            return ++opponentEntityId;
+        }
     }
 
-    public synchronized long genComponentID() {
-        long id = ++componentID;
-        System.out.println("UUID generated: " + id);
-        return id;
+    public long genComponentID() {
+        return ++componentID;
+    }
+
+    public long getPlayerStartEntityID() {
+        return playerStartEntityID;
+    }
+
+    public long getOpponentStartEntityID() {
+        return opponentStartEntityID;
     }
 
     public long genSystemID() {

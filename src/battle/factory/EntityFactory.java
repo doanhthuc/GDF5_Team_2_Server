@@ -59,7 +59,7 @@ public class EntityFactory {
     public EntityECS _createEntity(int typeID, EntityMode mode) {
         EntityECS entity = null;
         if (entity == null) {
-            long id = this.battle.getUuidGeneratorECS().genEntityID();
+            long id = this.battle.getUuidGeneratorECS().genEntityID(mode);
             entity = new EntityECS(typeID, mode, id, this.battle.getComponentManager(), this.battle.getSystemManager());
 //            this.pool.push(entity);
             this.entityManager.addEntity(entity);

@@ -21,6 +21,7 @@ public class ResponseMatching extends BaseMsg {
         this.playerMap = playerMap;
         this.opponentMap = opponentMap;
         this.opponentInfo = opponentInfo;
+
     }
 
     @Override
