@@ -186,7 +186,6 @@ public class TickNetworkHandler {
         System.out.println("BattleMap processChangeTowerStrategy");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            // TODO: implement tower entity in server
             User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
             if (FresherExtension.checkUserOnline(playerInfo.getId())) {
                 ExtensionUtility.getExtension().send(new ResponseChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),

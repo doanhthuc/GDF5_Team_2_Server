@@ -210,7 +210,6 @@ public class EntityFactory {
 
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
-        //ToDo: find shortest Path with TilePos
 
         List<Point> shortestPath = this.getShortestPathInTile(mode, 0, 4);
         PathComponent pathComponent = this.componentFactory.createPathComponent(shortestPath, mode, true);
@@ -249,7 +248,6 @@ public class EntityFactory {
 
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
-        //ToDo: find shortest Path with TilePos
         List<Point> shortestPath = this.getShortestPathInTile(mode, 0, 4);
         PathComponent pathComponent = this.componentFactory.createPathComponent(shortestPath, mode, true);
 
@@ -319,8 +317,6 @@ public class EntityFactory {
         CollisionComponent collisionComponent = this.componentFactory.createCollisionComponent(hitRadius, hitRadius);
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(giant.getHp());
 
-
-        //ToDo: find shortest Path with TilePos
         List<Point> shortestPath = this.getShortestPathInTile(mode, 0, 4);
         PathComponent pathComponent = this.componentFactory.createPathComponent(shortestPath, mode, true);
 
@@ -358,7 +354,6 @@ public class EntityFactory {
         UnderGroundComponent underGroundComponent = this.componentFactory.createUnderGroundComponent();
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
-        //ToDo: find shortest Path with TilePos
         List<Point> shortestPath = this.getShortestPathInTile(mode, 0, 4);
         PathComponent pathComponent = this.componentFactory.createPathComponent(shortestPath, mode, true);
 
@@ -398,7 +393,6 @@ public class EntityFactory {
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(demonTreeStat.getHp());
         SpawnMinionComponent spawnMinionComponent = this.componentFactory.createSpawnMinionComponent(2);
 
-        //ToDo: find shortest Path with TilePos
         List<Point> shortestPath = this.getShortestPathInTile(mode, 0, 4);
         PathComponent pathComponent = this.componentFactory.createPathComponent(shortestPath, mode, true);
 
@@ -437,7 +431,6 @@ public class EntityFactory {
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(demonTreeMinionStat.getHp());
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
-        //ToDo: find shortest Path with TilePos
         List<Point> shortestPath = this.getShortestPathInTile(mode, 0, 4);
         PathComponent pathComponent = this.componentFactory.createPathComponent(shortestPath, mode, true);
         entity.addComponent(monsterInfoComponent);
@@ -473,7 +466,6 @@ public class EntityFactory {
         LifeComponent lifeComponent = this.componentFactory.createLifeComponent(darkGiantStat.getHp());
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
-        //ToDo: find shortest Path with TilePos
         List<Point> shortestPath = this.getShortestPathInTile(mode, 0, 4);
         PathComponent pathComponent = this.componentFactory.createPathComponent(shortestPath, mode, true);
 
@@ -512,7 +504,6 @@ public class EntityFactory {
         HealingAbilityComponent healingAbilityComponent = this.componentFactory.createHealingAbilityComponent(2 * GameConfig.TILE_WIDTH, 0.03);
         // FrozenEffect frozenEffect= this.componentFactory.createFrozenEffect();
         //Point tilePos = Utils.getInstance().pixel2Tile(pixelPos.x, pixelPos.y, mode);
-        //ToDo: find shortest Path with TilePos
         List<Point> shortestPath = this.getShortestPathInTile(mode, 0, 4);
         PathComponent pathComponent = this.componentFactory.createPathComponent(shortestPath, mode, true);
 
@@ -533,31 +524,20 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
         String breakPoint = "";
-        User user = BitZeroServer.getInstance().getUserManager().getUserById(battle.user1.getId());
         short level = 1;
         TowerConfigItem towerConfigItem = TowerConfig.INS.getTowerConfig(TowerConfig.OWL);
         String targetType = "", archType = "", bulletType = "";
         int energy = 0;
-        try {
-            //Debug
-            breakPoint = "breakpoint1";
-            targetType = towerConfigItem.getTargetType();
-            breakPoint = "breakpoint2";
-            archType = towerConfigItem.getArchetype();
-            breakPoint = "breakpoint3";
-            bulletType = towerConfigItem.getBulletType();
-            breakPoint = "breakpoint4";
-            energy = towerConfigItem.getEnergy();
-            breakPoint = "breakpoint5";
-
-        } catch (Exception e) {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            String exceptionAsString = sw.toString();
-            ExtensionUtility.getExtension().send(new ResponseError((short) 0, breakPoint + " " + exceptionAsString), user);
-        }
-
-
+        targetType = towerConfigItem.getTargetType();
+        archType = towerConfigItem.getArchetype();
+        bulletType = towerConfigItem.getBulletType();
+        energy = towerConfigItem.getEnergy();
+//        } catch (Exception e) {
+//            StringWriter sw = new StringWriter();
+//            e.printStackTrace(new PrintWriter(sw));
+//            String exceptionAsString = sw.toString();
+//            ExtensionUtility.getExtension().send(new ResponseError((short) 0, breakPoint + " " + exceptionAsString), user);
+//        }
         TowerStat towerStat = towerConfigItem.getStat().get(level);
 
         double attackRange = towerStat.getRange() * GameConfig.TILE_WIDTH;

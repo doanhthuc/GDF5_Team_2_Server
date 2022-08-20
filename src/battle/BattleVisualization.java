@@ -76,18 +76,18 @@ public class BattleVisualization extends JFrame implements MouseListener {
     public void paint(Graphics G1) {
         //redraw the Graphic
         if (this.entityMode == EntityMode.PLAYER) {
-            this.userName = this.battle.user1.getUserName();
+            this.userName = this.battle.player1.getUserName();
             this.userHP = this.battle.getPlayer1HP();
             this.userEnergy = this.battle.getPlayer1energy();
-            this.opponentUserName = this.battle.user2.getUserName();
+            this.opponentUserName = this.battle.player2.getUserName();
             this.opponentHP = this.battle.getPlayer2HP();
             this.opponentEnergy = this.battle.getPlayer2energy();
         }
         if (this.entityMode == EntityMode.OPPONENT) {
-            this.userName = this.battle.user2.getUserName();
+            this.userName = this.battle.player2.getUserName();
             this.userHP = this.battle.getPlayer2HP();
             this.userEnergy = this.battle.getPlayer2energy();
-            this.opponentUserName = this.battle.user1.getUserName();
+            this.opponentUserName = this.battle.player1.getUserName();
             this.opponentHP = this.battle.getPlayer1HP();
             this.opponentEnergy = this.battle.getPlayer1energy();
         }

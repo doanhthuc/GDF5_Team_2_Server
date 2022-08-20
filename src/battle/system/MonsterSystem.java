@@ -5,13 +5,10 @@ import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.Component;
 import battle.component.common.PositionComponent;
-import battle.component.common.VelocityComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class MonsterSystem extends SystemECS {

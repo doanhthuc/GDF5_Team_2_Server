@@ -11,9 +11,6 @@ import battle.component.info.SpellInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 public class SpellSystem extends SystemECS {

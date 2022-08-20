@@ -56,25 +56,20 @@ public class Room implements Runnable {
         this.tickManager = new TickManager(this.startTime);
         this.player1 = new PlayerInBattle(player1);
         this.player2 = new PlayerInBattle(player2);
-        this.battle = new Battle(player1, player2, tickManager);
+        this.battle = new Battle(this.player1, this.player2, tickManager);
         this.endBattle = false;
         this.botActionTime = this.startTime + 1000;
         this.snapshotManager = new SnapshotManager(this.battle);
 
         if (GameConfig.DEBUG) {
-            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player2.getId()));
-            new BattleVisualization(this.battle, this.battle.getEntityModeByPlayerID(this.player1.getId()));
+            new BattleVisualization(this.battle, EntityMode.PLAYER);
+            new BattleVisualization(this.battle, EntityMode.OPPONENT);
         }
         this.battle.setNextWaveTimeTick((int) (GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate()));
     }
 
     public void addInput(PlayerInfo playerInfo, DataCmd dataCmd) {
         this.waitingInputQueue.add(new Pair<>(playerInfo, dataCmd));
-    }
-
-    public void addBornMonsterCommandToTick() {
-//        List<List<Integer>> monsterWave = this.getMonsterWave();
-//        for(int i=0;i=)
     }
 
     @Override
@@ -85,6 +80,7 @@ public class Room implements Runnable {
                     int currentTick = this.tickManager.getCurrentTick();
 
                     this.handleBotAction();
+
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<PlayerInfo, DataCmd> data = this.waitingInputQueue.poll();
                         this.tickManager.addInput(data);
@@ -98,7 +94,7 @@ public class Room implements Runnable {
 
                     if (currentTick % 60 == 0) {
                         ByteBuffer snapshot = this.snapshotManager.createAllSnapshot();
-                        this.snapshotManager.sendSnapshot(snapshot);
+                      //  this.snapshotManager.sendSnapshot(snapshot);
                     }
 
                     this.tickManager.increaseTick();
@@ -110,42 +106,7 @@ public class Room implements Runnable {
     }
 
 
-    public void checkEndBattle() throws Exception {
-        this.checkAllUserDisconnect();
-        int player1HP = this.battle.getPlayer1HP();
-        int player2HP = this.battle.getPlayer2HP();
-        int winUserID = -1;
-        int loseUserID = -1;
-        if (player1HP <= 0 && player2HP <= 0) {
-            this.endBattle = true;
-        } else if (player2HP <= 0) {
-            winUserID = this.player1.getId();
-            loseUserID = this.player2.getId();
-            this.endBattle = true;
-        } else if (player1HP <= 0) {
-            winUserID = this.player2.getId();
-            loseUserID = this.player1.getId();
-            this.endBattle = true;
-        } else if (this.battle.getCurrentWave() >= this.battle.getWaveAmount()) {
-            if (player1HP > player2HP) {
-                winUserID = this.player1.getId();
-                loseUserID = this.player2.getId();
-            } else {
-                winUserID = this.player2.getId();
-                loseUserID = this.player1.getId();
-            }
-            this.endBattle = true;
-        }
 
-        if (this.endBattle) {
-            if (winUserID != -1)
-                SendResult.sendWinUser(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP), tickManager.getCurrentTick());
-            else
-                SendResult.sendDrawBattle(player1.getId(), player2.getId(), this.battle.getPlayer1HP(), tickManager.getCurrentTick());
-            this.endRoom();
-        }
-
-    }
 
     public void updatePlayerCheckSum(int currentTick) {
         if (currentTick < 0) return;
@@ -200,7 +161,6 @@ public class Room implements Runnable {
                         List<Integer> dX = Arrays.asList(1, 0, -1, 0, -1, 1, 1, -1);
                         List<Integer> dY = Arrays.asList(0, 1, 0, -1, 1, -1, 1, -1);
                         java.awt.Point currentPoint = monsterPath.get(i);
-//                        botBattleMap.show();
                         for (int j = 0; j < dX.size(); j++) {
                             int tilePosX = currentPoint.x + dX.get(j);
                             int tilePosY = currentPoint.y + dY.get(j);
@@ -371,20 +331,41 @@ public class Room implements Runnable {
         return startTime;
     }
 
-    public void checkClientSumHp(double[] clientSumHpInEachTick, User user) {
-        double[] serverSumHpInEachTick = this.checkSum;
-        int diffTick = 0, totalTick = 0;
-        for (int i = 0; i < clientSumHpInEachTick.length; i++) {
-            if (serverSumHpInEachTick[i] != clientSumHpInEachTick[i] && serverSumHpInEachTick[i] != 0 && clientSumHpInEachTick[i    ] != 0) {
-                System.out.println("Difference at tick" + i + " ServerSumHp = " + serverSumHpInEachTick[i] + " UserSumHp = " + clientSumHpInEachTick[i]);
-                diffTick += 1;
+    public void checkEndBattle() throws Exception {
+        this.checkAllUserDisconnect();
+        int player1HP = this.battle.getPlayer1HP();
+        int player2HP = this.battle.getPlayer2HP();
+        int winUserID = -1;
+        int loseUserID = -1;
+        if (player1HP <= 0 && player2HP <= 0) {
+            this.endBattle = true;
+        } else if (player2HP <= 0) {
+            winUserID = this.player1.getId();
+            loseUserID = this.player2.getId();
+            this.endBattle = true;
+        } else if (player1HP <= 0) {
+            winUserID = this.player2.getId();
+            loseUserID = this.player1.getId();
+            this.endBattle = true;
+        } else if (this.battle.getCurrentWave() >= this.battle.getWaveAmount()) {
+            if (player1HP > player2HP) {
+                winUserID = this.player1.getId();
+                loseUserID = this.player2.getId();
+            } else {
+                winUserID = this.player2.getId();
+                loseUserID = this.player1.getId();
             }
-            totalTick += 1;
+            this.endBattle = true;
         }
-        System.out.println("---------------------");
-        System.out.println("Number of Difference Tick:" + diffTick + " TotalTick:" + totalTick);
-        System.out.println("Percent of Difference Tick:" + diffTick * 1.0 / totalTick);
-        System.out.println("---------------------");
+
+        if (this.endBattle) {
+            if (winUserID != -1)
+                SendResult.sendWinLoseBattle(winUserID, loseUserID, Math.max(player1HP, player2HP), Math.min(player1HP, player2HP), tickManager.getCurrentTick());
+            else
+                SendResult.sendDrawBattle(player1.getId(), player2.getId(), this.battle.getPlayer1HP(), tickManager.getCurrentTick());
+            this.endRoom();
+        }
+
     }
 
     // born Monster in tick

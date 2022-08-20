@@ -1,13 +1,9 @@
 package battle.system;
 
 import battle.Battle;
-import battle.component.common.AttackComponent;
 import battle.component.common.Component;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class ResetSystem extends SystemECS {
     private static final String SYSTEM_NAME = "ResetSystem";

@@ -90,7 +90,7 @@ public class UserHandler extends BaseClientRequestHandler {
             synchronized (userInfo) {
                 logger.info("get name = " + userInfo.toString());
                 System.out.println("UserHandler" + userInfo.getTrophy());
-                send(new ResponseRequestUserInfo(DemoHandler.DemoError.SUCCESS.getValue(), userInfo), user);
+                send(new ResponseRequestUserInfo(UserError.SUCCESS.getValue(), userInfo), user);
             }
         } catch (Exception e) {
             logger.info("processGetUserInfo exception");

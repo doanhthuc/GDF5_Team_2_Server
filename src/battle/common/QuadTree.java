@@ -44,11 +44,6 @@ public class QuadTree {
         this.nodes[QuadTreeDirection.BOTTOM_RIGHT.value] = new QuadTree(this.currentLevel + 1, new Rect(x + halfW, y, halfW, halfH));
         this.nodes[QuadTreeDirection.TOP_LEFT.value] = new QuadTree(this.currentLevel + 1, new Rect(x, y + halfH, halfW, halfH));
         this.nodes[QuadTreeDirection.TOP_RIGHT.value] = new QuadTree(this.currentLevel + 1, new Rect(x + halfW, y + halfH, halfW, halfH));
-        //FIXME
-//        this.nodes[QuadTree.BOTTOM_LEFT] = new QuadTree(this.level + 1, cc.rect(x, y, halfW, halfH));
-//        this.nodes[QuadTree.BOTTOM_RIGHT]  = new QuadTree(this.level + 1, cc.rect(x + halfW, y, halfW, halfH));
-//        this.nodes[QuadTree.TOP_LEFT] = new QuadTree(this.level + 1, cc.rect(x, y + halfH, halfW, halfH));
-//        this.nodes[QuadTree.TOP_RIGHT] = new QuadTree(this.level + 1, cc.rect(x + halfW, y + halfH, halfW, halfH));
 
     }
 

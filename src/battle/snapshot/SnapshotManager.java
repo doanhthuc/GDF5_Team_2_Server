@@ -64,8 +64,8 @@ public class SnapshotManager {
     }
 
     public void createBattleInfoSnapShot(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(battle.player1HP);
-        byteBuffer.putInt(battle.player2HP);
+        byteBuffer.putInt(battle.getPlayer1HP());
+        byteBuffer.putInt(battle.getPlayer2HP());
         UUIDGeneratorECS uuid = battle.getUuidGeneratorECS();
         byteBuffer.putInt(battle.getTickManager().getCurrentTick());
         byteBuffer.putLong(uuid.getPlayerMonsterEntityId());

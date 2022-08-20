@@ -24,8 +24,7 @@ public class Utils {
         if (mode == EntityMode.PLAYER) {
             xx = xx + GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2;
             yy = yy + GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2;
-        } // FIXME add mode== GameConfig.OPPONENT
-        else {
+        } else {
             xx = GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2 - xx;
             yy = GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2 - yy;
         }
@@ -39,8 +38,7 @@ public class Utils {
         if (mode.getValue() == EntityMode.PLAYER.getValue()) {
             xx = x * GameConfig.TILE_WIDTH - GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2 + GameConfig.TILE_WIDTH / 2;
             yy = y * GameConfig.TILE_HEIGHT - GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2 + GameConfig.TILE_HEIGHT / 2;
-        } // FIXME add mode== GameConfig.OPPONENT
-        else {
+        } else {
             xx = GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2 - x * GameConfig.TILE_WIDTH - GameConfig.TILE_WIDTH / 2;
             yy = GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2 - y * GameConfig.TILE_HEIGHT - GameConfig.TILE_HEIGHT / 2;
         }

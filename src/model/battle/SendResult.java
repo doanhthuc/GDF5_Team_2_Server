@@ -30,7 +30,7 @@ public class SendResult {
             ExtensionUtility.getExtension().send(new ResponseEndBattle(RoomHandler.RoomError.END_BATTLE.getValue(), GameConfig.BATTLE_RESULT.DRAW, hp, hp, userInfo2.getTrophy(), 0, 0, currentTick), user2);
     }
 
-    public static void sendWinUser(int winUserID, int loseUserID, int winnerHP, int loserHP,int currentTick) throws Exception {
+    public static void sendWinLoseBattle(int winUserID, int loseUserID, int winnerHP, int loserHP,int currentTick) throws Exception {
 
         User winUser = BitZeroServer.getInstance().getUserManager().getUserById(winUserID);
         PlayerInfo winUserInfo = (PlayerInfo) PlayerInfo.getModel(winUserID, PlayerInfo.class);

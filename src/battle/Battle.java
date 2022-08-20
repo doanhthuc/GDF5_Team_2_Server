@@ -33,6 +33,7 @@ import battle.pool.EntityPool;
 import battle.system.*;
 import battle.tick.TickManager;
 import model.PlayerInfo;
+import model.battle.PlayerInBattle;
 
 import java.util.*;
 
@@ -75,12 +76,8 @@ public class Battle {
     public int nextWaveTimeTick;
     public long nextBornMonsterTime;
     //PlayerHp and Energy
-    public int player1HP = GameConfig.PLAYER_HP;
-    public int player2HP = GameConfig.PLAYER_HP;
-    private int player1energy = GameConfig.PLAYER_ENERGY;
-    private int player2energy = GameConfig.OPPONENT_ENERGY;
-    public PlayerInfo user1;
-    public PlayerInfo user2;
+    public PlayerInBattle player1;
+    public PlayerInBattle player2;
     public TickManager tickManager;
 
     public TickManager getTickManager() {
@@ -91,10 +88,10 @@ public class Battle {
         this.tickManager = tickManager;
     }
 
-    public Battle(PlayerInfo userId1, PlayerInfo userId2, TickManager tickManager) {
+    public Battle(PlayerInBattle player1, PlayerInBattle player2, TickManager tickManager) {
         this.initPoolAndManager();
         this.initSystem();
-        this.initMap(userId1, userId2);
+        this.initMap(player1, player2);
         this.initMonsterWave();
         this.tickManager = tickManager;
     }
@@ -132,21 +129,23 @@ public class Battle {
         }
     }
 
-    public void initMap(PlayerInfo user1, PlayerInfo user2) {
+    public void initMap(PlayerInBattle player1, PlayerInBattle player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+
         this.player1BattleMap = new BattleMap();
         this.player1ShortestPath = FindPathUtils.findShortestPathForEachTile(player1BattleMap.map);
 
         this.player2BattleMap = new BattleMap();
         this.player2ShortestPath = FindPathUtils.findShortestPathForEachTile(player2BattleMap.map);
 
-        this.battleMapListByPlayerId.put(user1.getId(), this.player1BattleMap);
-        this.battleMapListByPlayerId.put(user2.getId(), this.player2BattleMap);
+        this.battleMapListByPlayerId.put(player1.getId(), this.player1BattleMap);
+        this.battleMapListByPlayerId.put(player2.getId(), this.player2BattleMap);
 
-        this.entityModeByPlayerID.put(user1.getId(), EntityMode.PLAYER);
-        this.entityModeByPlayerID.put(user2.getId(), EntityMode.OPPONENT);
+        this.entityModeByPlayerID.put(player1.getId(), EntityMode.PLAYER);
+        this.entityModeByPlayerID.put(player2.getId(), EntityMode.OPPONENT);
 
-        this.user1 = user1;
-        this.user2 = user2;
+
     }
 
     public void initMonsterWave() {
@@ -171,18 +170,18 @@ public class Battle {
     }
 
     public void minusPlayerHP(int hp, EntityMode mode) {
-        if (mode == EntityMode.PLAYER) this.player1HP -= hp;
-        else this.player2HP -= hp;
+        if (mode == EntityMode.PLAYER) this.player1.minusPlayerHP(hp);
+        else this.player2.minusPlayerHP(hp);
     }
 
     public void addPlayerEnergy(int energy, EntityMode mode) {
-        if (mode == EntityMode.PLAYER) this.player1energy += energy;
-        else this.player2energy += energy;
+        if (mode == EntityMode.PLAYER) this.player1.addPlayerEnergy(energy);
+        else this.player2.addPlayerEnergy(energy);
     }
 
     public void minusPlayerEnergy(int energy, EntityMode mode) {
-        if (mode == EntityMode.PLAYER) this.player1energy -= energy;
-        else this.player2energy -= energy;
+        if (mode == EntityMode.PLAYER) this.player1.minusPlayerEnergy(energy);
+        else this.player2.minusPlayerEnergy(energy);
     }
 
     public List<Integer> createMonsterWaveByCurrentWaveId(int currentWave, EntityMode monde) {
@@ -507,11 +506,11 @@ public class Battle {
     }
 
     public int getPlayer1HP() {
-        return player1HP;
+        return player1.getPlayerHP();
     }
 
     public int getPlayer2HP() {
-        return player2HP;
+        return player2.getPlayerHP();
     }
 
     public int getCurrentWave() {
@@ -527,11 +526,11 @@ public class Battle {
     }
 
     public int getPlayer1energy() {
-        return player1energy;
+        return player1.getPlayerEnergy();
     }
 
     public int getPlayer2energy() {
-        return player2energy;
+        return player2.getPlayerEnergy();
     }
 
     public UUIDGeneratorECS getUuidGeneratorECS() {
@@ -554,11 +553,11 @@ public class Battle {
         return this.systemManager;
     }
 
-    public PlayerInfo getPlayerInfo1() {
-        return this.user1;
+    public PlayerInBattle getPlayerInfo1() {
+        return this.player1;
     }
 
-    public PlayerInfo getPlayerInfo2() {
-        return this.user2;
+    public PlayerInBattle getPlayerInfo2() {
+        return this.player2;
     }
 }
