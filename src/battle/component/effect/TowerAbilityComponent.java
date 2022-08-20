@@ -52,20 +52,6 @@ public class TowerAbilityComponent extends Component {
     public void createData(ByteBuffer bf) {
         super.createData(bf);
         bf.putDouble(range);
-        bf.putInt(effect.getTypeID());
-        switch (effect.getTypeID()) {
-            case BuffAttackDamageEffect.typeID:
-                BuffAttackDamageEffect buffDamage = (BuffAttackDamageEffect) effect;
-                bf.putDouble(buffDamage.getPercent());
-                break;
-            case BuffAttackRangeEffect.typeID:
-                BuffAttackRangeEffect buffRange = (BuffAttackRangeEffect) effect;
-                bf.putDouble(buffRange.getPercent());
-                break;
-            case BuffAttackSpeedEffect.typeID:
-                BuffAttackSpeedEffect buffSpeed = (BuffAttackSpeedEffect) effect;
-                bf.putDouble(buffSpeed.getPercent());
-                break;
-        }
+        effect.createData(bf);
     }
 }

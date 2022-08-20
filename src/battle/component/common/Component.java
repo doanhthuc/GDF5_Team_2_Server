@@ -56,11 +56,7 @@ public class Component {
     }
 
     public void createData(ByteBuffer bf) {
-        short activeShort = Utils.getInstance().convertBoolean2Short(active);
-
-        if (typeID == 0) {
-            System.out.println("XXXXXXXXXXXXXUUUUUUUUUUUUUUUUUUUUU");
-        }
+        short activeShort = Utils.convertBoolean2Short(active);
         bf.putInt(typeID);
         bf.putLong(id);
         bf.putShort(activeShort);

@@ -1,12 +1,8 @@
 package battle.config;
 
 import battle.common.EntityMode;
-import battle.component.common.PathComponent;
-import battle.component.common.PositionComponent;
-import battle.component.common.VelocityComponent;
-import battle.component.effect.DamageEffect;
-import battle.component.effect.FrozenEffect;
-import battle.component.effect.SlowEffect;
+import battle.component.common.*;
+import battle.component.effect.*;
 import battle.component.info.LifeComponent;
 import bitzero.core.I;
 
@@ -143,7 +139,8 @@ public class GameConfig {
         public static List<Integer> INFO_COMPONENT = Arrays.asList(COMPONENT_ID.BULLET_INFO, COMPONENT_ID.TOWER_INFO, COMPONENT_ID.MONSTER_INFO);
 
         public static List<Integer> MONSTER_SNAPSHOT = Arrays.asList(PathComponent.typeID, PositionComponent.typeID, LifeComponent.typeID,
-                VelocityComponent.typeID);
+                VelocityComponent.typeID, DamageEffect.typeID, SlowEffect.typeID,FrozenEffect.typeID, TrapEffect.typeID,
+                UnderGroundComponent.typeID, HealingAbilityComponent.typeID, SpawnMinionComponent.typeID , FireBallEffect.typeID);
     }
 
     public static class COMPONENT_NAME {

@@ -415,7 +415,7 @@ public class Battle {
                 PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
                 PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
                 MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
-                if (positionComponent != null && !monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
+                if (positionComponent != null && !(monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR))) {
                     List<Point> path;
                     Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), mode);
                     if (monster.getMode() == EntityMode.PLAYER) {

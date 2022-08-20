@@ -39,7 +39,6 @@ public class BuffAttackDamageEffect extends EffectComponent {
     @Override
     public void createData(ByteBuffer bf) {
         super.createData(bf);
-
         bf.putDouble(percent);
     }
 }

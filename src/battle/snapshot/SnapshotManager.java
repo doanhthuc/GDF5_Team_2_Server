@@ -53,10 +53,6 @@ public class SnapshotManager {
             for (int component : GameConfig.GROUP_ID.MONSTER_SNAPSHOT) {
                 if (entity._hasComponent(component)) sizeComponent++;
             }
-//            if (entity._hasComponent(PathComponent.typeID)) sizeComponent++;
-//            if (entity._hasComponent(PositionComponent.typeID)) sizeComponent++;
-//            if (entity._hasComponent(LifeComponent.typeID)) sizeComponent++;
-//            if (entity._hasComponent(VelocityComponent.typeID)) sizeComponent++;
             byteBuffer.putInt(sizeComponent);
 
             for (Map.Entry<Integer, Component> componentEntry : entity.getComponents().entrySet()) {
