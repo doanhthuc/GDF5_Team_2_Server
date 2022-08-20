@@ -84,11 +84,6 @@ public class Room implements Runnable {
                 if (!this.endBattle) {
                     int currentTick = this.tickManager.getCurrentTick();
 
-                    if (currentTick % 20 == 0) {
-                        ByteBuffer snapshot = this.snapshotManager.createAllSnapshot();
-                        this.snapshotManager.sendSnapshot(snapshot);
-                    }
-
                     this.handleBotAction();
                     while (!this.waitingInputQueue.isEmpty()) {
                         Pair<PlayerInfo, DataCmd> data = this.waitingInputQueue.poll();
@@ -100,6 +95,12 @@ public class Room implements Runnable {
                     this.tickManager.handleInternalInputTick(currentTick);
                     this.updatePlayerCheckSum(currentTick);
                     this.checkEndBattle();
+
+                    if (currentTick % 20 == 0) {
+                        ByteBuffer snapshot = this.snapshotManager.createAllSnapshot();
+                        this.snapshotManager.sendSnapshot(snapshot);
+                    }
+
                     this.tickManager.increaseTick();
                 }
             } catch (Exception e) {
