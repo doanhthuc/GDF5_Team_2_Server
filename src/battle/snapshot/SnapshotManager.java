@@ -6,7 +6,9 @@ import battle.component.common.Component;
 import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
 import battle.component.common.VelocityComponent;
+import battle.component.effect.SlowEffect;
 import battle.component.info.LifeComponent;
+import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.system.AbilitySystem;
@@ -48,16 +50,19 @@ public class SnapshotManager {
             EntityECS entity = entry.getValue();
             entity.createSnapshot(byteBuffer);
             int sizeComponent = 0;
-            if (entity._hasComponent(PathComponent.typeID)) sizeComponent++;
-            if (entity._hasComponent(PositionComponent.typeID)) sizeComponent++;
-            if (entity._hasComponent(LifeComponent.typeID)) sizeComponent++;
-            if (entity._hasComponent(VelocityComponent.typeID)) sizeComponent++;
+            for(int component : GameConfig.GROUP_ID.MONSTER_SNAPSHOT)
+            {
+                if (entity._hasComponent(component)) sizeComponent++;
+            }
+//            if (entity._hasComponent(PathComponent.typeID)) sizeComponent++;
+//            if (entity._hasComponent(PositionComponent.typeID)) sizeComponent++;
+//            if (entity._hasComponent(LifeComponent.typeID)) sizeComponent++;
+//            if (entity._hasComponent(VelocityComponent.typeID)) sizeComponent++;
             byteBuffer.putInt(sizeComponent);
 
             for (Map.Entry<Integer, Component> componentEntry : entity.getComponents().entrySet()) {
                 int typeID = componentEntry.getValue().getTypeID();
-                if (!(typeID == PathComponent.typeID || typeID == PositionComponent.typeID || typeID == LifeComponent.typeID || typeID == VelocityComponent.typeID))
-                    continue;
+                if(!GameConfig.GROUP_ID.MONSTER_SNAPSHOT.contains(typeID)) continue;
                 componentEntry.getValue().createData(byteBuffer);
             }
         }

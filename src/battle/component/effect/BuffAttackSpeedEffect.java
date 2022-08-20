@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 
 public class BuffAttackSpeedEffect extends EffectComponent {
     private String name = "BuffAttackSpeedEffect";
-    public static int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED;
+    public static final int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED;
     private double percent;
 
     public BuffAttackSpeedEffect(double percent) {

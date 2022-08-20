@@ -1,6 +1,13 @@
 package battle.config;
 
 import battle.common.EntityMode;
+import battle.component.common.PathComponent;
+import battle.component.common.PositionComponent;
+import battle.component.common.VelocityComponent;
+import battle.component.effect.DamageEffect;
+import battle.component.effect.FrozenEffect;
+import battle.component.effect.SlowEffect;
+import battle.component.info.LifeComponent;
 import bitzero.core.I;
 
 import java.util.Arrays;
@@ -26,39 +33,39 @@ public class GameConfig {
     }
 
     public static class COMPONENT_ID {
-        public static int MONSTER_INFO = 1;
-        public static int TOWER_INFO = 2;
-        public static int BULLET_INFO = 3;
-        public static int LIFE = 4;
-        public static int POSITION = 5;
-        public static int VELOCITY = 6;
-        public static int APPEARANCE = 7;
-        public static int PATH = 8;
-        public static int COLLISION = 9;
-        public static int DAMAGE_EFFECT = 10;
-        public static int SLOW_EFFECT = 11;
-        public static int FROZEN_EFFECT = 12;
-        public static int ATTACK = 13;
-        public static int BUFF_ATTACK_SPEED = 14;
-        public static int BUFF_ATTACK_DAMAGE = 15;
-        public static int SPELL = 16;
-        public static int SKELETON = 17;
-        public static int UNDER_GROUND = 18;
-        public static int SPAWN_MINION = 19;
-        public static int HEALING_ABILITY = 20;
-        public static int SPRITE_SHEET = 21;
-        public static int TRAP_INFO = 22;
-        public static int TRAP_EFFECT = 23;
-        public static int TOWER_ABILITY = 24;
-        public static int BUFF_ATTACK_RANGE = 25;
-        public static int ACCELERATION = 26;
-        public static int FROG_BULLET_SKILL = 27;
-        public static int WIZARD_BULLET_SKILL = 28;
-        public static int DAMAGE_AMPLIFY_COMPONENT = 29;
-        public static int POISON = 30;
-        public static int SNAKE_BURN_HP_AURA = 31;
-        public static int GOAT_SLOW_EFFECT = 32;
-        public static int GOAT_SLOW_AURA = 33;
+        public static final int MONSTER_INFO = 1;
+        public static final int TOWER_INFO = 2;
+        public static final int BULLET_INFO = 3;
+        public static final int LIFE = 4;
+        public static final int POSITION = 5;
+        public static final int VELOCITY = 6;
+        public static final int APPEARANCE = 7;
+        public static final int PATH = 8;
+        public static final int COLLISION = 9;
+        public static final int DAMAGE_EFFECT = 10;
+        public static final int SLOW_EFFECT = 11;
+        public static final int FROZEN_EFFECT = 12;
+        public static final int ATTACK = 13;
+        public static final int BUFF_ATTACK_SPEED = 14;
+        public static final int BUFF_ATTACK_DAMAGE = 15;
+        public static final int SPELL = 16;
+        public static final int SKELETON = 17;
+        public static final int UNDER_GROUND = 18;
+        public static final int SPAWN_MINION = 19;
+        public static final int HEALING_ABILITY = 20;
+        public static final int SPRITE_SHEET = 21;
+        public static final int TRAP_INFO = 22;
+        public static final int TRAP_EFFECT = 23;
+        public static final int TOWER_ABILITY = 24;
+        public static final int BUFF_ATTACK_RANGE = 25;
+        public static final int ACCELERATION = 26;
+        public static final int FROG_BULLET_SKILL = 27;
+        public static final int WIZARD_BULLET_SKILL = 28;
+        public static final int DAMAGE_AMPLIFY_COMPONENT = 29;
+        public static final int POISON = 30;
+        public static final int SNAKE_BURN_HP_AURA = 31;
+        public static final int GOAT_SLOW_EFFECT = 32;
+        public static final int GOAT_SLOW_AURA = 33;
     }
 
     public static class HOUSE_POSITION {
@@ -130,9 +137,13 @@ public class GameConfig {
         public static List<Integer> ATTACK_TOWER_ENTITY = Arrays.asList(ENTITY_ID.CANNON_TOWER, ENTITY_ID.WIZARD_TOWER, ENTITY_ID.FROG_TOWER, ENTITY_ID.BUNNY_TOWER, ENTITY_ID.BEAR_TOWER);
         public static List<Integer> MONSTER_ENTITY = Arrays.asList(ENTITY_ID.SWORD_MAN, ENTITY_ID.DEMON_TREE, ENTITY_ID.DEMON_TREE_MINION, ENTITY_ID.ASSASSIN,
                 ENTITY_ID.BAT, ENTITY_ID.NINJA, ENTITY_ID.GIANT, ENTITY_ID.DARK_GIANT, ENTITY_ID.SATYR);
+
         public static List<Integer> BULLET_ENTITY = Arrays.asList(ENTITY_ID.BULLET, ENTITY_ID.WIZARD_BULLET, ENTITY_ID.SLOW_BULLET);
         public static List<Integer> EFFECT_COMPONENT = Arrays.asList(COMPONENT_ID.DAMAGE_EFFECT, COMPONENT_ID.FROZEN_EFFECT, COMPONENT_ID.SLOW_EFFECT);
         public static List<Integer> INFO_COMPONENT = Arrays.asList(COMPONENT_ID.BULLET_INFO, COMPONENT_ID.TOWER_INFO, COMPONENT_ID.MONSTER_INFO);
+
+        public static List<Integer> MONSTER_SNAPSHOT = Arrays.asList(PathComponent.typeID, PositionComponent.typeID, LifeComponent.typeID,
+                VelocityComponent.typeID, SlowEffect.typeID, DamageEffect.typeID, FrozenEffect.typeID);
     }
 
     public static class COMPONENT_NAME {

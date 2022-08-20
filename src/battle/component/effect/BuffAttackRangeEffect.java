@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 
 public class BuffAttackRangeEffect extends EffectComponent {
     public static String name = "BuffAttackRangeEffect";
-    public static int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_RANGE;
+    public static final int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_RANGE;
     private double percent;
 
     public BuffAttackRangeEffect(double percent) {

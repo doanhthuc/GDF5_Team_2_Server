@@ -47,8 +47,7 @@ public class TrapEffect extends EffectComponent {
     @Override
     public void createData(ByteBuffer bf) {
         super.createData(bf);
-
         bf.putDouble(countdown);
-        bf.putShort(Utils.getInstance().convertBoolean2Short(isExecuted));
+        bf.putShort(Utils.convertBoolean2Short(isExecuted));
     }
 }

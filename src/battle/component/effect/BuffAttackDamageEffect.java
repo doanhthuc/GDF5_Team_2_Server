@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 
 public class BuffAttackDamageEffect extends EffectComponent {
     private String name = "BuffAttackDamageEffect";
-    public static int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_DAMAGE;
+    public static final int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_DAMAGE;
     private double percent;
 
     public BuffAttackDamageEffect(double percent) {
