@@ -3,6 +3,8 @@ package battle.component.effect;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class FrozenEffect extends EffectComponent {
     private String name = "Frozen Effect";
     public static int typeID = GameConfig.COMPONENT_ID.FROZEN_EFFECT;
@@ -43,5 +45,12 @@ public class FrozenEffect extends EffectComponent {
     public void reset(double duration) {
         this.duration = duration;
         this.countdown = this.duration;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(duration);
+        bf.putDouble(countdown);
     }
 }
