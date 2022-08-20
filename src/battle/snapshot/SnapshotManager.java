@@ -37,12 +37,12 @@ public class SnapshotManager {
         Byte Error = 0;
         byteBuffer.put(Error);
         System.out.println("tickSendSnapShot = " + battle.getTickManager().getCurrentTick());
-        this.createMonsterSnapShot(byteBuffer);
+        this.createMonsterAndTowerSnapShot(byteBuffer);
         this.createBattleInfoSnapShot(byteBuffer);
         return byteBuffer;
     }
 
-    public void createMonsterSnapShot(ByteBuffer byteBuffer) {
+    public void createMonsterAndTowerSnapShot(ByteBuffer byteBuffer) {
         byteBuffer.putInt(towerSystem.getEntityStore().size());
         for (Map.Entry<Long, EntityECS> entry : towerSystem.getEntityStore().entrySet()) {
             EntityECS entity = entry.getValue();
