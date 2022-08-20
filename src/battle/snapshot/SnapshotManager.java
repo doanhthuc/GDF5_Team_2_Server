@@ -35,7 +35,9 @@ public class SnapshotManager {
 
     public ByteBuffer createAllSnapshot() {
         // should increase size buff if snapshot is big
-        ByteBuffer byteBuffer = ByteBuffer.allocate(BitZeroServer.getInstance().getConfigurator().getCoreSettings().maxPacketBufferSize - 4);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(5012 * 20);
+        Byte Error = 0;
+        byteBuffer.put(Error);
         System.out.println("tickSendSnapShot = " + battle.getTickManager().getCurrentTick());
         this.createMonsterSnapShot(byteBuffer);
         this.createBattleInfoSnapShot(byteBuffer);
@@ -48,8 +50,7 @@ public class SnapshotManager {
             EntityECS entity = entry.getValue();
             entity.createSnapshot(byteBuffer);
             int sizeComponent = 0;
-            for(int component : GameConfig.GROUP_ID.MONSTER_SNAPSHOT)
-            {
+            for (int component : GameConfig.GROUP_ID.MONSTER_SNAPSHOT) {
                 if (entity._hasComponent(component)) sizeComponent++;
             }
 //            if (entity._hasComponent(PathComponent.typeID)) sizeComponent++;
@@ -60,15 +61,14 @@ public class SnapshotManager {
 
             for (Map.Entry<Integer, Component> componentEntry : entity.getComponents().entrySet()) {
                 int typeID = componentEntry.getValue().getTypeID();
-                if(!GameConfig.GROUP_ID.MONSTER_SNAPSHOT.contains(typeID)) continue;
+                if (!GameConfig.GROUP_ID.MONSTER_SNAPSHOT.contains(typeID)) continue;
                 componentEntry.getValue().createData(byteBuffer);
             }
         }
         return byteBuffer;
     }
 
-    public void createBattleInfoSnapShot(ByteBuffer byteBuffer)
-    {
+    public void createBattleInfoSnapShot(ByteBuffer byteBuffer) {
         byteBuffer.putInt(battle.player1HP);
         byteBuffer.putInt(battle.player2HP);
         UUIDGeneratorECS uuid = battle.getUuidGeneratorECS();
