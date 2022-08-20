@@ -1,5 +1,6 @@
 package battle.component.common;
 
+import battle.common.Utils;
 import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
@@ -217,5 +218,23 @@ public class AttackComponent extends Component {
     @Override
     public void createData(ByteBuffer bf) {
         super.createData(bf);
+
+        bf.putDouble(originDamage);
+        bf.putDouble(damage);
+        bf.putInt(targetStrategy);
+        bf.putDouble(originRange);
+        bf.putDouble(range);
+        bf.putDouble(originSpeed);
+        bf.putDouble(speed);
+        bf.putDouble(countdown);
+        bf.putDouble(bulletSpeed);
+        bf.putDouble(bulletRadius);
+        bf.putShort(Utils.getInstance().convertBoolean2Short(canTargetAirMonster));
+        bf.putInt(_latestTick);
+
+        bf.putShort((short) effects.size());
+        for (EffectComponent effect : effects) {
+            effect.createData(bf);
+        }
     }
 }

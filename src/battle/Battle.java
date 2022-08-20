@@ -62,6 +62,7 @@ public class Battle {
     public ResetSystem resetSystem;
     public MonsterSystem monsterSystem;
     public SpellSystem spellSystem;
+    public TowerSpecialSkillSystem towerSystem;
     //Map
     public BattleMap player1BattleMap;
     public List<Point>[][] player1ShortestPath;
@@ -125,6 +126,7 @@ public class Battle {
             this.resetSystem = this.systemFactory.createResetSystem();
             this.monsterSystem = this.systemFactory.createMonsterSystem();
             this.spellSystem = this.systemFactory.createSpellSystem();
+            this.towerSystem = this.systemFactory.createTowerSpecialSkillSystem();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,6 +158,7 @@ public class Battle {
     public void updateSystem() throws Exception {
         resetSystem.run(this);
         abilitySystem.run(this);
+        towerSystem.run(this);
         effectSystem.run(this);
         attackSystem.run(this);
         lifeSystem.run(this);

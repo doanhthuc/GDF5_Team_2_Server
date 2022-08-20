@@ -4,6 +4,7 @@ import battle.common.EntityMode;
 import battle.component.common.*;
 import battle.component.effect.*;
 import battle.component.info.LifeComponent;
+import battle.component.info.TowerInfoComponent;
 import bitzero.core.I;
 
 import java.util.Arrays;
@@ -125,6 +126,7 @@ public class GameConfig {
         public static final int ABILITY = 12;
         public static final int COLLISION = 13;
         public static final int RESET_SYSTEM = 14;
+        public static final int TOWER_SPECIAL_SKILL = 15;
     }
 
     public static class GROUP_ID {
@@ -138,9 +140,11 @@ public class GameConfig {
         public static List<Integer> EFFECT_COMPONENT = Arrays.asList(COMPONENT_ID.DAMAGE_EFFECT, COMPONENT_ID.FROZEN_EFFECT, COMPONENT_ID.SLOW_EFFECT);
         public static List<Integer> INFO_COMPONENT = Arrays.asList(COMPONENT_ID.BULLET_INFO, COMPONENT_ID.TOWER_INFO, COMPONENT_ID.MONSTER_INFO);
 
-        public static List<Integer> MONSTER_SNAPSHOT = Arrays.asList(PathComponent.typeID, PositionComponent.typeID, LifeComponent.typeID,
+        public static List<Integer> SNAPSHOT_COMPONENT = Arrays.asList(PathComponent.typeID, PositionComponent.typeID, LifeComponent.typeID,
                 VelocityComponent.typeID, DamageEffect.typeID, SlowEffect.typeID,FrozenEffect.typeID, TrapEffect.typeID,
-                UnderGroundComponent.typeID, HealingAbilityComponent.typeID, SpawnMinionComponent.typeID , FireBallEffect.typeID);
+                UnderGroundComponent.typeID, HealingAbilityComponent.typeID, SpawnMinionComponent.typeID , FireBallEffect.typeID,
+                TowerInfoComponent.typeID, AttackComponent.typeID, TowerAbilityComponent.typeID
+                );
     }
 
     public static class COMPONENT_NAME {
