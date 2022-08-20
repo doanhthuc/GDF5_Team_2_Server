@@ -36,8 +36,6 @@ public class SnapshotManager {
     public ByteBuffer createAllSnapshot() {
         // should increase size buff if snapshot is big
         ByteBuffer byteBuffer = ByteBuffer.allocate(BitZeroServer.getInstance().getConfigurator().getCoreSettings().maxPacketBufferSize - 4);
-        Byte Error = 0;
-        byteBuffer.put(Error);
         System.out.println("tickSendSnapShot = " + battle.getTickManager().getCurrentTick());
         this.createMonsterSnapShot(byteBuffer);
         this.createBattleInfoSnapShot(byteBuffer);

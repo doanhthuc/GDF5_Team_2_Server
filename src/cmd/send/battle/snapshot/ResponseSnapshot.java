@@ -17,6 +17,12 @@ public class ResponseSnapshot extends BaseMsg {
 
     @Override
     public byte[] createData() {
-        return packBuffer(snapshotData);
+        ByteBuffer bf = makeBuffer();
+        snapshotData.rewind();
+        while (snapshotData.hasRemaining()) {
+            byte a = snapshotData.get();
+            bf.put(a);
+        }
+        return packBuffer(bf);
     }
 }
