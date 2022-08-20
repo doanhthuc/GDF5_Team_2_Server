@@ -13,7 +13,6 @@ import battle.component.info.LifeComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +46,7 @@ public class MovementSystem extends SystemECS {
             if (fireballEffect != null && velocityComponent != null) {
                 if (fireballEffect.getAccTime() < fireballEffect.getMaxDuration()) {
                     fireballEffect.setAccTime(fireballEffect.getAccTime() + (this.tick / 1000));
-                    double newSpeed = -1 * fireballEffect.getA() * fireballEffect.getAccTime() + fireballEffect.getV0();
+                    double newSpeed = -1 * fireballEffect.getAcceleration() * fireballEffect.getAccTime() + fireballEffect.getVelocityStart();
                     Point newVelocity = Utils.calculateVelocityVector(fireballEffect.getStartPos(), fireballEffect.getEndPos(), newSpeed);
                     velocityComponent.setSpeedX(newVelocity.x);
                     velocityComponent.setSpeedY(newVelocity.y);

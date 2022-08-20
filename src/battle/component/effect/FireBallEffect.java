@@ -5,17 +5,17 @@ import battle.component.common.Component;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class FireBallEffect extends Component {
     private String name = "FireBallEffect";
     public static int typeID = GameConfig.COMPONENT_ID.ACCELERATION;
-    private double a;
+    private double acceleration;
     private double accTime;
     private double maxDuration;
     private Point startPos;
     private Point endPos;
-    private double v0;
-    private double x;
-    private double y;
+    private double velocityStart;
 
     public FireBallEffect(double a, double maxDuration, Point startPos, Point endPos, double v0) {
         super(GameConfig.COMPONENT_ID.ACCELERATION);
@@ -23,34 +23,30 @@ public class FireBallEffect extends Component {
     }
 
     public void reset(double a, double maxDuration, Point startPos, Point endPos, double v0) {
-        this.a = a;
+        this.acceleration = a;
         this.accTime = 0;
         this.maxDuration = maxDuration;
         this.startPos = startPos;
         this.endPos = endPos;
-        this.v0 = v0;
+        this.velocityStart = v0;
     }
 
     public FireBallEffect clone(ComponentFactory componentFactory) throws Exception {
         return componentFactory
-                .createFireBallEffect(this.a, this.maxDuration, this.startPos, this.endPos, this.v0);
+                .createFireBallEffect(this.acceleration, this.maxDuration, this.startPos, this.endPos, this.velocityStart);
     }
 
-    public void add(Point otherAcceleration) {
-        this.x += otherAcceleration.x;
-        this.y += otherAcceleration.y;
-    }
 
     public double calculateSpeed(double speedX, double speedY) {
         return Math.sqrt(Math.pow(speedX, 2) + Math.pow(speedY, 2));
     }
 
-    public double getA() {
-        return a;
+    public double getAcceleration() {
+        return acceleration;
     }
 
-    public void setA(double a) {
-        this.a = a;
+    public void setAcceleration(double acceleration) {
+        this.acceleration = acceleration;
     }
 
     public double getAccTime() {
@@ -85,27 +81,24 @@ public class FireBallEffect extends Component {
         this.endPos = endPos;
     }
 
-    public double getV0() {
-        return v0;
+    public double getVelocityStart() {
+        return velocityStart;
     }
 
-    public void setV0(double v0) {
-        this.v0 = v0;
+    public void setVelocityStart(double velocityStart) {
+        this.velocityStart = velocityStart;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(acceleration);
+        bf.putDouble(accTime);
+        bf.putDouble(maxDuration);
+        bf.putDouble(startPos.x);
+        bf.putDouble(startPos.y);
+        bf.putDouble(endPos.x);
+        bf.putDouble(endPos.y);
+        bf.putDouble(velocityStart);
     }
 }

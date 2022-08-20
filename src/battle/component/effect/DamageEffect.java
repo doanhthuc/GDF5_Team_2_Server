@@ -3,6 +3,8 @@ package battle.component.effect;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class DamageEffect extends EffectComponent {
     private String name = "DamageEffect";
     public static int typeID = GameConfig.COMPONENT_ID.DAMAGE_EFFECT;
@@ -27,5 +29,11 @@ public class DamageEffect extends EffectComponent {
 
     public void reset(double damage) {
         this.damage = damage;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(damage);
     }
 }
