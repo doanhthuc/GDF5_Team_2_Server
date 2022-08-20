@@ -3,6 +3,8 @@ package battle.component.effect;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class BuffAttackSpeedEffect extends EffectComponent {
     private String name = "BuffAttackSpeedEffect";
     public static int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_SPEED;
@@ -28,5 +30,11 @@ public class BuffAttackSpeedEffect extends EffectComponent {
 
     public double getPercent() {
         return percent;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(percent);
     }
 }

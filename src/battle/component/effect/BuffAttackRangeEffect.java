@@ -3,6 +3,8 @@ package battle.component.effect;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class BuffAttackRangeEffect extends EffectComponent {
     public static String name = "BuffAttackRangeEffect";
     public static int typeID = GameConfig.COMPONENT_ID.BUFF_ATTACK_RANGE;
@@ -32,5 +34,11 @@ public class BuffAttackRangeEffect extends EffectComponent {
 
     public void setPercent(double percent) {
         this.percent = percent;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(percent);
     }
 }
