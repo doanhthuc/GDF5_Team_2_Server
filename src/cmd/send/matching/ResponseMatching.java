@@ -1,5 +1,7 @@
 package cmd.send.matching;
 
+import battle.common.EntityMode;
+import battle.common.Utils;
 import battle.map.BattleMap;
 import bitzero.server.extensions.data.BaseMsg;
 import cmd.CmdDefine;
@@ -10,14 +12,16 @@ import java.nio.ByteBuffer;
 public class ResponseMatching extends BaseMsg {
     public short error;
     private int roomId;
+    private EntityMode entityMode;
     public BattleMap playerMap;
     public BattleMap opponentMap;
     public OpponentInfo opponentInfo;
 
-    public ResponseMatching(short error, int roomId, BattleMap playerMap, BattleMap opponentMap, OpponentInfo opponentInfo) {
+    public ResponseMatching(short error, int roomId, EntityMode entityMode, BattleMap playerMap, BattleMap opponentMap, OpponentInfo opponentInfo) {
         super(CmdDefine.MATCHING);
         this.error = error;
         this.roomId = roomId;
+        this.entityMode = entityMode;
         this.playerMap = playerMap;
         this.opponentMap = opponentMap;
         this.opponentInfo = opponentInfo;
@@ -29,6 +33,7 @@ public class ResponseMatching extends BaseMsg {
         ByteBuffer bf = makeBuffer();
         bf.putShort(error);
         bf.putInt(roomId);
+        bf.putShort(Utils.getInstance().convertMode2Short(entityMode));
         packMap(bf, this.playerMap);
         packMap(bf, this.opponentMap);
         bf.putInt(opponentInfo.getId());

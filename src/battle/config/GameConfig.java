@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameConfig {
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static int TILE_WIDTH = 77;
     public static int TILE_HEIGHT = 77;
     public static int MAP_WIDTH = 7;
@@ -143,7 +143,7 @@ public class GameConfig {
         public static List<Integer> INFO_COMPONENT = Arrays.asList(COMPONENT_ID.BULLET_INFO, COMPONENT_ID.TOWER_INFO, COMPONENT_ID.MONSTER_INFO);
 
         public static List<Integer> MONSTER_SNAPSHOT = Arrays.asList(PathComponent.typeID, PositionComponent.typeID, LifeComponent.typeID,
-                VelocityComponent.typeID, SlowEffect.typeID, DamageEffect.typeID, FrozenEffect.typeID);
+                VelocityComponent.typeID);
     }
 
     public static class COMPONENT_NAME {
