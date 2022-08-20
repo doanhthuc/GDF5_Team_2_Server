@@ -3,6 +3,7 @@ package battle.newMap;
 import battle.common.Utils;
 
 import java.awt.*;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,4 +115,40 @@ public class BattleMapObject {
             System.out.println();
         }
     }
-}
+
+    public void createData(ByteBuffer bf) {
+        bf.putInt(this.getHeight());
+        bf.putInt(this.getWidth());
+        for (int i = 0; i < this.getHeight(); i++) {
+            for (int j = 0; j < this.getWidth(); j++) {
+                TileObject tileObject = this.getTileObject(i, j);
+                packCellPacket(tileObject, bf);
+            }
+        }
+    }
+
+    private void packCellPacket(TileObject tileObject, ByteBuffer bf) {
+        bf.putInt(tileObject.getTilePos().x);
+        bf.putInt(tileObject.getTilePos().y);
+        bf.putInt(tileObject.getBuffCellType().value);
+        bf.putInt(tileObject.getObjectInTile().getObjectInCellType().value);
+        switch (tileObject.getObjectInTile().getObjectInCellType()) {
+            case TOWER:
+                Tower tower = (Tower) tileObject.getObjectInTile();
+                bf.putInt(tower.getId());
+                bf.putInt(tower.getLevel());
+                bf.putLong(tower.getEntityId());
+                break;
+            case TREE:
+                Tree tree = (Tree) tileObject.getObjectInTile();
+                bf.putDouble(tree.getHp());
+                break;
+            case PIT:
+                bf.putInt(-1);
+                break;
+            default:
+                break;
+        }
+    }
+};
+

@@ -1,6 +1,7 @@
 package battle.snapshot;
 
 import battle.Battle;
+import battle.common.EntityMode;
 import battle.common.UUIDGeneratorECS;
 import battle.component.common.Component;
 import battle.config.GameConfig;
@@ -39,6 +40,7 @@ public class SnapshotManager {
         System.out.println("tickSendSnapShot = " + battle.getTickManager().getCurrentTick());
         this.createMonsterAndTowerSnapShot(byteBuffer);
         this.createBattleInfoSnapShot(byteBuffer);
+        this.createBattleMapObjectSnapshot(byteBuffer);
         return byteBuffer;
     }
 
@@ -61,7 +63,6 @@ public class SnapshotManager {
         }
     }
 
-
     public void createBattleInfoSnapShot(ByteBuffer byteBuffer) {
         byteBuffer.putInt(battle.player1HP);
         byteBuffer.putInt(battle.player2HP);
@@ -70,6 +71,11 @@ public class SnapshotManager {
         byteBuffer.putLong(uuid.getPlayerMonsterEntityId());
         byteBuffer.putLong(uuid.getOpponentMonsterEntityId());
         byteBuffer.putLong(uuid.getPlayerStartEntityID());
+    }
+
+    public void createBattleMapObjectSnapshot(ByteBuffer bf) {
+        this.battle.getBattleMapByEntityMode(EntityMode.PLAYER).battleMapObject.createData(bf);
+        this.battle.getBattleMapByEntityMode(EntityMode.OPPONENT).battleMapObject.createData(bf);
     }
 
     public void sendSnapshot(ByteBuffer snapshot) {

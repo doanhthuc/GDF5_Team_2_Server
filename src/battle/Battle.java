@@ -444,7 +444,7 @@ public class Battle {
     public void handleDestroyTower(long entityId) {
         EntityECS entity = this.entityManager.getEntity(entityId);
         EntityMode mode = entity.getMode();
-        this.entityManager.remove(entity);
+        this.getEntityManager().destroy(entity);
         handlerPutTower(mode);
     }
 
