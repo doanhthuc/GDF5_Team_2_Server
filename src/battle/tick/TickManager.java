@@ -36,7 +36,7 @@ public class TickManager {
             case CmdDefine.PUT_TOWER: {//PutTower
                 int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
                 Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
-//                queue.add(input);
+                queue.add(input);
                 this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
             }
