@@ -3,15 +3,11 @@ package battle.snapshot;
 import battle.Battle;
 import battle.common.UUIDGeneratorECS;
 import battle.component.common.Component;
-import battle.component.common.PathComponent;
-import battle.component.common.PositionComponent;
-import battle.component.common.VelocityComponent;
-import battle.component.effect.SlowEffect;
-import battle.component.info.LifeComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.system.AbilitySystem;
+import battle.system.TowerSpecialSkillSystem;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
 import bitzero.util.ExtensionUtility;
@@ -25,11 +21,13 @@ import java.util.Map;
 public class SnapshotManager {
     private EntityManager entityManager;
     private AbilitySystem abilitySystem;
+    private TowerSpecialSkillSystem towerSystem;
     private Battle battle;
 
     public SnapshotManager(Battle battle) {
         this.entityManager = battle.getEntityManager();
         this.abilitySystem = battle.abilitySystem;
+        this.towerSystem = battle.towerSystem;
         this.battle = battle;
     }
 
@@ -44,25 +42,25 @@ public class SnapshotManager {
         return byteBuffer;
     }
 
-    public ByteBuffer createMonsterSnapShot(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(abilitySystem.getEntityStore().size());
-        for (Map.Entry<Long, EntityECS> entry : abilitySystem.getEntityStore().entrySet()) {
+    public void createMonsterSnapShot(ByteBuffer byteBuffer) {
+        byteBuffer.putInt(towerSystem.getEntityStore().size());
+        for (Map.Entry<Long, EntityECS> entry : towerSystem.getEntityStore().entrySet()) {
             EntityECS entity = entry.getValue();
             entity.createSnapshot(byteBuffer);
             int sizeComponent = 0;
-            for (int component : GameConfig.GROUP_ID.MONSTER_SNAPSHOT) {
+            for (int component : GameConfig.GROUP_ID.SNAPSHOT_COMPONENT) {
                 if (entity._hasComponent(component)) sizeComponent++;
             }
             byteBuffer.putInt(sizeComponent);
 
             for (Map.Entry<Integer, Component> componentEntry : entity.getComponents().entrySet()) {
                 int typeID = componentEntry.getValue().getTypeID();
-                if (!GameConfig.GROUP_ID.MONSTER_SNAPSHOT.contains(typeID)) continue;
+                if (!GameConfig.GROUP_ID.SNAPSHOT_COMPONENT.contains(typeID)) continue;
                 componentEntry.getValue().createData(byteBuffer);
             }
         }
-        return byteBuffer;
     }
+
 
     public void createBattleInfoSnapShot(ByteBuffer byteBuffer) {
         byteBuffer.putInt(battle.player1HP);

@@ -14,6 +14,7 @@ import battle.component.info.MonsterInfoComponent;
 import battle.component.info.SpellInfoComponent;
 import battle.component.info.TowerInfoComponent;
 import battle.component.towerskill.SnakeBurnHpAuraComponent;
+import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.map.BattleMap;
 import battle.newMap.BattleMapObject;
@@ -23,8 +24,10 @@ import battle.newMap.Tower;
 import java.util.Map;
 
 public class TowerSpecialSkillSystem extends SystemECS {
-    public TowerSpecialSkillSystem(int typeId, String name, long systemId) {
-        super(typeId, name, systemId);
+    private final static String SYSTEM_NAME = "TowerSpecialSkillSystem";
+
+    public TowerSpecialSkillSystem(long id) {
+        super(GameConfig.SYSTEM_ID.TOWER_SPECIAL_SKILL, SYSTEM_NAME, id);
     }
 
     @Override

@@ -37,7 +37,6 @@ public class TickManager {
                 int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
                 Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
-                this.inputTick.put(futureTick, queue);
                 this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
             }
