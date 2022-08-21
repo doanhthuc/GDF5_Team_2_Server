@@ -2,10 +2,18 @@ package battle.tick;
 
 import battle.common.Pair;
 import battle.config.GameConfig;
+import bitzero.server.BitZeroServer;
+import bitzero.server.entities.User;
+import bitzero.util.ExtensionUtility;
+import cmd.send.battle.player.ResponseRequestPutTower;
+import cmd.send.battle.snapshot.ResponseSnapshot;
+import extension.FresherExtension;
 import model.PlayerInfo;
 import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
+import service.BattleHandler;
 
+import java.nio.ByteBuffer;
 import java.util.*;
 
 public class TickManager {
@@ -25,16 +33,14 @@ public class TickManager {
         int currentTick = this.getCurrentTick();
 
         switch (dataCmd.getId()) {
-            case CmdDefine.PUT_TOWER: {//PutTower
-                int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
-                Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
-                queue.add(input);
-                this.inputTick.put(futureTick, queue);
-                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
-                break;
+            case CmdDefine.PUT_TOWER:{
+                    int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
+                    Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
+                    queue.add(input);
+                    this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+                    break;
             }
             case CmdDefine.UPGRADE_TOWER: {
-                //UpgradeTower
                 int futureTick = currentTick + GameConfig.BATTLE.DELAY_BUILD_TOWER / this.tickRate;
                 Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
@@ -52,16 +58,10 @@ public class TickManager {
             }
             case CmdDefine.DROP_SPELL: {
                 int futureTick = currentTick + 1;
-
-                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
-//                System.out.println("xx Latest Tick = " + currentTick);
-//                System.out.println("xx Current Tick = " + currentTick2);
-//                System.out.println("xx Future Tick put tower = " + futureTick);
-
                 Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
                 this.inputTick.put(futureTick, queue);
-                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+               // this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
             }
 
@@ -75,7 +75,7 @@ public class TickManager {
 
     public void handleInternalInputTick(int tickNumber) throws Exception {
         Queue<Pair<PlayerInfo, DataCmd>> queue = this.inputTick.get(tickNumber);
-        if (queue != null) System.out.println("queue Internal InputTick Size " + queue.size());
+//        if (queue != null) System.out.println("queue Internal InputTick Size " + queue.size());
         while (queue != null && !queue.isEmpty()) {
             Pair<PlayerInfo, DataCmd> data = queue.poll();
             tickInternalHandler.handleCommand(data.first, data.second);
@@ -103,5 +103,4 @@ public class TickManager {
         }
         return queue;
     }
-
 }

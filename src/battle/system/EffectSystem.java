@@ -3,17 +3,23 @@ package battle.system;
 import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
-import battle.component.common.*;
-import battle.component.effect.*;
+import battle.component.common.Component;
+import battle.component.common.PathComponent;
+import battle.component.common.PositionComponent;
+import battle.component.common.VelocityComponent;
+import battle.component.effect.DamageEffect;
+import battle.component.effect.FrozenEffect;
+import battle.component.effect.SlowEffect;
+import battle.component.effect.TrapEffect;
 import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.component.towerskill.DamageAmplifyComponent;
 import battle.component.towerskill.PoisonEffect;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.manager.EntityManager;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 public class EffectSystem extends SystemECS {
     private final static String SYSTEM_NAME = "EffectSystem";

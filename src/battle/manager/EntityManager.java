@@ -22,10 +22,6 @@ public class EntityManager extends ManagerECS {
     }
 
     public void destroy(EntityECS entityECS) {
-//        System.out.println("entityID " + entityECS.getId());
-//        for (Map.Entry<Long, EntityECS> entry : entities.entrySet()) {
-//            System.out.print("map:=" + entry.getKey() + " ");
-//        }
         if (!entities.containsKey(entityECS.getId())) return;
         for (Map.Entry<Integer, Component> entry : entities.get(entityECS.getId()).getComponents().entrySet()) {
             Component component = entry.getValue();

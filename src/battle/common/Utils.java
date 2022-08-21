@@ -24,8 +24,7 @@ public class Utils {
         if (mode == EntityMode.PLAYER) {
             xx = xx + GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2;
             yy = yy + GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2;
-        } // FIXME add mode== GameConfig.OPPONENT
-        else {
+        } else {
             xx = GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2 - xx;
             yy = GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2 - yy;
         }
@@ -39,8 +38,7 @@ public class Utils {
         if (mode.getValue() == EntityMode.PLAYER.getValue()) {
             xx = x * GameConfig.TILE_WIDTH - GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2 + GameConfig.TILE_WIDTH / 2;
             yy = y * GameConfig.TILE_HEIGHT - GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2 + GameConfig.TILE_HEIGHT / 2;
-        } // FIXME add mode== GameConfig.OPPONENT
-        else {
+        } else {
             xx = GameConfig.MAP_WIDTH * GameConfig.TILE_WIDTH / 2 - x * GameConfig.TILE_WIDTH - GameConfig.TILE_WIDTH / 2;
             yy = GameConfig.MAP_HEIGHT * GameConfig.TILE_HEIGHT / 2 - y * GameConfig.TILE_HEIGHT - GameConfig.TILE_HEIGHT / 2;
         }
@@ -125,7 +123,9 @@ public class Utils {
     }
 
     public static List<Point> tileArray2PixelCellArray(List<Point> tileArr, EntityMode mode) {
-        if (tileArr.size() < 2) return null;
+        if (tileArr.size() < 2) {
+            return new ArrayList<>();
+        }
         List<Point> cellArr = new ArrayList<>();
         double cellX, cellY, beforeCellX = 0, beforeCellY = 0;
         int magicNumber = 27;
@@ -261,5 +261,13 @@ public class Utils {
         public static final int RIGHT_BOTTOM = -2;
         public static final int LEFT_TOP = 4;
         public static final int LEFT_BOTTOM = -4;
+    }
+
+    public static short convertMode2Short(EntityMode mode) {
+        return (short) (mode.getValue() == EntityMode.PLAYER.getValue() ? 1 : 0);
+    }
+
+    public static short convertBoolean2Short(Boolean val) {
+        return (short) (val ? 1 : 0);
     }
 }

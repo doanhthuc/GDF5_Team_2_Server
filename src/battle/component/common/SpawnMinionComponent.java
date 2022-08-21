@@ -1,7 +1,12 @@
 package battle.component.common;
 
+import battle.component.effect.BuffAttackDamageEffect;
+import battle.component.effect.BuffAttackRangeEffect;
+import battle.component.effect.BuffAttackSpeedEffect;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
+
+import java.nio.ByteBuffer;
 
 public class SpawnMinionComponent extends Component {
     private String name = "SpawnMinionComponent";
@@ -48,5 +53,12 @@ public class SpawnMinionComponent extends Component {
 
     public int getMaxAmount() {
         return this.maxAmount;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putInt(spawnAmount);
+        bf.putDouble(period);
     }
 }

@@ -4,24 +4,12 @@ import battle.Battle;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.component.common.*;
-import battle.component.effect.BuffAttackDamageEffect;
-import battle.component.effect.BuffAttackSpeedEffect;
 import battle.component.effect.FrozenEffect;
-import battle.component.effect.TowerAbilityComponent;
 import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.factory.EntityFactory;
-import battle.manager.EntityManager;
-import battle.map.BattleMap;
-import battle.newMap.BattleMapObject;
-import battle.newMap.TileObject;
-import battle.newMap.Tower;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 public class AbilitySystem extends SystemECS {
@@ -82,7 +70,6 @@ public class AbilitySystem extends SystemECS {
         }
     }
 
-    //TODO: continue Implementing when have entity Factory
     private void handleSpawnMinionComponent(double tick, Battle battle) throws Exception {
         for (Map.Entry<Long, EntityECS> mapElement : this.getEntityStore().entrySet()) {
             EntityECS entity = mapElement.getValue();
@@ -91,7 +78,7 @@ public class AbilitySystem extends SystemECS {
             SpawnMinionComponent spawnMinionComponent = (SpawnMinionComponent) entity.getComponent(SpawnMinionComponent.typeID);
 
             if (spawnMinionComponent.getPeriod() >= 0) {
-                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick / 1000);
+                spawnMinionComponent.setPeriod(spawnMinionComponent.getPeriod() - tick);
             } else {
                 spawnMinionComponent.setPeriod(2);
                 PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);

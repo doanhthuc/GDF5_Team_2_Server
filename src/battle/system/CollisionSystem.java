@@ -3,7 +3,6 @@ package battle.system;
 import battle.Battle;
 import battle.common.*;
 import battle.component.common.*;
-import battle.common.QuadTreeData;
 import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.component.info.BulletInfoComponent;
@@ -13,10 +12,10 @@ import battle.component.towerskill.FrogBulletSkillComponent;
 import battle.component.towerskill.WizardBulletSkillComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.factory.ComponentFactory;
-import battle.manager.EntityManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class CollisionSystem extends SystemECS {
     private static final String SYSTEM_NAME = "CollisionSystem";

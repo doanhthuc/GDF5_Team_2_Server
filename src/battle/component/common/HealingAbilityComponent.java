@@ -1,7 +1,10 @@
 package battle.component.common;
 
+import battle.common.Utils;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
+
+import java.nio.ByteBuffer;
 
 public class HealingAbilityComponent extends Component{
     private String name = "HealingAbilityComponent";
@@ -61,5 +64,10 @@ public class HealingAbilityComponent extends Component{
 
     public void setCountdown(double countdown) {
         this.countdown = countdown;
+    }
+
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(countdown);
     }
 }

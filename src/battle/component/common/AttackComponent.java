@@ -1,12 +1,13 @@
 package battle.component.common;
 
+import battle.common.Utils;
 import battle.component.effect.DamageEffect;
 import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 import battle.tick.TickManager;
-import javafx.scene.effect.Effect;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -212,5 +213,28 @@ public class AttackComponent extends Component {
 
     public void setOriginSpeed(double originSpeed) {
         this.originSpeed = originSpeed;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+
+        bf.putDouble(originDamage);
+        bf.putDouble(damage);
+        bf.putInt(targetStrategy);
+        bf.putDouble(originRange);
+        bf.putDouble(range);
+        bf.putDouble(originSpeed);
+        bf.putDouble(speed);
+        bf.putDouble(countdown);
+        bf.putDouble(bulletSpeed);
+        bf.putDouble(bulletRadius);
+        bf.putShort(Utils.getInstance().convertBoolean2Short(canTargetAirMonster));
+        bf.putInt(_latestTick);
+
+        bf.putShort((short) effects.size());
+        for (EffectComponent effect : effects) {
+            effect.createData(bf);
+        }
     }
 }

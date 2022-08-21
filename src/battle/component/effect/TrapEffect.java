@@ -1,12 +1,15 @@
 package battle.component.effect;
 
+import battle.common.Utils;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
+
+import java.nio.ByteBuffer;
 
 public class TrapEffect extends EffectComponent {
     private String name = "TrapEffect";
     public static int typeID = GameConfig.COMPONENT_ID.TRAP_EFFECT;
-    private double damage;
+
     private boolean isExecuted;
     private double countdown;
     public TrapEffect() {
@@ -32,10 +35,6 @@ public class TrapEffect extends EffectComponent {
         return countdown;
     }
 
-    public double getDamage() {
-        return damage;
-    }
-
     public TrapEffect clone(ComponentFactory componentFactory) {
         try {
             return componentFactory.createTrapEffect();
@@ -45,4 +44,10 @@ public class TrapEffect extends EffectComponent {
         return null;
     }
 
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(countdown);
+        bf.putShort(Utils.convertBoolean2Short(isExecuted));
+    }
 }

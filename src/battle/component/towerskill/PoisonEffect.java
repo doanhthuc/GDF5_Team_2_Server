@@ -1,9 +1,12 @@
 package battle.component.towerskill;
 
+import battle.common.Utils;
 import battle.component.common.Component;
 import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
+
+import java.nio.ByteBuffer;
 
 public class PoisonEffect extends EffectComponent {
     private String name = "PoisonEffect";
@@ -46,5 +49,12 @@ public class PoisonEffect extends EffectComponent {
 
     public void setDuration(double duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(duration);
+        bf.putDouble(healthPerSecond);
     }
 }

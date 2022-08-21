@@ -1,6 +1,9 @@
 package battle.component.common;
 
 import battle.common.UUIDGeneratorECS;
+import battle.common.Utils;
+
+import java.nio.ByteBuffer;
 
 public class Component {
     public int typeID = 0;
@@ -31,7 +34,6 @@ public class Component {
     }
 
     public void setId(long id) {
-        System.out.println("set component id = " + id);
         this.id = id;
     }
 
@@ -51,6 +53,13 @@ public class Component {
                 ", id=" + id +
                 ", active=" + active +
                 '}';
+    }
+
+    public void createData(ByteBuffer bf) {
+        short activeShort = Utils.convertBoolean2Short(active);
+        bf.putInt(typeID);
+        bf.putLong(id);
+        bf.putShort(activeShort);
     }
 }
 

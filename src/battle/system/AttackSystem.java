@@ -12,13 +12,8 @@ import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.factory.EntityFactory;
-import battle.manager.EntityManager;
-import javafx.geometry.Pos;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -129,7 +124,7 @@ public class AttackSystem extends SystemECS {
                     if (hp > maxHP) {
                         maxHP = hp;
                         maxHPIndex = i;
-                    } else if (hp == maxHP && monsterInRange.get(maxHPIndex).getId() > monsterInRange.get(i).getId()) {
+                    } else if (maxHPIndex != -1 && hp == maxHP && monsterInRange.get(maxHPIndex).getId() > monsterInRange.get(i).getId()) {
                         maxHPIndex = i;
                     }
                 }
@@ -145,7 +140,7 @@ public class AttackSystem extends SystemECS {
                     if (hp < minHP) {
                         minHP = hp;
                         minHPIndex = i;
-                    } else if (hp == minHP && monsterInRange.get(minHPIndex).getId() > monsterInRange.get(i).getId()) {
+                    } else if (minHPIndex != -1 && hp == minHP && monsterInRange.get(minHPIndex).getId() > monsterInRange.get(i).getId()) {
                         minHPIndex = i;
                     }
                 }
@@ -159,7 +154,7 @@ public class AttackSystem extends SystemECS {
                     if (distance > maxDistance) {
                         maxDistance = distance;
                         maxDistanceIndex = i;
-                    } else if (distance == maxDistance && monsterInRange.get(maxDistanceIndex).getId() > monsterInRange.get(i).getId()) {
+                    } else if (maxDistanceIndex != -1 && distance == maxDistance && monsterInRange.get(maxDistanceIndex).getId() > monsterInRange.get(i).getId()) {
                         maxDistanceIndex = i;
                     }
                 }
@@ -173,7 +168,7 @@ public class AttackSystem extends SystemECS {
                     if (distance < minDistance) {
                         minDistance = distance;
                         minDistanceIndex = i;
-                    } else if (distance == minDistance && monsterInRange.get(minDistanceIndex).getId() > monsterInRange.get(i).getId()) {
+                    } else if (minDistanceIndex != -1 && distance == minDistance && monsterInRange.get(minDistanceIndex).getId() > monsterInRange.get(i).getId()) {
                         minDistanceIndex = i;
                     }
                 }

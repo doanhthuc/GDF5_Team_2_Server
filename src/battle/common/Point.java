@@ -32,7 +32,7 @@ public class Point {
     }
 
     public Point oppositePoint() {
-        return new Point(-this.x, -this.y);
+        return new Point(-1 * this.x, -1 * this.y);
     }
 }
 

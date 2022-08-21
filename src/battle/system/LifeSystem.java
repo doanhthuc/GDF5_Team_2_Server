@@ -6,10 +6,7 @@ import battle.component.info.LifeComponent;
 import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.manager.EntityManager;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class LifeSystem extends SystemECS {

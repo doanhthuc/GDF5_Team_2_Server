@@ -18,23 +18,12 @@ public class ComponentManager extends ManagerECS {
         this.storeInstance = new ConcurrentHashMap<>();
     }
 
-    public void registerClass(Component cpn) {
-        // TODO: implement here
-        //throw new NotImplementedException();
-    }
-
-    public Class getClass(int typeID) {
-        // TODO: implement here
-       // throw new NotImplementedException();
-        return null;
-    }
 
     public void add(Component component) throws Exception {
         if (this.storeInstance.get(component.getId()) != null) {
             System.out.println(this.storeInstance.toString());
             throw new Exception("Component with typeID = " + component.getTypeID() + ", id = " + component.getId() + " exists.");
         }
-        System.out.println("Add component id = " + component.getId());
         this.storeInstance.put(component.getId(), component);
     }
 

@@ -4,6 +4,8 @@ import battle.common.Point;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class PositionComponent extends Component {
     private String name = "PositionComponent";
     public static int typeID = GameConfig.COMPONENT_ID.POSITION;
@@ -63,5 +65,13 @@ public class PositionComponent extends Component {
 
     public void setMoveDistance(double moveDistance) {
         this.moveDistance = moveDistance;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(x);
+        bf.putDouble(y);
+        bf.putDouble(moveDistance);
     }
 }

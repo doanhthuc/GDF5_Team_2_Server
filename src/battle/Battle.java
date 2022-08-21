@@ -33,6 +33,7 @@ import battle.pool.EntityPool;
 import battle.system.*;
 import battle.tick.TickManager;
 import model.PlayerInfo;
+import model.battle.PlayerInBattle;
 
 import java.util.*;
 
@@ -62,6 +63,8 @@ public class Battle {
     public ResetSystem resetSystem;
     public MonsterSystem monsterSystem;
     public SpellSystem spellSystem;
+    public TowerSpecialSkillSystem towerSystem;
+    public SnapshotSystem snapshotSystem;
     //Map
     public BattleMap player1BattleMap;
     public List<Point>[][] player1ShortestPath;
@@ -69,17 +72,13 @@ public class Battle {
     public List<Point>[][] player2ShortestPath;
     //MonsterWave
     private final int waveAmount = GameConfig.WAVE_AMOUNT;
-    public int currentWave = 0;
+    public int currentWave = 1;
     private List<List<Integer>> monsterWave;
     public int nextWaveTimeTick;
     public long nextBornMonsterTime;
     //PlayerHp and Energy
-    public int player1HP = GameConfig.PLAYER_HP;
-    public int player2HP = GameConfig.PLAYER_HP;
-    private int player1energy = GameConfig.PLAYER_ENERGY;
-    private int player2energy = GameConfig.OPPONENT_ENERGY;
-    public PlayerInfo user1;
-    public PlayerInfo user2;
+    public PlayerInBattle player1;
+    public PlayerInBattle player2;
     public TickManager tickManager;
 
     public TickManager getTickManager() {
@@ -90,10 +89,10 @@ public class Battle {
         this.tickManager = tickManager;
     }
 
-    public Battle(PlayerInfo userId1, PlayerInfo userId2, TickManager tickManager) {
+    public Battle(PlayerInBattle player1, PlayerInBattle player2, TickManager tickManager) {
         this.initPoolAndManager();
         this.initSystem();
-        this.initMap(userId1, userId2);
+        this.initMap(player1, player2);
         this.initMonsterWave();
         this.tickManager = tickManager;
     }
@@ -125,26 +124,30 @@ public class Battle {
             this.resetSystem = this.systemFactory.createResetSystem();
             this.monsterSystem = this.systemFactory.createMonsterSystem();
             this.spellSystem = this.systemFactory.createSpellSystem();
+            this.towerSystem = this.systemFactory.createTowerSpecialSkillSystem();
+            this.snapshotSystem = this.systemFactory.createSnapshotSystem();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void initMap(PlayerInfo user1, PlayerInfo user2) {
+    public void initMap(PlayerInBattle player1, PlayerInBattle player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+
         this.player1BattleMap = new BattleMap();
         this.player1ShortestPath = FindPathUtils.findShortestPathForEachTile(player1BattleMap.map);
 
         this.player2BattleMap = new BattleMap();
         this.player2ShortestPath = FindPathUtils.findShortestPathForEachTile(player2BattleMap.map);
 
-        this.battleMapListByPlayerId.put(user1.getId(), this.player1BattleMap);
-        this.battleMapListByPlayerId.put(user2.getId(), this.player2BattleMap);
+        this.battleMapListByPlayerId.put(player1.getId(), this.player1BattleMap);
+        this.battleMapListByPlayerId.put(player2.getId(), this.player2BattleMap);
 
-        this.entityModeByPlayerID.put(user1.getId(), EntityMode.PLAYER);
-        this.entityModeByPlayerID.put(user2.getId(), EntityMode.OPPONENT);
+        this.entityModeByPlayerID.put(player1.getId(), EntityMode.PLAYER);
+        this.entityModeByPlayerID.put(player2.getId(), EntityMode.OPPONENT);
 
-        this.user1 = user1;
-        this.user2 = user2;
+
     }
 
     public void initMonsterWave() {
@@ -156,6 +159,7 @@ public class Battle {
     public void updateSystem() throws Exception {
         resetSystem.run(this);
         abilitySystem.run(this);
+        towerSystem.run(this);
         effectSystem.run(this);
         attackSystem.run(this);
         lifeSystem.run(this);
@@ -168,18 +172,18 @@ public class Battle {
     }
 
     public void minusPlayerHP(int hp, EntityMode mode) {
-        if (mode == EntityMode.PLAYER) this.player1HP -= hp;
-        else this.player2HP -= hp;
+        if (mode == EntityMode.PLAYER) this.player1.minusPlayerHP(hp);
+        else this.player2.minusPlayerHP(hp);
     }
 
     public void addPlayerEnergy(int energy, EntityMode mode) {
-        if (mode == EntityMode.PLAYER) this.player1energy += energy;
-        else this.player2energy += energy;
+        if (mode == EntityMode.PLAYER) this.player1.addPlayerEnergy(energy);
+        else this.player2.addPlayerEnergy(energy);
     }
 
     public void minusPlayerEnergy(int energy, EntityMode mode) {
-        if (mode == EntityMode.PLAYER) this.player1energy -= energy;
-        else this.player2energy -= energy;
+        if (mode == EntityMode.PLAYER) this.player1.minusPlayerEnergy(energy);
+        else this.player2.minusPlayerEnergy(energy);
     }
 
     public List<Integer> createMonsterWaveByCurrentWaveId(int currentWave, EntityMode monde) {
@@ -379,12 +383,18 @@ public class Battle {
 
     public void castSpellBySpellID(int spellID, double pixelPosX, double pixelPosY, EntityMode mode) throws Exception {
         switch (spellID) {
-            case GameConfig.ENTITY_ID.FIRE_SPELL:
-                this.entityFactory.createFireSpell(new Point(pixelPosX, pixelPosY), mode);
+            case GameConfig.ENTITY_ID.FIRE_SPELL: {
+                Point point = new Point(pixelPosX, pixelPosY);
+                if (mode == EntityMode.OPPONENT) point = point.oppositePoint();
+                this.entityFactory.createFireSpell(point, mode);
                 break;
-            case GameConfig.ENTITY_ID.FROZEN_SPELL:
-                this.entityFactory.createFrozenSpell(new Point(pixelPosX, pixelPosY), mode);
+            }
+            case GameConfig.ENTITY_ID.FROZEN_SPELL: {
+                Point point = new Point(pixelPosX, pixelPosY);
+                if (mode == EntityMode.OPPONENT) point = point.oppositePoint();
+                this.entityFactory.createFrozenSpell(point, mode);
                 break;
+            }
             case GameConfig.ENTITY_ID.TRAP_SPELL:
                 this.entityFactory.createTrapSpell(new Point(pixelPosX, pixelPosY), mode);
                 break;
@@ -415,7 +425,7 @@ public class Battle {
                 PathComponent pathComponent = (PathComponent) monster.getComponent(PathComponent.typeID);
                 PositionComponent positionComponent = (PositionComponent) monster.getComponent(PositionComponent.typeID);
                 MonsterInfoComponent monsterInfoComponent = (MonsterInfoComponent) monster.getComponent(MonsterInfoComponent.typeID);
-                if (positionComponent != null && !monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR)) {
+                if (positionComponent != null && !(monsterInfoComponent.getClasss().equals(GameConfig.MONSTER.CLASS.AIR))) {
                     List<Point> path;
                     Point tilePos = Utils.pixel2Tile(positionComponent.getX(), positionComponent.getY(), mode);
                     if (monster.getMode() == EntityMode.PLAYER) {
@@ -441,7 +451,7 @@ public class Battle {
     public void handleDestroyTower(long entityId) {
         EntityECS entity = this.entityManager.getEntity(entityId);
         EntityMode mode = entity.getMode();
-        this.entityManager.remove(entity);
+        this.getEntityManager().destroy(entity);
         handlerPutTower(mode);
     }
 
@@ -504,11 +514,11 @@ public class Battle {
     }
 
     public int getPlayer1HP() {
-        return player1HP;
+        return player1.getPlayerHP();
     }
 
     public int getPlayer2HP() {
-        return player2HP;
+        return player2.getPlayerHP();
     }
 
     public int getCurrentWave() {
@@ -524,11 +534,11 @@ public class Battle {
     }
 
     public int getPlayer1energy() {
-        return player1energy;
+        return player1.getPlayerEnergy();
     }
 
     public int getPlayer2energy() {
-        return player2energy;
+        return player2.getPlayerEnergy();
     }
 
     public UUIDGeneratorECS getUuidGeneratorECS() {
@@ -549,5 +559,13 @@ public class Battle {
 
     public SystemManager getSystemManager() {
         return this.systemManager;
+    }
+
+    public PlayerInBattle getPlayerInfo1() {
+        return this.player1;
+    }
+
+    public PlayerInBattle getPlayerInfo2() {
+        return this.player2;
     }
 }

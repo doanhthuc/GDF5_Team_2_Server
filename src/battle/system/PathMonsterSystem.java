@@ -7,14 +7,9 @@ import battle.component.common.Component;
 import battle.component.common.PathComponent;
 import battle.component.common.PositionComponent;
 import battle.component.common.VelocityComponent;
-import battle.component.info.LifeComponent;
-import battle.component.info.MonsterInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.manager.EntityManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -37,9 +32,10 @@ public class PathMonsterSystem extends SystemECS {
             PositionComponent positionComponent = (PositionComponent) entity.getComponent(PositionComponent.typeID);
             VelocityComponent velocityComponent = (VelocityComponent) entity.getComponent(VelocityComponent.typeID);
 
-            List<Point> path = pathComponent.getPath(); int currentPathIdx = pathComponent.getCurrentPathIDx();
+            List<Point> path = pathComponent.getPath();
+            int currentPathIdx = pathComponent.getCurrentPathIDx();
 
-            int nextPosIdx = this._findNextPath(path, positionComponent, currentPathIdx);
+            int nextPosIdx = Math.min(this._findNextPath(path, positionComponent, currentPathIdx), path.size());
             if (nextPosIdx > 1) pathComponent.setCurrentPathIDx(nextPosIdx - 1);
 
             Point nextPos = path.get(nextPosIdx);

@@ -11,9 +11,6 @@ import battle.component.info.SpellInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 public class SpellSystem extends SystemECS {
@@ -25,16 +22,22 @@ public class SpellSystem extends SystemECS {
 
     @Override
     public void run(Battle battle) throws Exception {
-        this.tick = this.getElapseTime();
+        this.tick = this.getElapseTime() / 1000;
         for (Map.Entry<Long, EntityECS> mapElementSpell : this.getEntityStore().entrySet()) {
             EntityECS spellEntity = mapElementSpell.getValue();
             if (!spellEntity._hasComponent(SpellInfoComponent.typeID)) continue;
 
             SpellInfoComponent spellInfoComponent = (SpellInfoComponent) spellEntity.getComponent(SpellInfoComponent.typeID);
 
-            spellInfoComponent.setCountdown(spellInfoComponent.getCountdown() - (tick / 1000));
+            spellInfoComponent.setDelay(spellInfoComponent.getDelay() - tick);
+            spellInfoComponent.setDelayDestroy(spellInfoComponent.getDelayDestroy() - tick);
 
-            if (spellInfoComponent.getCountdown() <= 0) {
+            if (spellInfoComponent.getDelayDestroy() <= 0) {
+                battle.getEntityManager().destroy(spellEntity);
+                continue;
+            }
+
+            if (spellInfoComponent.getDelay() <= 0 && !spellInfoComponent.isTriggered()) {
                 for (Map.Entry<Long, EntityECS> mapElementMonster : this.getEntityStore().entrySet()) {
                     EntityECS monster = mapElementMonster.getValue();
 
@@ -95,12 +98,14 @@ public class SpellSystem extends SystemECS {
                         }
                     }
                 }
+
+                spellInfoComponent.setTriggered(true);
+
                 VelocityComponent velocityComponent = (VelocityComponent) spellEntity.getComponent(VelocityComponent.typeID);
                 PositionComponent positionComponent = (PositionComponent) spellEntity.getComponent(PositionComponent.typeID);
 
                 spellEntity.removeComponent(velocityComponent);
                 spellEntity.removeComponent(positionComponent);
-                spellEntity.removeComponent(spellInfoComponent);
             }
         }
     }

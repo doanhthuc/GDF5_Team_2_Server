@@ -78,4 +78,16 @@ public class SystemFactory {
         this.systemManager.add(system);
         return system;
     }
+
+    public TowerSpecialSkillSystem createTowerSpecialSkillSystem() throws Exception {
+        TowerSpecialSkillSystem system = new TowerSpecialSkillSystem(this.uuid.genSystemID());
+        this.systemManager.add(system);
+        return system;
+    }
+
+    public SnapshotSystem createSnapshotSystem() throws Exception {
+        SnapshotSystem system = new SnapshotSystem(this.uuid.genSystemID());
+        this.systemManager.add(system);
+        return system;
+    }
 }

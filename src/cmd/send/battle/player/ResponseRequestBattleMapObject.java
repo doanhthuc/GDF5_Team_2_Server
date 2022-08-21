@@ -24,42 +24,8 @@ public class ResponseRequestBattleMapObject extends BaseMsg {
     @Override
     public byte[] createData() {
         ByteBuffer bf = makeBuffer();
-        packMapObjectPacket(myBattleMapObject, bf);
-        packMapObjectPacket(opponentBattleMapObject, bf);
+        myBattleMapObject.createData(bf);
+        opponentBattleMapObject.createData(bf);
         return packBuffer(bf);
-    }
-
-    public void packMapObjectPacket(BattleMapObject battleMapObject, ByteBuffer bf) {
-        bf.putInt(battleMapObject.getHeight());
-        bf.putInt(battleMapObject.getWidth());
-        for (int i = 0; i < battleMapObject.getHeight(); i++) {
-            for (int j = 0; j < battleMapObject.getWidth(); j++) {
-                TileObject tileObject = battleMapObject.getTileObject(i, j);
-                packCellPacket(tileObject, bf);
-            }
-        }
-    }
-
-    public void packCellPacket(TileObject tileObject, ByteBuffer bf) {
-        bf.putInt(tileObject.getTilePos().x);
-        bf.putInt(tileObject.getTilePos().y);
-        bf.putInt(tileObject.getBuffCellType().value);
-        bf.putInt(tileObject.getObjectInTile().getObjectInCellType().value);
-        switch (tileObject.getObjectInTile().getObjectInCellType()) {
-            case TOWER:
-                Tower tower = (Tower) tileObject.getObjectInTile();
-                bf.putInt(tower.getId());
-                bf.putInt(tower.getLevel());
-                break;
-            case TREE:
-                Tree tree = (Tree) tileObject.getObjectInTile();
-                bf.putDouble(tree.getHp());
-                break;
-            case PIT:
-                bf.putInt(-1);
-                break;
-            default:
-                break;
-        }
     }
 }

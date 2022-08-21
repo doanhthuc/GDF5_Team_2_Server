@@ -5,10 +5,7 @@ import battle.component.common.*;
 import battle.component.info.BulletInfoComponent;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
-import battle.manager.EntityManager;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class BulletSystem extends SystemECS {

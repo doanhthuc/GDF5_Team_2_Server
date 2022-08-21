@@ -3,10 +3,12 @@ package battle.entity;
 
 import battle.common.EntityMode;
 import battle.common.UUIDGeneratorECS;
+import battle.common.Utils;
 import battle.component.common.Component;
 import battle.manager.ComponentManager;
 import battle.manager.SystemManager;
 
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,17 +37,14 @@ public class EntityECS {
     }
 
     public EntityECS addComponent(Component component) throws Exception {
-        System.out.println("EntityECS: before add component: " + component.toString());
         if (this.components.get(component.getTypeID()) != null) {
             this.componentManager.remove(component);
-            System.out.println("EntityECS: add component exist: " + component.toString());
         }
         component.setActive(true);
         this.components.put(component.getTypeID(), component);
         this.componentManager.add(component);
         this.bitmask[component.getTypeID()] = 1;
         this.systemManager.addEntityIntoSystem(this, component);
-        System.out.println("EntityECS: add component: " + component.toString());
         return this;
     }
 
@@ -126,5 +125,14 @@ public class EntityECS {
                 System.out.print(component.getTypeID() + " ");
             }
         }
+    }
+
+    public void createSnapshot(ByteBuffer byteBuffer) {
+        short activeShort = Utils.getInstance().convertBoolean2Short(active);
+        short modeShort = Utils.getInstance().convertMode2Short(mode);
+        byteBuffer.putInt(typeID);
+        byteBuffer.putLong(id);
+        byteBuffer.putShort(activeShort);
+        byteBuffer.putShort(modeShort);
     }
 }

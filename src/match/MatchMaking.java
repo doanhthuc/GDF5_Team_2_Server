@@ -1,5 +1,7 @@
 package match;
 
+import battle.common.EntityMode;
+import battle.common.UUIDGeneratorECS;
 import battle.config.GameConfig;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
@@ -24,6 +26,7 @@ import service.MatchingHandler;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -78,16 +81,17 @@ public class MatchMaking implements Runnable {
 
     }
 
-    public void clearDisconnectUser(){
+    public void clearDisconnectUser() {
         for (Map.Entry<Integer, MatchingInfo> matchingEntry : waitingMap.entrySet()) {
             MatchingInfo matchingInfo = matchingEntry.getValue();
-            int userID= matchingInfo.getPlayerId();
+            int userID = matchingInfo.getPlayerId();
             if (!FresherExtension.checkUserOnline(userID)) {
                 waitingMap.remove(matchingInfo.getPlayerId());
                 waitingQueue.remove(matchingInfo);
             }
         }
     }
+
     public void addUser(int userId, int trophy) {
         if (waitingMap.containsKey(userId)) {
             System.out.println("matching => user id = " + userId + " is existing in waiting queue");
@@ -126,20 +130,29 @@ public class MatchMaking implements Runnable {
 
             long t = room.getStartTime() - System.currentTimeMillis();
             BitZeroServer.getInstance().getTaskScheduler().schedule(room, (int) t, TimeUnit.MILLISECONDS);
+            UUIDGeneratorECS uuidGeneratorECS = room.getBattle().getUuidGeneratorECS();
 
-            // add opponent's username, trophy and 8 card
-            ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(), room.getRoomId(),
+            // send matching info
+            ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getRoomId(),
+                    EntityMode.PLAYER,
                     room.getBattle().getBattleMapByPlayerId(user1.getId()),
                     room.getBattle().getBattleMapByPlayerId(user2.getId()),
                     opponentInfoOfUser1), user1);
-
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getRoomId(),
+                    EntityMode.OPPONENT,
                     room.getBattle().getBattleMapByPlayerId(user2.getId()),
                     room.getBattle().getBattleMapByPlayerId(user1.getId()),
                     opponentInfoOfUser2), user2);
 
+            // send card deck
+            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getPlayerByID(user1.getId()).getBattleDeck()), user1);
+            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                    room.getPlayerByID(user2.getId()).getBattleDeck()), user2);
 
+            // send map object
             ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                     room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject,
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject), user1);
@@ -147,25 +160,12 @@ public class MatchMaking implements Runnable {
                     room.getBattle().getBattleMapByPlayerId(user2.getId()).battleMapObject,
                     room.getBattle().getBattleMapByPlayerId(user1.getId()).battleMapObject), user2);
 
+            // send battle info
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
-
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user1);
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user2);
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getOpponentStartEntityID(), uuidGeneratorECS.getPlayerStartEntityID()), user2);
 
-            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getPlayerByID(user1.getId()).getBattleDeck()), user1);
-            System.out.println("");
-            ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getPlayerByID(user2.getId()).getBattleDeck()), user2);
-
-//            for (int i = 0; i < user1Map.battleMapObject.getHeight(); i++) {
-//                for (int j = 0; j < user1Map.battleMapObject.getWidth(); j++) {
-//                    CellObject cellObject = user1Map.battleMapObject.getCellObject(i, j);
-//                    System.out.println("[ResponseRequestBattleMapObject] cellObject: " + cellObject);
-//                }
-//                System.out.println();
-//            }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
@@ -185,13 +185,15 @@ public class MatchMaking implements Runnable {
             RoomManager.getInstance().addRoom(room);
             new Thread(room).start();
             // add opponent's username, trophy and 8 card
+            UUIDGeneratorECS uuidGeneratorECS = room.getBattle().getUuidGeneratorECS();
             OpponentInfo opponentInfoOfUser1 = new OpponentInfo(dummyBot.getId(), dummyBot.getUserName(), dummyBot.getTrophy());
 
             ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getRoomId(), room.getPlayerBattleMap(userInfo1.getId()), room.getPlayerBattleMap(dummyBot.getId()), opponentInfoOfUser1), user1);
+                    room.getRoomId(), EntityMode.PLAYER, room.getPlayerBattleMap(userInfo1.getId()), room.getPlayerBattleMap(dummyBot.getId()),
+                    opponentInfoOfUser1), user1);
 
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave()), user1);
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user1);
 
 
             ExtensionUtility.getExtension().send(

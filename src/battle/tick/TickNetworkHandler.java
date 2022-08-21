@@ -84,13 +84,15 @@ public class TickNetworkHandler {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
             if (FresherExtension.checkUserOnline(playerInfo.getId())) {
                 User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
-                ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
+                ExtensionUtility.getExtension().send(new ResponseRequestPutTower(BattleHandler.BattleError.SUCCESS.getValue(),
+                        req.getTowerId(), 1, req.getTilePos(), tickNumber), user);
             }
 
             PlayerInfo opponentInfo = room.getOpponentPlayerByMyPlayerId(playerInfo.getId());
             if (FresherExtension.checkUserOnline(opponentInfo.getId())) {
                 User opponent = BitZeroServer.getInstance().getUserManager().getUserById(opponentInfo.getId());
-                ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(), req.getTowerId(), 1, req.getTilePos(), tickNumber), opponent);
+                ExtensionUtility.getExtension().send(new ResponseOppentPutTower(BattleHandler.BattleError.SUCCESS.getValue(),
+                        req.getTowerId(), 1, req.getTilePos(), tickNumber), opponent);
             }
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
@@ -184,7 +186,6 @@ public class TickNetworkHandler {
         System.out.println("BattleMap processChangeTowerStrategy");
         try {
             Room room = RoomManager.getInstance().getRoom(req.getRoomId());
-            // TODO: implement tower entity in server
             User user = BitZeroServer.getInstance().getUserManager().getUserById(playerInfo.getId());
             if (FresherExtension.checkUserOnline(playerInfo.getId())) {
                 ExtensionUtility.getExtension().send(new ResponseChangeTowerTargetStrategy(BattleHandler.BattleError.SUCCESS.getValue(),

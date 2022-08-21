@@ -5,6 +5,8 @@ import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class DamageAmplifyComponent extends EffectComponent {
     private String name = "DamageAmplify Effect";
     public static int typeID = GameConfig.COMPONENT_ID.DAMAGE_AMPLIFY_COMPONENT;
@@ -34,5 +36,11 @@ public class DamageAmplifyComponent extends EffectComponent {
 
     public void reset(double amplifyRate) {
         this.amplifyRate = amplifyRate;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(amplifyRate);
     }
 }

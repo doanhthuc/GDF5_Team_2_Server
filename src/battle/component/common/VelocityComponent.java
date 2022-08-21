@@ -2,8 +2,11 @@ package battle.component.common;
 
 import battle.Battle;
 import battle.common.Point;
+import battle.common.Utils;
 import battle.config.GameConfig;
 import battle.entity.EntityECS;
+
+import java.nio.ByteBuffer;
 
 public class VelocityComponent extends Component {
     private String name = "VelocityComponent";
@@ -127,5 +130,31 @@ public class VelocityComponent extends Component {
 
     public Point getStaticPosition() {
         return staticPosition;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+
+        bf.putDouble(speedX);
+        bf.putDouble(speedY);
+        bf.putDouble(originSpeedX);
+        bf.putDouble(originSpeedY);
+        bf.putDouble(originSpeed);
+
+        if (staticPosition == null) {
+            bf.putShort(Utils.getInstance().convertBoolean2Short(false));
+        } else {
+            bf.putShort(Utils.getInstance().convertBoolean2Short(true));
+            bf.putDouble(staticPosition.x);
+            bf.putDouble(staticPosition.y);
+        }
+
+        if (dynamicEntityId == -1) {
+            bf.putShort(Utils.getInstance().convertBoolean2Short(false));
+        } else {
+            bf.putShort(Utils.getInstance().convertBoolean2Short(true));
+            bf.putLong(dynamicEntityId);
+        }
     }
 }
