@@ -203,6 +203,17 @@ public class ComponentFactory {
         return spellInfoComponent;
     }
 
+    public SpellInfoComponent createSpellInfoComponent(Point position, List<EffectComponent> effects, double range, double countdown, double delayDestroy, boolean isTriggered) throws Exception {
+        SpellInfoComponent spellInfoComponent = (SpellInfoComponent) this.pool.checkOut(SpellInfoComponent.typeID);
+        if (spellInfoComponent != null) {
+            spellInfoComponent.reset(position, effects, range, countdown, delayDestroy, isTriggered);
+        } else {
+            spellInfoComponent = new SpellInfoComponent(position, effects, range, countdown, delayDestroy, isTriggered);
+            spellInfoComponent.setId(battle.getUuidGeneratorECS().genComponentID());
+        }
+        return spellInfoComponent;
+    }
+
     public TowerAbilityComponent createTowerAbilityComponent(double range, EffectComponent effect) throws Exception {
         TowerAbilityComponent towerAbilityComponent = (TowerAbilityComponent) this.pool.checkOut(GameConfig.COMPONENT_ID.TOWER_ABILITY);
         if (towerAbilityComponent != null) {
