@@ -94,7 +94,7 @@ public class Room implements Runnable {
 
                     if (currentTick % 60 == 0) {
                         ByteBuffer snapshot = this.snapshotManager.createAllSnapshot();
-                      //  this.snapshotManager.sendSnapshot(snapshot);
+                        this.snapshotManager.sendSnapshot(snapshot);
                     }
 
                     this.tickManager.increaseTick();
