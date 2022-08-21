@@ -381,12 +381,18 @@ public class Battle {
 
     public void castSpellBySpellID(int spellID, double pixelPosX, double pixelPosY, EntityMode mode) throws Exception {
         switch (spellID) {
-            case GameConfig.ENTITY_ID.FIRE_SPELL:
-                this.entityFactory.createFireSpell(new Point(pixelPosX, pixelPosY), mode);
+            case GameConfig.ENTITY_ID.FIRE_SPELL: {
+                Point point = new Point(pixelPosX, pixelPosY);
+                if (mode == EntityMode.OPPONENT) point = point.oppositePoint();
+                this.entityFactory.createFireSpell(point, mode);
                 break;
-            case GameConfig.ENTITY_ID.FROZEN_SPELL:
-                this.entityFactory.createFrozenSpell(new Point(pixelPosX, pixelPosY), mode);
+            }
+            case GameConfig.ENTITY_ID.FROZEN_SPELL: {
+                Point point = new Point(pixelPosX, pixelPosY);
+                if (mode == EntityMode.OPPONENT) point = point.oppositePoint();
+                this.entityFactory.createFrozenSpell(point, mode);
                 break;
+            }
             case GameConfig.ENTITY_ID.TRAP_SPELL:
                 this.entityFactory.createTrapSpell(new Point(pixelPosX, pixelPosY), mode);
                 break;

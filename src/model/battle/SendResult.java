@@ -32,13 +32,10 @@ public class SendResult {
 
     public static void sendWinLoseBattle(int winUserID, int loseUserID, int winnerHP, int loserHP, int currentTick) throws Exception {
 
-        PlayerInfo winUserInfo = (PlayerInfo) PlayerInfo.getModel(winUserID, PlayerInfo.class);
-        UserLobbyChest winUserLobbyChest = (UserLobbyChest) UserLobbyChest.getModel(winUserID, UserLobbyChest.class);
-
         if (FresherExtension.checkUserOnline(winUserID)) {
             User winUser = BitZeroServer.getInstance().getUserManager().getUserById(winUserID);
-            winUserInfo = (PlayerInfo) winUser.getProperty(ServerConstant.PLAYER_INFO);
-            winUserLobbyChest = (UserLobbyChest) winUser.getProperty(ServerConstant.LOBBY_CHEST);
+            PlayerInfo winUserInfo = (PlayerInfo) winUser.getProperty(ServerConstant.PLAYER_INFO);
+            UserLobbyChest winUserLobbyChest = (UserLobbyChest) winUser.getProperty(ServerConstant.LOBBY_CHEST);
             synchronized (winUserInfo) {
                 synchronized (winUserLobbyChest) {
                     if (winUserLobbyChest.haveEmptySlot()) {
