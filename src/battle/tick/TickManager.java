@@ -61,7 +61,7 @@ public class TickManager {
                 Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
                 this.inputTick.put(futureTick, queue);
-               // this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
             }
 
