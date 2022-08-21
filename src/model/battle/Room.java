@@ -367,9 +367,7 @@ public class Room implements Runnable {
     }
 
     // born Monster in tick
-    public void addBornMonsterToTickInput(int waveIdx, int currentTick) throws BZException {
-        if (waveIdx == -1) return;
-        List<Integer> monsterWaveList = this.getMonsterWave().get(waveIdx);
+    public void addBornMonsterToTickInput(List<Integer> monsterWaveList, int currentTick) throws BZException {
         for (int i = 0; i < monsterWaveList.size(); i++) {
             DataCmd bornMonsterCmd = CmdFactory.createBornMonsterCmd(this.roomId, monsterWaveList.get(i));
             int tickNumber = (i * 1000) / GameConfig.BATTLE.TICK_RATE + currentTick;
@@ -380,7 +378,9 @@ public class Room implements Runnable {
 
     public void updateMonsterWave(int currentTick) throws BZException {
         if (currentTick >= this.battle.nextWaveTimeTick) {
-            this.addBornMonsterToTickInput(battle.currentWave, this.battle.nextWaveTimeTick + 10);
+            if (battle.currentWave != 0) {
+                this.addBornMonsterToTickInput(battle.createMonsterWaveByCurrentWaveId(battle.currentWave, EntityMode.PLAYER), this.battle.nextWaveTimeTick + 10);
+            }
             this.battle.nextWaveTimeTick += GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate();
             this.battle.currentWave += 1;
         }
