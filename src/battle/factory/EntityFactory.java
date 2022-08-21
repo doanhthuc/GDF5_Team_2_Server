@@ -783,7 +783,7 @@ public class EntityFactory {
         int typeID = GameConfig.ENTITY_ID.FIRE_SPELL;
         EntityECS entity = this._createEntity(typeID, mode);
 
-        double S = 3000;
+        double S = 300;
         double V = 1000;
         double T = S / V;
 
