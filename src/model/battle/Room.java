@@ -92,7 +92,7 @@ public class Room implements Runnable {
                     this.updatePlayerCheckSum(currentTick);
                     this.checkEndBattle();
 
-                    if (currentTick % 60 == 0) {
+                    if (currentTick % 20 == 0) {
                         ByteBuffer snapshot = this.snapshotManager.createAllSnapshot();
                         this.snapshotManager.sendSnapshot(snapshot);
                     }

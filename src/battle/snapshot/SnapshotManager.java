@@ -8,6 +8,7 @@ import battle.config.GameConfig;
 import battle.entity.EntityECS;
 import battle.manager.EntityManager;
 import battle.system.AbilitySystem;
+import battle.system.SnapshotSystem;
 import battle.system.TowerSpecialSkillSystem;
 import bitzero.server.BitZeroServer;
 import bitzero.server.entities.User;
@@ -22,13 +23,13 @@ import java.util.Map;
 public class SnapshotManager {
     private EntityManager entityManager;
     private AbilitySystem abilitySystem;
-    private TowerSpecialSkillSystem towerSystem;
+    private SnapshotSystem snapshotSystem;
     private Battle battle;
 
     public SnapshotManager(Battle battle) {
         this.entityManager = battle.getEntityManager();
         this.abilitySystem = battle.abilitySystem;
-        this.towerSystem = battle.towerSystem;
+        this.snapshotSystem = battle.snapshotSystem;
         this.battle = battle;
     }
 
@@ -45,8 +46,8 @@ public class SnapshotManager {
     }
 
     public void createMonsterAndTowerSnapShot(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(towerSystem.getEntityStore().size());
-        for (Map.Entry<Long, EntityECS> entry : towerSystem.getEntityStore().entrySet()) {
+        byteBuffer.putInt(snapshotSystem.getEntityStore().size());
+        for (Map.Entry<Long, EntityECS> entry : snapshotSystem.getEntityStore().entrySet()) {
             EntityECS entity = entry.getValue();
             entity.createSnapshot(byteBuffer);
             int sizeComponent = 0;

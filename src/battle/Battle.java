@@ -64,6 +64,7 @@ public class Battle {
     public MonsterSystem monsterSystem;
     public SpellSystem spellSystem;
     public TowerSpecialSkillSystem towerSystem;
+    public SnapshotSystem snapshotSystem;
     //Map
     public BattleMap player1BattleMap;
     public List<Point>[][] player1ShortestPath;
@@ -124,6 +125,7 @@ public class Battle {
             this.monsterSystem = this.systemFactory.createMonsterSystem();
             this.spellSystem = this.systemFactory.createSpellSystem();
             this.towerSystem = this.systemFactory.createTowerSpecialSkillSystem();
+            this.snapshotSystem = this.systemFactory.createSnapshotSystem();
         } catch (Exception e) {
             e.printStackTrace();
         }

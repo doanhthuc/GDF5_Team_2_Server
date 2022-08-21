@@ -1,11 +1,13 @@
 package battle.component.info;
 
 import battle.common.Point;
+import battle.common.Utils;
 import battle.component.common.Component;
 import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 public class SpellInfoComponent extends Component {
@@ -97,16 +99,19 @@ public class SpellInfoComponent extends Component {
     public void setDelayDestroy(double delayDestroy) {
         this.delayDestroy = delayDestroy;
     }
-}
 
     @Override
     public void createData(ByteBuffer bf) {
         super.createData(bf);
         bf.putDouble(position.x);
         bf.putDouble(position.y);
-        bf.putDouble(countdown);
+        bf.putDouble(delay);
+        bf.putDouble(delayDestroy);
+        bf.putShort(Utils.convertBoolean2Short(isTriggered));
         bf.putInt(effects.size());
         for (EffectComponent effectComponent : this.effects){
             effectComponent.createData(bf);
         }
     }
+}
+

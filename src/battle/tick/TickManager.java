@@ -58,16 +58,10 @@ public class TickManager {
             }
             case CmdDefine.DROP_SPELL: {
                 int futureTick = currentTick + 1;
-
-                int currentTick2 = (int) ((System.currentTimeMillis() - this.startTime) / this.tickRate);
-//                System.out.println("xx Latest Tick = " + currentTick);
-//                System.out.println("xx Current Tick = " + currentTick2);
-//                System.out.println("xx Future Tick put tower = " + futureTick);
-
                 Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
                 this.inputTick.put(futureTick, queue);
-                this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
+               // this.tickNetworkHandler.handleCommand(futureTick, input.first, input.second);
                 break;
             }
 

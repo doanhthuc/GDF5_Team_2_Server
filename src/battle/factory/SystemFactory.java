@@ -84,4 +84,10 @@ public class SystemFactory {
         this.systemManager.add(system);
         return system;
     }
+
+    public SnapshotSystem createSnapshotSystem() throws Exception {
+        SnapshotSystem system = new SnapshotSystem(this.uuid.genSystemID());
+        this.systemManager.add(system);
+        return system;
+    }
 }

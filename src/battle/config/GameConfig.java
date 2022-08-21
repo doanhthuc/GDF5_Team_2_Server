@@ -128,6 +128,7 @@ public class GameConfig {
         public static final int COLLISION = 13;
         public static final int RESET_SYSTEM = 14;
         public static final int TOWER_SPECIAL_SKILL = 15;
+        public static final int SNAPSHOT_SYSTEM = 16;
     }
 
     public static class GROUP_ID {
