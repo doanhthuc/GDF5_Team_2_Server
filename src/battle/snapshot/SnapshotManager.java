@@ -75,7 +75,6 @@ public class SnapshotManager {
         byteBuffer.putLong(uuid.getOpponentTowerEntityId());
         byteBuffer.putLong(uuid.getPlayerSpellEntityId());
         byteBuffer.putLong(uuid.getOpponentSpellEntityId());
-        byteBuffer.putLong(uuid.getPlayerStartEntityID());
         byteBuffer.putLong(uuid.getPlayerStartEntityID(EntityMode.PLAYER));
     }
 
