@@ -71,7 +71,7 @@ public class Battle {
     public List<Point>[][] player2ShortestPath;
     //MonsterWave
     private final int waveAmount = GameConfig.WAVE_AMOUNT;
-    public int currentWave = 0;
+    public int currentWave = 1;
     private List<List<Integer>> monsterWave;
     public int nextWaveTimeTick;
     public long nextBornMonsterTime;
