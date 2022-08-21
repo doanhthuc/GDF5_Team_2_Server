@@ -92,7 +92,7 @@ public class Room implements Runnable {
                     this.updatePlayerCheckSum(currentTick);
                     this.checkEndBattle();
 
-                    if (currentTick % 20 == 0) {
+                    if (currentTick % 60 == 0) {
                         ByteBuffer snapshot = this.snapshotManager.createAllSnapshot();
                         this.snapshotManager.sendSnapshot(snapshot);
                     }
@@ -269,7 +269,7 @@ public class Room implements Runnable {
             return player2;
     }
 
-    public PlayerInfo getOpponentPlayerByMyPlayerId(int playerId) {
+    public PlayerInBattle getOpponentPlayerByMyPlayerId(int playerId) {
         if (playerId == player1.getId()) {
             return player2;
         } else {

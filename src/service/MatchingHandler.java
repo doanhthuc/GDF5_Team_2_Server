@@ -10,6 +10,8 @@ import cmd.receive.matching.RequestMatching;
 import cmd.send.cheat.ResponseRequestCheatUserInfo;
 import match.MatchMaking;
 import model.PlayerInfo;
+import model.battle.Room;
+import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,8 +57,11 @@ public class MatchingHandler extends BaseClientRequestHandler {
             if (userInfo == null) {
                 return;
             }
-                System.out.println("processMatching");
+            System.out.println("processMatching");
+            Room room = RoomManager.getInstance().getRoomByUserId(user.getId());
+            if (room == null)
                 this.matchMaking.addUser(user.getId(), userInfo.getTrophy());
+            else this.matchMaking.processReEnterRoom(user, room);
         } catch (Exception e) {
             logger.error("processMatching exception");
         }

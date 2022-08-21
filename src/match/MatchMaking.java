@@ -17,6 +17,7 @@ import extension.FresherExtension;
 import model.PlayerID;
 import model.PlayerInfo;
 import model.UserIncrementID;
+import model.battle.PlayerInBattle;
 import model.battle.Room;
 import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -112,6 +113,31 @@ public class MatchMaking implements Runnable {
             waitingQueue.remove(matchingInfo);
         }
         System.out.println("Queue size = " + waitingQueue.size());
+    }
+
+    public void processReEnterRoom(User user, Room room)
+    {
+        PlayerInBattle player = room.getMyPlayerInBattle(user.getId());
+        PlayerInBattle opponent = room.getOpponentPlayerByMyPlayerId(user.getId());
+        OpponentInfo opponentInfoOfUser1 = new OpponentInfo(opponent.getId(), opponent.getUserName(), opponent.getTrophy());
+        UUIDGeneratorECS uuidGeneratorECS = room.getBattle().getUuidGeneratorECS();
+
+        ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                room.getRoomId(),
+                EntityMode.PLAYER,
+                room.getBattle().getBattleMapByPlayerId(player.getId()),
+                room.getBattle().getBattleMapByPlayerId(opponent.getId()),
+                opponentInfoOfUser1), user);
+
+        ExtensionUtility.getExtension().send(new ResponseBattleDeckInBattle(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                room.getPlayerByID(user.getId()).getBattleDeck()), user);
+
+        ExtensionUtility.getExtension().send(new ResponseRequestBattleMapObject(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                room.getBattle().getBattleMapByPlayerId(player.getId()).battleMapObject,
+                room.getBattle().getBattleMapByPlayerId(opponent.getId()).battleMapObject), user);
+
+        ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
+                room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user);
     }
 
     private void processMatching(MatchingInfo matchingInfo1, MatchingInfo matchingInfo2) {
@@ -214,6 +240,7 @@ public class MatchMaking implements Runnable {
             System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
+
 
     public PlayerInfo createNewBot() throws Exception {
         PlayerInfo botInfo = null;
