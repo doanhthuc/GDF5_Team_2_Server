@@ -525,7 +525,6 @@ public class EntityFactory {
     public EntityECS createCannonOwlTower(Point tilePos, EntityMode mode) throws Exception {
         int typeID = GameConfig.ENTITY_ID.CANNON_TOWER;
         EntityECS entity = this._createEntity(typeID, mode);
-        String breakPoint = "";
         short level = 1;
         TowerConfigItem towerConfigItem = TowerConfig.INS.getTowerConfig(TowerConfig.OWL);
         String targetType = "", archType = "", bulletType = "";

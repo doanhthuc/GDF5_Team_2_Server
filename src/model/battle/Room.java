@@ -89,7 +89,6 @@ public class Room implements Runnable {
                     this.updateMonsterWave(currentTick);
                     this.battle.updateSystem();
                     this.tickManager.handleInternalInputTick(currentTick);
-                    this.updatePlayerCheckSum(currentTick);
                     this.checkEndBattle();
 
                     if (currentTick % 60 == 0) {
@@ -103,14 +102,6 @@ public class Room implements Runnable {
                 e.printStackTrace();
             }
         }, 0, GameConfig.BATTLE.TICK_RATE, TimeUnit.MILLISECONDS);
-    }
-
-
-    public void updatePlayerCheckSum(int currentTick) {
-        if (currentTick < 0) return;
-        //TODO: FIX HARD CODE +400 (TREE)
-        this.checkSum[currentTick] = battle.getSumHp() + 400;
-//        System.out.println("currentTick = " + currentTick + " SumHp = " + this.checkSum[currentTick]);
     }
 
     public void checkAllUserDisconnect() throws InterruptedException {
