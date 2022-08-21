@@ -115,16 +115,17 @@ public class MatchMaking implements Runnable {
         System.out.println("Queue size = " + waitingQueue.size());
     }
 
-    public void processReEnterRoom(User user, Room room)
-    {
+    public void processReEnterRoom(User user, Room room) {
         PlayerInBattle player = room.getMyPlayerInBattle(user.getId());
         PlayerInBattle opponent = room.getOpponentPlayerByMyPlayerId(user.getId());
         OpponentInfo opponentInfoOfUser1 = new OpponentInfo(opponent.getId(), opponent.getUserName(), opponent.getTrophy());
         UUIDGeneratorECS uuidGeneratorECS = room.getBattle().getUuidGeneratorECS();
 
+        EntityMode entityMode = room.getBattle().getEntityModeByPlayerID(user.getId());
+
         ExtensionUtility.getExtension().send(new ResponseMatching(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
                 room.getRoomId(),
-                EntityMode.PLAYER,
+                room.getBattle().getEntityModeByPlayerID(user.getId()),
                 room.getBattle().getBattleMapByPlayerId(player.getId()),
                 room.getBattle().getBattleMapByPlayerId(opponent.getId()),
                 opponentInfoOfUser1), user);
@@ -137,7 +138,7 @@ public class MatchMaking implements Runnable {
                 room.getBattle().getBattleMapByPlayerId(opponent.getId()).battleMapObject), user);
 
         ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user);
+                room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(entityMode), uuidGeneratorECS.getOpponentStartEntityID(entityMode),room.getBattle().getCurrentWave()), user);
     }
 
     private void processMatching(MatchingInfo matchingInfo1, MatchingInfo matchingInfo2) {
@@ -188,9 +189,9 @@ public class MatchMaking implements Runnable {
 
             // send battle info
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user1);
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(EntityMode.PLAYER), uuidGeneratorECS.getOpponentStartEntityID(EntityMode.PLAYER) , room.getBattle().getCurrentWave()), user1);
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getOpponentStartEntityID(), uuidGeneratorECS.getPlayerStartEntityID()), user2);
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(EntityMode.OPPONENT), uuidGeneratorECS.getOpponentStartEntityID(EntityMode.OPPONENT), room.getBattle().getCurrentWave()), user2);
 
         } catch (Exception e) {
             System.out.println(ExceptionUtils.getStackTrace(e));
@@ -219,7 +220,8 @@ public class MatchMaking implements Runnable {
                     opponentInfoOfUser1), user1);
 
             ExtensionUtility.getExtension().send(new ResponseRequestGetBattleInfo(MatchingHandler.MatchingStatus.SUCCESS.getValue(),
-                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(), uuidGeneratorECS.getOpponentStartEntityID()), user1);
+                    room.getStartTime(), room.getWaveAmount(), room.getMonsterWave(), uuidGeneratorECS.getPlayerStartEntityID(EntityMode.PLAYER), uuidGeneratorECS.getOpponentStartEntityID(EntityMode.PLAYER),
+                    room.getBattle().getCurrentWave()), user1);
 
 
             ExtensionUtility.getExtension().send(
