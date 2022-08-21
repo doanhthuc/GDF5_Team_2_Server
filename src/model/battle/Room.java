@@ -269,7 +269,7 @@ public class Room implements Runnable {
             return player2;
     }
 
-    public PlayerInfo getOpponentPlayerByMyPlayerId(int playerId) {
+    public PlayerInBattle getOpponentPlayerByMyPlayerId(int playerId) {
         if (playerId == player1.getId()) {
             return player2;
         } else {
