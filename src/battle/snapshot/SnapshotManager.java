@@ -71,7 +71,7 @@ public class SnapshotManager {
         byteBuffer.putInt(battle.getTickManager().getCurrentTick());
         byteBuffer.putLong(uuid.getPlayerMonsterEntityId());
         byteBuffer.putLong(uuid.getOpponentMonsterEntityId());
-        byteBuffer.putLong(uuid.getPlayerStartEntityID());
+        byteBuffer.putLong(uuid.getPlayerStartEntityID(EntityMode.PLAYER));
     }
 
     public void createBattleMapObjectSnapshot(ByteBuffer bf) {
