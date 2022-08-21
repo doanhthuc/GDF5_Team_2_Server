@@ -200,6 +200,7 @@ public class GameConfig {
 
         public static int DELAY_BUILD_TOWER = 1 * 1000;
         public static int TIME_MATCHING_BOT = 5 * 1000;
+        public static double DELAY_SPELL = 0.3;
     }
 
     public static int TOWER_MAX_LEVEL = 3;
