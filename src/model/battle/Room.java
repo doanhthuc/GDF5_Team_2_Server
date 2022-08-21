@@ -62,8 +62,8 @@ public class Room implements Runnable {
         this.snapshotManager = new SnapshotManager(this.battle);
 
         if (GameConfig.DEBUG) {
-            new BattleVisualization(this.battle, EntityMode.PLAYER);
             new BattleVisualization(this.battle, EntityMode.OPPONENT);
+            new BattleVisualization(this.battle, EntityMode.PLAYER);
         }
         this.battle.setNextWaveTimeTick((int) (GameConfig.BATTLE.WAVE_TIME / tickManager.getTickRate()));
     }
@@ -104,8 +104,6 @@ public class Room implements Runnable {
             }
         }, 0, GameConfig.BATTLE.TICK_RATE, TimeUnit.MILLISECONDS);
     }
-
-
 
 
     public void updatePlayerCheckSum(int currentTick) {

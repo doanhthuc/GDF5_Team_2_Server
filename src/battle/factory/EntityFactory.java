@@ -15,6 +15,8 @@ import battle.config.GameStat.TowerConfigItem2;
 import battle.config.GameStat.TowerStat2;
 import battle.config.conf.monster.MonsterConfig;
 import battle.config.conf.monster.MonsterConfigItem;
+import battle.config.conf.potion.PotionConfig;
+import battle.config.conf.potion.PotionConfigItem;
 import battle.config.conf.targetBuff.TargetBuffConfig;
 import battle.config.conf.targetBuff.TargetBuffConfigItem;
 import battle.config.conf.tower.TowerConfig;
@@ -790,14 +792,17 @@ public class EntityFactory {
         Point speed = Utils.calculateVelocityVector(new Point(pixelPos.getX(), pixelPos.getY() + S), pixelPos, V);
         VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed.getX(), speed.getY());
 
-        DamageEffect damageEffect = this.componentFactory.createDamageEffect(5);
-        SpellInfoComponent spellInfoComponent = this.componentFactory.createSpellInfoComponent(pixelPos, Arrays.asList(damageEffect), 1.2 * GameConfig.TILE_WIDTH, T);
+        PotionConfigItem fireSpellConfig = PotionConfig.INS.getPotionConfig(PotionConfig.FIREBALL);
+        double damage = fireSpellConfig.getAdjust().getPlayer().getValue();
+        double range = fireSpellConfig.getRadius() * GameConfig.TILE_WIDTH;
+        DamageEffect damageEffect = this.componentFactory.createDamageEffect(damage);
+        SpellInfoComponent spellInfoComponent = this.componentFactory.createSpellInfoComponent(pixelPos, Arrays.asList(damageEffect), range, T);
 
         entity.addComponent(positionComponent);
         entity.addComponent(velocityComponent);
         entity.addComponent(spellInfoComponent);
 
-
+        this.battle.minusPlayerEnergy(fireSpellConfig.getEnergy(), mode);
         return entity;
     }
 
@@ -809,13 +814,16 @@ public class EntityFactory {
         double V = 1000;
         double T = S / V;
 
+        PotionConfigItem frozenSpellConfig = PotionConfig.INS.getPotionConfig(PotionConfig.FROZEN);
+
         PositionComponent positionComponent = this.componentFactory.createPositionComponent(pixelPos.getX(), pixelPos.getY() + S);
         Point speed = Utils.calculateVelocityVector(new Point(pixelPos.getX(), pixelPos.getY() + S), pixelPos, V);
         VelocityComponent velocityComponent = this.componentFactory.createVelocityComponent(speed.getX(), speed.getY());
 
-        DamageEffect damageEffect = this.componentFactory.createDamageEffect(10);
-        FrozenEffect frozenEffect = this.componentFactory.createFrozenEffect(5);
-        SpellInfoComponent spellInfoComponent = this.componentFactory.createSpellInfoComponent(pixelPos, Arrays.asList(damageEffect, frozenEffect), 1.2 * GameConfig.TILE_WIDTH, T);
+        double duration = frozenSpellConfig.getAdjust().getPlayer().getValue();
+        double range = frozenSpellConfig.getRadius() * GameConfig.TILE_WIDTH;
+        FrozenEffect frozenEffect = this.componentFactory.createFrozenEffect(duration);
+        SpellInfoComponent spellInfoComponent = this.componentFactory.createSpellInfoComponent(pixelPos, Arrays.asList(frozenEffect), range, T);
 
         entity.addComponent(positionComponent);
         entity.addComponent(velocityComponent);
