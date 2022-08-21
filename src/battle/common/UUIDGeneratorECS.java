@@ -76,12 +76,16 @@ public class UUIDGeneratorECS {
         return ++componentID;
     }
 
-    public long getPlayerStartEntityID() {
-        return PLAYER_START_ENTITY_ID;
+    public long getPlayerStartEntityID(EntityMode mode) {
+        if (mode == EntityMode.PLAYER)
+            return PLAYER_START_ENTITY_ID;
+        else return OPPONENT_START_ENTITY_ID;
     }
 
-    public long getOpponentStartEntityID() {
-        return OPPONENT_START_ENTITY_ID;
+    public long getOpponentStartEntityID(EntityMode mode) {
+        if (mode == EntityMode.PLAYER)
+            return OPPONENT_START_ENTITY_ID;
+        else return PLAYER_START_ENTITY_ID;
     }
 
     public long genSystemID() {
