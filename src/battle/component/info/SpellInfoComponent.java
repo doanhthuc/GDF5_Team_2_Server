@@ -8,6 +8,7 @@ import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 import battle.system.SpellSystem;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 public class SpellInfoComponent extends Component {
@@ -69,5 +70,17 @@ public class SpellInfoComponent extends Component {
 
     public void setEffects(List<EffectComponent> effects) {
         this.effects = effects;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(position.x);
+        bf.putDouble(position.y);
+        bf.putDouble(countdown);
+        bf.putInt(effects.size());
+        for (EffectComponent effectComponent : this.effects){
+            effectComponent.createData(bf);
+        }
     }
 }

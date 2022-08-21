@@ -4,6 +4,7 @@ import battle.common.EntityMode;
 import battle.component.common.*;
 import battle.component.effect.*;
 import battle.component.info.LifeComponent;
+import battle.component.info.SpellInfoComponent;
 import battle.component.info.TowerInfoComponent;
 import bitzero.core.I;
 
@@ -143,7 +144,7 @@ public class GameConfig {
         public static List<Integer> SNAPSHOT_COMPONENT = Arrays.asList(PathComponent.typeID, PositionComponent.typeID, LifeComponent.typeID,
                 VelocityComponent.typeID, DamageEffect.typeID, SlowEffect.typeID,FrozenEffect.typeID, TrapEffect.typeID,
                 UnderGroundComponent.typeID, HealingAbilityComponent.typeID, SpawnMinionComponent.typeID , FireBallEffect.typeID,
-                TowerInfoComponent.typeID, AttackComponent.typeID, TowerAbilityComponent.typeID
+                TowerInfoComponent.typeID, AttackComponent.typeID, TowerAbilityComponent.typeID , SpellInfoComponent.typeID
                 );
     }
 
