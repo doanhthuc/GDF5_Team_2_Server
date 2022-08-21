@@ -71,6 +71,10 @@ public class SnapshotManager {
         byteBuffer.putInt(battle.getTickManager().getCurrentTick());
         byteBuffer.putLong(uuid.getPlayerMonsterEntityId());
         byteBuffer.putLong(uuid.getOpponentMonsterEntityId());
+        byteBuffer.putLong(uuid.getPlayerTowerEntityId());
+        byteBuffer.putLong(uuid.getOpponentTowerEntityId());
+        byteBuffer.putLong(uuid.getPlayerSpellEntityId());
+        byteBuffer.putLong(uuid.getOpponentSpellEntityId());
         byteBuffer.putLong(uuid.getPlayerStartEntityID());
     }
 

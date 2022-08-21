@@ -50,14 +50,14 @@ public class TickManager {
             case CmdDefine.DESTROY_TOWER:
             case CmdDefine.CHANGE_TOWER_STRATEGY:
             case CmdDefine.PUT_TRAP: {
-                int nextTick = currentTick + 1;
+                int nextTick = currentTick + 2;
                 Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(nextTick);
                 queue.add(input);
                 this.tickNetworkHandler.handleCommand(nextTick, input.first, input.second);
                 break;
             }
             case CmdDefine.DROP_SPELL: {
-                int futureTick = currentTick + 1;
+                int futureTick = currentTick + 2;
                 Queue<Pair<PlayerInfo, DataCmd>> queue = this.getInputQueueOfTick(futureTick);
                 queue.add(input);
                 this.inputTick.put(futureTick, queue);
