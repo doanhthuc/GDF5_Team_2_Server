@@ -1,7 +1,10 @@
 package battle.component.common;
 
+import battle.common.Utils;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
+
+import java.nio.ByteBuffer;
 
 public class UnderGroundComponent extends Component {
     private String name = "UnderGroundComponent";
@@ -12,13 +15,11 @@ public class UnderGroundComponent extends Component {
     private double disableMoveDistance;
     public UnderGroundComponent() {
         super(GameConfig.COMPONENT_ID.UNDER_GROUND);
-        this.currentPathIdx = 0;
         this.trigger = 0;
         this.isInGround = false;
         this.disableMoveDistance = 0;
     }
     public void reset(){
-        this.currentPathIdx = 0;
         this.trigger = 0;
         this.isInGround = false;
         this.disableMoveDistance = 0;
@@ -63,5 +64,12 @@ public class UnderGroundComponent extends Component {
 
     public void setDisableMoveDistance(double disableMoveDistance) {
         this.disableMoveDistance = disableMoveDistance;
+    }
+
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putInt(trigger);
+        bf.putShort(Utils.convertBoolean2Short(isInGround));
+        bf.putDouble(disableMoveDistance);
     }
 }

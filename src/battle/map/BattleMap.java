@@ -1,6 +1,5 @@
 package battle.map;
 
-import battle.TileNode;
 import battle.config.GameConfig;
 import battle.newMap.BattleMapObject;
 import battle.newMap.Tower;
@@ -33,7 +32,7 @@ public class BattleMap {
             this.reset();
             this.genEverything();
         }
-        //this.show();
+        this.battleMapObject = new BattleMapObject(this.map);
     }
 
     public boolean checkOK() {
@@ -55,16 +54,11 @@ public class BattleMap {
         this.genTree();
         this.genPitCell();
         this.removePath();
-        //this.show();
-
-        this.battleMapObject = new BattleMapObject(this.map);
-//        this.battleMapObject.showConsole();
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
     public BattleMap(int X)
     {
         int arr[][] ={{0,0,0,0,0},{0,0,0,0,0},{0,0,0,3,0},{0,0,0,0,0},{0,1,0,0,0},{0,0,0,2,0},{0,0,0,0,0,0}};
-        //int arr[][] ={{0,0,0,0,0},{0,0,2,0,0},{0,0,0,0,0},{0,3,0,0,0},{0,0,0,1,0},{0,0,0,0,0},{0,0,0,0,0,0}};
         for(int i=0;i<mapW;i++)
             for(int j=0;j<mapH;j++)
                 this.map[i][j]=arr[i][j];
@@ -76,9 +70,6 @@ public class BattleMap {
 
     public void genBuffTile() {
 
-//        for(int i=0;i<buffTileRandom.size();i++)
-//            System.out.println(buffTileRandom.get(i).x+" "+buffTileRandom.get(i).y);
-//        while (true) {
 
         Random rd = new Random();
         ArrayList<Point> buffTileRandom;
@@ -151,8 +142,6 @@ public class BattleMap {
             @Override
             public int compare(TileNode a, TileNode b) {
                 return ((a.h - a.g * 6) - (b.h - b.g * 6));
-                //return (a.h-b.h);
-                // return (a.g-b.g);
             }
         });
         Map<Point, TileNode> closed = new HashMap<>();
@@ -165,9 +154,6 @@ public class BattleMap {
         closed.put(startNode.pos, startNode);
         while (open.size() != 0) {
             top = open.remove();
-            //map[top.pos.x][top.pos.y]=4;
-            //this.show();
-            //System.out.println();
             if (compareNode(top.pos, endNode.pos) == true) {
                 break;
             }
@@ -197,7 +183,7 @@ public class BattleMap {
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++) {
                 if (isInBound(p.x + i, p.y + j))
-                    if (map[p.x + i][p.y + j] == 1) {
+                    if (isValuedTile(map[p.x + i][p.y + j])) {
                         value -= 200;
                     }
             }

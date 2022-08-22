@@ -9,10 +9,9 @@ import bitzero.server.extensions.data.DataCmd;
 import cmd.CmdDefine;
 import cmd.HandlerId;
 import cmd.receive.battle.spell.RequestDropSpell;
-import cmd.receive.battle.tower.RequestChangeTowerStrategy;
-import cmd.receive.battle.tower.RequestDestroyTower;
-import cmd.receive.battle.tower.RequestPutTower;
-import cmd.receive.battle.tower.RequestUpgradeTower;
+import cmd.receive.battle.tower.*;
+import cmd.receive.battle.RequestSendCheckSum;
+import cmd.receive.battle.tower.RequestSpeedUpNextWave;
 import cmd.receive.battle.trap.RequestPutTrap;
 import cmd.send.battle.player.*;
 import event.eventType.DemoEventType;
@@ -56,10 +55,8 @@ public class BattleHandler extends BaseClientRequestHandler {
             System.out.println("[BattleHandler.java line 50] cmdId: " + dataCmd.getId());
             PlayerInfo playerInfo = (PlayerInfo) user.getProperty(ServerConstant.PLAYER_INFO);
             switch (dataCmd.getId()) {
-                case CmdDefine.GET_BATTLE_MAP:
-//                    System.out.println("[BattleHandler.java line 54] GET_BATTLE_MAP cmdId: " + dataCmd.getId());
-//                    processGetBattleMap(user);
-                    break;
+//                case CmdDefine.GET_BATTLE_MAP:
+//                    break;
                 case CmdDefine.PUT_TOWER: {
                     RequestPutTower requestPutTower = new RequestPutTower(dataCmd);
                     Room room = RoomManager.getInstance().getRoom(requestPutTower.getRoomId());
@@ -94,6 +91,12 @@ public class BattleHandler extends BaseClientRequestHandler {
                     RequestDestroyTower requestDestroyTower = new RequestDestroyTower(dataCmd);
                     Room room = RoomManager.getInstance().getRoom(requestDestroyTower.getRoomId());
                     room.addInput(playerInfo, dataCmd);
+                    break;
+                }
+                case CmdDefine.SPEEDUP_NEXT_WAVE: {
+                    RequestSpeedUpNextWave requestSpeedUpNextWave = new RequestSpeedUpNextWave(dataCmd);
+                    Room room = RoomManager.getInstance().getRoom(requestSpeedUpNextWave.getRoomId());
+                    room.speedUpNextWave();
                     break;
                 }
                 default:

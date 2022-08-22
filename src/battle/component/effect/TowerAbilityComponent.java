@@ -4,6 +4,8 @@ import battle.component.common.Component;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class TowerAbilityComponent extends Component {
     public static int typeID = GameConfig.COMPONENT_ID.TOWER_ABILITY;
     public static String name = "TowerAbilityComponent";
@@ -16,7 +18,7 @@ public class TowerAbilityComponent extends Component {
         this.effect = effect;
     }
 
-    public TowerAbilityComponent clone (ComponentFactory componentFactory) throws Exception {
+    public TowerAbilityComponent clone(ComponentFactory componentFactory) throws Exception {
         try {
             return componentFactory.createTowerAbilityComponent(this.range, this.effect);
         } catch (Exception e) {
@@ -25,7 +27,7 @@ public class TowerAbilityComponent extends Component {
         return null;
     }
 
-    public void reset (double range, EffectComponent effect) {
+    public void reset(double range, EffectComponent effect) {
         this.range = range;
         this.effect = effect;
     }
@@ -44,5 +46,12 @@ public class TowerAbilityComponent extends Component {
 
     public void setEffect(EffectComponent effect) {
         this.effect = effect;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(range);
+        effect.createData(bf);
     }
 }

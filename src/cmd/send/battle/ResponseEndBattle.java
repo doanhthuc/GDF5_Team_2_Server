@@ -14,8 +14,8 @@ public class ResponseEndBattle extends BaseMsg {
     private int delaTrophy;
     private int userHP;
     private int opponentHP;
-
-    public ResponseEndBattle(short _error, int battleResult, int userHP, int opponentHP, int currentTrophy, int deltaTrophy, int haveChest) {
+    private int serverEndTick;
+    public ResponseEndBattle(short _error, int battleResult, int userHP, int opponentHP, int currentTrophy, int deltaTrophy, int haveChest, int currentTick) {
         super(CmdDefine.END_BATTLE, _error);
         this.battleResult = battleResult;
         this.currentTrophy = currentTrophy;
@@ -24,7 +24,7 @@ public class ResponseEndBattle extends BaseMsg {
         this.userHP = userHP;
         this.opponentHP = opponentHP;
         this._error = _error;
-
+        this.serverEndTick = currentTick;
     }
 
     @Override
@@ -35,6 +35,7 @@ public class ResponseEndBattle extends BaseMsg {
         bf.putInt(this.opponentHP);
         bf.putInt(this.currentTrophy);
         bf.putInt(this.delaTrophy);
+        bf.putInt(this.serverEndTick);
         bf.putInt(this.haveChest);
         return packBuffer(bf);
     }

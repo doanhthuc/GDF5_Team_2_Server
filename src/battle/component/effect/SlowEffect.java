@@ -3,6 +3,8 @@ package battle.component.effect;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
+
 public class SlowEffect extends EffectComponent {
     private String name = "SlowEffect";
     public static int typeID = GameConfig.COMPONENT_ID.SLOW_EFFECT;
@@ -52,5 +54,13 @@ public class SlowEffect extends EffectComponent {
 
     public void setCountdown(double countdown) {
         this.countdown = countdown;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putDouble(duration);
+        bf.putDouble(percent);
+        bf.putDouble(countdown);
     }
 }

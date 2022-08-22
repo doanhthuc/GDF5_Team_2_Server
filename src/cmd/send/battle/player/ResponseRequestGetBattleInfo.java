@@ -12,13 +12,19 @@ public class ResponseRequestGetBattleInfo extends BaseMsg {
     private final long startTime;
     private final int waveAmount;
     private final List<List<Integer>> monsterWave;
+    private long playerStartEntityID;
+    private long opponentStartEntityID;
+    private int currentWave;
 
-    public ResponseRequestGetBattleInfo(short _error, long startTime, int waveAmount, List<List<Integer>> monsterWave) {
+    public ResponseRequestGetBattleInfo(short _error, long startTime, int waveAmount, List<List<Integer>> monsterWave, long playerStartEntityID, long opponentStartEntityID, int currentWave) {
         super(CmdDefine.GET_BATTLE_INFO);
         this._error = _error;
         this.startTime = startTime;
         this.waveAmount = waveAmount;
         this.monsterWave = monsterWave;
+        this.playerStartEntityID = playerStartEntityID;
+        this.opponentStartEntityID = opponentStartEntityID;
+        this.currentWave = currentWave;
     }
 
     @Override
@@ -32,10 +38,13 @@ public class ResponseRequestGetBattleInfo extends BaseMsg {
             bf.putInt(monsterWave.get(i).size());
             for (int j = 0; j < monsterWave.get(i).size(); j++) {
                 bf.putInt(monsterWave.get(i).get(j));
-         //       System.out.print(monsterWave.get(i).get(j)+" ");
+                //       System.out.print(monsterWave.get(i).get(j)+" ");
             }
-          //  System.out.println();
+            //  System.out.println();
         }
+        bf.putLong(this.playerStartEntityID);
+        bf.putLong(this.opponentStartEntityID);
+        bf.putInt(this.currentWave);
         return packBuffer(bf);
     }
 }

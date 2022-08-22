@@ -4,8 +4,8 @@ import battle.common.EntityMode;
 import battle.common.Point;
 import battle.common.Utils;
 import battle.config.GameConfig;
-import battle.factory.ComponentFactory;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 public class PathComponent extends Component {
@@ -55,5 +55,20 @@ public class PathComponent extends Component {
 
     public int getCurrentPathIDx() {
         return currentPathIDx;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        short modeShort = Utils.getInstance().convertMode2Short(mode);
+        super.createData(bf);
+
+        bf.putShort(modeShort);
+        bf.putInt(currentPathIDx);
+        bf.putInt(path.size());
+        for (Point p : path) {
+            //TODO : Use Position as Int
+            bf.putDouble(p.x);
+            bf.putDouble(p.y);
+        }
     }
 }

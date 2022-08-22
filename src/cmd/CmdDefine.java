@@ -43,7 +43,11 @@ public class CmdDefine {
     public static final short END_BATTLE = 5017;
     public static final short GET_BATTLE_DECK_IN_BATTLE = 5018;
     public static final short BATTLE_ERROR = 5019;
-
+    public static final short SEND_CHECK_SUM = 5020;
+    public static final short BORN_MONSTER = 5021;
+    public static final short NEXT_WAVE = 5022;
+    public static final short SPEEDUP_NEXT_WAVE = 5023;
+    public static final short SEND_SNAPSHOT = 5025;
 
     public static final short ENTER_ROOM = 6001;
 

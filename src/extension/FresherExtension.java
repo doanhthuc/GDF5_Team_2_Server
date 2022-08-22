@@ -28,6 +28,7 @@ import model.Shop.ItemList.DailyShop;
 import model.Shop.ItemList.ShopItemDefine;
 import model.Shop.ItemList.ShopItemList;
 import model.UserIncrementID;
+import model.battle.Room;
 import model.battle.RoomManager;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.json.JSONObject;
@@ -62,16 +63,6 @@ public class FresherExtension extends BZExtension {
         try {
             RoomManager.getInstance().clearRoom();
             MonsterWaveConfig.readMonsterWaveConfigFromJson();
-            System.out.println(TargetBuffConfig.INS.getTargetBuffConfig(TargetBuffConfig.BULLET_ICE_GUN).getEffects().get((short)1).get(0).getValue());
-
-//            ReadConfigUtil.readMonsterConfig();
-//            ReadConfigUtil.readTargetBuffConfig();
-//            ReadConfigUtil.readTowerBuffConfig();
-//            System.out.println(towerInfo.get(TOWER_IN_CONFIG.SNAKE).getAuraTargetBuffType());
-//            PlayerInfo playerInfo1 = new PlayerInfo(1,"abc",0,0,0);
-//            PlayerInfo playerInfo2 = new PlayerInfo(2,"def",0,0,0);
-//            Room room = new Room(playerInfo1, playerInfo2);
-//            new Thread(room).start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -232,7 +223,6 @@ public class FresherExtension extends BZExtension {
          */
         trace(" Event Handler ");
         addEventHandler(BZEventType.USER_LOGIN, LoginSuccessHandler.class);
-        addEventHandler(DemoEventType.LOGIN_SUCCESS, DemoHandler.class);
     }
 
     private int genNewID() {

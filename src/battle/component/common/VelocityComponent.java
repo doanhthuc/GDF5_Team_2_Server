@@ -1,7 +1,12 @@
 package battle.component.common;
 
+import battle.Battle;
 import battle.common.Point;
+import battle.common.Utils;
 import battle.config.GameConfig;
+import battle.entity.EntityECS;
+
+import java.nio.ByteBuffer;
 
 public class VelocityComponent extends Component {
     private String name = "VelocityComponent";
@@ -10,38 +15,37 @@ public class VelocityComponent extends Component {
     private double speedY;
     private double originSpeedX;
     private double originSpeedY;
-    private PositionComponent dynamicPosition;
     private double originSpeed;
     private Point staticPosition;
+    private long dynamicEntityId = -1;
 
-    public VelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition) {
+    public VelocityComponent(double speedX, double speedY, long dynamicEntityId) {
         super(GameConfig.COMPONENT_ID.VELOCITY);
-        this.reset(speedX,speedY,dynamicPosition);
+        this.reset(speedX, speedY, dynamicEntityId);
     }
 
-    public VelocityComponent(double speedX, double speedY, PositionComponent dynamicPosition, Point staticPosition) {
+    public VelocityComponent(double speedX, double speedY, Point staticPosition) {
         super(GameConfig.COMPONENT_ID.VELOCITY);
-        this.reset(speedX,speedY,dynamicPosition,staticPosition);
+        this.reset(speedX, speedY, staticPosition);
     }
 
     public VelocityComponent(double speedX, double speedY) {
         super(GameConfig.COMPONENT_ID.VELOCITY);
-        this.reset(speedX,speedY);
+        this.reset(speedX, speedY);
     }
 
-    public void reset(double speedX, double speedY, PositionComponent dynamicPosition) {
+    public void reset(double speedX, double speedY, long dynamicEntityId) {
         this.speedX = speedX;
         this.speedY = speedY;
-        this.dynamicPosition = dynamicPosition;
+        this.dynamicEntityId = dynamicEntityId;
         this.originSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
         this.originSpeedX = this.speedX;
         this.originSpeedY = this.speedY;
     }
 
-    public void reset(double speedX, double speedY, PositionComponent dynamicPosition, Point staticPosition) {
+    public void reset(double speedX, double speedY, Point staticPosition) {
         this.speedX = speedX;
         this.speedY = speedY;
-        this.dynamicPosition = dynamicPosition;
         this.staticPosition = staticPosition;
         this.originSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
         this.originSpeedX = this.speedX;
@@ -51,7 +55,6 @@ public class VelocityComponent extends Component {
     public void reset(double speedX, double speedY) {
         this.speedX = speedX;
         this.speedY = speedY;
-        this.dynamicPosition = null;
         this.originSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
         this.originSpeedX = this.speedX;
         this.originSpeedY = this.speedY;
@@ -59,6 +62,30 @@ public class VelocityComponent extends Component {
 
     public double calculateSpeed(double speedX, double speedY) {
         return Math.sqrt(Math.pow(speedX, 2) + Math.pow(speedY, 2));
+    }
+
+    public PositionComponent getDynamicPosition(Battle battle) {
+        if (this.dynamicEntityId == -1) return null;
+
+        EntityECS entityECS = battle.getEntityManager().getEntity(this.dynamicEntityId);
+
+        if ((entityECS != null && entityECS.getActive())) {
+            if (entityECS._hasComponent(UnderGroundComponent.typeID)) {
+                UnderGroundComponent underGround = (UnderGroundComponent) entityECS.getComponent(UnderGroundComponent.typeID);
+                if (underGround.isInGround()) return null;
+            }
+            return (PositionComponent) entityECS.getComponent(PositionComponent.typeID);
+        }
+
+        return null;
+    }
+
+    public long getDynamicEntityId() {
+        return this.dynamicEntityId;
+    }
+
+    public boolean hasDynamicEntityId() {
+        return this.dynamicEntityId != -1;
     }
 
     public double getSpeedX() {
@@ -93,14 +120,6 @@ public class VelocityComponent extends Component {
         this.originSpeedY = originSpeedY;
     }
 
-    public PositionComponent getDynamicPosition() {
-        return dynamicPosition;
-    }
-
-    public void setDynamicPosition(PositionComponent dynamicPosition) {
-        this.dynamicPosition = dynamicPosition;
-    }
-
     public double getOriginSpeed() {
         return originSpeed;
     }
@@ -111,5 +130,31 @@ public class VelocityComponent extends Component {
 
     public Point getStaticPosition() {
         return staticPosition;
+    }
+
+    @Override
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+
+        bf.putDouble(speedX);
+        bf.putDouble(speedY);
+        bf.putDouble(originSpeedX);
+        bf.putDouble(originSpeedY);
+        bf.putDouble(originSpeed);
+
+        if (staticPosition == null) {
+            bf.putShort(Utils.getInstance().convertBoolean2Short(false));
+        } else {
+            bf.putShort(Utils.getInstance().convertBoolean2Short(true));
+            bf.putDouble(staticPosition.x);
+            bf.putDouble(staticPosition.y);
+        }
+
+        if (dynamicEntityId == -1) {
+            bf.putShort(Utils.getInstance().convertBoolean2Short(false));
+        } else {
+            bf.putShort(Utils.getInstance().convertBoolean2Short(true));
+            bf.putLong(dynamicEntityId);
+        }
     }
 }

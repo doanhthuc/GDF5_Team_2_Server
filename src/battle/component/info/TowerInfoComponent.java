@@ -1,7 +1,11 @@
 package battle.component.info;
 
+import battle.common.Utils;
+import battle.component.effect.EffectComponent;
 import battle.config.GameConfig;
 import battle.factory.ComponentFactory;
+
+import java.nio.ByteBuffer;
 
 public class TowerInfoComponent extends InfoComponent {
     private String name = "TowerInfoComponent";
@@ -11,6 +15,7 @@ public class TowerInfoComponent extends InfoComponent {
     private String archType;
     private String targetType;
     private String bulletType;
+    private short level;
 
     public TowerInfoComponent(int energy, String bulletTargetType, String archType, String targetType, String bulletType) {
         super(GameConfig.COMPONENT_ID.TOWER_INFO);
@@ -23,6 +28,7 @@ public class TowerInfoComponent extends InfoComponent {
         this.archType = archType;
         this.targetType = targetType;
         this.bulletType = bulletType;
+        this.level = 1;
     }
 
     public TowerInfoComponent clone(ComponentFactory componentFactory) throws Exception {
@@ -33,7 +39,16 @@ public class TowerInfoComponent extends InfoComponent {
         }
     }
 
+    public void setLevel(short level) {
+        this.level = level;
+    }
+
     public int getEnergy() {
         return this.energy;
+    }
+
+    public void createData(ByteBuffer bf) {
+        super.createData(bf);
+        bf.putShort(level);
     }
 }
