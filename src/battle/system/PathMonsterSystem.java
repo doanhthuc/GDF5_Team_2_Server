@@ -35,7 +35,9 @@ public class PathMonsterSystem extends SystemECS {
             List<Point> path = pathComponent.getPath();
             int currentPathIdx = pathComponent.getCurrentPathIDx();
 
-            int nextPosIdx = Math.min(this._findNextPath(path, positionComponent, currentPathIdx), path.size());
+            int nextPosIdx = Math.min(this._findNextPath(path, positionComponent, currentPathIdx), path.size() - 1);
+            if (nextPosIdx < 0) continue;
+
             if (nextPosIdx > 1) pathComponent.setCurrentPathIDx(nextPosIdx - 1);
 
             Point nextPos = path.get(nextPosIdx);
