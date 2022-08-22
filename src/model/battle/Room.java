@@ -58,7 +58,7 @@ public class Room implements Runnable {
         this.player2 = new PlayerInBattle(player2);
         this.battle = new Battle(this.player1, this.player2, tickManager);
         this.endBattle = false;
-        this.botActionTime = this.startTime + 1000;
+        this.botActionTime = this.startTime + 10000;
         this.snapshotManager = new SnapshotManager(this.battle);
 
         if (GameConfig.DEBUG) {
