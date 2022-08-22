@@ -36,6 +36,6 @@ public class SnapshotSystem extends SystemECS {
 
     @Override
     public boolean checkEntityCondition(EntityECS entity, Component component) {
-        return component.getTypeID() == TowerInfoComponent.typeID || component.getTypeID() == MonsterInfoComponent.typeID || component.getTypeID() == SpellInfoComponent.typeID;
+        return component.getTypeID() == TowerInfoComponent.typeID || component.getTypeID() == MonsterInfoComponent.typeID;
     }
 }

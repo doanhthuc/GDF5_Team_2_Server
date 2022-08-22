@@ -46,7 +46,6 @@ public class Room implements Runnable {
     private final TickManager tickManager;
     private int maxTick = 100000;
     private final Queue<Pair<PlayerInfo, DataCmd>> waitingInputQueue = new ConcurrentLinkedQueue<>();
-    private double[] checkSum = new double[maxTick];
     private SnapshotManager snapshotManager;
 
 
@@ -58,7 +57,7 @@ public class Room implements Runnable {
         this.player2 = new PlayerInBattle(player2);
         this.battle = new Battle(this.player1, this.player2, tickManager);
         this.endBattle = false;
-        this.botActionTime = this.startTime + 5000;
+        this.botActionTime = this.startTime + 10000;
         this.snapshotManager = new SnapshotManager(this.battle);
 
         if (GameConfig.DEBUG) {
