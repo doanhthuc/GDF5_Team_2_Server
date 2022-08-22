@@ -76,7 +76,7 @@ public class TowerSpecialSkillSystem extends SystemECS {
                     Tower towerInTileObject = tile.getTower();
                     if (towerInTileObject != null) {
                         EntityECS towerEntity = battle.getEntityManager().getEntity(towerInTileObject.getEntityId());
-
+                        if (towerEntity.getMode() == buffTower.getMode()) continue;
                         if (towerEntity._hasComponent(AttackComponent.typeID)) {
                             AttackComponent attackComponent = (AttackComponent) towerEntity.getComponent(AttackComponent.typeID);
                             if (attackComponent != null) {
